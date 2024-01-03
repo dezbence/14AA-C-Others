@@ -1,6 +1,6 @@
 <template>
    
-    <Calendar v-model="date" inline class="text-center" />
+    <Calendar v-model="date" inline class="text-center" dateFormat="dd.mm.yy" />
  
 </template>
 
