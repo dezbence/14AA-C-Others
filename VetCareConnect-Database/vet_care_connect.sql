@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Dec 18. 10:38
+-- Létrehozás ideje: 2024. Jan 03. 20:45
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -29,12 +29,11 @@ USE `vet_care_connect`;
 -- Tábla szerkezet ehhez a táblához `cure`
 --
 
-DROP TABLE IF EXISTS `cure`;
 CREATE TABLE `cure` (
   `id` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `pet_id` int(11) DEFAULT NULL,
-  `cure_id` int(11) DEFAULT NULL,
+  `cure_type_id` int(11) DEFAULT NULL,
   `vet_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
@@ -42,7 +41,7 @@ CREATE TABLE `cure` (
 -- A tábla adatainak kiíratása `cure`
 --
 
-INSERT INTO `cure` (`id`, `date`, `pet_id`, `cure_id`, `vet_id`) VALUES
+INSERT INTO `cure` (`id`, `date`, `pet_id`, `cure_type_id`, `vet_id`) VALUES
 (2, '2024-06-18 12:15:00', 4, 1, 2),
 (3, '2024-07-22 10:30:00', 3, 3, 2),
 (4, '2024-06-17 09:00:00', 5, 2, 1),
@@ -55,7 +54,6 @@ INSERT INTO `cure` (`id`, `date`, `pet_id`, `cure_id`, `vet_id`) VALUES
 -- Tábla szerkezet ehhez a táblához `cure_type`
 --
 
-DROP TABLE IF EXISTS `cure_type`;
 CREATE TABLE `cure_type` (
   `id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
@@ -77,7 +75,6 @@ INSERT INTO `cure_type` (`id`, `type`, `period`) VALUES
 -- Tábla szerkezet ehhez a táblához `opening`
 --
 
-DROP TABLE IF EXISTS `opening`;
 CREATE TABLE `opening` (
   `id` int(11) NOT NULL,
   `working_hours` varchar(255) NOT NULL,
@@ -122,7 +119,6 @@ INSERT INTO `opening` (`id`, `working_hours`, `day`, `vet_id`) VALUES
 -- Tábla szerkezet ehhez a táblához `owner`
 --
 
-DROP TABLE IF EXISTS `owner`;
 CREATE TABLE `owner` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -148,7 +144,6 @@ INSERT INTO `owner` (`id`, `name`, `email`, `password`, `address`, `phone`) VALU
 -- Tábla szerkezet ehhez a táblához `pet`
 --
 
-DROP TABLE IF EXISTS `pet`;
 CREATE TABLE `pet` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -179,7 +174,6 @@ INSERT INTO `pet` (`id`, `name`, `species`, `gender`, `weight`, `born_date`, `co
 -- Tábla szerkezet ehhez a táblához `special_opening`
 --
 
-DROP TABLE IF EXISTS `special_opening`;
 CREATE TABLE `special_opening` (
   `id` int(11) NOT NULL,
   `working_hours` varchar(255) NOT NULL,
@@ -203,7 +197,6 @@ INSERT INTO `special_opening` (`id`, `working_hours`, `date`, `vet_id`) VALUES
 -- Tábla szerkezet ehhez a táblához `vet`
 --
 
-DROP TABLE IF EXISTS `vet`;
 CREATE TABLE `vet` (
   `vet_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -233,7 +226,7 @@ INSERT INTO `vet` (`vet_id`, `name`, `email`, `password`, `address`, `phone`) VA
 --
 ALTER TABLE `cure`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_cure_cure_id` (`cure_id`),
+  ADD KEY `FK_cure_cure_id` (`cure_type_id`),
   ADD KEY `FK_cure_vet_id` (`vet_id`),
   ADD KEY `FK_cure_pet_id` (`pet_id`);
 
@@ -330,7 +323,7 @@ ALTER TABLE `vet`
 -- Megkötések a táblához `cure`
 --
 ALTER TABLE `cure`
-  ADD CONSTRAINT `FK_cure_cure_id` FOREIGN KEY (`cure_id`) REFERENCES `cure_type` (`id`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `FK_cure_cure_id` FOREIGN KEY (`cure_type_id`) REFERENCES `cure_type` (`id`) ON DELETE NO ACTION,
   ADD CONSTRAINT `FK_cure_pet_id` FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id`) ON DELETE NO ACTION,
   ADD CONSTRAINT `FK_cure_vet_id` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`vet_id`) ON DELETE NO ACTION;
 
