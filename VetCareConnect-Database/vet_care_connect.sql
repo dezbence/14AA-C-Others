@@ -1,11 +1,11 @@
-﻿-- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Dec 12. 09:13
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Létrehozás ideje: 2024. Jan 03. 20:45
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,7 +33,7 @@ CREATE TABLE `cure` (
   `id` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `pet_id` int(11) DEFAULT NULL,
-  `cure_id` int(11) DEFAULT NULL,
+  `cure_type_id` int(11) DEFAULT NULL,
   `vet_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
@@ -41,7 +41,7 @@ CREATE TABLE `cure` (
 -- A tábla adatainak kiíratása `cure`
 --
 
-INSERT INTO `cure` (`id`, `date`, `pet_id`, `cure_id`, `vet_id`) VALUES
+INSERT INTO `cure` (`id`, `date`, `pet_id`, `cure_type_id`, `vet_id`) VALUES
 (2, '2024-06-18 12:15:00', 4, 1, 2),
 (3, '2024-07-22 10:30:00', 3, 3, 2),
 (4, '2024-06-17 09:00:00', 5, 2, 1),
@@ -153,20 +153,20 @@ CREATE TABLE `pet` (
   `born_date` date NOT NULL,
   `comment` varchar(500) NOT NULL,
   `owner_id` int(11) DEFAULT NULL,
-  `register_number` int(255) NOT NULL
+  `register_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `pet`
 --
 
-INSERT INTO `pet` (`id`, `name`, `species`, `gender`, `weight`, `born_date`, `comment`, `owner_id`, `register_number`) VALUES
-(1, 'Gránát', 'kutya', 1, 50.4, '2020-04-04', '', 1, 156238),
-(2, 'Süti', 'kutya', 1, 8, '2017-12-14', 'allergiás a kutyaszőrre', 4, 265856),
-(3, 'Dana', 'kutya', 0, 32.6, '2022-01-28', '', 4, 542514),
-(4, 'Jessie', 'kutya', 0, 10, '2016-07-11', '', 3, 326158),
-(5, 'Monti', 'macska', 0, 5.3, '2022-12-31', '', 2, 359485),
-(6, 'Lali', 'hörcsög', 1, 0.5, '2023-06-05', '', 2, 269893);
+INSERT INTO `pet` (`id`, `name`, `species`, `gender`, `weight`, `born_date`, `comment`, `owner_id`, `register_url`) VALUES
+(1, 'Gránát', 'kutya', 1, 50.4, '2020-04-04', '', 1, ''),
+(2, 'Süti', 'kutya', 1, 8, '2017-12-14', 'allergiás a kutyaszőrre', 4, ''),
+(3, 'Dana', 'kutya', 0, 32.6, '2022-01-28', '', 4, ''),
+(4, 'Jessie', 'kutya', 0, 10, '2016-07-11', '', 3, ''),
+(5, 'Monti', 'macska', 0, 5.3, '2022-12-31', '', 2, ''),
+(6, 'Lali', 'hörcsög', 1, 0.5, '2023-06-05', '', 2, '');
 
 -- --------------------------------------------------------
 
@@ -200,19 +200,22 @@ INSERT INTO `special_opening` (`id`, `working_hours`, `date`, `vet_id`) VALUES
 CREATE TABLE `vet` (
   `vet_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `vet`
 --
 
-INSERT INTO `vet` (`vet_id`, `name`, `address`) VALUES
-(1, 'Dr. Állat Orvos', '9027 Győr, Orvos u. 12.'),
-(2, 'Dr. Tóth Bernadett', '2900 Komárom, Arany János u. 20.'),
-(3, 'Dr. Nagy László', '1014 Budapest, Lehel u. 63.'),
-(4, 'Dr. Kiss Sándor', '6700 Szeged, Margaréta u. 41.'),
-(5, 'Dr. Horváth Mária', '9023 Győr, Aradi Vértanúk útja 24.');
+INSERT INTO `vet` (`vet_id`, `name`, `email`, `password`, `address`, `phone`) VALUES
+(1, 'Dr. Állat Orvos', 'drallatorvos@gmail.com', 'a', '9027 Győr, Orvos u. 12.', ''),
+(2, 'Dr. Tóth Bernadett', 'drtothbernadett@gmail.com', 'a', '2900 Komárom, Arany János u. 20.', ''),
+(3, 'Dr. Nagy László', 'drnagylaszlo@gmail.com', 'a', '1014 Budapest, Lehel u. 63.', ''),
+(4, 'Dr. Kiss Sándor', 'drkisssandor@gmail.com', 'a', '6700 Szeged, Margaréta u. 41.', ''),
+(5, 'Dr. Horváth Mária', 'dehorvathmaria@gmail.com', 'a', '9023 Győr, Aradi Vértanúk útja 24.', '');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -223,7 +226,7 @@ INSERT INTO `vet` (`vet_id`, `name`, `address`) VALUES
 --
 ALTER TABLE `cure`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_cure_cure_id` (`cure_id`),
+  ADD KEY `FK_cure_cure_id` (`cure_type_id`),
   ADD KEY `FK_cure_vet_id` (`vet_id`),
   ADD KEY `FK_cure_pet_id` (`pet_id`);
 
@@ -320,7 +323,7 @@ ALTER TABLE `vet`
 -- Megkötések a táblához `cure`
 --
 ALTER TABLE `cure`
-  ADD CONSTRAINT `FK_cure_cure_id` FOREIGN KEY (`cure_id`) REFERENCES `cure_type` (`id`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `FK_cure_cure_id` FOREIGN KEY (`cure_type_id`) REFERENCES `cure_type` (`id`) ON DELETE NO ACTION,
   ADD CONSTRAINT `FK_cure_pet_id` FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id`) ON DELETE NO ACTION,
   ADD CONSTRAINT `FK_cure_vet_id` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`vet_id`) ON DELETE NO ACTION;
 
