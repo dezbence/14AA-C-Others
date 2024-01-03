@@ -2,7 +2,7 @@
 
     <div class="heading"> 
       <div class="hamburgerMenu" >
-        <img @click="menuToggle()" id="toggleIcon" src="../../assets/icons/menu.svg">
+        <img @click="menuToggle()" id="toggleIcon" :src="isMenuOpen ? 'src/assets/icons/close.svg' : 'src/assets/icons/menu.svg'">
       </div>
   
       <ul class="navigation">
@@ -44,21 +44,7 @@
       const isMenuOpen = ref(false);
       
       function menuToggle() {
-        if (isMenuOpen.value == false) {
-          
-          isMenuOpen.value = true;
-          document.getElementById(
-            "toggleIcon"
-          ).src = require("../../assets/icons/close.svg");
-          console.log(isMenuOpen.value)
-        } else {
-         
-          isMenuOpen.value = false;
-          document.getElementById(
-            "toggleIcon"
-          ).src = require("../../assets/icons/menu.svg");
-          console.log(isMenuOpen.value)
-        }
+        isMenuOpen.value = !isMenuOpen.value;
       }  
   
   </script>
@@ -82,6 +68,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     position: relative;
     z-index: 99;
+    margin: 0;
   }
   
   .navigation li {
