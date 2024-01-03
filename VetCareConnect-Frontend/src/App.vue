@@ -15,6 +15,7 @@ import { RouterView } from 'vue-router'
 
 body {
   margin: 0;
+  padding: 0;
   overflow-x: hidden;
   scroll-behavior: smooth;
   position: relative;
