@@ -1,11 +1,11 @@
-﻿-- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Dec 12. 09:13
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Létrehozás ideje: 2023. Dec 18. 10:38
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,6 +29,7 @@ USE `vet_care_connect`;
 -- Tábla szerkezet ehhez a táblához `cure`
 --
 
+DROP TABLE IF EXISTS `cure`;
 CREATE TABLE `cure` (
   `id` int(11) NOT NULL,
   `date` datetime NOT NULL,
@@ -54,6 +55,7 @@ INSERT INTO `cure` (`id`, `date`, `pet_id`, `cure_id`, `vet_id`) VALUES
 -- Tábla szerkezet ehhez a táblához `cure_type`
 --
 
+DROP TABLE IF EXISTS `cure_type`;
 CREATE TABLE `cure_type` (
   `id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
@@ -75,6 +77,7 @@ INSERT INTO `cure_type` (`id`, `type`, `period`) VALUES
 -- Tábla szerkezet ehhez a táblához `opening`
 --
 
+DROP TABLE IF EXISTS `opening`;
 CREATE TABLE `opening` (
   `id` int(11) NOT NULL,
   `working_hours` varchar(255) NOT NULL,
@@ -119,6 +122,7 @@ INSERT INTO `opening` (`id`, `working_hours`, `day`, `vet_id`) VALUES
 -- Tábla szerkezet ehhez a táblához `owner`
 --
 
+DROP TABLE IF EXISTS `owner`;
 CREATE TABLE `owner` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -144,6 +148,7 @@ INSERT INTO `owner` (`id`, `name`, `email`, `password`, `address`, `phone`) VALU
 -- Tábla szerkezet ehhez a táblához `pet`
 --
 
+DROP TABLE IF EXISTS `pet`;
 CREATE TABLE `pet` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -153,20 +158,20 @@ CREATE TABLE `pet` (
   `born_date` date NOT NULL,
   `comment` varchar(500) NOT NULL,
   `owner_id` int(11) DEFAULT NULL,
-  `register_number` int(255) NOT NULL
+  `register_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `pet`
 --
 
-INSERT INTO `pet` (`id`, `name`, `species`, `gender`, `weight`, `born_date`, `comment`, `owner_id`, `register_number`) VALUES
-(1, 'Gránát', 'kutya', 1, 50.4, '2020-04-04', '', 1, 156238),
-(2, 'Süti', 'kutya', 1, 8, '2017-12-14', 'allergiás a kutyaszőrre', 4, 265856),
-(3, 'Dana', 'kutya', 0, 32.6, '2022-01-28', '', 4, 542514),
-(4, 'Jessie', 'kutya', 0, 10, '2016-07-11', '', 3, 326158),
-(5, 'Monti', 'macska', 0, 5.3, '2022-12-31', '', 2, 359485),
-(6, 'Lali', 'hörcsög', 1, 0.5, '2023-06-05', '', 2, 269893);
+INSERT INTO `pet` (`id`, `name`, `species`, `gender`, `weight`, `born_date`, `comment`, `owner_id`, `register_url`) VALUES
+(1, 'Gránát', 'kutya', 1, 50.4, '2020-04-04', '', 1, ''),
+(2, 'Süti', 'kutya', 1, 8, '2017-12-14', 'allergiás a kutyaszőrre', 4, ''),
+(3, 'Dana', 'kutya', 0, 32.6, '2022-01-28', '', 4, ''),
+(4, 'Jessie', 'kutya', 0, 10, '2016-07-11', '', 3, ''),
+(5, 'Monti', 'macska', 0, 5.3, '2022-12-31', '', 2, ''),
+(6, 'Lali', 'hörcsög', 1, 0.5, '2023-06-05', '', 2, '');
 
 -- --------------------------------------------------------
 
@@ -174,6 +179,7 @@ INSERT INTO `pet` (`id`, `name`, `species`, `gender`, `weight`, `born_date`, `co
 -- Tábla szerkezet ehhez a táblához `special_opening`
 --
 
+DROP TABLE IF EXISTS `special_opening`;
 CREATE TABLE `special_opening` (
   `id` int(11) NOT NULL,
   `working_hours` varchar(255) NOT NULL,
@@ -197,22 +203,26 @@ INSERT INTO `special_opening` (`id`, `working_hours`, `date`, `vet_id`) VALUES
 -- Tábla szerkezet ehhez a táblához `vet`
 --
 
+DROP TABLE IF EXISTS `vet`;
 CREATE TABLE `vet` (
   `vet_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `vet`
 --
 
-INSERT INTO `vet` (`vet_id`, `name`, `address`) VALUES
-(1, 'Dr. Állat Orvos', '9027 Győr, Orvos u. 12.'),
-(2, 'Dr. Tóth Bernadett', '2900 Komárom, Arany János u. 20.'),
-(3, 'Dr. Nagy László', '1014 Budapest, Lehel u. 63.'),
-(4, 'Dr. Kiss Sándor', '6700 Szeged, Margaréta u. 41.'),
-(5, 'Dr. Horváth Mária', '9023 Győr, Aradi Vértanúk útja 24.');
+INSERT INTO `vet` (`vet_id`, `name`, `email`, `password`, `address`, `phone`) VALUES
+(1, 'Dr. Állat Orvos', 'drallatorvos@gmail.com', 'a', '9027 Győr, Orvos u. 12.', ''),
+(2, 'Dr. Tóth Bernadett', 'drtothbernadett@gmail.com', 'a', '2900 Komárom, Arany János u. 20.', ''),
+(3, 'Dr. Nagy László', 'drnagylaszlo@gmail.com', 'a', '1014 Budapest, Lehel u. 63.', ''),
+(4, 'Dr. Kiss Sándor', 'drkisssandor@gmail.com', 'a', '6700 Szeged, Margaréta u. 41.', ''),
+(5, 'Dr. Horváth Mária', 'dehorvathmaria@gmail.com', 'a', '9023 Győr, Aradi Vértanúk útja 24.', '');
 
 --
 -- Indexek a kiírt táblákhoz
