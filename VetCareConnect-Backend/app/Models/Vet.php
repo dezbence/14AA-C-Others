@@ -9,6 +9,8 @@ class Vet extends Model
 {
     use HasFactory;
 
+    protected $table = "vet";
+
     protected $fillable =[
         'name',
         'email',
@@ -26,5 +28,15 @@ class Vet extends Model
         'password' => 'hashed',
     ];
 
-    
+    public function cures() {
+        return $this->hasMany(Cure::class);
+    }
+
+    public function special_openings() {
+        return $this->hasMany(special_openings::class);
+    }
+
+    public function openings() {
+        return $this->hasMany(Opening::class);
+    }
 }

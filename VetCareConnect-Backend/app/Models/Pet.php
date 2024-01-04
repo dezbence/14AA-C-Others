@@ -21,4 +21,12 @@ class Pet extends Model
         'register_number',
         'owner_id'
     ];
+
+    public function owner() {
+        return $this->belongsTo(Owner::class, 'owner_id', 'id');
+    }
+
+    public function cures() {
+        return $this->hasMany(Cure::class);
+    }
 }

@@ -9,8 +9,14 @@ class Cure_type extends Model
 {
     use HasFactory;
 
+    protected $table = "cure_type";
+
     protected $fillable =[
         'type',
         'period'
     ];
+
+    public function cures() {
+        return $this->hasMany(Cure::class);
+    }
 }

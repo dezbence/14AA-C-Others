@@ -9,10 +9,15 @@ class Opening extends Model
 {
     use HasFactory;
 
+    protected $table = "opening";
+
     protected $fillable =[
         'working_hours',
         'day',
         'vet_id',
     ];
 
+    public function vet() {
+        return $this->belongsTo(Vet::class, 'vet_id', 'id');
+    }
 }

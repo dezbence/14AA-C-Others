@@ -9,6 +9,8 @@ class Owner extends Model
 {
     use HasFactory;
 
+    protected $table = "owner";
+
     protected $fillable =[
         'name',
         'email',
@@ -26,5 +28,7 @@ class Owner extends Model
         'password' => 'hashed',
     ];
 
-    
+    public function pets(){
+        return $this->hasMany(Blog::class);
+    }
 }

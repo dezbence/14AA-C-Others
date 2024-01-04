@@ -9,6 +9,8 @@ class Cure extends Model
 {
     use HasFactory;
 
+    protected $table = "cure";
+
     protected $fillable =[
         'date',
         'pet_id',
@@ -16,4 +18,15 @@ class Cure extends Model
         'vet_id'
     ];
 
+    public function pet() {
+        return $this->belongsTo(Pet::class, 'pet_id', 'id');
+    }
+
+    public function vet() {
+        return $this->belongsTo(Vet::class, 'vet_id', 'id');
+    }
+
+    public function cure_type() {
+        return $this->belongsTo(Cure_type::class, 'cure_type_id', 'id');
+    }
 }

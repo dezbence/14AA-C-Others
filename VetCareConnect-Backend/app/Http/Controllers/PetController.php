@@ -12,7 +12,10 @@ class PetController extends BaseController
      */
     public function index()
     {
-        $pets = Pet::all();
+        $pets = Pet::with('owner')
+        // ->where('owner.name', '=', 'Dezamics Bence')
+        ->get();
+
         return response()->json($pets, 200);
     }
 
