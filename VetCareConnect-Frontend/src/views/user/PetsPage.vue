@@ -1,6 +1,6 @@
 <template>
     <Header></Header>
-    
+    Kedvenceim
     <Footer></Footer>
 </template>
 

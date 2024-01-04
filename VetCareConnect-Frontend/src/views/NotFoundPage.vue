@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        404 hiba
     </div>
 </template>
 

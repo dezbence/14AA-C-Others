@@ -1,6 +1,6 @@
 <template>
     <Header></Header>
-    
+    Kezdőlap
     <Footer></Footer>
 </template>
 

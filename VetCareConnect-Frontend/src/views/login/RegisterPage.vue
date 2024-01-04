@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        Regisztráicó
     </div>
 </template>
 
