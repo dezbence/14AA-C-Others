@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pet;
 
 class PetController extends BaseController
 {
@@ -11,7 +12,8 @@ class PetController extends BaseController
      */
     public function index()
     {
-        //
+        $pets = Pet::all();
+        return response()->json($pets, 200);
     }
 
     /**
