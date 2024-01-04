@@ -14,6 +14,7 @@ const date = ref();
 const primevue = usePrimeVue();
 primevue.config.locale.firstDayOfWeek = 1;
 primevue.config.locale.dayNamesMin = ['V', 'H', 'K', 'Sz', 'Cs', 'P', 'Sz'];
+primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
 </script>
 
 <style lang="css">
