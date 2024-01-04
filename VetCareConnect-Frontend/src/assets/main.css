@@ -40,3 +40,12 @@ h1, h2, h3, h4, h5, h6, a, button {
   z-index: 99;
   cursor: pointer;
 }
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
