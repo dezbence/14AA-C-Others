@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        Elfelejtett jelszó
     </div>
 </template>
 

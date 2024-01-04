@@ -1,6 +1,6 @@
 <template>
     <Header></Header>
-    
+    Korábbi időpontjaim
     <Footer></Footer>
 </template>
 
