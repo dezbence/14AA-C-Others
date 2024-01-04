@@ -1,4 +1,3 @@
-
 <template>
     <Header></Header>
     <div class="container">
@@ -17,7 +16,9 @@
                         </div>
 
                         <div class="col">
-                            <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">Válassza ki az időpont típusát!</p>
+                            <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
+                                Válassza ki az időpont típusát!
+                            </p>
                             <select name="tipus" id="tipus" class="selectClass mt-0">
                                 <option value="veszettsegelleni">
                                     Veszettség elleni oltás
@@ -28,7 +29,9 @@
                         </div>
 
                         <div class="col">
-                            <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">Válassza ki kiskedvencét!</p>
+                            <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
+                                Válassza ki kiskedvencét!
+                            </p>
                             <select name="allat" id="allat" class="selectClass mt-0">
                                 <option value="bodri">Bodri</option>
                                 <option value="lali">Lali</option>
@@ -50,21 +53,17 @@
             </div>
 
             <div class="calendarAndChoosePanel d-flex align-items-center justify-content-center mb-3 mt-0 col-xl-8 col-lg-12">
-                <Calendar class="calendar text-center col-md-12" v-model="date" dateFormat="dd/mm/yy" />
+                <Calendar class="calendar text-center col-md-12" v-model="date" />
                 <div class="chooseDate rounded-end col-md-12">
                     <h5 class="text-center choosedDate">{{ formattedDate }}</h5>
                     <div class="line"></div>
-                    <div class="d-flex flex-row align-items-center justify-content-center">
-                        <div class="dates d-flex flex-row align-items-center justify-content-start flex-wrap p-1">
-                            <div class="times btnStyle times-clicked">9:25</div>
-                            <div class="times btnStyle">10:35</div>
-                            <div class="times btnStyle">14:30</div>
-                            <div class="times btnStyle">16:30</div>
-                            <div class="times btnStyle">17:30</div>
+                    <div class="dates">
+                        <div v-for="(time, index) in times" :key="index">
+                            <div class="times btnStyle" @click="isActiveToggle(index)" :class="{ active: activeIdx == index }">{{ time }}</div>
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-center">
-                        <button class="btnStyle btnBook text-center mt-5">
+                        <button class="btnStyle btnBook text-center mt-5" @click="Book">
                             Lefoglalom
                         </button>
                     </div>
@@ -85,20 +84,27 @@
 
     <Footer></Footer>
 </template>
-  
+
 <script setup>
-import Header from '../../components/page_controls/Header.vue'
-import Footer from '../../components/page_controls/Footer.vue'
-import Calendar from '../../components/Calendar.vue'
+import Header from "../../components/page_controls/Header.vue";
+import Footer from "../../components/page_controls/Footer.vue";
+import Calendar from "../../components/Calendar.vue";
 
 // import Button from "@/components/Button.vue";
 // import Calendar from "@/components/Calendar.vue";
 
 import { ref } from "vue";
-import { useDateFormat } from "@vueuse/core"
+import { useDateFormat } from "@vueuse/core";
 
 const date = ref();
 const formattedDate = useDateFormat(date, "YYYY. MMMM DD.");
+
+const times = ["9:30", "10:30", "11:00" , "12:00", "12:00", "12:00", "12:00", "9:30"];
+const activeIdx = ref(-1);
+
+function isActiveToggle(index) {
+    activeIdx.value = index;
+}
 
 const selectedDoctor = ref();
 const doctors = ref([
@@ -108,7 +114,6 @@ const doctors = ref([
     { name: "Dr. Bence", code: "IST" },
     { name: "Dr. Kata", code: "PRS" },
 ]);
-
 </script>
 
 <style scoped>
@@ -118,6 +123,7 @@ const doctors = ref([
     margin-top: 20px;
     margin-bottom: 30px;
 }
+
 .btnStyle {
     padding: 10px 20px;
     border-radius: 7px;
@@ -133,7 +139,10 @@ const doctors = ref([
 }
 
 /* majd meg kell csinálni, hogy click eseményre maradjon rajta a class, de addig nem rakom rá  */
-.times-clicked {
+/* .active {
+    
+} */
+.active {
     border: 1.5px solid whitesmoke;
 }
 
@@ -151,6 +160,7 @@ const doctors = ref([
 
 .choosed {
     background-color: #3ca27e;
+    margin-bottom: 5px;
 }
 
 .canBeReservated {
@@ -159,10 +169,17 @@ const doctors = ref([
 }
 
 .meanings {
-    padding-top: 10px;
+    padding-top: 25px;
     padding-left: 25px;
+    height: 130px;
+    
 }
 
+.meanings div {
+    margin-bottom: 5px;
+    align-items: center;
+    text-wrap: nowrap;
+}
 
 .choosePanel {
     background-color: #50b692;
@@ -218,7 +235,11 @@ const doctors = ref([
     display: none;
 }
 
-
+.dates {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+}
 
 /*----------- media töréspontok ------------*/
 @media (min-width: 1200px) {
@@ -241,12 +262,9 @@ const doctors = ref([
     .calendar {
         overflow: hidden;
         border-radius: 7px 0 0 7px;
-
     }
-
 }
 
-/* itt már egymás alá kell csúsznia a választós és a foglalós résznek */
 @media (max-width: 1200px) {
     .header {
         font-size: 4rem;
@@ -256,7 +274,6 @@ const doctors = ref([
     .calendar {
         overflow: hidden;
         border-radius: 7px 0 0 7px;
-
     }
 
     .calendarAndChoosePanel {
@@ -269,7 +286,6 @@ const doctors = ref([
         margin: auto;
         display: flex;
         align-items: center;
-
     }
 
     .choosePanel div {
@@ -283,14 +299,13 @@ const doctors = ref([
 
     .meanings {
         margin: auto;
-        padding: 20px 40px;
+        padding: 10px 40px;
         align-items: center;
         width: 300px;
     }
 
     .meaningsInDates {
         display: block;
-        padding: 20px;
         background-color: #246951;
         border-radius: 7px;
         margin-top: 25px;
@@ -323,7 +338,6 @@ const doctors = ref([
         height: 450px;
         border-radius: 7px !important;
         overflow: hidden !important;
-
     }
 
     .calendarAndChoosePanel {
@@ -344,7 +358,7 @@ const doctors = ref([
         padding: 20px;
         background-color: #246951;
         border-radius: 7px;
-        margin-top: 25px;
+        margin-top: 20px;
         align-items: center;
     }
 
@@ -352,11 +366,7 @@ const doctors = ref([
         display: none;
     }
 
-    .dates {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-
+    
 }
 
 @media (max-width: 768px) {
@@ -364,7 +374,6 @@ const doctors = ref([
         height: 380px;
         border-radius: 7px;
         overflow: hidden !important;
-
     }
 }
 
@@ -421,6 +430,5 @@ const doctors = ref([
     .choosedDate {
         font-size: 1.1rem;
     }
-
-}</style>
-  
+}
+</style>
