@@ -1,13 +1,20 @@
 <template>
-    <div>
-        Regisztráicó
+    <div class="back-to-home">
+        <img @click="back()" src="../../assets/icons/arrow_back.svg">
+    </div>
+    <div class="signin-background">
+        Regisztráció
     </div>
 </template>
 
 <script setup>
+import router from '@/router';
 
+function back() {
+    router.go(-1)
+}
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 
 </style>

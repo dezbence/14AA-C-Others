@@ -16,3 +16,27 @@ body {
 h1, h2, h3, h4, h5, h6, a, button {
   font-family: 'Roboto', sans-serif;
 }
+
+
+/* LoginPage, RegisterPage */
+.signin-background {
+  background-image: url(../assets/images/sing_In_background.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.back-to-home {
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  filter: invert(100%);
+  z-index: 99;
+  cursor: pointer;
+}
