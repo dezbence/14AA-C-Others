@@ -6,7 +6,7 @@
                 <p>Ön egy {{ userTypes[activeIdx]?.type }}</p>
                 <div class="cards">
                     <div v-for="(userType, index) in userTypes">
-                    <div @click="isActiveToggle(index)" :class="{ selected: activeIdx == index }" class="cardd">
+                    <div @click="isActiveToggle(index)" :class="{ 'selected': activeIdx == index }" class="cardd">
                         <h4>{{ userType.type }}</h4>
                         <img class="cardImg" :src="userType.imgSrc">
                     </div>
@@ -29,7 +29,8 @@
 <script setup>
 import { ref } from "vue";
 import { defineEmits } from "vue";
-import router from '@/router';
+
+const emit = defineEmits(['removeVetOrUser'])
 
 const userTypes = [
     { type: "gazda", imgSrc: "/src/assets/icons/pets.svg" },
@@ -43,18 +44,14 @@ function isActiveToggle(index) {
     console.log(activeIdx.value)
 }
 
-const emit = defineEmits(['remove'])
+
 
 function sendType() {
-    emit('remove', activeIdx)
+    emit('removeVetOrUser', activeIdx)
 }
 
-
-
-function back() {
-    router.go(-1)
-}
 </script>
+
 <style scoped>
 body {
     overflow-y: hidden;
