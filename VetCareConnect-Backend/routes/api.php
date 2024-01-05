@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\MainController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,3 +20,4 @@ use App\Http\Controllers\PetController;
 // });
 
 Route::get('/pets', [PetController::class, 'index']);
+Route::get('/ownerData', [MainController::class, 'getOwnerData']);

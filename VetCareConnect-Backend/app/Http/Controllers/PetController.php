@@ -13,7 +13,7 @@ class PetController extends BaseController
     public function index()
     {
         $pets = Pet::with('owner')
-        // ->where('owner_id', '=', '1')
+        ->where('owner_id', '=', '1')
         ->get();
 
         $return = array();

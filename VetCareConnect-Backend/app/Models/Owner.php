@@ -29,6 +29,6 @@ class Owner extends Model
     ];
 
     public function pets(){
-        return $this->hasMany(Blog::class);
+        return $this->hasMany(Pet::class);
     }
 }
