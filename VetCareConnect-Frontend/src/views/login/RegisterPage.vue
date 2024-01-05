@@ -4,7 +4,10 @@
     </div>
     <div class="signin-background">
         <div class="orvosVagyGazda">
-            <VetOrUser v-if="választott" @remove="választottE()"></VetOrUser>
+            <VetOrUser v-if="választott" @remove="választottE"></VetOrUser>
+        </div>
+        <div>
+            
         </div>
     </div>
 </template>
@@ -16,10 +19,14 @@ import VetOrUser from '../../components/login_components/VetOrUser.vue';
 
 
 const választott = ref(true);
+const chosedType = ref("");
 
-function választottE(activeIdx) {
+function választottE(index) {
+    if (index.value == 0) chosedType.value = "gazda";
+    else if (index.value == 1) chosedType.value = "orvos";
+    else chosedType.value = "hiba";
     választott.value = false;
-    console.log(activeIdx)
+    console.log(chosedType.value)
 }
 
 

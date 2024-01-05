@@ -4,11 +4,14 @@
             <div class="front">
                 <h3>Válasszon profil típust!</h3>
                 <p>Ön egy {{ userTypes[activeIdx]?.type }}</p>
-                <div class="cards" v-for="(userType, index) in userTypes">
+                <div class="cards">
+                    <div v-for="(userType, index) in userTypes">
                     <div @click="isActiveToggle(index)" :class="{ selected: activeIdx == index }" class="cardd">
                         <h4>{{ userType.type }}</h4>
                         <img class="cardImg" :src="userType.imgSrc">
                     </div>
+                </div>
+                
                 </div>
                 <div class="buttonSection">
                     <button @click="sendType">Tovább <svg xmlns="http://www.w3.org/2000/svg" height="24"
@@ -29,8 +32,9 @@ import { defineEmits } from "vue";
 import router from '@/router';
 
 const userTypes = [
-    { type: "gazda", imgSrc: "../../assets/icons/pets.svg" },
-    { type: "orvos", imgSrc: "../../assets/icons/stethoscope.svg" }];
+    { type: "gazda", imgSrc: "/src/assets/icons/pets.svg" },
+    { type: "orvos", imgSrc: "/src/assets/icons/stethoscope.svg" }
+];
 
 const activeIdx = ref(-1);
 
@@ -39,9 +43,9 @@ function isActiveToggle(index) {
     console.log(activeIdx.value)
 }
 
-const emit = defineEmits(['remove', 'activeIdx'])
+const emit = defineEmits(['remove'])
 
-function sendType(activeIdx) {
+function sendType() {
     emit('remove', activeIdx)
 }
 
@@ -84,10 +88,9 @@ body {
 
 .cards {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 50px;
     align-items: center;
+    gap: 50px;
 }
 
 
@@ -120,12 +123,13 @@ body {
 }
 
 .cardd:hover .cardImg {
-    fill: white;
+    filter: invert(100%);
 }
 
 .cardImg {
     margin-top: 40px;
-    fill: #246951;
+    filter: invert(30%) sepia(12%) saturate(2322%) hue-rotate(108deg) brightness(101%) contrast(80%);
+    width: 60px;
 }
 
 
@@ -203,5 +207,8 @@ button:hover {
     transition: 200ms;
     background-color: #246951;
     color: #fff;
+}
+.selected .cardImg {
+    filter: invert(100%);
 }
 </style>
