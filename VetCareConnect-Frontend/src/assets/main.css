@@ -49,3 +49,16 @@ button:active {
   transform: scale(0.95);
 }
 
+.btnStyle {
+  padding: 10px 20px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btnStyle:hover {
+  transform: scale(1.03);
+  transition: 200ms;
+}

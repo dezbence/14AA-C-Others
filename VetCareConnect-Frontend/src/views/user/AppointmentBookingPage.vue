@@ -2,7 +2,7 @@
     <Header></Header>
     <div class="container">
         <h1 class="header">Időpontfoglalás</h1>
-        <div class="row d-flex align-items-start mx-auto my-auto">
+        <div v-if="!showBookApprove" class="row d-flex align-items-start mx-auto my-auto" >
             <div class="d-flex justify-content-center p-0 mb-3 col-xl-4 col-lg-12">
                 <div class="col p-0">
                     <div class="choosePanel rounded">
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-center">
-                        <button class="btnStyle btnBook text-center mt-5" @click="Book">
+                        <button class="btnStyle btnBook text-center mt-5" @click="BookClick()">
                             Lefoglalom
                         </button>
                     </div>
@@ -80,6 +80,9 @@
                 </div>
             </div>
         </div>
+        <div v-else>
+            <AppointmentApprove @remove="hideBook"></AppointmentApprove>
+        </div>
     </div>
 
     <Footer></Footer>
@@ -89,6 +92,7 @@
 import Header from "../../components/page_controls/Header.vue";
 import Footer from "../../components/page_controls/Footer.vue";
 import Calendar from "../../components/Calendar.vue";
+import AppointmentApprove from "../../components/AppointmentApprove.vue";
 
 // import Button from "@/components/Button.vue";
 // import Calendar from "@/components/Calendar.vue";
@@ -102,8 +106,18 @@ const formattedDate = useDateFormat(date, "YYYY. MMMM DD.");
 const times = ["9:30", "10:30", "11:00" , "12:00", "12:00", "12:00", "12:00", "9:30"];
 const activeIdx = ref(-1);
 
+const showBookApprove = ref(false);
+
 function isActiveToggle(index) {
     activeIdx.value = index;
+}
+
+function BookClick(){
+    showBookApprove.value = true;
+}
+
+function hideBook() {
+    showBookApprove.value = false;
 }
 
 const selectedDoctor = ref();
@@ -124,29 +138,10 @@ const doctors = ref([
     margin-bottom: 30px;
 }
 
-.btnStyle {
-    padding: 10px 20px;
-    border-radius: 7px;
-    cursor: pointer;
-    color: white;
-    border: none;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
 
-.btnStyle:hover {
-    transform: scale(1.03);
-    transition: 200ms;
-}
-
-/* majd meg kell csinálni, hogy click eseményre maradjon rajta a class, de addig nem rakom rá  */
-/* .active {
-    
-} */
 .active {
     border: 1.5px solid whitesmoke;
 }
-
-/* ------ */
 
 .btnBook {
     background-color: #50b692;
