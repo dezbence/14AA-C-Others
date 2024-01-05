@@ -6,7 +6,7 @@
     <div class="signInBackground">
 
         <div class="main">
-            <!-- <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" /> -->
+            <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" /> 
             <!-- Bal oldal -->
             <div class="formCardLeft">
                 <form @submit.prevent="handelSubmit">
@@ -24,36 +24,18 @@
                         <InputText v-model="userData.lastName" />
                     </div>
                     <label>Tel. szám:</label>
-                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="userData.fon"/>
+                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="userData.fon" />
                     <label>E-mail cím:</label>
                     <InputText v-model="userData.email" placeholder="bodri@gmail.com" />
-                    <!-- <input type="email" placeholder="bodri@gmail.com" v-model="userData.email" /> -->
                     <label>Jelszó:</label>
-                    <!-- <div class="passInfo">
-                        <svg @mouseenter="passwordInfoToggle()" @mouseleave="passwordInfoToggle()" class="passwordInfo"
-                            xmlns="http://www.w3.org/2000/svg" fill="#246951" height="24" viewBox="0 -960 960 960"
-                            width="24">
-                            <path
-                                d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" />
-                        </svg>
-                        <input v-model="userData.password" type="password" placeholder="Bodri123" />
-                    </div> -->
-                    <!-- <Password class="password" v-model="userData.password" :class="problem ? 'p-invalid' : ''">
-                        <template #footer>
-                            <p class="mt-4 mb-1">Kötelező</p>
-                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                                <li>legalább egy kisbetű</li>
-                                <li>legalább egy nagybetű</li>
-                                <li>legalább egy szám</li>
-                                <li>minimum 8 karakter</li>
-                            </ul>
-                        </template>
-                    </Password> -->
-                    <InputText v-model="userData.password" type="password" placeholder="Bodri123"/>
+                    <div class="passInfo">
+                        <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()" @mouseleave="passwordInfoToggle()" class="passwordInfo">
+                        <InputText v-model="userData.password" type="password" placeholder="Bodri123" />
+                    </div>
                     <div v-if="passwordError" class="error">{{ passwordError }}</div>
-                    <!-- <PasswordRequirements v-if="passwordInfo"></PasswordRequirements> -->
+                    <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
                     <label>Jelszó újra:</label>
-                    <InputText v-model="userData.passwordAgain" type="password" placeholder="Bodri123"/>
+                    <InputText v-model="userData.passwordAgain" type="password" placeholder="Bodri123" />
                     <div v-if="passwordErrorAgain" class="error">{{ passwordErrorAgain }}</div>
                     <div class="terms">
                         <input type="checkbox" v-model="userData.terms" />
@@ -64,6 +46,7 @@
                     </div>
                 </form>
             </div>
+
             <!-- Jobb oldal -->
             <div class="formCardRight">
                 <ul>
@@ -83,16 +66,15 @@
             </div>
         </div>
     </div>
+
 </template>
 <script setup>
 import { ref } from "vue";
 import TermsOfUse from "./TermsOfUse.vue";
+import PasswordRequirements from "./PasswordRequirements.vue";
 import InputMask from 'primevue/inputmask';
 import InputText from "primevue/inputtext";
-import Password from 'primevue/password';
-
 import router from '@/router';
-import PasswordRequirements from "./PasswordRequirements.vue";
 import { usePrimeVue } from 'primevue/config';
 
 const primevue = usePrimeVue();
@@ -169,37 +151,34 @@ function handelSubmit() {
 }
 </script>
 <style scoped>
-body {
-    overflow-y: hidden;
-    margin: 0;
-}
-
 .main {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 7px;
 }
 
 .formCardLeft {
     background-color: #fff;
-    border-radius: 10px 0 0 10px;
-    min-height: 80vh;
-    min-width: 22vw;
+    border-radius: 7px 0 0 7px;
+    height: 760px;
+    width: 420px;
 }
 
 .nameLabel {
     display: flex;
-    gap: 10.5vh;
+    gap: 79px;
 }
 
 .nameInput {
     display: flex;
-    gap: 1vh;
+    gap: 10px;
 }
 
-.nameInput input[type="text"] {
-    max-width: 18vh;
+.nameInput input {
+    width: 160px;
 }
 
 .passwordInfo {
@@ -209,6 +188,7 @@ body {
     cursor: pointer;
     position: absolute;
     right: 15px;
+    filter: invert(30%) sepia(12%) saturate(2322%) hue-rotate(108deg) brightness(101%) contrast(80%);
 }
 
 #terms {
@@ -227,16 +207,16 @@ body {
 }
 
 #logo {
-    width: 22vh;
+    width: 220px;
 }
 
 .formCardRight {
-    min-height: 80vh;
-    min-width: 18vw;
+    height: 760px;
+    width: 340px;
     background-color: #246951;
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 7px 7px 0;
     display: flex;
-    padding: 5vh 3vh 5vh 2vh;
+    padding: 50px 30px 50px 20px;
     align-items: center;
     justify-content: center;
 }
@@ -251,12 +231,12 @@ body {
 
 .formCardRight ul #singInDog {
     transform: scaleX(-1);
-    padding-right: 5vh;
-    width: 28vh;
+    padding-right: 50px;
+    width: 280px;
 }
 
 .formCardRight ul li {
-    margin-top: 6vh;
+    margin-top: 60px;
     color: white;
     text-align: center;
     font-size: 1.2rem;
@@ -268,16 +248,16 @@ body {
 
 form {
     background-color: white;
-    height: 36vh;
+    height: 100%;
     text-align: left;
-    padding: 5vh;
-    border-radius: 10px 0 0 10px;
+    padding: 50px;
+    border-radius: 7px 0 0 7px;
 }
 
 h3 {
     color: #246951;
     margin-top: 0;
-    margin-bottom: 1.5vh;
+    margin-bottom: 15px;
     font-size: 1.6rem;
 }
 
@@ -287,7 +267,7 @@ label {
     font-weight: bolder;
     letter-spacing: 0;
     display: inline-block;
-    margin-top: 3vh;
+    margin-top: 30px;
 }
 
 input, .password {
@@ -296,15 +276,11 @@ input, .password {
     width: 100%;
     padding: 5px 40px 5px 10px;
     color: #000;
-    border-radius: 5px;
+    border-radius: 7px;
     background-color: #ededed;
     border: 1px solid #c5c5c5;
     outline: none;
-    max-height: 4.5vh;
-}
-
-input[type=text]:focus {
-    border: #b7e0b8 3px solid;
+    max-height: 45px;
 }
 
 input[type="checkbox"] {
@@ -326,7 +302,7 @@ button {
     border: 0;
     padding: 5px;
     color: white;
-    border-radius: 5px;
+    border-radius: 7px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     display: flex;
     align-items: center;
@@ -340,13 +316,13 @@ button:hover {
 
 .noAccount {
     text-align: left;
-    margin-top: 1vh;
+    margin-top: 10px;
     font-size: 0.9rem;
 }
 
 .noAccount span {
     font-weight: bold;
-    margin-right: 1vh;
+    margin-right: 10px;
     color: #246951;
 }
 
@@ -361,7 +337,7 @@ button:hover {
 
 .submit {
     text-align: center;
-    margin-top: 6vh;
+    margin-top: 60px;
 }
 
 .error {
