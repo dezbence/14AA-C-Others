@@ -19,7 +19,7 @@ h1, h2, h3, h4, h5, h6, a, button {
 
 
 /* LoginPage, RegisterPage */
-.signin-background {
+.signInBackground {
   background-image: url(../assets/images/sing_In_background.png);
   background-size: cover;
   background-repeat: no-repeat;
@@ -32,7 +32,7 @@ h1, h2, h3, h4, h5, h6, a, button {
   align-items: center;
 }
 
-.back-to-home {
+.backToHome {
   position: fixed;
   top: 5%;
   left: 5%;
