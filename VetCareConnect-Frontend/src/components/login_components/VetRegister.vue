@@ -38,7 +38,7 @@
                         </svg>
                         <input v-model="userData.password" type="password" placeholder="Bodri123" />
                     </div> -->
-                    <Password class="password" v-model="userData.password" :class="problem ? 'p-invalid' : ''">
+                    <!-- <Password class="password" v-model="userData.password" :class="problem ? 'p-invalid' : ''">
                         <template #footer>
                             <p class="mt-4 mb-1">Kötelező</p>
                             <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
@@ -48,11 +48,12 @@
                                 <li>minimum 8 karakter</li>
                             </ul>
                         </template>
-                    </Password>
+                    </Password> -->
+                    <InputText v-model="userData.password" type="password" placeholder="Bodri123"/>
                     <div v-if="passwordError" class="error">{{ passwordError }}</div>
                     <!-- <PasswordRequirements v-if="passwordInfo"></PasswordRequirements> -->
                     <label>Jelszó újra:</label>
-                    <Password class="password" v-model="userData.passwordAgain" placeholder="Bodri123" />
+                    <InputText v-model="userData.passwordAgain" type="password" placeholder="Bodri123"/>
                     <div v-if="passwordErrorAgain" class="error">{{ passwordErrorAgain }}</div>
                     <div class="terms">
                         <input type="checkbox" v-model="userData.terms" />
