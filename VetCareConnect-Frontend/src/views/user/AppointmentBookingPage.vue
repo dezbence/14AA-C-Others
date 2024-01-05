@@ -53,13 +53,13 @@
             </div>
 
             <div class="calendarAndChoosePanel d-flex align-items-center justify-content-center mb-3 mt-0 col-xl-8 col-lg-12">
-                <Calendar class="calendar text-center col-md-12" v-model="date" />
+                <Calendar class="calendar text-center col-md-12" v-model="date" :min-date='new Date()' />
                 <div class="chooseDate rounded-end col-md-12">
                     <h5 class="text-center choosedDate">{{ formattedDate }}</h5>
                     <div class="line"></div>
                     <div class="dates">
                         <div v-for="(time, index) in times" :key="index">
-                            <div class="times btnStyle" @click="isActiveToggle(index)" :class="{ active: activeIdx == index }">{{ time }}</div>
+                            <div class="times btnStyle" @click="isActiveToggle(index)" :class="{ active: activeIdx == index }"  >{{ time }}</div>
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-center">
