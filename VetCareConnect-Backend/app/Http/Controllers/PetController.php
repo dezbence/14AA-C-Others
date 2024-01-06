@@ -27,7 +27,7 @@ class PetController extends BaseController
         }
 
 
-        return response()->json($return, 200);
+        return response()->json($pets, 200);
     }
 
     /**

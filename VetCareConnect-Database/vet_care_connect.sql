@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Jan 03. 20:45
+-- Létrehozás ideje: 2024. Jan 06. 11:27
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -198,7 +198,7 @@ INSERT INTO `special_opening` (`id`, `working_hours`, `date`, `vet_id`) VALUES
 --
 
 CREATE TABLE `vet` (
-  `vet_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE `vet` (
 -- A tábla adatainak kiíratása `vet`
 --
 
-INSERT INTO `vet` (`vet_id`, `name`, `email`, `password`, `address`, `phone`) VALUES
+INSERT INTO `vet` (`id`, `name`, `email`, `password`, `address`, `phone`) VALUES
 (1, 'Dr. Állat Orvos', 'drallatorvos@gmail.com', 'a', '9027 Győr, Orvos u. 12.', ''),
 (2, 'Dr. Tóth Bernadett', 'drtothbernadett@gmail.com', 'a', '2900 Komárom, Arany János u. 20.', ''),
 (3, 'Dr. Nagy László', 'drnagylaszlo@gmail.com', 'a', '1014 Budapest, Lehel u. 63.', ''),
@@ -267,7 +267,7 @@ ALTER TABLE `special_opening`
 -- A tábla indexei `vet`
 --
 ALTER TABLE `vet`
-  ADD PRIMARY KEY (`vet_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -313,7 +313,7 @@ ALTER TABLE `special_opening`
 -- AUTO_INCREMENT a táblához `vet`
 --
 ALTER TABLE `vet`
-  MODIFY `vet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -325,13 +325,13 @@ ALTER TABLE `vet`
 ALTER TABLE `cure`
   ADD CONSTRAINT `FK_cure_cure_id` FOREIGN KEY (`cure_type_id`) REFERENCES `cure_type` (`id`) ON DELETE NO ACTION,
   ADD CONSTRAINT `FK_cure_pet_id` FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `FK_cure_vet_id` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`vet_id`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `FK_cure_vet_id` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`id`) ON DELETE NO ACTION;
 
 --
 -- Megkötések a táblához `opening`
 --
 ALTER TABLE `opening`
-  ADD CONSTRAINT `FK_opening_vet_id2` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`vet_id`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `FK_opening_vet_id2` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`id`) ON DELETE NO ACTION;
 
 --
 -- Megkötések a táblához `pet`
@@ -343,7 +343,7 @@ ALTER TABLE `pet`
 -- Megkötések a táblához `special_opening`
 --
 ALTER TABLE `special_opening`
-  ADD CONSTRAINT `FK_special_opening_vet_id` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`vet_id`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `FK_special_opening_vet_id` FOREIGN KEY (`vet_id`) REFERENCES `vet` (`id`) ON DELETE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

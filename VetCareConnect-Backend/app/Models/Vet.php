@@ -33,7 +33,7 @@ class Vet extends Model
     }
 
     public function special_openings() {
-        return $this->hasMany(special_openings::class);
+        return $this->hasMany(Special_opening::class);
     }
 
     public function openings() {

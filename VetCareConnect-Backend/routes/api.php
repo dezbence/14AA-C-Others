@@ -19,5 +19,9 @@ use App\Http\Controllers\MainController;
 //     return $request->user();
 // });
 
-Route::get('/pets', [PetController::class, 'index']);
+Route::get('/pets', [MainController::class, 'getPets']);
 Route::get('/ownerData', [MainController::class, 'getOwnerData']);
+Route::get('/ownerAppointmentsORM', [MainController::class, 'getOwnerAppointmentsORM']);
+Route::get('/ownerAppointmentsSQL', [MainController::class, 'getOwnerAppointmentsSQL']);
+Route::get('/vetData', [MainController::class, 'getVetData']);
+Route::get('/openings', [MainController::class, 'getOpenings']);
