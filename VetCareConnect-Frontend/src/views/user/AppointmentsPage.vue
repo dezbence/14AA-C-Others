@@ -25,10 +25,28 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import Header from '../../components/page_controls/Header.vue'
 import Footer from '../../components/page_controls/Footer.vue'
 import Appointment from '../../components/Appointment.vue'
+
+import mainservices from '../../services/mainservices.js'
+
+const ownerAppointments = ref();
+
+mainservices.getOwnerAppointments()
+    .then(resp => {
+        console.log(resp);
+        ownerAppointments.value = resp;
+    })
+    .catch(err => {
+        
+    })
+
+
+
 </script>
+
 
 <style lang="css" scoped>
 .appointments {
