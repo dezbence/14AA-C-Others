@@ -21,9 +21,8 @@
       <span id="regisztracio"><router-link to="/regisztracio">Regisztráció</router-link></span>
     </div>
 
-    <div class="profile">
-      <img src="../../assets/icons/account_circle.svg">
-    </div>
+      <img class="profile" src="../../assets/icons/account_circle.svg">
+   
   </div>
 
   <SideBar v-if="isMenuOpen"></SideBar>
@@ -94,7 +93,7 @@ function menuToggle() {
   justify-content: center;
 }
 
-.hamburgerMenu, .profile img {
+.hamburgerMenu, .profile {
   display: none;
   cursor: pointer;
   filter: invert(100%);
@@ -168,7 +167,7 @@ function menuToggle() {
     display: none;
   }
 
-  .hamburgerMenu, #toggleIcon, .profile img {
+  .hamburgerMenu, #toggleIcon, .profile {
     display: block;
     height: 30px;
   }

@@ -75,12 +75,6 @@ import PasswordRequirements from "./PasswordRequirements.vue";
 import InputMask from 'primevue/inputmask';
 import InputText from "primevue/inputtext";
 import router from '@/router';
-import { usePrimeVue } from 'primevue/config';
-
-const primevue = usePrimeVue();
-
-
-
 
 function back() {
     router.go(-1)
@@ -102,7 +96,7 @@ const userData = ref({
     email: "",
     password: "",
     passwordAgain: "",
-    terms: false
+    terms: null
 })
 
 function TogglePopup() {
