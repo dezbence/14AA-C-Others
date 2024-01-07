@@ -20,7 +20,7 @@ const props = defineProps(['petMenuToggle'])
 const emits = defineEmits(['delete-pet'])
 
 function deletePet() {
-    return $emit('delete-pet')
+   emit('delete-pet')
 }
 </script>
 

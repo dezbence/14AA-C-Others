@@ -23,6 +23,13 @@
 import { ref } from 'vue';
 import PetMenu from './PetMenu.vue';
 
+const props = defineProps({
+    pet: {
+        type: Object,
+        required: true
+    }
+})
+
 const isMenuOpen = ref(false);
 function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;

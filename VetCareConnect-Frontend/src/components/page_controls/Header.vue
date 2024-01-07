@@ -17,7 +17,7 @@
     </ul>
 
     <div class="sign">
-      <span id="bejelentkezes"><router-link to="/bejelentkezes">Bejelentkezés</router-link></span>
+      <button id="bejelentkezes"><router-link to="/bejelentkezes">Bejelentkezés</router-link></button>
       <span id="regisztracio"><router-link to="/regisztracio">Regisztráció</router-link></span>
     </div>
 
@@ -144,8 +144,10 @@ function menuToggle() {
 
 #bejelentkezes {
   background-color: #368267;
-  border-radius: 45px;
+  border-radius: 100px;
   padding: 6px 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border: none;
 }
 
 @media (max-width: 991px) {
