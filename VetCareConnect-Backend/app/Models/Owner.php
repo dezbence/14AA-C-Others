@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Owner extends Model
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
 
     protected $table = "owner";
 
@@ -27,6 +28,8 @@ class Owner extends Model
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public $timestamps = false;
 
     public function pets(){
         return $this->hasMany(Pet::class);

@@ -100,14 +100,24 @@ class MainController extends Controller
 
     public function getOwnerAppointmentsORM()
     {
-        $appoinments = Owner::
-              join('pet', 'owner.id', '=', 'pet.owner_id')
-            ->join('cure', 'pet.id', '=', 'cure.pet_id')
-            ->join('vet', 'vet.id', '=', 'cure.vet_id')
-            ->join('cure_type', 'cure_type.id', '=', 'cure.cure_type_id')
-            ->select('owner.email', 'pet.name', 'cure.date', 'cure_type.type', 'vet.address')
+        $appoinments = Cure::with('cure_type', 'vet', 'pet.owner')
             ->get();
 
-        return response()->json($appoinments, 200);
+        $return = [];
+        foreach ($appoinments as $appoinment) {
+            $return[] = [
+                'ownerId' => $appoinment->pet->owner->id,
+                'petName' => $appoinment->pet->name,
+                'cureType' => $appoinment->cure_type->type,
+                'vetName' => $appoinment->vet->name,
+                'vetAddress' => $appoinment->vet->address,
+                'cureDate' => $appoinment->date
+
+                // 'petName' => $appoinment->pets->species
+                // 'cureDate' => $appoinment->pets->cures->date
+             ];
+         }
+
+        return response()->json($return, 200);
     }
 }
