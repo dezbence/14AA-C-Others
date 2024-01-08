@@ -33,7 +33,7 @@ function petMenuToggle() {
 
 </script>
 <style scoped>
-.cardsBack {
+.petCard .cardsBack {
     background-color: #50B692;
     border-radius: 10px;
     height: 420px;
@@ -50,13 +50,13 @@ function petMenuToggle() {
     position: relative;
 }
 
-.menu {
+.petCard .menu {
     position: absolute;
     top: 20px;
     right: 35px;
 }
 
-.profile {
+.petCard .profile {
     border-radius: 100%;
     width: 80px;
     height: 80px;
@@ -64,7 +64,7 @@ function petMenuToggle() {
     margin-bottom: 20px;
 }
 
-.dotsMenu {
+.petCard .dotsMenu {
     position: absolute;
     top: 16px;
     right: 12px;
@@ -72,11 +72,11 @@ function petMenuToggle() {
     filter: invert(100%);
 }
 
-.dotsMenu:hover {
+.petCard .dotsMenu:hover {
     transform: scale(1.1);
 }
 
-h3 {
+.petCard h3 {
     margin: 0 0 10px;
 }
 </style>

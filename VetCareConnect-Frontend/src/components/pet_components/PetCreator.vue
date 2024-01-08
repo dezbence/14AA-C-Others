@@ -5,7 +5,7 @@
             <form submit.pervent="handleSubmit"></form>
 
             <label>Kedvence neve:</label>
-            <InputText v-model="petsList.name"></InputText>
+            <InputText ></InputText>
 
             <button @click="addPet(), handleSubmit()">Létrehozás</button>
 
@@ -15,6 +15,7 @@
 
 <script setup>
 import InputText from 'primevue/inputtext';
+import { ref } from 'vue';
 
 const props = defineProps(['addPetToList', 'petsList'])
 
