@@ -5,7 +5,7 @@
             <form submit.pervent="handleSubmit"></form>
 
             <label>Kedvence neve:</label>
-            <InputText></InputText>
+            <InputText v-model="petsList.name"></InputText>
 
             <button @click="addPet(), handleSubmit()">Létrehozás</button>
 
@@ -20,6 +20,7 @@ const props = defineProps(['addPetToList', 'petsList'])
 
 function addPet() {
     props.addPetToList();
+    
 }
 
 function handleSubmit() {
@@ -36,6 +37,28 @@ function handleSubmit() {
     background-color: white;
     border-radius: 7px;
     padding: 30px;
+}
+
+input {
+    padding: 5px 40px 5px 10px;
+    color: #000;
+    border-radius: 7px;
+    background-color: #ededed;
+    border: 1px solid #c5c5c5;
+    outline: none;
+    max-height: 45px;
+
+}
+
+button {
+    border: none;
+    border-radius: 7px;
+    background-color: #50B692;
+    color: white;
+    padding: 5px 10px;
+    margin-top: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
 
 
