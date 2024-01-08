@@ -1,5 +1,5 @@
 <template>
-    <div class="background-dark">
+    <div class="darkBack">
         <div class="front">
             <div class="close">
                 <svg @click="TogglePopup()"  xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
@@ -16,20 +16,6 @@ const props = defineProps(['TogglePopup']);
 </script>
 
 <style scoped>
-.background-dark {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 90;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5vh;
-}
 
 .front {
     background-color: #fff;

@@ -1,6 +1,6 @@
 <template>
     <Header></Header>
-    <PetCreator></PetCreator>
+    <PetCreator v-if="isPetCreating"  :add-pet-to-list="addPetToList"></PetCreator>
     <div>
         <h1>Kedvenceim</h1>
         <div class="petsCard">
@@ -9,7 +9,7 @@
                 <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
                 <img src="../../assets/icons/arrow_forward_ios.svg">
             </div>
-            <button class="addPet" @click="addPet">
+            <button class="addPet" @click="showCreator">
                 <img class="addPetIcon" src="../../assets/icons/add.svg">
             </button>
 
@@ -26,15 +26,24 @@ import Footer from '@/components/page_controls/Footer.vue';
 import Pet from '@/components/pet_components/Pet.vue';
 import PetCreator from '@/components/pet_components/PetCreator.vue';
 
+const isPetCreating = ref(false);
 const petsList = ref([]);
-function addPet() {
+
+function showCreator() {
+    isPetCreating.value = true;
+}
+
+function addPetToList() {
   petsList.value.push({
     id: 0,
     name: "",
-    animalType: "",
-    weight: 0,
-    age: 0,
+    species: "",
+    gender: 2,
+    weight: 0.0,
+    born_date: "",
+    comment: ""
   });
+    isPetCreating.value = false;
 };
 
 function deletePet(petId) {

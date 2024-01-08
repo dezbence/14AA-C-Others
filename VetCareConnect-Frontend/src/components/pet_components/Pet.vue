@@ -2,7 +2,7 @@
     <div class="cardsBack">
         <img @click="petMenuToggle()" class="dotsMenu" src="../../assets/icons/dots.svg">
         <div class="menu">
-            <PetMenu v-if="isMenuOpen" :petMenuToggle="() => petMenuToggle()"></PetMenu>
+            <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle"></PetMenu>
         </div>
         <div class="profile">
             
@@ -23,12 +23,8 @@
 import { ref } from 'vue';
 import PetMenu from './PetMenu.vue';
 
-const props = defineProps({
-    pet: {
-        type: Object,
-        required: true
-    }
-})
+const props = defineProps(['petsList']);
+
 
 const isMenuOpen = ref(false);
 function petMenuToggle() {
