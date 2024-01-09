@@ -1,11 +1,21 @@
 <template>
     <div class="cardsBack">
-        <h3>Bodika</h3>
+        <div class="heading">
+            <h3>Bodika</h3>
+            <h3>2023.02.04</h3>
+        </div>
         <p>Orr plasztika</p>
+        <div class="footing">
+            <p>Dr. Állat Orvos</p>
+            <p>7246 Duranda, Dögkút u. 5</p>
+        </div>
     </div>
 </template>
+
 <script setup>
+
 </script>
+
 <style scoped>
 .cardsBack {
     background-color: #50B692;
@@ -21,4 +31,13 @@
 h3 {
     margin: 0 0 10px;
 }
+
+.heading, .footing {
+    display: flex;
+}
+
+.heading {
+    align-items: end;
+}
+
 </style>
