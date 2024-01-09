@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="nextAppointmentCard">
         <p class="title">Bodri veszettség oltás</p>
         <p class="vet">Dr. Állat Orvos 7623 Város, Utca 6.</p>
         <p class="date">2023. október 7. 14:30</p>
@@ -10,9 +10,9 @@
 
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 
-.card {
+.nextAppointmentCard {
         
         border-radius: 7px;
         background-color: #50B692;
@@ -22,6 +22,7 @@
         padding-left: 25px;
         margin: 10px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
 
 p {
@@ -46,7 +47,7 @@ p {
 
 @media (min-width: 1260px) {
 
-.card {
+.nextAppointmentCard {
         width: 400px;
 }
 .title {

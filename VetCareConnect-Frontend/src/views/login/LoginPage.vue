@@ -1,10 +1,10 @@
 <template>
 
-    <div class="back-to-home">
+    <div class="backToHome">
         <img @click="back()" src="../../assets/icons/arrow_back.svg">
     </div>
 
-    <div class="signin-background">
+    <div class="signInBackground">
         Bejelentkezés
     </div>
 

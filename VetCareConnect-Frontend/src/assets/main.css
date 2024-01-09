@@ -74,3 +74,11 @@ button:active {
   justify-content: center;
   padding: 50px;
 }
+
+.pageTitle {
+  font-size: 1.6rem;
+  color: #368267;
+  font-weight: 700;
+  text-align: left;
+  margin: 40px 0 30px 40px;
+}

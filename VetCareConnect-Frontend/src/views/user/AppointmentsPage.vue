@@ -1,7 +1,7 @@
 <template>
     <Header></Header>
     <div>
-        <p class="nextAppointments">Következő időpontok:</p>
+        <p class="pageTitle">Következő időpontok:</p>
     </div>
     <div class="appointments">
         <Appointment></Appointment>
@@ -58,14 +58,6 @@ mainservices.getOwnerAppointments()
     flex-wrap: wrap;
 
 }
-
-.nextAppointments {
-    color: #50B692;
-    font-weight: 700;
-    margin: 5px 0px 5px 40px;
-    font-size: 18px;
-}
-
 
 .buttonContainer {
     display: flex;
