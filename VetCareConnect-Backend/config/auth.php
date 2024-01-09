@@ -41,6 +41,16 @@ return [
             'provider' => 'users',
         ],
 
+        'vet'  => [
+            'driver'  => 'session',
+            'provider' => 'vets',
+        ],
+
+        'owner'  => [
+            'driver'  => 'session',
+            'provider' => 'owners',
+        ],
+
     ],
 
     /*
@@ -66,10 +76,15 @@ return [
             'model' => App\Models\Owner::class,
         ],
 
-        // 'vets' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\Vet::class,
-        // ],
+        'vets' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Vet::class,
+        ],
+
+        'owners' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Owner::class,
+        ],
     ],
 
     /*

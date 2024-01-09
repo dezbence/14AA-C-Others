@@ -80,13 +80,30 @@ class AuthController extends Controller
 
     public function login(Request $request){
 
+        //https://stackoverflow.com/questions/46292391/authenticate-users-from-more-than-two-tables-in-laravel-5
 
-        // if (Auth::attempt([
+
+            // mukszik
+            //  if (Auth::guard('vet')->attempt([
+            //     'email' => $request->email,
+            //     'password' => $request->password
+            //  ])) {
+            //         // return response("attempt jo");
+            //         $user = Auth::guard('vet')->user();
+            //         $success['token'] = $user->createToken('Secret')->plainTextToken;
+            //         $success['name'] = $user->name;
+            //         $success['id'] = $user->id;
+            //         $success['message'] = "Sikeres bejelentkezés";
+
+            //         return response($success, 200);
+            //     }
+
+
+        // if (Auth::guard('owner')->attempt([
         //     'email' => $request->email,
         //     'password' => $request->password
         // ])) {
-        //     $user = Auth::owner();
-
+        //     $user = Auth::guard('owner')->user();
         //     $success['token'] = $user->createToken('Secret')->plainTextToken;
         //     $success['name'] = $user->name;
         //     $success['id'] = $user->id;
@@ -94,8 +111,39 @@ class AuthController extends Controller
 
         //     return response($success, 200);
         // } else {
-        //     return response('Unauthorized',['error' => 'Sikertelen bejelentkezés!'],401);
+        //     return response('Unauthorized',401);
         // }
-        // return "asd";
+
+
+        if (Auth::guard('owner')->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ])) {
+
+            $user = Auth::guard('owner')->user();
+            $success['token'] = $user->createToken('Secret')->plainTextToken;
+            $success['name'] = $user->name;
+            $success['id'] = $user->id;
+            $success['message'] = "Sikeres bejelentkezés owner";
+
+            return response($success, 200);
+
+        } elseif (Auth::guard('vet')->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ])) {
+
+            $user = Auth::guard('vet')->user();
+            $success['token'] = $user->createToken('Secret')->plainTextToken;
+            $success['name'] = $user->name;
+            $success['id'] = $user->id;
+            $success['message'] = "Sikeres bejelentkezés vet";
+
+            return response($success, 200);
+
+        } else {
+            return response('Unauthorized',401);
+        }
+
     }
 }
