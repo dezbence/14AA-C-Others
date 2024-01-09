@@ -41,7 +41,6 @@ const activeIdx = ref(-1);
 
 function isActiveToggle(index) {
     activeIdx.value = index;
-    console.log(activeIdx.value)
 }
 
 

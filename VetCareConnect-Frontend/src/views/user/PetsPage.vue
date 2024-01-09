@@ -1,10 +1,10 @@
 <template>
     <Header></Header>
-    <PetCreator v-if="isPetCreating" :add-pet-to-list="addPetToList"></PetCreator>
+    <PetCreator v-if="isPetCreating"  @submit="createPetCard"></PetCreator>
     <div>
         <h1 class="pageTitle">Kedvenceim</h1>
         <div class="petsCard">
-            <Pet v-for="pet in petsList" v-if="petsList.length > 0" @delete-pet=deletePet ></Pet>
+            <Pet v-for="pet in petsList" v-if="petsList.length > 0" @delete-pet="deletePet" ></Pet>
             <div class="noPetsYet" v-else>
                 <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
                 <img src="../../assets/icons/arrow_forward_ios.svg">
@@ -15,7 +15,7 @@
 
         </div>
         <h1 class="pageTitle">Korábbi kezelések</h1>
-        <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0"></PastAppointments>
+        <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0" ></PastAppointments>
         <div class="marginBottom">.</div>
     </div>
     <Footer></Footer>
@@ -28,28 +28,25 @@ import Footer from '@/components/page_controls/Footer.vue';
 import Pet from '@/components/pet_components/Pet.vue';
 import PetCreator from '@/components/pet_components/PetCreator.vue';
 import PastAppointments from '@/components/appointment_components/PastAppointments.vue'
-
+import { toRaw } from 'vue';
 
 const isPetCreating = ref(false);
 const petsList = ref([]);
-const appointmentsList = ref([1,1,1,1,1]);
+const counter = ref(0);
+const appointmentsList = ref([1,1]);
 
 function showCreator() {
     isPetCreating.value = true;
 }
 
-function addPetToList() {
-    petsList.value.push({
-        id: Math.floor(Math.random() * 1000000),
-        name: "",
-        species: "",
-        gender: 2,
-        weight: 0.0,
-        born_date: "",
-        comment: ""
-    });
+function createPetCard(pet) {
+    
+    petsList.value.push(pet.value);
     isPetCreating.value = false;
-};
+    console.log(toRaw(petsList.value[counter.value]))
+    counter.value++;
+}
+
 
 function deletePet() {
     // petsList.value = petsList.value.filter((pet) => pet.id !== petId)

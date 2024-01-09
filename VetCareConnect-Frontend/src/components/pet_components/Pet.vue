@@ -8,7 +8,7 @@
             
         </div>
 
-        <h3>{{ }}</h3>
+        <h3>{{ petsList }}</h3>
         <p>{{ }}</p>
         <p>{{ }}</p>
         <p>{{ }} kg</p>
@@ -22,6 +22,8 @@
 <script setup>
 import { ref } from 'vue';
 import PetMenu from './PetMenu.vue';
+
+const props = defineProps(['petsList'])
 
 const isMenuOpen = ref(false);
 function petMenuToggle() {
