@@ -109,20 +109,4 @@ button {
     height: 40px;
     filter: invert(100%);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-.marginBottom {
-    margin-top: 300px;
-}
-
 </style>
