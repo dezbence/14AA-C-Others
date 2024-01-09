@@ -79,19 +79,23 @@ class AuthController extends Controller
 
 
     public function login(Request $request){
-        if (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password
-        ])) {
-            $user = Auth::user();
-            $success['token'] = $user->createToken('Secret')->plainTextToken;
-            $success['name'] = $user->name;
-            $success['id'] = $user->id;
-            $success['message'] = "Sikeres bejelentkezés";
 
-            return response($success, 200);
-        } else {
-            return response('Unauthorized',['error' => 'Sikertelen bejelentkezés!'],401);
-        }
+
+        // if (Auth::attempt([
+        //     'email' => $request->email,
+        //     'password' => $request->password
+        // ])) {
+        //     $user = Auth::owner();
+
+        //     $success['token'] = $user->createToken('Secret')->plainTextToken;
+        //     $success['name'] = $user->name;
+        //     $success['id'] = $user->id;
+        //     $success['message'] = "Sikeres bejelentkezés";
+
+        //     return response($success, 200);
+        // } else {
+        //     return response('Unauthorized',['error' => 'Sikertelen bejelentkezés!'],401);
+        // }
+        // return "asd";
     }
 }

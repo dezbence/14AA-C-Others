@@ -40,6 +40,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
     ],
 
     /*
@@ -62,13 +63,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Vet::class,
+            'model' => App\Models\Owner::class,
         ],
 
-        'users2' => [
-            'driver' => 'eloquent',
-            'table' => App\Models\Owner::class,
-        ],
+        // 'vets' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\Vet::class,
+        // ],
     ],
 
     /*
