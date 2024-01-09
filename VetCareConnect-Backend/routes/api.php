@@ -27,7 +27,6 @@ Route::get('/vetData', [MainController::class, 'getVetData']);
 Route::get('/openings', [MainController::class, 'getOpenings']);
 
 
-Route::post('register',[AuthController::class,'register']);
+Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 
-Route::post('/post-test', [AuthController::class, 'postTest']);

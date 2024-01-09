@@ -15,8 +15,6 @@ class AuthController extends Controller
 
     public function register(Request $request) {
 
-        $emailValidation = ['required|email|unique:App\Models\Owner,email', 'required|email|unique:App\Models\Vet,email'];
-
         $validator = Validator::make($request->all(),
         [
             'name' => 'required',
@@ -82,39 +80,6 @@ class AuthController extends Controller
 
         //https://stackoverflow.com/questions/46292391/authenticate-users-from-more-than-two-tables-in-laravel-5
 
-
-            // mukszik
-            //  if (Auth::guard('vet')->attempt([
-            //     'email' => $request->email,
-            //     'password' => $request->password
-            //  ])) {
-            //         // return response("attempt jo");
-            //         $user = Auth::guard('vet')->user();
-            //         $success['token'] = $user->createToken('Secret')->plainTextToken;
-            //         $success['name'] = $user->name;
-            //         $success['id'] = $user->id;
-            //         $success['message'] = "Sikeres bejelentkezés";
-
-            //         return response($success, 200);
-            //     }
-
-
-        // if (Auth::guard('owner')->attempt([
-        //     'email' => $request->email,
-        //     'password' => $request->password
-        // ])) {
-        //     $user = Auth::guard('owner')->user();
-        //     $success['token'] = $user->createToken('Secret')->plainTextToken;
-        //     $success['name'] = $user->name;
-        //     $success['id'] = $user->id;
-        //     $success['message'] = "Sikeres bejelentkezés";
-
-        //     return response($success, 200);
-        // } else {
-        //     return response('Unauthorized',401);
-        // }
-
-
         if (Auth::guard('owner')->attempt([
             'email' => $request->email,
             'password' => $request->password
@@ -126,7 +91,7 @@ class AuthController extends Controller
             $success['id'] = $user->id;
             $success['message'] = "Sikeres bejelentkezés owner";
 
-            return response($success, 200);
+            return response()->json($success, 200);
 
         } elseif (Auth::guard('vet')->attempt([
             'email' => $request->email,
@@ -142,8 +107,13 @@ class AuthController extends Controller
             return response($success, 200);
 
         } else {
-            return response('Unauthorized',401);
+            return response()->json('Unauthorized',401);
         }
 
+    }
+
+    public function logout(Request $request){
+        auth()->user()->tokens()->delete();
+        return response()->json('Sikeres kijelentkezés!');
     }
 }
