@@ -9,7 +9,7 @@
                         <div class="col">
                             <p class="mb-xl-2 mb-lg-2">Válasszon orvost!</p>
                             <select v-model="choosedVet" name="orvosok" id="orvosok" class="selectClass mt-0">
-                                <option v-for="vet in vets">{{ vet.name }}</option>
+                                <option v-for="vet in vets" selected>{{ vet.name }}</option>
                             </select>
                             <!-- <Dropdown v-model="selectedCity" :options="vets" optionLabel="name" placeholder="Select a City" class="selectClass" /> -->
 
@@ -126,6 +126,7 @@ const vets = ref([
     { name: "Dr. Kokas" },
     { name: "Dr. Bence" },
     { name: "Dr. Kata" },
+    { name: "Dr. Muth MárK József" },
 ]);
 
 function isActiveToggle(index) {
@@ -207,7 +208,6 @@ function hideBook() {
     background-color: #368267;
     padding: 5px 0 5px 10px;
     color: white;
-    fill: white;
 }
 
 .chooseDate {
