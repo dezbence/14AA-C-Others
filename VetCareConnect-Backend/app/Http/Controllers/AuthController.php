@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Models\Owner;
 use App\Models\Vet;
+
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -18,9 +20,9 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),
         [
             'name' => 'required',
-            'email' => $emailValidation[$request['role']],
+            'email' => 'required|email|unique:App\Models\Owner,email|unique:App\Models\Vet,email',
             'address' => 'required',
-            'phone' => 'required', 
+            'phone' => 'required',
             'password' => 'required',
             'confirm_password' => 'required|same:password',
             'role' => 'required|integer'
@@ -68,23 +70,28 @@ class AuthController extends Controller
             $success['token'] = $vet->createToken('Secret')->plainTextToken;
             $success['name'] = $vet->name;
         }
-
-        return response()->json('Sikerült', 200);
+        $data = [
+            "message" => "Success",
+            "token" => $success['token']
+        ];
+        return response()->json($data, 200);
     }
 
 
-    public function postTest(Request $request) {
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
+    public function login(Request $request){
+        if (Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ])) {
+            $user = Auth::user();
+            $success['token'] = $user->createToken('Secret')->plainTextToken;
+            $success['name'] = $user->name;
+            $success['id'] = $user->id;
+            $success['message'] = "Sikeres bejelentkezés";
 
-        if ($input['role'] == 0) {
-            $input['roleZero'] = true;
+            return response($success, 200);
+        } else {
+            return response('Unauthorized',['error' => 'Sikertelen bejelentkezés!'],401);
         }
-
-
-            unset($input['role']);
-
-
-        return response()->json($input, 200);
     }
 }
