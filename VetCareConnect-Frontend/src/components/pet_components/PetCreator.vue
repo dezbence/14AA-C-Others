@@ -8,22 +8,22 @@
             <InputText v-model="pet.name"></InputText>
 
             <label>Fajtája:</label>
-            <Dropdown v-model="pet.spieces" :options="spieces" showClear placeholder="Select a City"
+            <Dropdown v-model="pet.spieces" :options="spieces" showClear placeholder="Kérem válasszon!"
                 class="" />
 
             <label>Neme:</label>
-            <Dropdown v-model="pet.gender" :options="genders" showClear placeholder="Select a City"
+            <Dropdown v-model="pet.gender" :options="genders" showClear placeholder="Kérem válasszon!"
                 class="" />
 
-            <label>Súlya:</label>
+            <label>Súlya (kg):</label>
 
-            <InputMask id="basic" v-model="pet.weight" mask="99-999999" placeholder="0" />
+            <InputMask id="basic" v-model="pet.weight" mask="99.99" placeholder="0" />
             <label>Születési dátuma:</label>
-            <InputMask id="basic" v-model="pet.bornDate" placeholder="éééé.hh.nn" mask="9999.99.99"/>
+            <InputMask id="basic" v-model="pet.born_date" placeholder="éééé.hh.nn" mask="9999.99.99"/>
             <label>Megjegyzés:</label>
             <Textarea v-model="pet.comment" rows="4" cols="40" autoResize />
 
-            <button @click=" handleSubmit()">Létrehozás</button>
+            <button @click="handleSubmit()">Létrehozás</button>
 
         </div>
     </div>
@@ -37,26 +37,24 @@ import Textarea from 'primevue/textarea';
 import { ref } from 'vue';
 
 const props = defineProps(['addPetToList', 'petsList'])
+const emits = defineEmits(['submit'])
 
 const spieces = ['kutya', 'macska', 'hörcsög', 'cápa']
 const genders = ['fiú', 'lány']
 
 const pet = ref({
+    id: Math.floor(Math.random() * 1000000),
     name: "",
     spieces: "",
     gender: 0,
     weight: 0,
-    bornDate: "",
+    born_date: "",
     comment: ""
 })
 
-function addPet() {
-    props.addPetToList();
-
-}
 
 function handleSubmit() {
-    console.log(pet.value)
+    emits('submit', pet)
 }
 </script>
 
@@ -79,7 +77,7 @@ input {
     background-color: #ededed;
     border: 1px solid #c5c5c5;
     outline: none;
-    max-height: 60px;
+    max-height: 50px;
 
 }
 
@@ -99,7 +97,7 @@ button {
     background-color: #ededed;
     border: 1px solid #c5c5c5;
     outline: none;
-    width: 260px;    
+    width: 280px;    
 }
 
 </style>

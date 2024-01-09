@@ -24,6 +24,7 @@ function getUserType(indexOfChosed) {
     else if (indexOfChosed.value == 1) chosedType.value = "vet";
     else return;
     isUserTypeSended.value = false;
+    console.log(indexOfChosed.value)
     console.log(chosedType.value);
 }
 
