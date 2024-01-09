@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Vet extends Model
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
 
     protected $table = "vet";
 
@@ -27,6 +28,8 @@ class Vet extends Model
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public $timestamps = false;
 
     public function cures() {
         return $this->hasMany(Cure::class);
