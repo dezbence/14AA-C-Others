@@ -2,7 +2,7 @@
     <Header></Header>
     <PetCreator v-if="isPetCreating" :add-pet-to-list="addPetToList"></PetCreator>
     <div>
-        <h1>Kedvenceim</h1>
+        <h1 class="pageTitle">Kedvenceim</h1>
         <div class="petsCard">
             <Pet v-for="pet in petsList" v-if="petsList.length > 0" @delete-pet=deletePet ></Pet>
             <div class="noPetsYet" v-else>
@@ -14,7 +14,7 @@
             </button>
 
         </div>
-        <h1>Korábbi kezelések</h1>
+        <h1 class="pageTitle">Korábbi kezelések</h1>
         <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0"></PastAppointments>
         <div class="marginBottom">.</div>
     </div>
@@ -109,20 +109,4 @@ button {
     height: 40px;
     filter: invert(100%);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-.marginBottom {
-    margin-top: 300px;
-}
-
 </style>
