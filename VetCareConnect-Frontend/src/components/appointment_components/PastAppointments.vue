@@ -7,6 +7,7 @@
         <p>Orr plasztika</p>
         <div class="footing">
             <p>Dr. Állat Orvos</p>
+            <p>,</p>
             <p>7246 Duranda, Dögkút u. 5</p>
         </div>
     </div>
@@ -34,10 +35,15 @@ h3 {
 
 .heading, .footing {
     display: flex;
+    
 }
 
 .heading {
-    align-items: end;
+    justify-content: space-between;
+}
+
+.footing {
+    gap: 5px;
 }
 
 </style>

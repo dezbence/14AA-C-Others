@@ -1,7 +1,7 @@
 <template>
     <Header></Header>
+    <h1 class="pageTitle">Időpontfoglalás</h1>
     <div class="container">
-        <h1 class="header">Időpontfoglalás</h1>
         <div v-if="!showBookApprove" class="row d-flex align-items-start mx-auto my-auto">
             <div class="d-flex justify-content-center p-0 mb-3 col-xl-4 col-lg-12">
                 <div class="col p-0">
