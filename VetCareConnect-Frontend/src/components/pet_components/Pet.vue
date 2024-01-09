@@ -23,9 +23,6 @@
 import { ref } from 'vue';
 import PetMenu from './PetMenu.vue';
 
-const props = defineProps(['petsList']);
-
-
 const isMenuOpen = ref(false);
 function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;
@@ -33,9 +30,9 @@ function petMenuToggle() {
 
 </script>
 <style scoped>
-.petCard .cardsBack {
+.cardsBack {
     background-color: #50B692;
-    border-radius: 10px;
+    border-radius: 7px;
     height: 420px;
     width: 270px;
     padding: 20px 30px;
@@ -50,13 +47,13 @@ function petMenuToggle() {
     position: relative;
 }
 
-.petCard .menu {
+.menu {
     position: absolute;
     top: 20px;
     right: 35px;
 }
 
-.petCard .profile {
+.profile {
     border-radius: 100%;
     width: 80px;
     height: 80px;
@@ -64,7 +61,7 @@ function petMenuToggle() {
     margin-bottom: 20px;
 }
 
-.petCard .dotsMenu {
+.dotsMenu {
     position: absolute;
     top: 16px;
     right: 12px;
@@ -72,11 +69,11 @@ function petMenuToggle() {
     filter: invert(100%);
 }
 
-.petCard .dotsMenu:hover {
+.dotsMenu:hover {
     transform: scale(1.1);
 }
 
-.petCard h3 {
+h3 {
     margin: 0 0 10px;
 }
 </style>

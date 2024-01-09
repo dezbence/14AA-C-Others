@@ -2,29 +2,32 @@
     <Header></Header>
     <div class="container">
         <h1 class="header">Időpontfoglalás</h1>
-        <div v-if="!showBookApprove" class="row d-flex align-items-start mx-auto my-auto" >
+        <div v-if="!showBookApprove" class="row d-flex align-items-start mx-auto my-auto">
             <div class="d-flex justify-content-center p-0 mb-3 col-xl-4 col-lg-12">
                 <div class="col p-0">
                     <div class="choosePanel rounded">
                         <div class="col">
                             <p class="mb-xl-2 mb-lg-2">Válasszon orvost!</p>
-                            <select name="orvosok" id="orvosok" class="selectClass mt-0">
-                                <option value="dralltorvos">Dr.Állat Orvos</option>
-                                <option value="drbarni">Dr.Barni</option>
-                                <option value="drbence">Dr.Bence</option>
+                            <select v-model="choosedVet" name="orvosok" id="orvosok" class="selectClass mt-0">
+                                <option v-for="vet in vets">{{ vet.name }}</option>
                             </select>
+                            <!-- <Dropdown v-model="selectedCity" :options="vets" optionLabel="name" placeholder="Select a City" class="selectClass" /> -->
+
                         </div>
 
                         <div class="col">
                             <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
                                 Válassza ki az időpont típusát!
                             </p>
-                            <select name="tipus" id="tipus" class="selectClass mt-0">
+                            <!-- <select name="tipus" id="tipus" class="selectClass mt-0">
                                 <option value="veszettsegelleni">
                                     Veszettség elleni oltás
                                 </option>
                                 <option value="idopont">Időpont</option>
                                 <option value="kontroll">Kontroll</option>
+                            </select> -->
+                            <select v-model="choosedType" name="orvosok" id="orvosok" class="selectClass mt-0">
+                                <option v-for="vet in vets">{{ vet.name }}</option>
                             </select>
                         </div>
 
@@ -32,9 +35,12 @@
                             <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
                                 Válassza ki kiskedvencét!
                             </p>
-                            <select name="allat" id="allat" class="selectClass mt-0">
+                            <!-- <select name="allat" id="allat" class="selectClass mt-0">
                                 <option value="bodri">Bodri</option>
                                 <option value="lali">Lali</option>
+                            </select> -->
+                            <select v-model="choosedPet" name="orvosok" id="orvosok" class="selectClass mt-0">
+                                <option v-for="vet in vets">{{ vet.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -52,14 +58,16 @@
                 </div>
             </div>
 
-            <div class="calendarAndChoosePanel d-flex align-items-center justify-content-center mb-3 mt-0 col-xl-8 col-lg-12">
-                <Calendar class="calendar text-center col-md-12" v-model="date" :min-date='new Date()' />
+            <div
+                class="calendarAndChoosePanel d-flex align-items-center justify-content-center mb-3 mt-0 col-xl-8 col-lg-12">
+                <Calendar class="calendar text-center col-md-12" v-model="choosedDate" :min-date='new Date()' />
                 <div class="chooseDate rounded-end col-md-12">
                     <h5 class="text-center choosedDate">{{ formattedDate }}</h5>
                     <div class="line"></div>
                     <div class="dates">
                         <div v-for="(time, index) in times" :key="index">
-                            <div class="times btnStyle" @click="isActiveToggle(index)" :class="{ active: activeIdx == index }"  >{{ time }}</div>
+                            <div class="times btnStyle" @click="isActiveToggle(index)"
+                                :class="{ active: activeIdx == index }">{{ time }}</div>
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-center">
@@ -81,7 +89,8 @@
             </div>
         </div>
         <div v-else>
-            <AppointmentApprove @remove="hideBook"></AppointmentApprove>
+            <AppointmentApprove @remove="hideBook" :choosed-vet="choosedVet" :choosed-pet="choosedPet"
+                :choosed-type="choosedType" :choosed-date="formattedDate"></AppointmentApprove>
         </div>
     </div>
 
@@ -93,41 +102,46 @@ import Header from "../../components/page_controls/Header.vue";
 import Footer from "../../components/page_controls/Footer.vue";
 import Calendar from "../../components/Calendar.vue";
 import AppointmentApprove from "../../components/AppointmentApprove.vue";
-
-// import Button from "@/components/Button.vue";
-// import Calendar from "@/components/Calendar.vue";
+// import Dropdown from "primevue/dropdown";
 
 import { ref } from "vue";
 import { useDateFormat } from "@vueuse/core";
 
-const date = ref();
-const formattedDate = useDateFormat(date, "YYYY. MMMM DD.");
+const choosedDate = ref();
+const formattedDate = useDateFormat(choosedDate, "YYYY. MMMM DD.");
 
-const times = ["9:30", "10:30", "11:00" , "12:00", "12:00", "12:00", "12:00", "9:30"];
+const times = ["9:30", "10:30", "11:00", "12:00", "12:00", "12:00", "12:00", "9:30"];
 const activeIdx = ref(-1);
 
 const showBookApprove = ref(false);
+
+const choosedVet = ref("");
+const choosedType = ref("");
+const choosedPet = ref("");
+const choosedTime = ref("");
+
+const vets = ref([
+    { name: "Dr. Állat Orvos", address: "2022 Győr, Iskola u. 11."},
+    { name: "Dr. Barni" },
+    { name: "Dr. Kokas" },
+    { name: "Dr. Bence" },
+    { name: "Dr. Kata" },
+]);
 
 function isActiveToggle(index) {
     activeIdx.value = index;
 }
 
-function BookClick(){
+function BookClick() {
     showBookApprove.value = true;
+    console.log(choosedVet);
 }
 
 function hideBook() {
     showBookApprove.value = false;
 }
 
-const selectedDoctor = ref();
-const doctors = ref([
-    { name: "Dr. Állat Orvos", code: "NY" },
-    { name: "Dr. Barni", code: "RM" },
-    { name: "Dr. Kokas", code: "LDN" },
-    { name: "Dr. Bence", code: "IST" },
-    { name: "Dr. Kata", code: "PRS" },
-]);
+
 </script>
 
 <style scoped>
@@ -167,7 +181,7 @@ const doctors = ref([
     padding-top: 25px;
     padding-left: 25px;
     height: 130px;
-    
+
 }
 
 .meanings div {
@@ -193,6 +207,7 @@ const doctors = ref([
     background-color: #368267;
     padding: 5px 0 5px 10px;
     color: white;
+    fill: white;
 }
 
 .chooseDate {
@@ -361,7 +376,7 @@ const doctors = ref([
         display: none;
     }
 
-    
+
 }
 
 @media (max-width: 768px) {
@@ -425,5 +440,4 @@ const doctors = ref([
     .choosedDate {
         font-size: 1.1rem;
     }
-}
-</style>
+}</style>
