@@ -5,7 +5,7 @@
             <div>
                 <h1>Mi az a VetCare Connect?</h1>
                 <p>A VetCare Connect összekapcsolja az állatokat, gazdáikat és állatorvosaikat, valamint segít a gyors és egyszerű kapcsolattartásban.</p>
-                <button>Tudj meg többet!</button>
+                <button><a href="#services">Tudj meg többet!</a></button>
             </div>
             <div><img class="vetImage" src="../assets/images/vet_and_dog.png"></div>
         </div>
@@ -40,7 +40,7 @@
 
     </div>
 
-    <h2 id="twoUser" class="pageTitle">Két féle felhasználói szolgáltatások</h2>
+    <h2 id="services" class="pageTitle">Szolgáltatásaink felhasználóinknak:</h2>
 
     <div class="summaryCards">
         <div class="summaryCard">
@@ -54,7 +54,7 @@
         </div>
 
         <div class="summaryCard">
-            <h4>Gazda elérhető szolgáltatások</h4>
+            <h4>Gazdaként elérhető szolgáltatások</h4>
             <ul>
                 <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
                 <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
@@ -147,8 +147,12 @@ button {
     border: none;
     border-radius: 50px;
     padding: 7px 16px;
-    color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+button a {
+    color: white;
+    text-decoration: none;
     font-size: 0.9rem;
 }
 
@@ -166,7 +170,7 @@ button {
 }
 
 
-#twoUser {
+#services {
     margin: 110px 0 20px;
     text-align: center;
     font-size: 1.8rem;
