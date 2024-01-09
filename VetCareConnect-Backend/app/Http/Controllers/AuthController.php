@@ -99,19 +99,51 @@ class AuthController extends Controller
             //     }
 
 
+        // if (Auth::guard('owner')->attempt([
+        //     'email' => $request->email,
+        //     'password' => $request->password
+        // ])) {
+        //     $user = Auth::guard('owner')->user();
+        //     $success['token'] = $user->createToken('Secret')->plainTextToken;
+        //     $success['name'] = $user->name;
+        //     $success['id'] = $user->id;
+        //     $success['message'] = "Sikeres bejelentkezés";
+
+        //     return response($success, 200);
+        // } else {
+        //     return response('Unauthorized',401);
+        // }
+
+
         if (Auth::guard('owner')->attempt([
             'email' => $request->email,
             'password' => $request->password
         ])) {
+
             $user = Auth::guard('owner')->user();
             $success['token'] = $user->createToken('Secret')->plainTextToken;
             $success['name'] = $user->name;
             $success['id'] = $user->id;
-            $success['message'] = "Sikeres bejelentkezés";
+            $success['message'] = "Sikeres bejelentkezés owner";
 
             return response($success, 200);
+
+        } elseif (Auth::guard('vet')->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ])) {
+
+            $user = Auth::guard('vet')->user();
+            $success['token'] = $user->createToken('Secret')->plainTextToken;
+            $success['name'] = $user->name;
+            $success['id'] = $user->id;
+            $success['message'] = "Sikeres bejelentkezés vet";
+
+            return response($success, 200);
+
         } else {
             return response('Unauthorized',401);
         }
+
     }
 }
