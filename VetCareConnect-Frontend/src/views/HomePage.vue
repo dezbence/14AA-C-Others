@@ -1,61 +1,69 @@
 <template>
     <Header></Header>
-    <div>
-    </div>
-
-    <div class="blueCard">
-
+        <div class="blueCard">
         <div class="greenCard">
             <div>
                 <h1>Mi az a VetCare Connect?</h1>
-                <p>A VetCare Connect összekapcsolja az állatokat, gazdáikat és állatorvosaikat, valamint segít a gyors
-                    és
-                    egyszerű kapcsolattartásban.</p>
+                <p>A VetCare Connect összekapcsolja az állatokat, gazdáikat és állatorvosaikat, valamint segít a gyors és egyszerű kapcsolattartásban.</p>
                 <button>Tudj meg többet!</button>
             </div>
-
             <div><img class="vetImage" src="../assets/images/vet_and_dog.png"></div>
-
         </div>
     </div>
 
     <div class="cards">
-        
-            <div class="advantageCards">
-                <div class="iconCircle">
-                    <img src="../assets/icons/connection.svg">
-                </div>
-                <h1 id="cardTitle">Kapcsolat</h1>
-                <p id="cardText">Segítünk a kapcsolat-tartásban a kedvenceid egészsége érdekében, hogy Ők is boldogak
-                    legyenek!
-                </p>
+        <div class="advantageCards">
+            <div class="iconCircle">
+                <img src="../assets/icons/connection.svg">
             </div>
-        
+            <h1 id="cardTitle">Kapcsolat</h1>
+            <p id="cardText">Segítünk a kapcsolat-tartásban a kedvenceid egészsége érdekében, hogy Ők is boldogak legyenek!</p>
+        </div>
 
-        
-            <div class="advantageCards">
-                <div class="iconCircle">
-                    <img src="../assets/icons/health_metrics.svg">
-                </div>
-                <h1 id="cardTitle">Egészség</h1>
-                <p id="cardText">Fontos számunkra, hogy a felhasználók állandóan támaszkodhassanak a VetCare Connect
-                    szolgáltatásaira. </p>
+        <div class="advantageCards">
+            <div class="iconCircle">
+                <img src="../assets/icons/health_metrics.svg">
             </div>
-       
+            <h1 id="cardTitle">Egészség</h1>
+            <p id="cardText">Fontos számunkra, hogy a felhasználók állandóan támaszkodhassanak a VetCare Connect szolgáltatásaira.</p>
+        </div>
 
-        
-            <div class="advantageCards">
-                <div class="iconCircle">
-                    <img src="../assets/icons/phone.svg">
-                </div>
-                <h1 id="cardTitle">Egyszerűség</h1>
-                <p id="cardText">Igyekszünk minél könnyebben kezelhető felületet készíteni, hogy Mindenki élvezhesse az
-                    állattartást!</p>
+
+
+        <div class="advantageCards">
+            <div class="iconCircle">
+                <img src="../assets/icons/phone.svg">
             </div>
-       
+            <h1 id="cardTitle">Egyszerűség</h1>
+            <p id="cardText">Igyekszünk minél könnyebben kezelhető felületet készíteni, hogy Mindenki élvezhesse az állattartást!</p>
+        </div>
+
     </div>
 
+    <h2 id="twoUser" class="pageTitle">Két féle felhasználói szolgáltatások</h2>
 
+    <div class="summaryCards">
+        <div class="summaryCard">
+            <h4>Orvosként elérhető szolgáltatások</h4>
+            <ul>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+            </ul>
+        </div>
+
+        <div class="summaryCard">
+            <h4>Gazda elérhető szolgáltatások</h4>
+            <ul>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+            </ul>
+        </div>
+
+    </div>
 
     <Footer></Footer>
 </template>
@@ -144,8 +152,6 @@ button {
     font-size: 0.9rem;
 }
 
-
-
 #cardTitle {
     margin-top: 10px;
     text-align: center;
@@ -158,6 +164,38 @@ button {
     color: #50B692;
     margin: 0;
 }
+
+
+#twoUser {
+    margin: 110px 0 20px;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.summaryCards {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;   
+}
+
+.summaryCard {
+    width: 500px;
+    height: max-content;
+    background-color: #50B692;
+    border-radius: 7px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: white;
+    padding: 30px;
+    margin: 40px 80px;
+}
+
+.summaryCard:hover {
+    transform: scale(1.05);
+    transition: 300ms;
+}
+
+
 
 @media (max-width: 1330px) {
     .advantageCards {
