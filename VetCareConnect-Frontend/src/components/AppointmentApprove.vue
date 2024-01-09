@@ -2,10 +2,11 @@
   <div class="approve">
     <div class="show">
       <h2 class="header">Időpont részletei</h2>
-      <p>Orvos neve: {{}}</p>
-      <p>Időpont: {{}}</p>
-      <p>Helyszín: {{}}</p>
-      <p>Kisállat: {{}}</p>
+      <p>Orvos neve: {{ choosedVet }}</p>
+      <p>Időpont: {{ choosedDate }}</p>
+      <p>Időpont típusa: {{ choosedType }}</p>
+      <p>Helyszín: {{ choosedVet.address }}</p>
+      <p>Kisállat: {{ choosedPet}}</p>
       <div class="buttons">
         <button class="btnStyle btnBook" @click="Back()">Vissza</button>
         <button class="btnStyle btnBook" @click="Book()" >Lefoglalom</button>
@@ -25,6 +26,13 @@ import { defineEmits } from "vue";
 // const showSuccess = () => {
 //     toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 });
 // };
+
+defineProps({
+  choosedVet: String,
+  choosedType: String,
+  choosedPet: String,
+  choosedDate: String
+})
 
 const emit = defineEmits(["remove"]);
 
@@ -46,7 +54,7 @@ function Book() {
 .show {
   background-color: #50b692;
   color: white;
-  height: 350px;
+  height: 400px;
   width: 400px;
   padding: 40px;
   padding-left: 50px;
@@ -65,5 +73,12 @@ function Book() {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 576px){
+  .show{
+    width: 300px;
+    height: 450px;
+  }
 }
 </style>
