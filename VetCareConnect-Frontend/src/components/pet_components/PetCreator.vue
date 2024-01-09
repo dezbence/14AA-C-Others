@@ -5,7 +5,7 @@
             <form submit.pervent="handleSubmit"></form>
 
             <label>Kedvence neve:</label>
-            <InputText ></InputText>
+            <InputText></InputText>
 
             <button @click="addPet(), handleSubmit()">Létrehozás</button>
 
