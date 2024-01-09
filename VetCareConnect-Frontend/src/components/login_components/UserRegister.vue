@@ -24,7 +24,7 @@
                         <InputText v-model="userData.lastName" />
                     </div>
                     <label>Tel. szám:</label>
-                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="userData.fon" />
+                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="userData.phone" />
                     <label>E-mail cím:</label>
                     <InputText v-model="userData.email" placeholder="bodri@gmail.com" />
                     <label>Jelszó:</label>
@@ -35,7 +35,7 @@
                     <div v-if="passwordError" class="error">{{ passwordError }}</div>
                     <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
                     <label>Jelszó újra:</label>
-                    <InputText v-model="userData.passwordAgain" type="password" placeholder="Bodri123" />
+                    <InputText v-model="userData.confirm_password" type="password" placeholder="Bodri123" />
                     <div v-if="passwordErrorAgain" class="error">{{ passwordErrorAgain }}</div>
                     <div class="terms">
                         <input type="checkbox" v-model="userData.terms" />
@@ -92,12 +92,23 @@ const numbers = /[0-9]/g;
 const userData = ref({
     firstName: "",
     lastName: "",
-    fon: "",
+    phone: "",
     email: "",
     password: "",
-    passwordAgain: "",
+    confirm_password: "",
     terms: null
 })
+
+const registerData = ref({
+    name: userData.firstName + " " + userData.lastName,
+    phone: userData.phone,
+    email: userData.email,
+    address: "nincs",
+    password: userData.password,
+    confirm_password: userData.confirm_password
+})
+
+
 
 function TogglePopup() {
     buttonTrigger.value = !buttonTrigger.value;
@@ -138,6 +149,15 @@ function handelSubmit() {
     if (!problem.value) {
         console.log('form submitted')
         console.log(userData.value)
+
+        userservice.registerUser(regForm.value)
+            .then(response => {
+            console.log(response);
+        })
+            .catch(err => {
+            console.log(err.data);
+            errorMessages.value = err.data;
+        })
     }
 
 
