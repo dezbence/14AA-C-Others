@@ -24,7 +24,9 @@
                         <InputText v-model="userData.lastName" />
                     </div>
                     <label>Tel. szám:</label>
-                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="userData.phone" />
+                    <InputMask mask="99/999-9999" placeholder="00/000-0000" v-model="userData.phone" />
+                    <label>Irányítószám:</label>
+                    <InputMask mask="9999" placeholder="0000" v-model="userData.address" />
                     <label>E-mail cím:</label>
                     <InputText v-model="userData.email" placeholder="bodri@gmail.com" />
                     <label>Jelszó:</label>
@@ -93,6 +95,7 @@ const userData = ref({
     firstName: "",
     lastName: "",
     phone: "",
+    address: "",
     email: "",
     password: "",
     confirm_password: "",
@@ -100,12 +103,12 @@ const userData = ref({
 })
 
 const registerData = ref({
-    name: userData.firstName + " " + userData.lastName,
-    phone: userData.phone,
-    email: userData.email,
-    address: "nincs",
-    password: userData.password,
-    confirm_password: userData.confirm_password
+    name: userData.value.firstName + " " + userData.value.lastName,
+    phone: userData.value.phone,
+    email: userData.value.email,
+    address: userData.value.address,
+    password: userData.value.password,
+    confirm_password: userData.value.confirm_password
 })
 
 
@@ -281,7 +284,7 @@ label {
     font-weight: bolder;
     letter-spacing: 0;
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 input, .password {
@@ -351,7 +354,7 @@ button:hover {
 
 .submit {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 30px;
 }
 
 .error {
