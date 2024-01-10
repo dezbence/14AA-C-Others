@@ -17,9 +17,9 @@
                     <input type="email" required v-model="loginData.email" placeholder="bodri@gmail.com" />
 
                     <label>Jelszó:</label>
-                    <div class="d-flex justify-content-center align-items-center pass-eye">
-                        <img @click="passwordToggle" class="toggleEye" draggable="false" id="toggleIcon" :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'"/>
-                        <input :type="typeOfInput" id="bejelPass" required v-model="loginData.password" placeholder="Bodri123" />
+                    <div class="pass-eye">
+                        <img @click="passwordToggle" class="toggleEye" draggable="false" :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'"/>
+                        <input :type="typeOfInput" required v-model="loginData.password" placeholder="Bodri123" />
                     </div>
 
                     <div class="forgot-passw">
@@ -104,6 +104,9 @@ function passwordToggle() {
 
 .pass-eye {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #logo {
