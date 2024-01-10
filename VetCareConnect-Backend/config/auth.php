@@ -113,6 +113,18 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'owners' => [
+            'provider' => 'owners',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'vets' => [
+            'provider' => 'vets',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
 
     /*
