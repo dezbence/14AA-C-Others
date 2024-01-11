@@ -77,6 +77,7 @@ import PasswordRequirements from "./PasswordRequirements.vue";
 import InputMask from 'primevue/inputmask';
 import InputText from "primevue/inputtext";
 import router from '@/router';
+import userservice from "@/services/userservice";
 
 function back() {
     router.go(-1)
@@ -102,14 +103,7 @@ const userData = ref({
     terms: null
 })
 
-const registerData = ref({
-    name: userData.value.firstName + " " + userData.value.lastName,
-    phone: userData.value.phone,
-    email: userData.value.email,
-    address: userData.value.address,
-    password: userData.value.password,
-    confirm_password: userData.value.confirm_password
-})
+const registerData = ref()
 
 
 
@@ -139,7 +133,7 @@ function handelSubmit() {
                     passwordError.value = "Nem tartalmaz számot!";
                 } else {
                     passwordError.value = "";
-                    if (userData.value.password === userData.value.passwordAgain) {
+                    if (userData.value.password === userData.value.confirm_password) {
                         passwordErrorAgain.value = "";
                         problem.value = false;
                     }
@@ -151,16 +145,26 @@ function handelSubmit() {
 
     if (!problem.value) {
         console.log('form submitted')
-        console.log(userData.value)
 
-        userservice.registerUser(regForm.value)
+        registerData.value = {
+            name: userData.value.firstName + " " + userData.value.lastName,
+            phone: userData.value.phone.replace('-', '').replace('/', ''),
+            email: userData.value.email,
+            address: userData.value.address,
+            password: userData.value.password,
+            confirm_password: userData.value.confirm_password,
+            role: 0
+        }
+       
+        userservice.registerUser(registerData.value)
             .then(response => {
-            console.log(response);
+            console.log(response.data);
         })
             .catch(err => {
             console.log(err.data);
-            errorMessages.value = err.data;
+            //errorMessages.value = err.data;
         })
+        
     }
 
 

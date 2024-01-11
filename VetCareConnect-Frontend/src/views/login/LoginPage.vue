@@ -56,6 +56,7 @@
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';
+import userservice from '@/services/userservice';
 
 const isVisibilityOn = ref(true);
 const typeOfInput = ref("password")
@@ -68,6 +69,11 @@ const loginData = ref({
     email: "",
     password: ""
 })
+
+userservice.login(loginData.value)
+    .then(resp => {
+        console.log(resp.data)
+    })
 
 function passwordToggle() {
    isVisibilityOn.value = !isVisibilityOn.value;
