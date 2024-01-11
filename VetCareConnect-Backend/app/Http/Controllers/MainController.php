@@ -13,7 +13,7 @@ use App\Models\Vet;
 
 use Illuminate\Support\Facades\DB;
 
-class MainController extends Controller
+class MainController extends BaseController
 {
     public function getOwnerData() {
 
