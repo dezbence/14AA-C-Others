@@ -5,10 +5,11 @@
 
     <div class="signInBackground">
         <div class="main">
-            <div class="from-card-left">
+            <div class="formLeft">
                 <form @submit.prevent="handelSubmit">
                     <h3>Bejelentkezés</h3>
-                    <div class="no-account">
+                    <div class="middle">
+                        <div class="noAccount">
                         <span>Még nincs fiókja?</span>
                         <router-link to="/regisztracio">Új fiók készítése</router-link>
                     </div>
@@ -17,28 +18,31 @@
                     <input type="email" required v-model="loginData.email" placeholder="bodri@gmail.com" />
 
                     <label>Jelszó:</label>
-                    <div class="pass-eye">
-                        <img @click="passwordToggle" class="toggleEye" draggable="false" :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'"/>
+                    <div class="passwordAndEyeIcon">
+                        <img @click="passwordToggle" class="eyeIcon" draggable="false"
+                            :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'" />
                         <input :type="typeOfInput" required v-model="loginData.password" placeholder="Bodri123" />
                     </div>
 
-                    <div class="forgot-passw">
+                    <div class="forgotPassword">
                         <router-link to="/forgot-password">Elfelejtette a jelszavát?</router-link>
                     </div>
 
                     <div class="submit">
                         <button>Bejelentkezés</button>
                     </div>
+                    </div>
+                    
                 </form>
             </div>
             <!-- Jobb oldal -->
-            <div class="form-card-right">
+            <div class="formRight">
                 <ul>
                     <li>
                         <img id="logo" src="../../assets/images/logo.png" draggable="false" alt="" />
                     </li>
                     <li>
-                        <img id="singin-doge" src="../../assets/images/sign_in.png" draggable="false" alt="" />
+                        <img id="singinImage" src="../../assets/images/sign_in.png" draggable="false" alt="" />
                     </li>
                     <li>
                         <p>
@@ -70,10 +74,10 @@ const loginData = ref({
 })
 
 function passwordToggle() {
-   isVisibilityOn.value = !isVisibilityOn.value;
-   
-   if (isVisibilityOn.value) typeOfInput.value = "password";
-   else typeOfInput.value = "text";
+    isVisibilityOn.value = !isVisibilityOn.value;
+
+    if (isVisibilityOn.value) typeOfInput.value = "password";
+    else typeOfInput.value = "text";
 }
 
 </script>
@@ -81,31 +85,28 @@ function passwordToggle() {
 <style scoped>
 .main {
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.from-card-left {
+.formLeft {
     background-color: #fff;
-    border-radius: 10px 0 0 10px;
-    min-height: 50vh;
-    min-width: 20vw;
+    border-radius: 7px 0 0 7px;
+    height: 450px;
+    width: 320px;
+
 }
 
-.toggleEye {
-    max-width: 20px;
-    min-width: 10px;
+.eyeIcon {
+    width: 20px;
     z-index: 50;
     cursor: pointer;
     position: absolute;
-    right: 15px;
+    right: 25px;
     filter: invert(33%) sepia(38%) saturate(621%) hue-rotate(108deg) brightness(93%) contrast(92%);
 }
 
-.pass-eye {
+.passwordAndEyeIcon {
     position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
@@ -113,18 +114,18 @@ function passwordToggle() {
     width: 150px;
 }
 
-.form-card-right {
-    min-height: 50vh;
-    min-width: 18vw;
+.formRight {
+    height: 450px;
+    width: 260px;
     background-color: #246951;
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 7px 7px 0;
     display: flex;
-    padding: 4vh 3vh 4vh 2vh;
+    padding: 40px 20px;
     align-items: center;
     justify-content: center;
 }
 
-.form-card-right ul {
+.formRight ul {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -132,34 +133,33 @@ function passwordToggle() {
     list-style: none;
 }
 
-.form-card-right ul #singin-doge {
+.formRight ul #singinImage {
     transform: scaleX(-1);
-    padding-right: 5vh;
+    padding-right: 40px;
     width: 200px;
 }
 
-.form-card-right ul li {
-    margin-top: 3vh;
+.formRight ul li {
+    margin-top: 44px;
     color: white;
     text-align: center;
     font-size: 1.05rem;
 }
 
-.form-card-right ul li span {
+.formRight ul li span {
     font-weight: bold;
 }
 
 form {
     height: fit-content;
     text-align: left;
-    padding: 2vw 3vw 0 3vw;
-    border-radius: 10px 0 0 10px;
+    padding: 30px 30px 0 30px;
 }
 
 h3 {
     color: #246951;
     margin-top: 0;
-    margin-bottom: 1.5vh;
+    margin-bottom: 15px;
     font-size: 1.6rem;
 }
 
@@ -167,7 +167,7 @@ label {
     color: #246951;
     font-weight: bold;
     display: inline-block;
-    margin-top: 3vh;
+    margin-top: 32px;
 }
 
 input,
@@ -181,7 +181,7 @@ select {
     border-radius: 7px;
     background-color: #ededed;
     border: 1px solid #c5c5c5;
-    max-height: 4.5vh;
+    max-height: 50px;
 }
 
 button {
@@ -196,7 +196,6 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Roboto', sans-serif;
 }
 
 button:hover {
@@ -204,42 +203,41 @@ button:hover {
     transition: 200ms;
 }
 
-.forgot-passw {
+.forgotPassword {
     text-align: right;
     font-size: 0.8rem;
-    margin-top: 0.4vh;
+    margin-top: 4px;
     cursor: pointer;
 }
 
-.forgot-passw a {
+.forgotPassword a {
     text-decoration: none;
     color: #246951;
 }
 
-.no-account {
+.noAccount {
     text-align: left;
-    margin-top: 1vh;
     font-size: 0.9rem;
 }
 
-.no-account span {
+.noAccount span {
     font-weight: bold;
-    margin-right: 1vh;
+    margin-right: 10px;
     color: #246951;
 }
 
-.no-account a {
+.noAccount a {
     text-decoration: none;
     color: #005a70;
 }
 
-.no-account a:hover {
+.noAccount a:hover {
     text-decoration: underline;
 }
 
 .submit {
     text-align: center;
-    margin-top: 6vh;
+    margin-top: 50px;
 }
 
 .error {
@@ -265,23 +263,28 @@ button:hover {
         flex-direction: column-reverse;
     }
 
-    .form-card-right {
+    .formRight {
         height: 180px;
-        width: 60vw;
-        padding: 4vh 5vw;
+        width: 450px;
+        padding: 40px 50px;
         border-radius: 10px 10px 0 0;
         flex-direction: column-reverse;
     }
 
-    .from-card-left {
+    .formLeft {
         border-radius: 0 0 10px 10px;
         height: 360px;
-        width: 60vw;
-        padding: 4vh 5vw;
+        width: 450px;
+        padding: 40px 50px;
+    }
+
+    .middle {
+        display: flex;
+        flex-direction: column;
     }
 
     #logo,
-    ul #singin-doge {
+    ul #singinImage {
         width: 100px;
     }
 }
