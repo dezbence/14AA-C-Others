@@ -33,6 +33,8 @@ Route::get('/cure-types-all', [MainController::class, 'getCureTypes']);
 
 Route::get('/owner-appointments/{id}', [MainController::class, 'getOwnerAppointments']);
 
+Route::get('/free-appointments/{id}/{date}', [MainController::class, 'getFreeAppointments']);
+
 
 
 
