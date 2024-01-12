@@ -92,7 +92,7 @@
             <div v-for="(time, index) in times" :key="index">
               <div
                 class="times btnStyle"
-                @click="isActiveToggle(index)"
+                @click="isActiveToggle(index, time)"
                 :class="{ active: activeIdx == index }"
               >
                 {{ time }}
@@ -127,6 +127,7 @@
         :choosed-pet="choosedPet"
         :choosed-type="choosedType"
         :choosed-date="formattedDate"
+        :choosed-time="choosedTime"
       ></AppointmentApprove>
     </div>
   </div>
@@ -188,8 +189,9 @@ vetservice.getUsersPets(user.value.id).then((resp) => {
   pets.value = resp.data;
 });
 
-function isActiveToggle(index) {
+function isActiveToggle(index, time) {
   activeIdx.value = index;
+  choosedTime.value = time;
 }
 
 function BookClick() {
