@@ -41,12 +41,20 @@ class MainController extends BaseController
         return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
-    public function getOpenings() {
+    public function getOpenings($id) {
 
-        $openings = Vet::with('openings', 'special_openings')
-        ->get();
+        $vets = Vet::with('openings', 'special_openings')
+            ->where('id', '=', $id)
+            ->get();
 
-        return response()->json($openings, 200);
+        foreach ($vets as $vet) {
+            $return = [
+                "openings" => $vet->openings,
+                "special_openings" => $vet->special_openings
+            ];
+        }
+
+        return  $this->sendResponse($return, 'Sikeres művelet!');
     }
 
     public function getPets($id)
@@ -55,15 +63,18 @@ class MainController extends BaseController
         ->where('owner_id', '=', $id)
         ->get();
 
-
-        // unset($pets['name']);
         foreach ($pets as $pet) {
             unset($pet['owner']);
         }
-        
-
 
         return  $this->sendResponse($pets, 'Sikeres művelet!');
+    }
+
+    public function getCureTypes()
+    {
+        $cure_types = Cure_type::all();
+
+        return  $this->sendResponse($cure_types, 'Sikeres művelet!');
     }
 
     public function getOwnerAppointments()
