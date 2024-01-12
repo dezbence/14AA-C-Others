@@ -31,8 +31,7 @@ Route::get('/openings/{id}', [MainController::class, 'getOpenings']);
 
 Route::get('/cure-types-all', [MainController::class, 'getCureTypes']);
 
-Route::get('/owner-appointments', [MainController::class, 'getOwnerAppointmentsORM']);
-Route::get('/ownerAppointmentsSQL', [MainController::class, 'getOwnerAppointmentsSQL']);
+Route::get('/owner-appointments/{id}', [MainController::class, 'getOwnerAppointments']);
 
 
 
