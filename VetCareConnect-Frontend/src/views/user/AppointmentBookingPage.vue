@@ -120,14 +120,11 @@ const choosedType = ref("");
 const choosedPet = ref("");
 const choosedTime = ref("");
 
-const vets = ref([
-    { name: "Dr. Állat Orvos", address: "2022 Győr, Iskola u. 11."},
-    { name: "Dr. Barni" },
-    { name: "Dr. Kokas" },
-    { name: "Dr. Bence" },
-    { name: "Dr. Kata" },
-    { name: "Dr. Muth MárK József" },
-]);
+const vets = ref([]);
+blogservices.getAllVet()
+    .then(resp => {
+        vets.value = resp.data;
+})
 
 function isActiveToggle(index) {
     activeIdx.value = index;
