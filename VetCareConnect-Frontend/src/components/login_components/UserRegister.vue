@@ -158,7 +158,7 @@ function handelSubmit() {
        
         userservice.registerUser(registerData.value)
             .then(response => {
-            console.log(response.data);
+            console.log(response);
         })
             .catch(err => {
             console.log(err.data);

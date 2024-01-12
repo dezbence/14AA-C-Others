@@ -9,7 +9,7 @@
             <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" /> 
             <!-- Bal oldal -->
             <div class="formCardLeft">
-                <form @submit.prevent="handelSubmit">
+                <form @submit.prevent="handleSubmit">
                     <h3>Regisztrálás orvosként</h3>
                     <div class="noAccount">
                         <span>Már van fiókja?</span>
@@ -95,15 +95,18 @@ const lowerCaseLetters = /[a-z]/g;
 const upperCaseLetters = /[A-Z]/g;
 const numbers = /[0-9]/g;
 
-const userData = ref({
+const vetData = ref({
     firstName: "",
     lastName: "",
-    fon: "",
+    phone: "",
+    stamp: 0,
+    address: "",
     email: "",
     password: "",
-    passwordAgain: "",
-    terms: false
+    confirm_password: "",
+    terms: null
 })
+
 
 function TogglePopup() {
     buttonTrigger.value = !buttonTrigger.value;
@@ -114,7 +117,7 @@ function passwordInfoToggle() {
     passwordInfo.value = !passwordInfo.value;
 }
 
-function handelSubmit() {
+function handleSubmit() {
     if (userData.value.password.length < 8) {
         passwordError.value = "Minimum 8 karakter hosszúnak kell lenni!";
     } else {
