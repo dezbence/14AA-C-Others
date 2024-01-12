@@ -83,7 +83,7 @@ class MainController extends BaseController
             ->get();
 
         $return = [];
-        
+
         foreach ($appoinments as $appoinment) {
             if ($appoinment->pet->owner->id == $id) {
                 $return[] = [
@@ -102,5 +102,46 @@ class MainController extends BaseController
          }
 
         return $this->sendResponse($return, 'Sikeres művelet!');
+    }
+
+    public function getFreeAppointments($id, $date)
+    {
+        $test = Vet::with(['special_openings' => function ($query) {
+            $query->where('date', '=', '2024-08-22');
+        }])->get();
+
+
+
+        // $vets = Vet::with('cures', 'special_openings', 'openings')
+        //     ->where('id', '=', $id)
+        //     ->get();
+
+        // $opening_hours = [];
+
+        // $hasSpecialOnDate = false;
+
+        // foreach ($vets as $vet) {
+        //     if ($vet['special_openings']) {
+        //         foreach ($vet['special_openings'] as $special_opening) {
+        //             if ($special_opening->date == $date) {
+        //                 $hasSpecialOnDate == true;
+        //                 array_push($opening_hours, $special_opening->working_hours);
+        //             }
+        //         }
+
+        //     } else {
+        //         foreach ($vet['openings'] as $opening) {
+        //             if ($opening->day == date('l', strtotime($date))) {
+        //                 array_push($opening_hours, $opening);
+
+        //             }
+        //         }
+        //     }
+        // }
+
+
+
+
+        return $this->sendResponse($test, 'Sikeres művelet!');
     }
 }
