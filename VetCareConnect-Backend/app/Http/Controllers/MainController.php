@@ -15,20 +15,30 @@ use Illuminate\Support\Facades\DB;
 
 class MainController extends BaseController
 {
-    public function getOwnerData() {
+    public function getOwnerData($id) {
 
         $ownerData = Owner::select('name', 'email', 'address', 'phone')
-        ->get();
+            ->where('id', '=', $id)
+            ->get();
 
-        return response()->json($ownerData, 200);
+        return  $this->sendResponse($ownerData, 'Sikeres művelet!');
     }
 
-    public function getVetData() {
+    public function getVetData($id) {
 
         $vetData = Vet::select('name', 'email', 'address', 'phone')
-        ->get();
+            ->where('id', '=', $id)
+            ->get();
 
-        return response()->json($vetData, 200);
+        return  $this->sendResponse($vetData, 'Sikeres művelet!');
+    }
+
+    public function getAllVet() {
+
+        $vets = Vet::select('name', 'email', 'address', 'phone')
+            ->get();
+
+        return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
     public function getOpenings() {
@@ -39,20 +49,21 @@ class MainController extends BaseController
         return response()->json($openings, 200);
     }
 
-    public function getPets()
+    public function getPets($id)
     {
         $pets = Pet::with('owner')
-        ->where('owner_id', '=', '1')
+        ->where('owner_id', '=', $id)
         ->get();
 
-        $return = array();
 
+        // unset($pets['name']);
         foreach ($pets as $pet) {
-            array_push($return, $pet['owner']);
+            unset($pet['owner']);
         }
+        
 
 
-        return response()->json($return, 200);
+        return  $this->sendResponse($pets, 'Sikeres művelet!');
     }
 
     public function getOwnerAppointments()
