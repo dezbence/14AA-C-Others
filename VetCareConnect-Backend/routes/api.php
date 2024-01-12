@@ -19,11 +19,17 @@ use App\Http\Controllers\AuthController;
 //     return $request->user();
 // });
 
-Route::get('/pets', [MainController::class, 'getPets']);
-Route::get('/ownerData', [MainController::class, 'getOwnerData']);
+
+Route::get('/vet-all', [MainController::class, 'getAllVet']);
+
+Route::get('/owner-data/{id}', [MainController::class, 'getOwnerData']);
+Route::get('/vet-data/{id}', [MainController::class, 'getVetData']);
+
+Route::get('/pets/{id}', [MainController::class, 'getPets']);
+
 Route::get('/owner-appointments', [MainController::class, 'getOwnerAppointmentsORM']);
 Route::get('/ownerAppointmentsSQL', [MainController::class, 'getOwnerAppointmentsSQL']);
-Route::get('/vetData', [MainController::class, 'getVetData']);
+
 Route::get('/openings', [MainController::class, 'getOpenings']);
 
 

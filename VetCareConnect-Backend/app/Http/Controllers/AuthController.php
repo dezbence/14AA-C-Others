@@ -15,8 +15,7 @@ class AuthController extends BaseController
 
     public function register(Request $request) {
 
-        $validator = Validator::make($request->all(),
-        [
+        $ownerValidatorFields = [
             'name' => 'required',
             'email' => 'required|email|unique:App\Models\Owner,email|unique:App\Models\Vet,email',
             'address' => 'required',
@@ -24,8 +23,14 @@ class AuthController extends BaseController
             'password' => 'required',
             'confirm_password' => 'required|same:password',
             'role' => 'required|integer'
-        ],
-        [
+        ];
+
+        $vetValidatorFields = $ownerValidatorFields;
+        $vetValidatorFields += [
+            'stamp' => 'required'
+        ];
+
+        $validatorMessages = [
             'name.required' => "Kötelező kitölteni!",
 
             'email.required' => "Kötelező kitölteni!",
@@ -43,14 +48,23 @@ class AuthController extends BaseController
 
             'role.required' => "Kötelező kitölteni!",
             'role.integer' => "Csak szám lehet!",
-        ]);
 
+            'stamp.required' => "Kötelező kitölteni!",
+        ];
+
+        if ($request['role'] == 0) {
+            $validator = Validator::make($request->all(), $ownerValidatorFields, $validatorMessages);
+        } else {
+            $validator = Validator::make($request->all(), $vetValidatorFields, $validatorMessages);
+        }
+        
          if ($validator->fails()){
             return $this->sendError('Bad request', $validator->errors(), 400);
          }
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
+        
         if ($input['role'] == 0) {
             unset($input['role']);
             unset($input['confirm_password']);
