@@ -6,7 +6,7 @@
     <div class="signInBackground">
         <div class="main">
             <div class="from-card-left">
-                <form @submit.prevent="handelSubmit">
+                <form @submit.prevent="handleSubmit">
                     <h3>Bejelentkezés</h3>
                     <div class="no-account">
                         <span>Még nincs fiókja?</span>
@@ -56,7 +56,10 @@
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';
-import userservice from '@/services/userservice';
+//import { storeToRefs } from 'pinia';
+import { useUserStore } from '@/store/userstore';
+
+const {login} = useUserStore();
 
 const isVisibilityOn = ref(true);
 const typeOfInput = ref("password")
@@ -70,10 +73,15 @@ const loginData = ref({
     password: ""
 })
 
-userservice.login(loginData.value)
+function handleSubmit(){
+    login(loginData.value)
     .then(resp => {
-        console.log(resp.data)
+        console.log(loginData.value)
+        router.push('/')
     })
+}
+    
+
 
 function passwordToggle() {
    isVisibilityOn.value = !isVisibilityOn.value;

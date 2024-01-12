@@ -16,9 +16,13 @@
       </div>
     </ul>
 
-    <div class="sign">
+    <div class="sign" v-if="!status.loggedIn">
       <button id="bejelentkezes"><router-link to="/bejelentkezes">Bejelentkezés</router-link></button>
       <span id="regisztracio"><router-link to="/regisztracio">Regisztráció</router-link></span>
+    </div>
+    <div v-else>
+      <span class="userName">{{ user.name }}</span>
+      <img class="loggedInProfile" src="../../assets/icons/account_circle.svg">
     </div>
 
       <img class="profile" src="../../assets/icons/account_circle.svg">
@@ -32,6 +36,10 @@
 import { RouterLink } from "vue-router";
 import SideBar from "./SideBar.vue";
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useUserStore } from "@/store/userstore";
+const { status, user} = storeToRefs(useUserStore());
+
 
 const Routes = [
   { name: "Kezdőlap", link: "/" },
