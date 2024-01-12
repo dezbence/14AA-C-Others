@@ -5,13 +5,8 @@
 
     <div class="signInBackground">
         <div class="main">
-<<<<<<< HEAD
-            <div class="formLeft">
-                <form @submit.prevent="handelSubmit">
-=======
             <div class="from-card-left">
                 <form @submit.prevent="handleSubmit">
->>>>>>> c3463d0edacca5a474f63f42d41f8c71d0175484
                     <h3>Bejelentkezés</h3>
                     <div class="middle">
                         <div class="noAccount">
