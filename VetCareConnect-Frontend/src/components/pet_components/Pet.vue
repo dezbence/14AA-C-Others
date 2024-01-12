@@ -21,8 +21,12 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import PetMenu from './PetMenu.vue';
+// import PetMenu from './PetMenu.vue';
+import { defineAsyncComponent } from 'vue'
 
+const PetMenu = defineAsyncComponent(() =>
+  import('./PetMenu.vue')
+)
 const props = defineProps(['petsList'])
 
 const isMenuOpen = ref(false);

@@ -35,11 +35,20 @@
 import { ref } from 'vue';
 import Header from '@/components/page_controls/Header.vue';
 import Footer from '@/components/page_controls/Footer.vue';
-import Pet from '@/components/pet_components/Pet.vue';
-import PetCreator from '@/components/pet_components/PetCreator.vue';
+// import Pet from '@/components/pet_components/Pet.vue';
+// import PetCreator from '@/components/pet_components/PetCreator.vue';
 import PastAppointments from '@/components/appointment_components/PastAppointments.vue';
 import { toRaw } from 'vue';
 import InputText from 'primevue/inputtext';
+import { defineAsyncComponent } from 'vue'
+
+const Pet = defineAsyncComponent(() =>
+  import('@/components/pet_components/Pet.vue')
+)
+
+const PetCreator = defineAsyncComponent(() =>
+  import('@/components/pet_components/PetCreator.vue')
+)
 
 const isPetCreating = ref(false);
 const petsList = ref([]);

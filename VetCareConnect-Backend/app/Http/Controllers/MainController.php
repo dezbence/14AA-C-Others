@@ -13,111 +13,94 @@ use App\Models\Vet;
 
 use Illuminate\Support\Facades\DB;
 
-class MainController extends Controller
+class MainController extends BaseController
 {
-    public function getOwnerData() {
+    public function getOwnerData($id) {
 
         $ownerData = Owner::select('name', 'email', 'address', 'phone')
-        ->get();
+            ->where('id', '=', $id)
+            ->get();
 
-        return response()->json($ownerData, 200);
+        return  $this->sendResponse($ownerData, 'Sikeres művelet!');
     }
 
-    public function getVetData() {
+    public function getVetData($id) {
 
         $vetData = Vet::select('name', 'email', 'address', 'phone')
-        ->get();
+            ->where('id', '=', $id)
+            ->get();
 
-        return response()->json($vetData, 200);
+        return  $this->sendResponse($vetData, 'Sikeres művelet!');
     }
 
-    public function getOpenings() {
+    public function getAllVet() {
 
-        $openings = Vet::with('openings', 'special_openings')
-        ->get();
+        $vets = Vet::select('name', 'email', 'address', 'phone')
+            ->get();
 
-        return response()->json($openings, 200);
+        return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
-    public function getPets()
-    {
-        $pets = Pet::with('owner')
-        ->where('owner_id', '=', '1')
-        ->get();
+    public function getOpenings($id) {
 
-        $return = array();
+        $vets = Vet::with('openings', 'special_openings')
+            ->where('id', '=', $id)
+            ->get();
 
-        foreach ($pets as $pet) {
-            array_push($return, $pet['owner']);
+        foreach ($vets as $vet) {
+            $return = [
+                "openings" => $vet->openings,
+                "special_openings" => $vet->special_openings
+            ];
         }
 
-
-        return response()->json($return, 200);
+        return  $this->sendResponse($return, 'Sikeres művelet!');
     }
 
-    public function getOwnerAppointments()
+    public function getPets($id)
     {
-        //petname, curename, address, date
-        $appointments = Owner::with(['pets' => [
-            'cures' => [
-                'vet'
-                ]
-        ]])
-            ->get();
+        $pets = Pet::with('owner')
+        ->where('owner_id', '=', $id)
+        ->get();
 
-        $appointments2 = Owner::with('pets.cures.vet')
-            ->get();
+        foreach ($pets as $pet) {
+            unset($pet['owner']);
+        }
 
-        $appointments3 = Owner::select('id', 'name')
-            // ->where('name','=','Nagy Lajos')
-            // ->with('pets:name,owner_id.cures')
-            // ->with('pets.cures:id,pet_id,vet_id,cure_type_id')
-            // ->with('pet')
-            ->get();
-
-        $appointments4 = Owner::with('pets.cures.cure_type')
-            ->get();
-
-        $return = array();
-
-
-
-        return response()->json($appointments4, 200);
+        return  $this->sendResponse($pets, 'Sikeres művelet!');
     }
 
-    public function getOwnerAppointmentsSQL()
+    public function getCureTypes()
     {
-        $appoinments = DB::table('Owner')
-            ->join('pet', 'owner.id', '=', 'pet.owner_id')
-            ->join('cure', 'pet.id', '=', 'cure.pet_id')
-            ->join('vet', 'vet.id', '=', 'cure.vet_id')
-            ->join('cure_type', 'cure_type.id', '=', 'cure.cure_type_id')
-            ->select('owner.email', 'pet.name', 'cure.date', 'cure_type.type', 'vet.address')
-            ->get();
+        $cure_types = Cure_type::all();
 
-        return response()->json($appoinments, 200);
+        return  $this->sendResponse($cure_types, 'Sikeres művelet!');
     }
 
-    public function getOwnerAppointmentsORM()
+    public function getOwnerAppointments($id)
     {
         $appoinments = Cure::with('cure_type', 'vet', 'pet.owner')
             ->get();
 
         $return = [];
+        
         foreach ($appoinments as $appoinment) {
-            $return[] = [
-                'ownerId' => $appoinment->pet->owner->id,
-                'petName' => $appoinment->pet->name,
-                'cureType' => $appoinment->cure_type->type,
-                'vetName' => $appoinment->vet->name,
-                'vetAddress' => $appoinment->vet->address,
-                'cureDate' => $appoinment->date
+            if ($appoinment->pet->owner->id == $id) {
+                $return[] = [
+                    'ownerId' => $appoinment->pet->owner->id,
+                    'petName' => $appoinment->pet->name,
+                    'cureType' => $appoinment->cure_type->type,
+                    'vetName' => $appoinment->vet->name,
+                    'vetAddress' => $appoinment->vet->address,
+                    'cureDate' => $appoinment->date
 
-                // 'petName' => $appoinment->pets->species
-                // 'cureDate' => $appoinment->pets->cures->date
-             ];
+                    // 'petName' => $appoinment->pets->species
+                    // 'cureDate' => $appoinment->pets->cures->date
+                 ];
+            }
+
          }
 
-        return response()->json($return, 200);
+        return $this->sendResponse($return, 'Sikeres művelet!');
     }
 }

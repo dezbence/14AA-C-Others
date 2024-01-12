@@ -10,13 +10,12 @@ use App\Models\Vet;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
 
     public function register(Request $request) {
 
-        $validator = Validator::make($request->all(),
-        [
+        $ownerValidatorFields = [
             'name' => 'required',
             'email' => 'required|email|unique:App\Models\Owner,email|unique:App\Models\Vet,email',
             'address' => 'required',
@@ -24,8 +23,14 @@ class AuthController extends Controller
             'password' => 'required',
             'confirm_password' => 'required|same:password',
             'role' => 'required|integer'
-        ],
-        [
+        ];
+
+        $vetValidatorFields = $ownerValidatorFields;
+        $vetValidatorFields += [
+            'stamp' => 'required'
+        ];
+
+        $validatorMessages = [
             'name.required' => "Kötelező kitölteni!",
 
             'email.required' => "Kötelező kitölteni!",
@@ -43,14 +48,23 @@ class AuthController extends Controller
 
             'role.required' => "Kötelező kitölteni!",
             'role.integer' => "Csak szám lehet!",
-        ]);
 
+            'stamp.required' => "Kötelező kitölteni!",
+        ];
+
+        if ($request['role'] == 0) {
+            $validator = Validator::make($request->all(), $ownerValidatorFields, $validatorMessages);
+        } else {
+            $validator = Validator::make($request->all(), $vetValidatorFields, $validatorMessages);
+        }
+        
          if ($validator->fails()){
-            return response()->json($validator->errors(), 400);
+            return $this->sendError('Bad request', $validator->errors(), 400);
          }
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
+        
         if ($input['role'] == 0) {
             unset($input['role']);
             unset($input['confirm_password']);
@@ -68,11 +82,8 @@ class AuthController extends Controller
             $success['token'] = $vet->createToken('Secret')->plainTextToken;
             $success['name'] = $vet->name;
         }
-        $data = [
-            "message" => "Success",
-            "token" => $success['token']
-        ];
-        return response()->json($data, 200);
+
+        return $this->sendResponse($success,'Sikeres regisztráció!');
     }
 
 
@@ -89,9 +100,8 @@ class AuthController extends Controller
             $success['token'] = $user->createToken('Secret')->plainTextToken;
             $success['name'] = $user->name;
             $success['id'] = $user->id;
-            $success['message'] = "Sikeres bejelentkezés owner";
 
-            return response()->json($success, 200);
+            return $this->sendResponse($success,'Sikeres bejelentkezés!');
 
         } elseif (Auth::guard('vet')->attempt([
             'email' => $request->email,
@@ -102,18 +112,18 @@ class AuthController extends Controller
             $success['token'] = $user->createToken('Secret')->plainTextToken;
             $success['name'] = $user->name;
             $success['id'] = $user->id;
-            $success['message'] = "Sikeres bejelentkezés vet";
 
-            return response($success, 200);
+            return $this->sendResponse($success,'Sikeres bejelentkezés!');
 
         } else {
-            return response()->json('Unauthorized',401);
+            return $this->sendError('Unauthorized',['error' => 'Sikertelen bejelentkezés!'],401);
         }
 
     }
 
     public function logout(Request $request){
+
         auth()->user()->tokens()->delete();
-        return response()->json('Sikeres kijelentkezés!');
+        return $this->sendResponse('','Sikeres kijelentkezés!');
     }
 }

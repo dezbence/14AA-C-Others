@@ -1,11 +1,14 @@
 <template>
   <div class="heading">
-    <div class="hamburgerMenu">
-      <img @click="menuToggle()" id="toggleIcon"
-        :src="isMenuOpen ? 'src/assets/icons/close.svg' : 'src/assets/icons/menu.svg'">
-    </div>
+
 
     <ul class="navigation">
+      <li>
+        <div class="hamburgerMenu">
+          <img @click="menuToggle()" id="toggleIcon"
+            :src="isSideBarOpen ? 'src/assets/icons/close.svg' : 'src/assets/icons/menu.svg'">
+        </div>
+      </li>
       <li>
         <router-link to="/">
           <img id="logo" src="../../assets/images/logo.png" />
@@ -16,22 +19,37 @@
       </div>
     </ul>
 
-    <div class="sign">
+    <div class="sign" v-if="!status.loggedIn">
       <button id="bejelentkezes"><router-link to="/bejelentkezes">Bejelentkezés</router-link></button>
       <span id="regisztracio"><router-link to="/regisztracio">Regisztráció</router-link></span>
     </div>
+    <div class="userInfo" v-else>
+      <span class="userName">{{ user.name }}</span>
+      <img class="profileLoggedIn" @click="userMenuToggle()" src="../../assets/icons/account_circle.svg">
+    </div>
 
-      <img class="profile" src="../../assets/icons/account_circle.svg">
-   
+    <img v-if="!status.loggedIn" @click="userMenuToggle()" class="profile" src="../../assets/icons/account_circle.svg">
+
   </div>
-
-  <SideBar v-if="isMenuOpen"></SideBar>
+  <SideBar v-show="isSideBarOpen"></SideBar>
+  <UserMenu v-show="isUserMenuOpen" :userMenuToggle="userMenuToggle"></UserMenu>
 </template>
   
 <script setup>
 import { RouterLink } from "vue-router";
 import SideBar from "./SideBar.vue";
+import UserMenu from "./UserMenu.vue";
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useUserStore } from "@/store/userstore";
+const { status, user } = storeToRefs(useUserStore());
+
+const MenuItems = [
+  { name: "Adataim", link: "/" },
+  { name: "GYIK", link: "/idopontfoglalas" },
+  { name: "Beállítások", link: "/kedvenceim" },
+  { name: "Kijelentkezés", link: "/naptaram" }
+]
 
 const Routes = [
   { name: "Kezdőlap", link: "/" },
@@ -40,23 +58,19 @@ const Routes = [
   { name: "Naptáram", link: "/naptaram" }
 ]
 
-const isMenuOpen = ref(false);
-
+const isSideBarOpen = ref(false);
 function menuToggle() {
-  isMenuOpen.value = !isMenuOpen.value;
+  isSideBarOpen.value = !isSideBarOpen.value;
+}
+
+const isUserMenuOpen = ref(false);
+function userMenuToggle() {
+  isUserMenuOpen.value = !isUserMenuOpen.value;
 }
 
 </script>
 
 <style scoped>
-.menuShow {
-  display: block;
-}
-
-.menuHide {
-  display: none;
-}
-
 .heading {
   background-color: #50b692;
   display: flex;
@@ -71,13 +85,12 @@ function menuToggle() {
 }
 
 .navigation li {
-  padding: 15px;
+  padding: 15px 20px 15px 0;
   align-items: center;
   justify-content: center;
   display: flex;
   display: inline-block;
 }
-
 .navigation {
   display: flex;
   align-items: center;
@@ -99,7 +112,14 @@ function menuToggle() {
   filter: invert(100%);
 }
 
-.hamburgerMenu:hover, .profile:hover {
+.profileLoggedIn {
+  cursor: pointer;
+  filter: invert(100%);
+  width: 30px;
+}
+
+.hamburgerMenu:hover,
+.profile:hover, .profileLoggedIn:hover {
   transform: scale(1.1);
   transition: 200ms;
 }
@@ -142,6 +162,17 @@ function menuToggle() {
   padding: 10px;
 }
 
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userName {
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  margin-right: 15px;
+}
+
 #bejelentkezes {
   background-color: #368267;
   border-radius: 100px;
@@ -169,7 +200,9 @@ function menuToggle() {
     display: none;
   }
 
-  .hamburgerMenu, #toggleIcon, .profile {
+  .hamburgerMenu,
+  #toggleIcon,
+  .profile, .profileLoggedIn {
     display: block;
     height: 30px;
   }
@@ -181,5 +214,12 @@ function menuToggle() {
   .heading {
     padding: 5px 20px;
   }
+
+  @media (max-width: 551px) {
+    .userName {
+      display: none;
+    }
+  }
+
 }</style>
   

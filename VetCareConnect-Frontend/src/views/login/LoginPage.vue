@@ -5,8 +5,13 @@
 
     <div class="signInBackground">
         <div class="main">
+<<<<<<< HEAD
             <div class="formLeft">
                 <form @submit.prevent="handelSubmit">
+=======
+            <div class="from-card-left">
+                <form @submit.prevent="handleSubmit">
+>>>>>>> c3463d0edacca5a474f63f42d41f8c71d0175484
                     <h3>Bejelentkezés</h3>
                     <div class="middle">
                         <div class="noAccount">
@@ -60,6 +65,10 @@
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';
+//import { storeToRefs } from 'pinia';
+import { useUserStore } from '@/store/userstore';
+
+const {login} = useUserStore();
 
 const isVisibilityOn = ref(true);
 const typeOfInput = ref("password")
@@ -72,6 +81,16 @@ const loginData = ref({
     email: "",
     password: ""
 })
+
+function handleSubmit(){
+    login(loginData.value)
+    .then(resp => {
+        console.log(loginData.value)
+        router.push('/')
+    })
+}
+    
+
 
 function passwordToggle() {
     isVisibilityOn.value = !isVisibilityOn.value;

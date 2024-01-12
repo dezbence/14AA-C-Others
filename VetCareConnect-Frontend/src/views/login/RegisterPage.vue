@@ -13,8 +13,18 @@
 import router from "@/router";
 import { ref } from "vue";
 import VetOrUser from "../../components/login_components/VetOrUser.vue";
-import VetRegister from "../../components/login_components/VetRegister.vue";
-import UserRegiser from "../../components/login_components/UserRegister.vue";
+// import VetRegister from "../../components/login_components/VetRegister.vue";
+// import UserRegiser from "../../components/login_components/UserRegister.vue";
+import { defineAsyncComponent } from 'vue'
+
+const VetRegister = defineAsyncComponent(() =>
+  import('../../components/login_components/VetRegister.vue')
+)
+
+const UserRegiser = defineAsyncComponent(() =>
+  import('../../components/login_components/UserRegister.vue')
+)
+
 
 const isUserTypeSended = ref(true);
 const chosedType = ref("");
