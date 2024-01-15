@@ -22,8 +22,8 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/vet-all', [MainController::class, 'getAllVet']);
 
-Route::get('/owner-data/{id}', [MainController::class, 'getOwnerData']);
-Route::get('/vet-data/{id}', [MainController::class, 'getVetData']);
+
+
 
 Route::get('/pets/{id}', [MainController::class, 'getPets']);
 
@@ -44,6 +44,10 @@ Route::post('/new-pet',[MainController::class,'addNewPet']);
 //Route::post('/logout',[AuthController::class,'logout']);
 
 Route::middleware('auth:sanctum')->group(function(){
-    Route::post('logout',[AuthController::class,'logout']);
+    Route::post('/logout',[AuthController::class,'logout']);
+
+    Route::get('/owner-data/{id}', [MainController::class, 'getOwnerData']);
+
+    Route::get('/vet-data/{id}', [MainController::class, 'getVetData']);
 
 });

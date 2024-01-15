@@ -17,7 +17,7 @@ class MainController extends BaseController
 {
     public function getOwnerData($id) {
 
-        $ownerData = Owner::select('name', 'email', 'address', 'phone')
+        $ownerData = Owner::select('name', 'email', 'postal_code', 'phone')
             ->where('id', '=', $id)
             ->get();
 
@@ -116,7 +116,9 @@ class MainController extends BaseController
 
         $vets = Vet::with(['special_openings' => function ($query) use($date) {
             $query->where('date', '=', $date);
-        }, 'openings'])->get();
+        }, 'openings'])
+            ->where('id', '=', $id)
+            ->get();
 
 
 
