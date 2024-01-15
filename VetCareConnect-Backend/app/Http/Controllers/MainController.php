@@ -88,23 +88,21 @@ class MainController extends BaseController
 
     public function getOwnerAppointments($id)
     {
-        $appoinments = Cure::with('cure_type', 'vet', 'pet.owner')
+        $appointments = Cure::with('cure_type', 'vet', 'pet.owner')
             ->get();
 
         $return = [];
 
-        foreach ($appoinments as $appoinment) {
-            if ($appoinment->pet->owner->id == $id) {
+        foreach ($appointments as $appointment) {
+            if ($appointment->pet->owner->id == $id) {
                 $return[] = [
-                    'ownerId' => $appoinment->pet->owner->id,
-                    'petName' => $appoinment->pet->name,
-                    'cureType' => $appoinment->cure_type->type,
-                    'vetName' => $appoinment->vet->name,
-                    'vetAddress' => $appoinment->vet->address,
-                    'cureDate' => $appoinment->date
+                    'ownerId' => $appointment->pet->owner->id,
+                    'petName' => $appointment->pet->name,
+                    'cureType' => $appointment->cure_type->type,
+                    'vetName' => $appointment->vet->name,
+                    'vetAddress' => $appointment->vet->address,
+                    'cureDate' => $appointment->date
 
-                    // 'petName' => $appoinment->pets->species
-                    // 'cureDate' => $appoinment->pets->cures->date
                  ];
             }
 
@@ -127,8 +125,8 @@ class MainController extends BaseController
             ->where('id', '=', $id)
             ->get();
 
-        $opening_hours = [];
 
+        $opening_hours = [];
 
         if (count($vets[0]['special_openings']) == 0) {
             foreach ($vets[0]['openings'] as $opening) {
@@ -143,11 +141,30 @@ class MainController extends BaseController
 
         $appointments = [];
 
-        foreach ($opening_hours as $intervallum) {
-            
+        foreach ($opening_hours as $interval) {
+
+            $appointment = strtotime(explode('-', $interval)[0], 0);
+            $closeTime = strtotime(explode('-', $interval)[1], 0);
+
+            while($appointment < $closeTime) {
+                array_push($appointments, date('H:i', $appointment));
+                $appointment += strtotime('00:15', 0);
+            }
+
+        }
+        
+
+        $cures = Cure::where('vet_id', '=', $id)
+            ->where('date', 'like', $date.'%')
+            ->get();
+
+        foreach($cures as $cure) {
+
+            $appointments = array_diff($appointments, [date('H:i', strtotime($cure->date))]);
+
         }
 
-        return $this->sendResponse($opening_hours, 'Sikeres művelet!');
+        return $this->sendResponse($appointments, 'Sikeres művelet!');
     }
 
     private function getDayName($day) {
