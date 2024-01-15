@@ -2,10 +2,10 @@
   <div class="approve">
     <div class="show">
       <h2 class="header">Időpont részletei</h2>
-      <p>Orvos neve: {{ choosedVet }}</p>
+      <p>Orvos neve: {{ choosedVet.name }}</p>
       <p>Időpont: {{ choosedDate }} {{ choosedTime }}</p>
       <p>Időpont típusa: {{ choosedType }}</p>
-      <p>Helyszín: {{ vetAddress }}</p>
+      <p>Helyszín: {{ choosedVet.address }}</p>
       <p>Kisállat: {{ choosedPet}}</p>
       <div class="buttons">
         <button class="btnStyle btnBook" @click="Back()">Vissza</button>
