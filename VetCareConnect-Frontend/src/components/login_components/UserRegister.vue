@@ -72,12 +72,15 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import {useToast} from 'vue-toastification'
 import TermsOfUse from "./TermsOfUse.vue";
 import PasswordRequirements from "./PasswordRequirements.vue";
 import InputMask from 'primevue/inputmask';
 import InputText from "primevue/inputtext";
 import router from '@/router';
 import userservice from "@/services/userservice";
+
+const toast = useToast();
 
 function back() {
     router.go(-1)
