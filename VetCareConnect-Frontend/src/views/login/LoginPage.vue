@@ -184,19 +184,7 @@ label {
     margin-top: 32px;
 }
 
-input,
-select {
-    display: block;
-    box-sizing: border-box;
-    width: 200;
-    border: none;
-    padding: 5px 40px 5px 10px;
-    color: #000;
-    border-radius: 7px;
-    background-color: #ededed;
-    border: 1px solid #c5c5c5;
-    max-height: 50px;
-}
+
 
 button {
     background: #246951;
