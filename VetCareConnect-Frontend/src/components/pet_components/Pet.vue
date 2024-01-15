@@ -24,12 +24,13 @@ import { ref } from 'vue';
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 import ownerservice from '../../services/ownerservice.js'
+import { onMounted } from 'vue';
 
 const { user } = storeToRefs(useUserStore());
 // import PetMenu from './PetMenu.vue';
 import { defineAsyncComponent } from 'vue'
 
-const petsData = ref();
+const petsData = ref(null);
 
 const PetMenu = defineAsyncComponent(() =>
   import('./PetMenu.vue')
@@ -41,13 +42,19 @@ function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;
 }
 
-ownerservice.getOwnersPets(user.value.id)
+console.log(user.value.id)
+
+
+function getPets() {
+    ownerservice.getOwnersPets(user.value.id)
     .then((resp) => {
-    resp = petsData.value;
-    console.log(petsData.value)
+    // petsData.value = resp;
+    // console.log(petsData.value)
     console.log(resp)
 });
+}
 
+getPets();
 </script>
 <style scoped>
 .cardsBack {

@@ -11,7 +11,7 @@ export default {
             })
     },
     getOwnersPets(id) {
-        return Axios.get('/pets/' + id)
+        return Axios.get(`/pets/${id}`)
             .then(resp => {
                 return resp.data;
             })

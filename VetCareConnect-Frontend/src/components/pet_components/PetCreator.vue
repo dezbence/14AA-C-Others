@@ -15,19 +15,20 @@
                     <label>Chip szám:</label>
                     <InputMask v-model="pet.chip_number" mask="999999999999999"></InputMask>
                 </div>
-                
+
                 <div class="pedigreeNum">
                     <label>Törzskönyv száma:</label>
-                <InputMask v-model="pet.pedigree_number" mask="99999999"></InputMask>
+                    <InputMask v-model="pet.pedigree_number" mask="99999999"></InputMask>
                 </div>
-                
+
             </div>
 
             <label>Fajtajelleg:</label>
-            <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!" class="petDropdown" />
+            <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!"
+                class="petDropdown" />
 
             <label>Ivar:</label>
-            <Dropdown v-model="pet.gender" :options="genders" showClear placeholder="Kérem válasszon!" class="petDropdown" />
+            <Dropdown v-model="gender" :options="genders" showClear placeholder="Kérem válasszon!" class="petDropdown" />
 
             <label>Súlya (kg):</label>
 
@@ -62,6 +63,13 @@ const emits = defineEmits(['submit'])
 const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
 const genders = ['hím', 'nőstény']
 
+const gender = ref();
+
+function petGenderFormat(gender1) {
+    if (gender1 == 'nőstény') return 0;
+    else return 1;
+}
+
 const pet = ref({
     name: "",
     chip_number: 0,
@@ -75,11 +83,14 @@ const pet = ref({
 })
 
 
+
+
 function handleSubmit() {
     emits('submit', pet)
     ownerservice.postNewPet(pet.value).then((resp) => {
-    console.log(resp.data);
-});
+        console.log(resp.data);
+    });
+    pet.value.gender = petGenderFormat(gender.value);
 }
 
 
@@ -123,23 +134,29 @@ button {
 label {
     margin-top: 12px;
 }
+
 .officalNumbers {
     display: flex;
     gap: 10px;
     align-items: center;
 
 }
-.chipNum, .pedigreeNum {
+
+.chipNum,
+.pedigreeNum {
     display: flex;
     flex-direction: column;
 }
+
 .pedigreeNum {
     align-items: end;
 }
 
-.chipNum label, .pedigreeNum label{
-   font-size: 0.9rem;
+.chipNum label,
+.pedigreeNum label {
+    font-size: 0.9rem;
 }
+
 .pedigreeNum input {
     width: 110px;
     padding: 5px;
@@ -174,5 +191,4 @@ h4 {
     border: 1px solid #c5c5c5;
     outline: none;
     width: 300px;
-}
-</style>
+}</style>

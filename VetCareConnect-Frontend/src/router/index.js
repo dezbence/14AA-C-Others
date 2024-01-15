@@ -9,12 +9,12 @@ import HomePageVue from '@/views/HomePage.vue'
 import NotFoundPageVue from '@/views/NotFoundPage.vue'
 import { useUserStore } from '../store/userstore.js'
 import { storeToRefs } from 'pinia'
-import {useToast} from 'vue-toastification'
+import { useToast } from 'vue-toastification'
 const toast = useToast();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes:  [
+  routes: [
     { path: '/', name: 'home', component: HomePageVue },
     { path: '/idopontfoglalas', name: 'appointmentBooking', component: () => import('@/views/user/AppointmentBookingPage.vue') },
     { path: '/kedvenceim', name: 'pets', component: () => import('@/views/user/PetsPage.vue') },
@@ -28,11 +28,11 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to,from,next) =>{
-  const {status} = storeToRefs(useUserStore());
-  const publicPages = ['/','/bejelentkezes','/regisztracio', '/allatorvosok'];
+router.beforeEach((to, from, next) => {
+  const { status } = storeToRefs(useUserStore());
+  const publicPages = ['/', '/bejelentkezes', '/regisztracio', '/allatorvosok'];
   const autRequired = !publicPages.includes(to.path);
-  if (autRequired && !status.value.loggedIn){
+  if (autRequired && !status.value.loggedIn) {
     return toast.error("Bejelentkezés szükséges!", {
       position: "top-center",
       timeout: 3000,

@@ -1,11 +1,11 @@
 <template>
     <div class="listbox" @mouseleave="userMenuToggle()">
         <div class="list" v-for="menu in MenuItems">
-            <routerLink :to="menu.link">{{ menu.name }}</routerLink>
+            <routerLink class="menuImg" :to="menu.link"><img :src="menu.img">{{ menu.name }}</routerLink>
         </div>
         <hr>
         <div class="list">
-            <li @click="onLogout()">Kijelentkezés</li>
+            <li class="logOut" @click="onLogout()"><img src="../../assets/icons/logout.svg"><p>Kijelentkezés</p></li>
         </div>
     </div>
 </template>
@@ -15,9 +15,9 @@ import { useUserStore } from '../../store/userstore.js';
 const { logout } = useUserStore();
 
 const MenuItems = [
-    { name: "Adataim", link: "/" },
-    { name: "GYIK", link: "/idopontfoglalas" },
-    { name: "Beállítások", link: "/kedvenceim" }
+    { name: "Adataim", link: "/", img: "src/assets/icons/profile-line.svg" },
+    { name: "GYIK", link: "/idopontfoglalas", img: "src/assets/icons/question-mark.svg" },
+    { name: "Beállítások", link: "/kedvenceim", img: "src/assets/icons/settings.svg" }
 ]
 
 const props = defineProps(['userMenuToggle'])
@@ -62,4 +62,32 @@ function onLogout(){
 .listbox .list:hover {
     background-color: #368267;
 }
+
+.logOut {
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.logOut img {
+    width: 20px;
+    margin-right: 10px;
+}
+.logOut p {
+    margin: 0;
+}
+
+.menuImg {
+    display: flex;
+    align-items: center;
+}
+
+.menuImg img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+hr {
+    color: #368267;
+border: #368267 2px solid;}
 </style>
