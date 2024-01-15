@@ -46,4 +46,10 @@ h3 {
     gap: 5px;
 }
 
+@media (max-width: 600px) {
+    .cardsBack {
+        font-size: 0.8rem;
+    }
+}
+
 </style>
