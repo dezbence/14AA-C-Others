@@ -99,6 +99,7 @@ h1 {
     height: max-content;
     width: max-content;
     margin-left: 40px;
+    margin-right: 20px;
     cursor: pointer;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -108,7 +109,7 @@ button {
 }
 
 .noPetsYet {
-    margin: 30px 0 30px 50px;
+    margin: 30px 20px 30px 40px;
     padding: 15px 25px;
     width: 500px;
     background-color: #af3b3b;
@@ -151,4 +152,22 @@ input {
     margin-left: 20px;
     margin-top: 10px;
 }
+
+
+@media (max-width: 552px) {
+    .filter {
+        flex-direction: column;
+        align-items: start;margin-bottom: 20px;
+    }
+
+    .pageTitle {
+        margin-bottom: 10px;
+    }
+    .iconInInput {
+        margin: 0 0 20px 40px;
+    }
+
+    
+
+} 
 </style>

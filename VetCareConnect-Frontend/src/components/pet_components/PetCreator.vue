@@ -24,16 +24,16 @@
             </div>
 
             <label>Fajtajelleg:</label>
-            <Dropdown v-model="pet.spieces" :options="spieces" showClear placeholder="Kérem válasszon!" class="petDropdown" />
+            <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!" class="petDropdown" />
 
             <label>Ivar:</label>
             <Dropdown v-model="pet.gender" :options="genders" showClear placeholder="Kérem válasszon!" class="petDropdown" />
 
             <label>Súlya (kg):</label>
 
-            <InputMask id="basic" v-model="pet.weight" mask="99.99" placeholder="0" />
+            <InputMask v-model="pet.weight" mask="99.99" placeholder="0" />
             <label>Születési dátuma:</label>
-            <InputMask id="basic" v-model="pet.born_date" placeholder="éééé.hh.nn" mask="9999.99.99" />
+            <InputMask v-model="pet.born_date" placeholder="éééé.hh.nn" mask="9999.99.99" />
             <label>Megjegyzés:</label>
             <Textarea placeholder="Allergiák, különlegességek, stb." v-model="pet.comment" rows="4" cols="40" autoResize />
 
@@ -48,28 +48,42 @@ import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
 import InputMask from 'primevue/inputmask';
 import Textarea from 'primevue/textarea';
+import { useUserStore } from '@/store/userstore';
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import ownerservice from '../../services/ownerservice.js'
+
+
+const { user } = storeToRefs(useUserStore());
 
 const props = defineProps(['showCreator'])
 const emits = defineEmits(['submit'])
 
-const spieces = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
+const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
 const genders = ['fiú', 'lány']
 
 const pet = ref({
     name: "",
     chip_number: 0,
-    spieces: "",
+    pedigree_number: 0,
+    species: "",
     gender: 0,
     weight: 0,
     born_date: "",
-    comment: ""
+    comment: "",
+    ownerId: user.value.id
 })
 
 
 function handleSubmit() {
     emits('submit', pet)
+    ownerservice.postNewPet(pet.value).then((resp) => {
+    console.log(resp.data);
+});
 }
+
+
+
 </script>
 
 <style scoped>
