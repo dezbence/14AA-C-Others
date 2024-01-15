@@ -18,7 +18,7 @@
                 
                 <div class="pedigreeNum">
                     <label>Törzskönyv száma:</label>
-                <InputMask mask="99999999"></InputMask>
+                <InputMask v-model="pet.pedigree_number" mask="99999999"></InputMask>
                 </div>
                 
             </div>
