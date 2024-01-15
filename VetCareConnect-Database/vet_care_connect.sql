@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Jan 09. 08:30
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Létrehozás ideje: 2024. Jan 15. 09:35
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -162,7 +162,7 @@ CREATE TABLE `owner` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
+  `postal_code` varchar(255) NOT NULL,
   `phone` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
@@ -170,11 +170,13 @@ CREATE TABLE `owner` (
 -- A tábla adatainak kiíratása `owner`
 --
 
-INSERT INTO `owner` (`id`, `name`, `email`, `password`, `address`, `phone`) VALUES
+INSERT INTO `owner` (`id`, `name`, `email`, `password`, `postal_code`, `phone`) VALUES
 (1, 'Dezamics Bence', 'bence@gmail.com', 'a', '9023 Győr, Puskás Tivadar u. 14.', '+36702365498'),
 (2, 'Nagy Lajos', 'lacii@gmail.com', 'a', '9330 Kapuvár, Lehel u. 38.', '+36205639851'),
 (3, 'Har Mónika', 'har.moni@gmail.com', 'a', '2900 Komárom, Arany János u. 32.', '+36202569843'),
-(4, 'Joó Lél', 'joolel@gmail.com', 'a', '6700 Szeged, Mártírok útja 56.', '+36305684563');
+(4, 'Joó Lél', 'joolel@gmail.com', 'a', '6700 Szeged, Mártírok útja 56.', '+36305684563'),
+(5, 'teszt9', 'teszt9@gmail.com', '$2y$12$0WmEltdCrAbgOlmL9acGaOdhfEe.8dl1byURLQuNkjouENlGk6BBm', 'asd', 'asd'),
+(6, 'Tv', 'tv@gmail.com', '$2y$12$B4syK/5sBLL587Yb.jxQPuGQ4ZTe5BqJGWiRJy0vc58rR5i2R8xvK', '1221a', 'a');
 
 -- --------------------------------------------------------
 
@@ -212,7 +214,22 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-(1, 'App\\Models\\Vet', 7, 'Secret', 'e73742206054b75c45a8df5985dfebcac0b1eea50f667c1156b28ad9bc36ff52', '[\"*\"]', NULL, NULL, '2024-01-09 06:27:36', '2024-01-09 06:27:36');
+(1, 'App\\Models\\Vet', 7, 'Secret', 'e73742206054b75c45a8df5985dfebcac0b1eea50f667c1156b28ad9bc36ff52', '[\"*\"]', NULL, NULL, '2024-01-09 06:27:36', '2024-01-09 06:27:36'),
+(2, 'App\\Models\\Owner', 5, 'Secret', 'f7e94b1fe27d768751241b378e05f349524fad7da5af1a2094ad13eea9ce43eb', '[\"*\"]', NULL, NULL, '2024-01-09 10:19:30', '2024-01-09 10:19:30'),
+(3, 'App\\Models\\Vet', 8, 'Secret', '0cc9e09b15dd6f96905480ddc680967bd69fbc5784358a30698ebcdc2b97b357', '[\"*\"]', NULL, NULL, '2024-01-09 10:19:49', '2024-01-09 10:19:49'),
+(4, 'App\\Models\\Owner', 5, 'Secret', '81ad11833085deea1e1e7b401866658d8e1dcb0dea7f361e4bc1d5b77d249d5b', '[\"*\"]', NULL, NULL, '2024-01-09 10:20:40', '2024-01-09 10:20:40'),
+(5, 'App\\Models\\Vet', 8, 'Secret', 'd6acf71735f5ce82ae74581f37f531012d30fd3df1cce9db1746a0b493fcedc8', '[\"*\"]', NULL, NULL, '2024-01-09 10:57:50', '2024-01-09 10:57:50'),
+(6, 'App\\Models\\Vet', 8, 'Secret', '07aa84d2ee6fbb62f4d65e38e3afc99d955e53796c637ef5290b7a5fe07101c2', '[\"*\"]', NULL, NULL, '2024-01-09 10:58:16', '2024-01-09 10:58:16'),
+(7, 'App\\Models\\Owner', 5, 'Secret', '1dd3a299f4c36cc841ae48697d0cb0aa5dc6e4b69fcc8baeb793834874d5c8eb', '[\"*\"]', NULL, NULL, '2024-01-09 11:00:25', '2024-01-09 11:00:25'),
+(8, 'App\\Models\\Owner', 5, 'Secret', 'cab10a0fd774be4d76f02af5263554d4fb51e67745ccc59e57e5b6e2d529c217', '[\"*\"]', NULL, NULL, '2024-01-09 11:01:26', '2024-01-09 11:01:26'),
+(9, 'App\\Models\\Owner', 5, 'Secret', '2fa2c941fca468d9f0e78ab235a7754bfdfbd4e1736ddf80337c67619572fea1', '[\"*\"]', NULL, NULL, '2024-01-09 11:02:29', '2024-01-09 11:02:29'),
+(10, 'App\\Models\\Owner', 5, 'Secret', '7189e3c3154cc04b4140edd83fe05a9045b3a0f08b415e0b808410210659a9df', '[\"*\"]', NULL, NULL, '2024-01-09 11:02:40', '2024-01-09 11:02:40'),
+(11, 'App\\Models\\Owner', 5, 'Secret', 'df26fd70df04dbf036c54356b9607116c071c311ac811282b105f2a1c0cf9807', '[\"*\"]', NULL, NULL, '2024-01-09 11:03:00', '2024-01-09 11:03:00'),
+(12, 'App\\Models\\Owner', 5, 'Secret', '24d2c9c2d482a6d027fc1c8e302fa07ba224a66ccb38c7b337d75f08b5d70a28', '[\"*\"]', NULL, NULL, '2024-01-09 11:05:03', '2024-01-09 11:05:03'),
+(13, 'App\\Models\\Owner', 5, 'Secret', 'ec44fffe74699d7bfd0598434b1b5d569af383392aa0f7da236229b84602e54b', '[\"*\"]', NULL, NULL, '2024-01-09 11:06:56', '2024-01-09 11:06:56'),
+(14, 'App\\Models\\Owner', 5, 'Secret', '12fc49cb297e592cf6eb0cc69b887683a18beed16dbf3c377642c587f78c9d42', '[\"*\"]', NULL, NULL, '2024-01-09 11:10:44', '2024-01-09 11:10:44'),
+(15, 'App\\Models\\Vet', 8, 'Secret', '1376900ba90b7ecab434dabb71c0dd568f1c910b2f9299e3d9fc920f96bbf396', '[\"*\"]', NULL, NULL, '2024-01-09 11:10:50', '2024-01-09 11:10:50'),
+(17, 'App\\Models\\Vet', 9, 'Secret', 'ef59df0aed20bf0d08cc42b125f2f6e5f464985507e7af0dd64aaf74a79cea93', '[\"*\"]', NULL, NULL, '2024-01-15 07:20:40', '2024-01-15 07:20:40');
 
 -- --------------------------------------------------------
 
@@ -227,22 +244,25 @@ CREATE TABLE `pet` (
   `gender` int(1) NOT NULL,
   `weight` double NOT NULL,
   `born_date` date NOT NULL,
-  `comment` varchar(500) NOT NULL,
+  `comment` varchar(500) DEFAULT NULL,
   `owner_id` int(11) DEFAULT NULL,
-  `register_url` varchar(255) DEFAULT NULL
+  `chip_number` int(5) DEFAULT NULL,
+  `pedigree_number` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `pet`
 --
 
-INSERT INTO `pet` (`id`, `name`, `species`, `gender`, `weight`, `born_date`, `comment`, `owner_id`, `register_url`) VALUES
-(1, 'Gránát', 'kutya', 1, 50.4, '2020-04-04', '', 1, ''),
-(2, 'Süti', 'kutya', 1, 8, '2017-12-14', 'allergiás a kutyaszőrre', 4, ''),
-(3, 'Dana', 'kutya', 0, 32.6, '2022-01-28', '', 4, ''),
-(4, 'Jessie', 'kutya', 0, 10, '2016-07-11', '', 3, ''),
-(5, 'Monti', 'macska', 0, 5.3, '2022-12-31', '', 2, ''),
-(6, 'Lali', 'hörcsög', 1, 0.5, '2023-06-05', '', 2, '');
+INSERT INTO `pet` (`id`, `name`, `species`, `gender`, `weight`, `born_date`, `comment`, `owner_id`, `chip_number`, `pedigree_number`) VALUES
+(1, 'Gránát', 'kutya', 1, 50.4, '2020-04-04', '', 1, 0, 0),
+(2, 'Süti', 'kutya', 1, 8, '2017-12-14', 'allergiás a kutyaszőrre', 4, 0, 0),
+(3, 'Dana', 'kutya', 0, 32.6, '2022-01-28', '', 4, 0, 0),
+(4, 'Jessie', 'kutya', 0, 10, '2016-07-11', '', 3, 0, 0),
+(5, 'Monti', 'macska', 0, 5.3, '2022-12-31', '', 2, 0, 0),
+(6, 'Lali', 'hörcsög', 1, 0.5, '2023-06-05', '', 2, 0, 0),
+(7, 'Tv', 'kutya', 1, 10, '2024-01-01', 'a', NULL, 1, 13),
+(8, 'T3', 'kutya', 1, 10, '2024-01-01', NULL, NULL, 1, 13);
 
 -- --------------------------------------------------------
 
@@ -296,22 +316,26 @@ CREATE TABLE `vet` (
   `name` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `postal_code` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL
+  `stamp_number` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `vet`
 --
 
-INSERT INTO `vet` (`id`, `name`, `email`, `password`, `address`, `phone`) VALUES
-(1, 'Dr. Állat Orvos', 'drallatorvos@gmail.com', 'a', '9027 Győr, Orvos u. 12.', ''),
-(2, 'Dr. Tóth Bernadett', 'drtothbernadett@gmail.com', 'a', '2900 Komárom, Arany János u. 20.', ''),
-(3, 'Dr. Nagy László', 'drnagylaszlo@gmail.com', 'a', '1014 Budapest, Lehel u. 63.', ''),
-(4, 'Dr. Kiss Sándor', 'drkisssandor@gmail.com', 'a', '6700 Szeged, Margaréta u. 41.', ''),
-(5, 'Dr. Horváth Mária', 'dehorvathmaria@gmail.com', 'a', '9023 Győr, Aradi Vértanúk útja 24.', ''),
-(6, 'Teszt', 't@gmail.com', '$2y$12$EouWvIhF1ggicK1xrTkWu.vbMVpoAsq6tg8O6tni.Br1A5sJ3rVWS', 'valahol', '+3612345678'),
-(7, 'Teszt', 't@gmail.com', '$2y$12$KhAxj2UBOPHiRAQyhYjD0eC8s1nQwoCjg4jfPi2Y7wtkh7sqyO.hm', 'valahol', '+3612345678');
+INSERT INTO `vet` (`id`, `name`, `email`, `password`, `postal_code`, `phone`, `address`, `stamp_number`) VALUES
+(1, 'Dr. Állat Orvos', 'drallatorvos@gmail.com', 'a', '9027 Győr, Orvos u. 12.', '', '', 0),
+(2, 'Dr. Tóth Bernadett', 'drtothbernadett@gmail.com', 'a', '2900 Komárom, Arany János u. 20.', '', '', 0),
+(3, 'Dr. Nagy László', 'drnagylaszlo@gmail.com', 'a', '1014 Budapest, Lehel u. 63.', '', '', 0),
+(4, 'Dr. Kiss Sándor', 'drkisssandor@gmail.com', 'a', '6700 Szeged, Margaréta u. 41.', '', '', 0),
+(5, 'Dr. Horváth Mária', 'dehorvathmaria@gmail.com', 'a', '9023 Győr, Aradi Vértanúk útja 24.', '', '', 0),
+(6, 'Teszt', 't@gmail.com', '$2y$12$EouWvIhF1ggicK1xrTkWu.vbMVpoAsq6tg8O6tni.Br1A5sJ3rVWS', 'valahol', '+3612345678', '', 0),
+(7, 'Teszt', 't@gmail.com', '$2y$12$KhAxj2UBOPHiRAQyhYjD0eC8s1nQwoCjg4jfPi2Y7wtkh7sqyO.hm', 'valahol', '+3612345678', '', 0),
+(8, 'teszt10', 'teszt10@gmail.com', '$2y$12$zgfn8dgFFkP46KqzizzCGe32hJCe9c//jd9r/uiaK74pja5ATaTOG', 'asd', 'asd', '', 0),
+(9, 'Tv', 'tv2@gmail.com', '$2y$12$4JWp93rq9au9l4.leBLauOpW0bivnZs0qiYbF8vJYr1GQF3dzoQsy', '1123', 'a', 'tv', 123);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -437,19 +461,19 @@ ALTER TABLE `opening`
 -- AUTO_INCREMENT a táblához `owner`
 --
 ALTER TABLE `owner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT a táblához `pet`
 --
 ALTER TABLE `pet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `special_opening`
@@ -467,7 +491,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `vet`
 --
 ALTER TABLE `vet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Megkötések a kiírt táblákhoz

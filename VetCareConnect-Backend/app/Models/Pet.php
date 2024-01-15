@@ -18,9 +18,12 @@ class Pet extends Model
         'weight',
         'born_date',
         'comment',
-        'register_number',
+        'chip_number',
+        'pedigree_number',
         'owner_id'
     ];
+
+    public $timestamps = false;
 
     public function owner() {
         return $this->belongsTo(Owner::class, 'owner_id', 'id');
