@@ -17,6 +17,9 @@
                 id="orvosok"
                 class="selectClass mt-0"
               >
+                <option value="" disabled selected hidden>
+                  Kérem válasszon!
+                </option>
                 <option v-for="vet in vets">{{ vet.name }}</option>
               </select>
               <!-- <Dropdown v-model="selectedCity" :options="vets" optionLabel="name" placeholder="Select a City" class="selectClass" /> -->
@@ -26,19 +29,16 @@
               <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
                 Válassza ki az időpont típusát!
               </p>
-              <!-- <select name="tipus" id="tipus" class="selectClass mt-0">
-                                <option value="veszettsegelleni">
-                                    Veszettség elleni oltás
-                                </option>
-                                <option value="idopont">Időpont</option>
-                                <option value="kontroll">Kontroll</option>
-                            </select> -->
               <select
                 v-model="choosedType"
                 name="orvosok"
                 id="orvosok"
                 class="selectClass mt-0"
               >
+                <option value="" disabled selected hidden>
+                  Kérem válasszon!
+                </option>
+
                 <option v-for="curetype in cureTypes">
                   {{ curetype.type }}
                 </option>
@@ -49,16 +49,16 @@
               <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
                 Válassza ki kiskedvencét!
               </p>
-              <!-- <select name="allat" id="allat" class="selectClass mt-0">
-                                <option value="bodri">Bodri</option>
-                                <option value="lali">Lali</option>
-                            </select> -->
               <select
                 v-model="choosedPet"
                 name="orvosok"
                 id="orvosok"
                 class="selectClass mt-0"
               >
+                <option value="" disabled selected hidden>
+                  Kérem válasszon!
+                </option>
+
                 <option v-for="pet in pets">{{ pet.name }}</option>
               </select>
             </div>
@@ -106,6 +106,19 @@
             >
               Lefoglalom
             </button>
+            </div>
+            <div v-if="showError" class="errorMessage">
+              <div
+                class="alert alert-danger show errMess"
+                role="alert"
+              >
+                {{ errorMessage }}
+                <button
+                  type="button"
+                  class="btn-close"
+                  @click="closeErrorMessage()"
+                ></button>
+              </div>
           </div>
           <div class="meanings meaningsInDates">
             <div class="row">
@@ -128,6 +141,7 @@
         :choosed-type="choosedType"
         :choosed-date="formattedDate"
         :choosed-time="choosedTime"
+        :vet-address="vetAddress"
       ></AppointmentApprove>
     </div>
   </div>
@@ -141,7 +155,6 @@ import Footer from "../../components/page_controls/Footer.vue";
 import Calendar from "../../components/Calendar.vue";
 import AppointmentApprove from "../../components/AppointmentApprove.vue";
 import vetservice from "../../services/vetservice.js";
-
 
 import { ref } from "vue";
 import { useDateFormat } from "@vueuse/core";
@@ -164,11 +177,15 @@ const times = [
 const activeIdx = ref(-1);
 
 const showBookApprove = ref(false);
+const showError = ref(false);
+const errorMessage = ref("");
 
 const choosedVet = ref("");
 const choosedType = ref("");
 const choosedPet = ref("");
 const choosedTime = ref("");
+const vetAddress = ref("");
+// vetAddress = choosedVet.address;
 
 const vets = ref([]);
 const cureTypes = ref([]);
@@ -195,8 +212,30 @@ function isActiveToggle(index, time) {
 }
 
 function BookClick() {
-  showBookApprove.value = true;
-  console.log(choosedVet);
+  if (choosedVet.value == "") {
+    errorMessage.value = "Kérem válasszon orvost!\n";
+    showError.value = true;
+  } else if (choosedType.value == "") {
+    errorMessage.value = "Kérem válassza ki az időpont típusát!\n";
+    showError.value = true;
+    // } else if (choosedDate.value == "") {
+    //   errorMessage.value = "Kérem válasszon dátumot!\n";
+    //   showError.value = true;
+  } else if (choosedPet.value == "") {
+    errorMessage.value = "Kérem válassza ki kisállatát!\n";
+    showError.value = true;
+  } else if (choosedTime.value == "") {
+    errorMessage.value = "Kérem válasszon időpontot!\n";
+    showError.value = true;
+  } else {
+    showError.value = false;
+    errorMessage.value = "";
+    showBookApprove.value = true;
+  }
+}
+
+function closeErrorMessage() {
+  showError.value = false;
 }
 
 function hideBook() {
@@ -308,10 +347,19 @@ function hideBook() {
   justify-content: center;
 }
 
+.errorMessage {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 10px;
+  font-size: small;
+  margin-bottom: 0px;
+}
+
 /*----------- media töréspontok ------------*/
 @media (min-width: 1200px) {
   .header {
-    font-size: 5rem;
+    font-size: large;
     font-weight: 400;
   }
 
@@ -344,7 +392,7 @@ function hideBook() {
   }
 
   .calendarAndChoosePanel {
-    margin-bottom: 80px !important;
+    margin-bottom: 30px !important;
   }
 
   .choosePanel {
@@ -370,12 +418,14 @@ function hideBook() {
     align-items: center;
     width: 300px;
   }
-
+  .errMess{
+    margin-bottom: -10px;
+  }
   .meaningsInDates {
     display: block;
     background-color: #246951;
     border-radius: 7px;
-    margin-top: 25px;
+    margin-top: 20px;
     align-items: center;
   }
 
@@ -411,13 +461,11 @@ function hideBook() {
     margin-top: 20px;
     flex-direction: column;
   }
-
   .chooseDate {
     width: 410px;
     height: 480px;
     border-radius: 7px;
     margin-top: 20px;
-    margin-bottom: 60px;
   }
 
   .meaningsInDates {
@@ -494,6 +542,10 @@ function hideBook() {
 
   .choosedDate {
     font-size: 1.1rem;
+  }
+
+  .errorMessage{
+    font-size: xx-small;
   }
 }
 </style>
