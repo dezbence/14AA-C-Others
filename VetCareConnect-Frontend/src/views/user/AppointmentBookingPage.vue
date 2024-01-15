@@ -12,7 +12,7 @@
             <div class="col">
               <p class="mb-xl-2 mb-lg-2">Válasszon orvost!</p>
               <select
-                v-model="choosedVet"
+                v-model="choosedData.vet"
                 name="orvosok"
                 id="orvosok"
                 class="selectClass mt-0"
@@ -20,9 +20,8 @@
                 <option value="" disabled selected hidden>
                   Kérem válasszon!
                 </option>
-                <option v-for="vet in vets">{{ vet.name }}</option>
+                <option v-for="vet in vets" :value="vet">{{ vet.name }}</option>
               </select>
-              <!-- <Dropdown v-model="selectedCity" :options="vets" optionLabel="name" placeholder="Select a City" class="selectClass" /> -->
             </div>
 
             <div class="col">
@@ -30,9 +29,9 @@
                 Válassza ki az időpont típusát!
               </p>
               <select
-                v-model="choosedType"
-                name="orvosok"
-                id="orvosok"
+                v-model="choosedData.type"
+                name="types"
+                id="type"
                 class="selectClass mt-0"
               >
                 <option value="" disabled selected hidden>
@@ -50,9 +49,9 @@
                 Válassza ki kiskedvencét!
               </p>
               <select
-                v-model="choosedPet"
-                name="orvosok"
-                id="orvosok"
+                v-model="choosedData.pet"
+                name="pets"
+                id="pet"
                 class="selectClass mt-0"
               >
                 <option value="" disabled selected hidden>
@@ -82,7 +81,7 @@
       >
         <Calendar
           class="calendar text-center col-md-12"
-          v-model="choosedDate"
+          v-model="choosedData.date"
           :min-date="new Date()"
         />
         <div class="chooseDate rounded-end col-md-12">
@@ -136,16 +135,14 @@
     <div v-else>
       <AppointmentApprove
         @remove="hideBook"
-        :choosed-vet="choosedVet"
-        :choosed-pet="choosedPet"
-        :choosed-type="choosedType"
-        :choosed-date="formattedDate"
-        :choosed-time="choosedTime"
-        :vet-address="vetAddress"
+        :choosed-vet="choosedData.vet"
+        :choosed-pet="choosedData.pet"
+        :choosed-type="choosedData.type"
+        :choosed-date="choosedData.date"
+        :choosed-time="choosedData.time"
       ></AppointmentApprove>
     </div>
   </div>
-
   <Footer></Footer>
 </template>
 
@@ -153,16 +150,28 @@
 import Header from "../../components/page_controls/Header.vue";
 import Footer from "../../components/page_controls/Footer.vue";
 import Calendar from "../../components/Calendar.vue";
-import AppointmentApprove from "../../components/AppointmentApprove.vue";
 import vetservice from "../../services/vetservice.js";
+// import AppointmentApprove from "../../components/AppointmentApprove.vue";
 
 import { ref } from "vue";
 import { useDateFormat } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
+import { defineAsyncComponent } from 'vue'
 
-const choosedDate = ref();
-const formattedDate = useDateFormat(choosedDate, "YYYY. MMMM DD.");
+const AppointmentApprove = defineAsyncComponent(() =>
+  import('../../components/AppointmentApprove.vue')
+)
+
+
+const choosedData = ref({
+  vet: "",
+  type: "",
+  pet: "",
+  date: "",
+  time: "",
+});
+const formattedDate = useDateFormat(choosedData.value.date, "YYYY. MMMM DD.");
 
 const times = [
   "9:30",
@@ -180,13 +189,6 @@ const showBookApprove = ref(false);
 const showError = ref(false);
 const errorMessage = ref("");
 
-const choosedVet = ref("");
-const choosedType = ref("");
-const choosedPet = ref("");
-const choosedTime = ref("");
-const vetAddress = ref("");
-// vetAddress = choosedVet.address;
-
 const vets = ref([]);
 const cureTypes = ref([]);
 const pets = ref([]);
@@ -195,6 +197,7 @@ const { user } = storeToRefs(useUserStore());
 
 vetservice.getAllVet().then((resp) => {
   vets.value = resp.data;
+ 
 });
 
 vetservice.getAllCureTypes().then((resp) => {
@@ -208,23 +211,20 @@ vetservice.getUsersPets(user.value.id).then((resp) => {
 
 function isActiveToggle(index, time) {
   activeIdx.value = index;
-  choosedTime.value = time;
+  choosedData.value.time = time;
 }
 
 function BookClick() {
-  if (choosedVet.value == "") {
+  if (choosedData.value.vet == "") {
     errorMessage.value = "Kérem válasszon orvost!\n";
     showError.value = true;
-  } else if (choosedType.value == "") {
+  } else if (choosedData.value.type == "") {
     errorMessage.value = "Kérem válassza ki az időpont típusát!\n";
     showError.value = true;
-    // } else if (choosedDate.value == "") {
-    //   errorMessage.value = "Kérem válasszon dátumot!\n";
-    //   showError.value = true;
-  } else if (choosedPet.value == "") {
+  } else if (choosedData.value.pet == "") {
     errorMessage.value = "Kérem válassza ki kisállatát!\n";
     showError.value = true;
-  } else if (choosedTime.value == "") {
+  } else if (choosedData.value.time == "") {
     errorMessage.value = "Kérem válasszon időpontot!\n";
     showError.value = true;
   } else {
