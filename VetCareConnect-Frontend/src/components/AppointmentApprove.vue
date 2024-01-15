@@ -5,7 +5,7 @@
       <p>Orvos neve: {{ choosedVet }}</p>
       <p>Időpont: {{ choosedDate }} {{ choosedTime }}</p>
       <p>Időpont típusa: {{ choosedType }}</p>
-      <p>Helyszín: {{ choosedVetAddress }}</p>
+      <p>Helyszín: {{ vetAddress }}</p>
       <p>Kisállat: {{ choosedPet}}</p>
       <div class="buttons">
         <button class="btnStyle btnBook" @click="Back()">Vissza</button>
@@ -32,7 +32,9 @@ defineProps({
   choosedType: String,
   choosedPet: String,
   choosedDate: String,
-  choosedTime: String
+  choosedTime: String,
+  vetAddress: String
+
 })
 
 const emit = defineEmits(["remove"]);
