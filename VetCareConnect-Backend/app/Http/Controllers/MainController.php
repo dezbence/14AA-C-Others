@@ -10,11 +10,13 @@ use App\Models\Special_opening;
 use App\Models\Owner;
 use App\Models\Pet;
 use App\Models\Vet;
-
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class MainController extends BaseController
 {
+
+
     public function getOwnerData($id) {
 
         $ownerData = Owner::select('name', 'email', 'postal_code', 'phone')
@@ -114,46 +116,53 @@ class MainController extends BaseController
     public function getFreeAppointments($id, $date)
     {
 
-        $vets = Vet::with(['special_openings' => function ($query) use($date) {
+        $vets = Vet::with([
+        'special_openings' => function ($query) use($date) {
             $query->where('date', '=', $date);
-        }, 'openings'])
+        },
+        'openings' => function ($query) use($date){
+            $query->where('day', '=', $this->getDayName(date('l', strtotime($date))));
+        }
+        ])
             ->where('id', '=', $id)
             ->get();
 
+        $opening_hours = [];
 
 
+        if (count($vets[0]['special_openings']) == 0) {
+            foreach ($vets[0]['openings'] as $opening) {
+                array_push($opening_hours, $opening->working_hours);
+            }
+            } else {
+            foreach ($vets[0]['special_openings'] as $special_opening) {
+                    array_push($opening_hours, $special_opening->working_hours);
+                }
+            }
 
 
-        // $vets = Vet::with('cures', 'special_openings', 'openings')
-        //     ->where('id', '=', $id)
-        //     ->get();
+        $appointments = [];
 
-        // $opening_hours = [];
+        foreach ($opening_hours as $intervallum) {
+            
+        }
 
-        // $hasSpecialOnDate = false;
-
-        // foreach ($vets as $vet) {
-        //     if ($vet['special_openings']) {
-        //         foreach ($vet['special_openings'] as $special_opening) {
-        //             if ($special_opening->date == $date) {
-        //                 $hasSpecialOnDate == true;
-        //                 array_push($opening_hours, $special_opening->working_hours);
-        //             }
-        //         }
-
-        //     } else {
-        //         foreach ($vet['openings'] as $opening) {
-        //             if ($opening->day == date('l', strtotime($date))) {
-        //                 array_push($opening_hours, $opening);
-
-        //             }
-        //         }
-        //     }
-        // }
-
-
-
-
-        return $this->sendResponse($vets, 'Sikeres művelet!');
+        return $this->sendResponse($opening_hours, 'Sikeres művelet!');
     }
+
+    private function getDayName($day) {
+
+        $days = [
+            'Monday' =>'hétfő',
+            'Tuesday' => 'kedd',
+            'Wednesday' => 'szerda',
+            'Thursday' => 'csütörtök',
+            'Friday' => 'péntek',
+            'Saturday' => 'szombat',
+            'Sunday' => 'vasárnap'
+        ];
+
+        return $days[$day];
+    }
+
 }

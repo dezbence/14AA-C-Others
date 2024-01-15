@@ -25,7 +25,7 @@ Route::get('/vet-all', [MainController::class, 'getAllVet']);
 
 
 
-Route::get('/pets/{id}', [MainController::class, 'getPets']);
+
 
 Route::get('/openings/{id}', [MainController::class, 'getOpenings']);
 
@@ -47,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/logout',[AuthController::class,'logout']);
 
     Route::get('/owner-data/{id}', [MainController::class, 'getOwnerData']);
+    Route::get('/pets/{id}', [MainController::class, 'getPets']);
 
     Route::get('/vet-data/{id}', [MainController::class, 'getVetData']);
 
