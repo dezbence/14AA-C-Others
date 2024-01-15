@@ -70,6 +70,13 @@ class MainController extends BaseController
         return  $this->sendResponse($pets, 'Sikeres művelet!');
     }
 
+    public function addNewPet(Request $request) {
+
+        $newPet = Pet::create($request->all());
+
+        return  $this->sendResponse($request, 'Sikeres művelet!');
+    }
+
     public function getCureTypes()
     {
         $cure_types = Cure_type::all();
@@ -106,9 +113,12 @@ class MainController extends BaseController
 
     public function getFreeAppointments($id, $date)
     {
-        $test = Vet::with(['special_openings' => function ($query) {
-            $query->where('date', '=', '2024-08-22');
-        }])->get();
+
+        $vets = Vet::with(['special_openings' => function ($query) use($date) {
+            $query->where('date', '=', $date);
+        }, 'openings'])->get();
+
+
 
 
 
@@ -142,6 +152,6 @@ class MainController extends BaseController
 
 
 
-        return $this->sendResponse($test, 'Sikeres művelet!');
+        return $this->sendResponse($vets, 'Sikeres művelet!');
     }
 }

@@ -18,6 +18,8 @@ class Cure extends Model
         'vet_id'
     ];
 
+    public $timestamps = false;
+    
     public function pet() {
         return $this->belongsTo(Pet::class, 'pet_id', 'id');
     }
