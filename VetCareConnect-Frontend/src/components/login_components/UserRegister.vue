@@ -9,7 +9,7 @@
             <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" /> 
             <!-- Bal oldal -->
             <div class="formCardLeft">
-                <form @submit.prevent="handelSubmit">
+                <form @submit.prevent="handleSubmit">
                     <h3>Regisztrálás gazdaként</h3>
                     <div class="noAccount">
                         <span>Már van fiókja?</span>
@@ -26,7 +26,7 @@
                     <label>Tel. szám:</label>
                     <InputMask mask="99/999-9999" placeholder="00/000-0000" v-model="userData.phone" />
                     <label>Irányítószám:</label>
-                    <InputMask mask="9999" placeholder="0000" v-model="userData.address" />
+                    <InputMask mask="9999" placeholder="0000" v-model="userData.postal_code" />
                     <label>E-mail cím:</label>
                     <InputText v-model="userData.email" placeholder="bodri@gmail.com" />
                     <label>Jelszó:</label>
@@ -96,7 +96,7 @@ const userData = ref({
     firstName: "",
     lastName: "",
     phone: "",
-    address: "",
+    postal_code: "",
     email: "",
     password: "",
     confirm_password: "",
@@ -116,7 +116,7 @@ function passwordInfoToggle() {
     passwordInfo.value = !passwordInfo.value;
 }
 
-function handelSubmit() {
+function handleSubmit() {
     if (userData.value.password.length < 8) {
         passwordError.value = "Minimum 8 karakter hosszúnak kell lenni!";
     } else {
@@ -150,7 +150,7 @@ function handelSubmit() {
             name: userData.value.firstName + " " + userData.value.lastName,
             phone: userData.value.phone.replace('-', '').replace('/', ''),
             email: userData.value.email,
-            address: userData.value.address,
+            postal_code: userData.value.postal_code,
             password: userData.value.password,
             confirm_password: userData.value.confirm_password,
             role: 0
@@ -158,6 +158,7 @@ function handelSubmit() {
        
         userservice.registerUser(registerData.value)
             .then(response => {
+            router.push('/bejelentkezes')
             console.log(response);
         })
             .catch(err => {

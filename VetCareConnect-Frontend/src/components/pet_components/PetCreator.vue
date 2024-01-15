@@ -1,7 +1,10 @@
 <template>
     <div class="darkBack">
         <div class="petCreatingForm">
-            <h3>Hozza létre kedvence adatlapját!</h3>
+            <div class="close">
+                <img @click="showCreator()" src="../../assets/icons/arrow_back.svg">
+            </div>
+            <h4>Hozza létre kedvence adatlapját!</h4>
             <form submit.pervent="handleSubmit"></form>
 
             <label>Kedvence neve:</label>
@@ -32,7 +35,7 @@
             <label>Születési dátuma:</label>
             <InputMask id="basic" v-model="pet.born_date" placeholder="éééé.hh.nn" mask="9999.99.99" />
             <label>Megjegyzés:</label>
-            <Textarea v-model="pet.comment" rows="4" cols="40" autoResize />
+            <Textarea placeholder="Allergiák, különlegességek, stb." v-model="pet.comment" rows="4" cols="40" autoResize />
 
             <button @click="handleSubmit()">Létrehozás</button>
 
@@ -47,14 +50,13 @@ import InputMask from 'primevue/inputmask';
 import Textarea from 'primevue/textarea';
 import { ref } from 'vue';
 
-const props = defineProps(['addPetToList', 'petsList'])
+const props = defineProps(['showCreator'])
 const emits = defineEmits(['submit'])
 
-const spieces = ['kutya', 'macska', 'hörcsög', 'cápa']
+const spieces = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
 const genders = ['fiú', 'lány']
 
 const pet = ref({
-    id: Math.floor(Math.random() * 1000000),
     name: "",
     chip_number: 0,
     spieces: "",
@@ -78,8 +80,9 @@ function handleSubmit() {
     flex-direction: column;
     background-color: white;
     border-radius: 7px;
-    padding: 30px;
+    padding: 40px 30px 30px;
     max-height: 700px;
+    position: relative;
 }
 
 input {
@@ -108,7 +111,7 @@ label {
 }
 .officalNumbers {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
 
 }
@@ -129,8 +132,24 @@ label {
 }
 
 .chipNum input {
-    width: 150px;
+    width: 160px;
     padding: 5px;
+}
+
+h4 {
+    padding: 20px 15px 0;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.close:hover {
+    transform: scale(1.1);
+    transition: 200ms;
 }
 
 .p-dropdown,
