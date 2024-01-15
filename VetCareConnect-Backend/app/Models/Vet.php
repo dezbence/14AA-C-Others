@@ -19,6 +19,8 @@ class Vet extends Authenticatable
         'email',
         'password',
         'address',
+        'postal_code',
+        'stamp_number',
         'phone'
     ];
 

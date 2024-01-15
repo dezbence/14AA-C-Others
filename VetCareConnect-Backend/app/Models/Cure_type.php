@@ -16,6 +16,8 @@ class Cure_type extends Model
         'period'
     ];
 
+    public $timestamps = false;
+
     public function cures() {
         return $this->hasMany(Cure::class);
     }

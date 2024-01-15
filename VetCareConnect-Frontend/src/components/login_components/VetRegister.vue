@@ -20,25 +20,25 @@
                         <label>Keresztnév:</label>
                     </div>
                     <div class="nameInput">
-                        <InputText v-model="userData.firstName" />
-                        <InputText v-model="userData.lastName" />
+                        <InputText v-model="vetData.firstName" />
+                        <InputText v-model="vetData.lastName" />
                     </div>
                     <label>Tel. szám:</label>
-                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="userData.fon" />
+                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.fon" />
                     <label>E-mail cím:</label>
-                    <InputText v-model="userData.email" placeholder="bodri@gmail.com" />
+                    <InputText v-model="vetData.email" placeholder="bodri@gmail.com" />
                     <label>Jelszó:</label>
                     <div class="passInfo">
                         <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()" @mouseleave="passwordInfoToggle()" class="passwordInfo">
-                        <InputText v-model="userData.password" type="password" placeholder="Bodri123" />
+                        <InputText v-model="vetData.password" type="password" placeholder="Bodri123" />
                     </div>
                     <div v-if="passwordError" class="error">{{ passwordError }}</div>
                     <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
                     <label>Jelszó újra:</label>
-                    <InputText v-model="userData.passwordAgain" type="password" placeholder="Bodri123" />
+                    <InputText v-model="vetData.passwordAgain" type="password" placeholder="Bodri123" />
                     <div v-if="passwordErrorAgain" class="error">{{ passwordErrorAgain }}</div>
                     <div class="terms">
-                        <input type="checkbox" v-model="userData.terms" />
+                        <input type="checkbox" v-model="vetData.terms" />
                         <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
                     </div>
                     <div class="submit">
@@ -75,12 +75,6 @@ import PasswordRequirements from "./PasswordRequirements.vue";
 import InputMask from 'primevue/inputmask';
 import InputText from "primevue/inputtext";
 import router from '@/router';
-import { usePrimeVue } from 'primevue/config';
-
-const primevue = usePrimeVue();
-
-
-
 
 function back() {
     router.go(-1)
@@ -100,6 +94,7 @@ const vetData = ref({
     lastName: "",
     phone: "",
     stamp: 0,
+    
     address: "",
     email: "",
     password: "",
@@ -118,23 +113,23 @@ function passwordInfoToggle() {
 }
 
 function handleSubmit() {
-    if (userData.value.password.length < 8) {
+    if (vetData.value.password.length < 8) {
         passwordError.value = "Minimum 8 karakter hosszúnak kell lenni!";
     } else {
         passwordError.value = "";
-        if (!userData.value.password.match(lowerCaseLetters)) {
+        if (!vetData.value.password.match(lowerCaseLetters)) {
             passwordError.value = "Nem tartalmaz kisbetűs karaktert!";
         } else {
             passwordError.value = "";
-            if (!userData.value.password.match(upperCaseLetters)) {
+            if (!vetData.value.password.match(upperCaseLetters)) {
                 passwordError.value = "Nem tartalmaz nagybetűs karaktert!";
             } else {
                 passwordError.value = "";
-                if (!userData.value.password.match(numbers)) {
+                if (!vetData.value.password.match(numbers)) {
                     passwordError.value = "Nem tartalmaz számot!";
                 } else {
                     passwordError.value = "";
-                    if (userData.value.password === userData.value.passwordAgain) {
+                    if (vetData.value.password === vetData.value.passwordAgain) {
                         passwordErrorAgain.value = "";
                         problem.value = false;
                     }
@@ -146,7 +141,7 @@ function handleSubmit() {
 
     if (!problem.value) {
         console.log('form submitted')
-        console.log(userData.value)
+        console.log(vetData.value)
     }
 
 

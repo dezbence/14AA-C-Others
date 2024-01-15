@@ -1,7 +1,9 @@
 <template>
     <Header></Header>
-    <PetCreator v-if="isPetCreating" @submit="createPetCard"></PetCreator>
-    <div>
+    <PetCreator v-if="isPetCreating" @submit="createPetCard" :show-creator="showCreator"></PetCreator>
+
+    <div :class="isPetCreating ? 'overflowDisable' : ''">
+        <div>
         <h1 class="pageTitle">Kedvenceim</h1>
         <div class="petsCard">
             <Pet v-for="pet in petsList" v-if="petsList.length > 0" @delete-pet="deletePet"></Pet>
@@ -19,7 +21,7 @@
 
             <div class="iconInInput">
                 <img id="searchIcon" src="../../assets/icons/search.svg">
-            <InputText placeholder="Keresés" />
+                <InputText class="searchBar" placeholder="Keresés" />
             </div>
         
             <!-- <img id="searchIcon" src="../../assets/icons/search.svg"> -->
@@ -28,6 +30,8 @@
         <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0"></PastAppointments>
         <div class="marginBottom">.</div>
     </div>
+    </div>
+    
     <Footer></Footer>
 </template>
   
@@ -53,10 +57,10 @@ const PetCreator = defineAsyncComponent(() =>
 const isPetCreating = ref(false);
 const petsList = ref([]);
 const counter = ref(0);
-const appointmentsList = ref([1, 1]);
+const appointmentsList = ref([1, 1, 1 , 1, 1]);
 
 function showCreator() {
-    isPetCreating.value = true;
+    isPetCreating.value = !isPetCreating.value;
 }
 
 function createPetCard(pet) {
@@ -76,7 +80,6 @@ function deletePet() {
 
 <style scoped>
 h1 {
-    margin: 50px 0 25px 50px;
     color: #368267;
 }
 
@@ -133,12 +136,19 @@ button {
 
 #searchIcon {
     width: 25px;
-    right: 0;
+    right: 4px;
+    top: 8px;
     position: absolute;
+}
+
+input {
+    padding-right: 35px;
+    border-radius: 7px;
 }
 
 .iconInInput {
     position: relative;
     margin-left: 20px;
+    margin-top: 10px;
 }
 </style>

@@ -17,6 +17,8 @@ class Special_opening extends Model
         'vet_id'
     ];
 
+    public $timestamps = false;
+
     public function vet() {
         return $this->belongsTo(Vet::class, 'vet_id', 'id');
     }
