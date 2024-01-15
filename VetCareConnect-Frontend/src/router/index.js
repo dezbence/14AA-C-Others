@@ -7,52 +7,47 @@ import HomePageVue from '@/views/HomePage.vue'
 // import RegisterPageVue from '@/views/login/RegisterPage.vue'
 // import ForgotPasswordPageVue from '@/views/login/ForgotPasswordPage.vue'
 import NotFoundPageVue from '@/views/NotFoundPage.vue'
+import { useUserStore } from '../store/userstore.js'
+import { storeToRefs } from 'pinia'
+import {useToast} from 'vue-toastification'
+const toast = useToast();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:  [
-    {
-      path: '/',
-      name: 'home',
-      component: HomePageVue
-    },
-    {
-      path: '/idopontfoglalas',
-      name: 'appointmentBooking',
-      component: () => import('@/views/user/AppointmentBookingPage.vue')
-    },
-    {
-      path: '/kedvenceim',
-      name: 'pets',
-      component: () => import('@/views/user/PetsPage.vue')
-    },
-    {
-      path: '/naptaram',
-      name: 'appointments',
-      component: () => import('@/views/user/AppointmentsPage.vue')
-    },
-    {
-      path: '/bejelentkezes',
-      name: 'login',
-      component: () => import('@/views/login/LoginPage.vue')
-    },
-    {
-      path: '/regisztracio',
-      name: 'register',
-      component: () => import('@/views/login/RegisterPage.vue')
-    },
-    {
-      path: '/forgot-password',
-      name: 'forgotPassword',
-      component: () => import('@/views/login/ForgotPasswordPage.vue')
-    },
+    { path: '/', name: 'home', component: HomePageVue },
+    { path: '/idopontfoglalas', name: 'appointmentBooking', component: () => import('@/views/user/AppointmentBookingPage.vue') },
+    { path: '/kedvenceim', name: 'pets', component: () => import('@/views/user/PetsPage.vue') },
+    { path: '/naptaram', name: 'appointments', component: () => import('@/views/user/AppointmentsPage.vue') },
+    { path: '/bejelentkezes', name: 'login', component: () => import('@/views/login/LoginPage.vue') },
+    { path: '/regisztracio', name: 'register', component: () => import('@/views/login/RegisterPage.vue') },
+    { path: '/forgot-password', name: 'forgotPassword', component: () => import('@/views/login/ForgotPasswordPage.vue') },
     // catch all 404
-    {
-      path: '/:catchAll(.*)',
-      name: 'notfound',
-      component: NotFoundPageVue
-    }
+    { path: '/:catchAll(.*)', name: 'notfound', component: NotFoundPageVue }
   ]
 })
+
+router.beforeEach((to,from,next) =>{
+  const {status} = storeToRefs(useUserStore());
+  const publicPages = ['/','/bejelentkezes','/regisztracio'];
+  const autRequired = !publicPages.includes(to.path);
+  if (autRequired && !status.value.loggedIn){
+    return toast.error("Bejelentkezés szükséges!", {
+      position: "top-center",
+      timeout: 3000,
+      closeOnClick: true,
+      pauseOnFocusLoss: true,
+      pauseOnHover: true,
+      draggable: true,
+      draggablePercent: 0.6,
+      showCloseButtonOnHover: true,
+      hideProgressBar: false,
+      closeButton: "button",
+      icon: true,
+      rtl: false
+    });
+  }
+  next(); // tovább a to-ra
+});
 
 export default router

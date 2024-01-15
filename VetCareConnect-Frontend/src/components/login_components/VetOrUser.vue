@@ -3,7 +3,7 @@
         <div class="back">
             <div class="front">
                 <h3>Válasszon profil típust!</h3>
-                <p>Ön egy {{ userTypes[activeIdx]?.type }}</p>
+                <!-- <p>Ön egy {{ userTypes[activeIdx]?.type }}</p> -->
                 <div class="cards">
                     <div v-for="(userType, index) in userTypes">
                     <div @click="isActiveToggle(index)" :class="{ 'selected': activeIdx == index }" class="cardd">

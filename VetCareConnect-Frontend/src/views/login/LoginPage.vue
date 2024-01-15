@@ -60,7 +60,6 @@
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';
-//import { storeToRefs } from 'pinia';
 import { useUserStore } from '@/store/userstore';
 
 const {login} = useUserStore();
@@ -83,6 +82,7 @@ function handleSubmit(){
         console.log(loginData.value)
         router.push('/')
     })
+    toast.success('Sikeres bejelentkezés!');
 }
     
 
