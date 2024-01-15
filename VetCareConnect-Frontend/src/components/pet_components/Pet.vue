@@ -8,7 +8,7 @@
             
         </div>
 
-        <h3>{{ petsList }}</h3>
+        <h3>{{  }}</h3>
         <p>{{ }}</p>
         <p>{{ }}</p>
         <p>{{ }} kg</p>
@@ -21,8 +21,15 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { useUserStore } from '@/store/userstore';
+import { storeToRefs } from 'pinia';
+import ownerservice from '../../services/ownerservice.js'
+
+const { user } = storeToRefs(useUserStore());
 // import PetMenu from './PetMenu.vue';
 import { defineAsyncComponent } from 'vue'
+
+const petsData = ref();
 
 const PetMenu = defineAsyncComponent(() =>
   import('./PetMenu.vue')
@@ -33,6 +40,13 @@ const isMenuOpen = ref(false);
 function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;
 }
+
+ownerservice.getOwnersPets(user.value.id)
+    .then((resp) => {
+    resp = petsData.value;
+    console.log(petsData.value)
+    console.log(resp)
+});
 
 </script>
 <style scoped>

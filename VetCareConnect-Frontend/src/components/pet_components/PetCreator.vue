@@ -60,7 +60,7 @@ const props = defineProps(['showCreator'])
 const emits = defineEmits(['submit'])
 
 const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
-const genders = ['fiú', 'lány']
+const genders = ['hím', 'nőstény']
 
 const pet = ref({
     name: "",
