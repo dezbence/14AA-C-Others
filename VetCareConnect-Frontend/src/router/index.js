@@ -21,7 +21,8 @@ const router = createRouter({
     { path: '/naptaram', name: 'appointments', component: () => import('@/views/user/AppointmentsPage.vue') },
     { path: '/bejelentkezes', name: 'login', component: () => import('@/views/login/LoginPage.vue') },
     { path: '/regisztracio', name: 'register', component: () => import('@/views/login/RegisterPage.vue') },
-    { path: '/forgot-password', name: 'forgotPassword', component: () => import('@/views/login/ForgotPasswordPage.vue') },
+    { path: '/elfelejtett-jelszo', name: 'forgotPassword', component: () => import('@/views/login/ForgotPasswordPage.vue') },
+    { path: '/allatorvosok', name: 'vets', component: () => import('@/views/VetSearchPage.vue') },
     // catch all 404
     { path: '/:catchAll(.*)', name: 'notfound', component: NotFoundPageVue }
   ]
@@ -29,7 +30,7 @@ const router = createRouter({
 
 router.beforeEach((to,from,next) =>{
   const {status} = storeToRefs(useUserStore());
-  const publicPages = ['/','/bejelentkezes','/regisztracio'];
+  const publicPages = ['/','/bejelentkezes','/regisztracio', '/allatorvosok'];
   const autRequired = !publicPages.includes(to.path);
   if (autRequired && !status.value.loggedIn){
     return toast.error("Bejelentkezés szükséges!", {

@@ -3,18 +3,28 @@
         <div class="list" v-for="menu in MenuItems">
             <routerLink :to="menu.link">{{ menu.name }}</routerLink>
         </div>
+        <hr>
+        <div class="list">
+            <li @click="onLogout()">Kijelentkezés</li>
+        </div>
     </div>
 </template>
 
 <script setup>
+import { useUserStore } from '../../store/userstore.js';
+const { logout } = useUserStore();
+
 const MenuItems = [
     { name: "Adataim", link: "/" },
     { name: "GYIK", link: "/idopontfoglalas" },
-    { name: "Beállítások", link: "/kedvenceim" },
-    { name: "Kijelentkezés", link: "/naptaram" }
+    { name: "Beállítások", link: "/kedvenceim" }
 ]
 
 const props = defineProps(['userMenuToggle'])
+
+function onLogout(){
+  logout().then(()=>{ router.push('/')  })
+}
 
 </script>
 
