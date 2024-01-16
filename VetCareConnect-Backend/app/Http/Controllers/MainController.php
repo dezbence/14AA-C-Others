@@ -19,26 +19,31 @@ class MainController extends BaseController
 
     public function getOwnerData($id) {
 
-        $ownerData = Owner::select('name', 'email', 'postal_code', 'phone')
-            ->where('id', '=', $id)
+        $ownerData = Owner::where('id', '=', $id)
             ->get();
+
+        unset($ownerData['email']);
+        unset($ownerData['password']);
 
         return  $this->sendResponse($ownerData, 'Sikeres művelet!');
     }
 
     public function getVetData($id) {
 
-        $vetData = Vet::select('name', 'email', 'address', 'phone')
-            ->where('id', '=', $id)
+        $vetData = Vet::where('id', '=', $id)
             ->get();
+
+        unset($vetData['email']);
+        unset($vetData['password']);
 
         return  $this->sendResponse($vetData, 'Sikeres művelet!');
     }
 
     public function getAllVet() {
 
-        $vets = Vet::select('name', 'email', 'address', 'phone')
-            ->get();
+        $vets = Vet::all();
+        unset($vets['email']);
+        unset($vets['password']);
 
         return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
@@ -152,7 +157,7 @@ class MainController extends BaseController
             }
 
         }
-        
+
 
         $cures = Cure::where('vet_id', '=', $id)
             ->where('date', 'like', $date.'%')
