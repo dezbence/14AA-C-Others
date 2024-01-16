@@ -79,7 +79,7 @@ const pet = ref({
     weight: 0,
     born_date: "",
     comment: "",
-    ownerId: user.value.id
+    owner_id: user.value.id
 })
 
 

@@ -19,8 +19,8 @@ export default {
                 return Promise.reject(err.response);
             }) 
     },
-    getUsersPets(id){
-        return Axios.get(`/pets/${id}`)
+    getUsersPets(id, token){
+        return Axios.get(`/pets/${id}`, {headers: {"Authorization" : "Bearer "+token}})
         .then(resp => {
             return resp.data;
         })
