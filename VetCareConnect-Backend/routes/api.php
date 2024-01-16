@@ -35,7 +35,9 @@ Route::get('/owner-appointments/{id}', [MainController::class, 'getOwnerAppointm
 
 Route::get('/free-appointments/{id}/{date}', [MainController::class, 'getFreeAppointments']);
 
+Route::get('/delete-pet/{id}', [MainController::class, 'deletePet']);
 
+Route::post('/search-vets', [MainController::class, 'searchVets']);
 
 
 Route::post('/register',[AuthController::class,'register']);

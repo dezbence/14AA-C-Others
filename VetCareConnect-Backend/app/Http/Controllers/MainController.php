@@ -166,7 +166,7 @@ class MainController extends BaseController
 
             while($appointment < $closeTime) {
                 array_push($appointments, date('H:i', $appointment));
-                $appointment += strtotime('00:15', 0);
+                $appointment += strtotime('00:30', 0);
             }
 
         }
@@ -184,9 +184,40 @@ class MainController extends BaseController
         return $this->sendResponse($appointments, 'Sikeres művelet!');
     }
 
-    // function () : Returntype {
+    public function deletePet($id) {
+        Pet::where('id', '=', $id)->delete();
 
-    // }
+        return $this->sendResponse('', 'Sikeres művelet!');
+    }
+
+    public function modifyPet() {
+
+    }
+
+    public function modifyUserData() {
+
+    }
+
+    public function deleteAppointment() {
+
+    }
+
+    public function searchVets(Request $request) {
+        $validatorFields = [
+            'name' => 'required',
+            'postal_code'=> 'required',
+            'address' => 'required'
+        ];
+
+
+        $vets = Vet::where('name', 'like', '%'.$request->all()['name'].'%')
+            ->where('postal_code', 'like', '%'.$request->all()['postal_code'].'%')
+            ->where('address', 'like', '%'.$request->all()['address'].'%')
+            ->get();
+
+
+        return $this->sendResponse($vets, 'Sikeres művelet!');
+    }
 
     private function getDayName($day) {
 
