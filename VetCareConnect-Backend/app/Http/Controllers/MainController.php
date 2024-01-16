@@ -66,14 +66,9 @@ class MainController extends BaseController
 
     public function getPets($id)
     {
-        $pets = Pet::with(['owner' => function ($query) use($id) {
-            $query->where('id', '=', $id);
-        }, ])
-        ->get();
-
-        foreach ($pets as $pet) {
-            unset($pet['owner']);
-        }
+        // $pets = Pet::all();
+        $pets = Pet::where('owner_id', '=', $id)
+            ->get();
 
         return  $this->sendResponse($pets, 'Sikeres művelet!');
     }
