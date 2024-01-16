@@ -16,7 +16,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', name: 'home', component: HomePageVue },
-    { path: '/idopontfoglalas', name: 'appointmentBooking', component: () => import('@/views/user/AppointmentBookingPage.vue') },
+    { path: '/idopontfoglalas/:doctorId?', name: 'appointmentBooking', component: () => import('@/views/user/AppointmentBookingPage.vue') },
     { path: '/kedvenceim', name: 'pets', component: () => import('@/views/user/PetsPage.vue') },
     { path: '/naptaram', name: 'appointments', component: () => import('@/views/user/AppointmentsPage.vue') },
     { path: '/bejelentkezes', name: 'login', component: () => import('@/views/login/LoginPage.vue') },

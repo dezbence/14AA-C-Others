@@ -105,19 +105,16 @@
             >
               Lefoglalom
             </button>
+          </div>
+          <div v-if="showError" class="errorMessage">
+            <div class="alert alert-danger show errMess" role="alert">
+              {{ errorMessage }}
+              <button
+                type="button"
+                class="btn-close"
+                @click="closeErrorMessage()"
+              ></button>
             </div>
-            <div v-if="showError" class="errorMessage">
-              <div
-                class="alert alert-danger show errMess"
-                role="alert"
-              >
-                {{ errorMessage }}
-                <button
-                  type="button"
-                  class="btn-close"
-                  @click="closeErrorMessage()"
-                ></button>
-              </div>
           </div>
           <div class="meanings meaningsInDates">
             <div class="row">
@@ -153,16 +150,16 @@ import Calendar from "../../components/Calendar.vue";
 import vetservice from "../../services/vetservice.js";
 // import AppointmentApprove from "../../components/AppointmentApprove.vue";
 
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useDateFormat } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from "vue";
+import { useRoute } from 'vue-router';
 
 const AppointmentApprove = defineAsyncComponent(() =>
-  import('../../components/AppointmentApprove.vue')
-)
-
+  import("../../components/AppointmentApprove.vue")
+);
 
 const choosedData = ref({
   vet: "",
@@ -188,6 +185,8 @@ const activeIdx = ref(-1);
 const showBookApprove = ref(false);
 const showError = ref(false);
 const errorMessage = ref("");
+const selectedDoctorId = ref(null);
+const route = useRoute();
 
 const vets = ref([]);
 const cureTypes = ref([]);
@@ -214,7 +213,7 @@ function isActiveToggle(index, time) {
 }
 
 function BookClick() {
-  console.log(choosedData.value.vet)
+  console.log(choosedData.value.vet);
   if (choosedData.value.vet == "") {
     errorMessage.value = "Kérem válasszon orvost!\n";
     showError.value = true;
@@ -241,6 +240,10 @@ function closeErrorMessage() {
 function hideBook() {
   showBookApprove.value = false;
 }
+onMounted(() => {
+  selectedDoctorId.value = parseInt(route.params.doctorId);
+  choosedData.value.vet = vets[selectedDoctorId.value];
+});
 </script>
 
 <style scoped>
@@ -418,7 +421,7 @@ function hideBook() {
     align-items: center;
     width: 300px;
   }
-  .errMess{
+  .errMess {
     margin-bottom: -10px;
   }
   .meaningsInDates {
@@ -544,7 +547,7 @@ function hideBook() {
     font-size: 1.1rem;
   }
 
-  .errorMessage{
+  .errorMessage {
     font-size: xx-small;
   }
 }
