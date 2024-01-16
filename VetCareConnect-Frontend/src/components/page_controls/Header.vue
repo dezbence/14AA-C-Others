@@ -53,10 +53,10 @@ const MenuItems = [
 
 const Routes = [
   { name: "Kezdőlap", link: "/" },
+  { name: "Állatorvosok", link: "/allatorvosok" },
   { name: "Időpont foglalás", link: "/idopontfoglalas" },
   { name: "Kedvenceim", link: "/kedvenceim" },
-  { name: "Naptáram", link: "/naptaram" },
-  { name: "Állatorvosok", link: "/allatorvosok" }
+  { name: "Naptáram", link: "/naptaram" }
 ]
 
 const isSideBarOpen = ref(false);
