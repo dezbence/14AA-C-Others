@@ -81,7 +81,7 @@
       >
         <Calendar
           class="calendar text-center col-md-12"
-          v-model="choosedData.date"
+          v-model="choosedDate"
           :min-date="new Date()"
         />
         <div class="chooseDate rounded-end col-md-12">
@@ -138,7 +138,7 @@
         :choosed-vet="choosedData.vet"
         :choosed-pet="choosedData.pet"
         :choosed-type="choosedData.type"
-        :choosed-date="choosedData.date"
+        :choosed-date="formattedDate"
         :choosed-time="choosedData.time"
       ></AppointmentApprove>
     </div>
@@ -168,10 +168,10 @@ const choosedData = ref({
   vet: "",
   type: "",
   pet: "",
-  date: "",
   time: "",
 });
-const formattedDate = useDateFormat(choosedData.value.date, "YYYY. MMMM DD.");
+const choosedDate = ref();
+const formattedDate = useDateFormat(choosedDate, "YYYY. MMMM DD.");
 
 const times = [
   "9:30",
@@ -197,16 +197,15 @@ const { user } = storeToRefs(useUserStore());
 
 vetservice.getAllVet().then((resp) => {
   vets.value = resp.data;
- 
 });
 
 vetservice.getAllCureTypes().then((resp) => {
-  console.log(resp.data);
   cureTypes.value = resp.data;
 });
 
-vetservice.getUsersPets(user.value.id).then((resp) => {
+vetservice.getUsersPets(user.value.id, user.value.token).then((resp) => {
   pets.value = resp.data;
+  console.log(resp.data);
 });
 
 function isActiveToggle(index, time) {
@@ -215,6 +214,7 @@ function isActiveToggle(index, time) {
 }
 
 function BookClick() {
+  console.log(choosedData.value.vet)
   if (choosedData.value.vet == "") {
     errorMessage.value = "Kérem válasszon orvost!\n";
     showError.value = true;

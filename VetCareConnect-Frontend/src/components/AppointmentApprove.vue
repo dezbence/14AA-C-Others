@@ -5,7 +5,7 @@
       <p>Orvos neve: {{ choosedVet.name }}</p>
       <p>Időpont: {{ choosedDate }} {{ choosedTime }}</p>
       <p>Időpont típusa: {{ choosedType }}</p>
-      <p>Helyszín: {{ choosedVet.address }}</p>
+      <p>Helyszín: {{ choosedVet.postal_code }}</p>
       <p>Kisállat: {{ choosedPet}}</p>
       <div class="buttons">
         <button class="btnStyle btnBook" @click="Back()">Vissza</button>
