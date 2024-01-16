@@ -12,6 +12,7 @@ use App\Models\Pet;
 use App\Models\Vet;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class MainController extends BaseController
 {
@@ -66,7 +67,6 @@ class MainController extends BaseController
 
     public function getPets($id)
     {
-        // $pets = Pet::all();
         $pets = Pet::where('owner_id', '=', $id)
             ->get();
 
@@ -75,17 +75,18 @@ class MainController extends BaseController
 
     public function addNewPet(Request $request) {
 
-        $ownerValidatorFields = [
+        $validatorFields = [
             'name' => 'required',
-            'email' => 'required|email|unique:App\Models\Owner,email|unique:App\Models\Vet,email',
-            'postal_code' => 'required',
-            'phone' => 'required',
-            'password' => 'required',
-            'confirm_password' => 'required|same:password',
-            'role' => 'required|integer'
+            'species'=> 'required',
+            'gender' => 'required',
+            'weight' => 'required',
+            'born_date' => 'required',
+            'chip_number' => 'required',
+            'pedigree_number'=> 'required',
+            'ownerId'=> 'required'
         ];
 
-        $validator = Validator::make($request->all(), $vetValidatorFields);
+        $validator = Validator::make($request->all(), $validatorFields);
 
 
          if ($validator->fails()){
@@ -120,7 +121,6 @@ class MainController extends BaseController
                     'vetName' => $appointment->vet->name,
                     'vetAddress' => $appointment->vet->address,
                     'cureDate' => $appointment->date
-
                  ];
             }
 
@@ -170,7 +170,6 @@ class MainController extends BaseController
             }
 
         }
-
 
         $cures = Cure::where('vet_id', '=', $id)
             ->where('date', 'like', $date.'%')

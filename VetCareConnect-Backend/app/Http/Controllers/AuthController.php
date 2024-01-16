@@ -78,7 +78,6 @@ class AuthController extends BaseController
         } else {
             unset($input['role']);
             unset($input['confirm_password']);
-
             $vet = Vet::create($input);
 
             $success['token'] = $vet->createToken('Secret')->plainTextToken;
@@ -92,6 +91,17 @@ class AuthController extends BaseController
     public function login(Request $request){
 
         //https://stackoverflow.com/questions/46292391/authenticate-users-from-more-than-two-tables-in-laravel-5
+
+        $validatorFields = [
+            'email' => 'required',
+            'password'=> 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()){
+           return $this->sendError('Bad request', $validator->errors(), 400);
+        }
 
         if (Auth::guard('owner')->attempt([
             'email' => $request->email,
