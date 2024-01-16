@@ -75,6 +75,23 @@ class MainController extends BaseController
 
     public function addNewPet(Request $request) {
 
+        $ownerValidatorFields = [
+            'name' => 'required',
+            'email' => 'required|email|unique:App\Models\Owner,email|unique:App\Models\Vet,email',
+            'postal_code' => 'required',
+            'phone' => 'required',
+            'password' => 'required',
+            'confirm_password' => 'required|same:password',
+            'role' => 'required|integer'
+        ];
+
+        $validator = Validator::make($request->all(), $vetValidatorFields);
+
+
+         if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+         }
+
         $newPet = Pet::create($request->all());
 
         return  $this->sendResponse($request, 'Sikeres művelet!');
