@@ -66,8 +66,9 @@ class MainController extends BaseController
 
     public function getPets($id)
     {
-        $pets = Pet::with('owner')
-        ->where('owner_id', '=', $id)
+        $pets = Pet::with(['owner' => function ($query) use($id) {
+            $query->where('id', '=', $id);
+        }, ])
         ->get();
 
         foreach ($pets as $pet) {
@@ -171,6 +172,10 @@ class MainController extends BaseController
 
         return $this->sendResponse($appointments, 'Sikeres művelet!');
     }
+
+    // function () : Returntype {
+
+    // }
 
     private function getDayName($day) {
 
