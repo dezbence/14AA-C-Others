@@ -49,22 +49,6 @@ class MainController extends BaseController
         return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
-    public function getOpenings($id) {
-
-        $vets = Vet::with('openings', 'special_openings')
-            ->where('id', '=', $id)
-            ->get();
-
-        foreach ($vets as $vet) {
-            $return = [
-                "openings" => $vet->openings,
-                "special_openings" => $vet->special_openings
-            ];
-        }
-
-        return  $this->sendResponse($return, 'Sikeres művelet!');
-    }
-
     public function getPets($id)
     {
         $pets = Pet::where('owner_id', '=', $id)

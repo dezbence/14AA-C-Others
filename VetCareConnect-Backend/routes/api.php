@@ -22,22 +22,7 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/vet-all', [MainController::class, 'getAllVet']);
 
-
-
-
-
-
-Route::get('/openings/{id}', [MainController::class, 'getOpenings']);
-
 Route::get('/cure-types-all', [MainController::class, 'getCureTypes']);
-
-Route::get('/owner-appointments/{id}', [MainController::class, 'getOwnerAppointments']);
-
-Route::get('/free-appointments/{id}/{date}', [MainController::class, 'getFreeAppointments']);
-
-Route::get('/delete-pet/{id}', [MainController::class, 'deletePet']);
-
-Route::post('/search-vets', [MainController::class, 'searchVets']);
 
 
 Route::post('/register',[AuthController::class,'register']);
@@ -48,9 +33,19 @@ Route::post('/new-pet',[MainController::class,'addNewPet']);
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('/logout',[AuthController::class,'logout']);
 
+    //owner
     Route::get('/owner-data/{id}', [MainController::class, 'getOwnerData']);
     Route::get('/pets/{id}', [MainController::class, 'getPets']);
+    Route::get('/delete-pet/{id}', [MainController::class, 'deletePet']);
+    Route::get('/owner-appointments/{id}', [MainController::class, 'getOwnerAppointments']);
+    Route::get('/free-appointments/{id}/{date}', [MainController::class, 'getFreeAppointments']);
+    Route::post('/search-vets', [MainController::class, 'searchVets']);
 
+    //vet
     Route::get('/vet-data/{id}', [MainController::class, 'getVetData']);
+
+
+
+
 
 });
