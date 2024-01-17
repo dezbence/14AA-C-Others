@@ -27,5 +27,14 @@ export default {
         .catch(err => {
             return Promise.reject(err.response);
         }) 
+    },
+    getVetsByParams(data){
+        return Axios.post(`/search-vets`, data)
+        .then(resp => {
+            return resp.data;
+        })
+        .catch(err => {
+            return Promise.reject(err.response);
+        }) 
     }
 }

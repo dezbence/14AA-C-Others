@@ -5,18 +5,18 @@
         <div class="searchBar">
             <div class="nameSearch">
                 <label>Név:</label>
-                <InputText  placeholder="Dr. Állat Orvos"/>
+                <InputText  placeholder="Dr. Állat Orvos" v-model="vetSearch.name"/>
             </div>
             <div class="postalCodeSearch">
                 <label>Irányítószám:</label>
-                <InputText  placeholder="9022" />
+                <InputMask mask="9999" placeholder="9022" v-model="vetSearch.postal_code"/>
             </div>
             <div class="addressSearch">
                 <label>Cím:</label>
-                <InputText  placeholder="Komárom" />
+                <InputText  placeholder="Komárom" v-model="vetSearch.address"/>
             </div>
             <div class="btnBox">
-                <button class="btnStyle">Keresés</button>
+                <button class="btnStyle" @click="onSearch()">Keresés</button>
             </div>
         </div>
         <div class="searchResults">
@@ -29,8 +29,8 @@
                         <label><strong>Cím: </strong>{{ vet.postal_code  }} </label>
                     </div>
                     <div>
-                        <button class="btnStyle" @click="book()">Időpontot foglalok!</button>
-                        {{ vet.id }}
+                        <button class="btnStyle" @click="book(vet.id)">Időpontot foglalok!</button>
+                        
                     
                     </div>
                 </div>
@@ -48,21 +48,35 @@
 import Header from '@/components/page_controls/Header.vue';
 import Footer from '@/components/page_controls/Footer.vue';
 import InputText from "primevue/inputtext";
+import InputMask from 'primevue/inputmask';
 import vetservice from "../services/vetservice.js";
 import router from '@/router';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const vets = ref();
-
-vetservice.getAllVet().then((resp) => {
-  vets.value = resp.data;
+const vetSearch = ref({
+    name: "",
+    postal_code: "",
+    address: ""
 });
 
-function book() {
-    router.push('/idopontfoglalas');
-    console.log()
+// vetservice.getAllVet().then((resp) => {
+//   vets.value = resp.data;
+// });
+
+function onSearch(){
+    vetservice.getVetsByParams(vetSearch.value).then((resp) => {
+        vets.value = resp.data;
+        console.log(vets.value);
+    });
 }
 
+function book(vetId) {
+    router.push(`/idopontfoglalas/${vetId}`);
+}
+onMounted(() => {
+    onSearch();
+});
 </script>
 
 <style lang="css" scoped>
