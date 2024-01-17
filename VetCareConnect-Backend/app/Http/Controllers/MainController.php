@@ -67,7 +67,7 @@ class MainController extends BaseController
             'born_date' => 'required',
             'chip_number' => 'required',
             'pedigree_number'=> 'required',
-            'ownerId'=> 'required'
+            'owner_id'=> 'required'
         ];
 
         $validator = Validator::make($request->all(), $validatorFields);
