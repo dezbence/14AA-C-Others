@@ -61,6 +61,8 @@
 import { ref } from 'vue';
 import router from '@/router';
 import { useUserStore } from '@/store/userstore';
+import { useToast } from 'vue-toastification'
+const toast = useToast();
 
 const {login} = useUserStore();
 
@@ -80,9 +82,9 @@ function handleSubmit(){
     login(loginData.value)
     .then(resp => {
         console.log(loginData.value)
+        toast.success('Sikeres bejelentkezés!', {position: "top-center"});
         router.push('/')
     })
-    toast.success('Sikeres bejelentkezés!');
 }
     
 
