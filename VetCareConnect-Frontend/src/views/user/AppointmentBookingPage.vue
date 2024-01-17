@@ -195,11 +195,6 @@ const pets = ref([]);
 
 const { user } = storeToRefs(useUserStore());
 
-vetservice.getAllVet().then((resp) => {
-  vets.value = resp.data;
-  console.log(vets.value);
-});
-
 vetservice.getAllCureTypes().then((resp) => {
   cureTypes.value = resp.data;
 });
@@ -242,11 +237,16 @@ function hideBook() {
 }
 
 onMounted(() => {
-  selectedDoctorId.value = parseInt(route.params.doctorId);
-  console.log(vets);
-  console.log(vets.value);
+  vetservice.getAllVet().then((resp) => {
+  vets.value = resp.data;
+  selectedDoctorId.value = parseInt(route.params.doctorId) - 1;
+  for (let i = 0; i < vets.value.length; i++) {
+    if (vets.value[i].id == selectedDoctorId.value) {
+      choosedData.value.vet = vets.value[selectedDoctorId.value];
+    }
+  }
+});
 
-  choosedData.value.vet = vets[selectedDoctorId.value];
 });
 </script>
 
