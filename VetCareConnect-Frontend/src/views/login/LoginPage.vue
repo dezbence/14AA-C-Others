@@ -116,7 +116,7 @@ function passwordToggle() {
     z-index: 50;
     cursor: pointer;
     position: absolute;
-    right: 25px;
+    right: 15px;
     filter: invert(33%) sepia(38%) saturate(621%) hue-rotate(108deg) brightness(93%) contrast(92%);
 }
 
@@ -275,21 +275,65 @@ button:hover {
         flex-direction: column-reverse;
     }
 
+    .formRight ul li, .formRight ul li p {
+        margin: 0;
+        
+    }
+
     .formLeft {
         border-radius: 0 0 10px 10px;
         height: 360px;
         width: 450px;
-        padding: 40px 50px;
+        padding: 40px 80px;
     }
 
+    
+
+    form {
+        padding: 0;
+    }
+
+    label {
+        margin: 15px 0 3px;
+    }
+
+    h3 {
+        margin-bottom: 10px;
+    }
+
+    .submit {
+        margin-top: 26px;
+    }
     .middle {
         display: flex;
         flex-direction: column;
     }
 
-    #logo,
     ul #singinImage {
-        width: 100px;
+        display: none;
+    }
+
+    #logo {
+        width: 160px;
+        margin: 30px 0;           
     }
 }
+
+
+@media (max-width: 551px) {
+    .formRight, .formLeft {
+        width: 350px;
+        padding: 40px;
+    }
+
+    .formRight {
+        height: 140px;
+    }
+
+    #logo {
+        width: 140px;
+        margin: 20px 0;           
+    }
+}
+
 </style>
