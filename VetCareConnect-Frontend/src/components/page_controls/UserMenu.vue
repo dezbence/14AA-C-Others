@@ -33,6 +33,7 @@ const props = defineProps(['userMenuToggle'])
 
 function onLogout() {
     logout().then(() => {
+        props.userMenuToggle();
         router.push('/');
         toast.success('Sikeres kijelentkezés!', { position: "top-center" });
     })
