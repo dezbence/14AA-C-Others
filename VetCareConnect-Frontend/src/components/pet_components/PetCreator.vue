@@ -88,9 +88,9 @@ const pet = ref({
 function handleSubmit() {
     emits('submit', pet)
     ownerservice.postNewPet(pet.value, user.value.token)
-    // .then((resp) => {
-    //     console.log(resp.data);
-    // });
+    .then((resp) => {
+        console.log(resp);
+    });
     pet.value.gender = petGenderFormat(gender.value);
 }
 

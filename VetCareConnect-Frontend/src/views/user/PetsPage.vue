@@ -6,7 +6,7 @@
         <div>
         <h1 class="pageTitle">Kedvenceim</h1>
         <div class="petsCard">
-            <Pet v-for="pet in petsList" v-if="petsList.length > 0" @delete-pet="deletePet"></Pet>
+            <Pet v-for="pet in petsList" v-if="petsList.length > 0"></Pet>
             <div class="noPetsYet" v-else>
                 <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
                 <img src="../../assets/icons/arrow_forward_ios.svg">
@@ -54,11 +54,12 @@ const PetCreator = defineAsyncComponent(() =>
   import('@/components/pet_components/PetCreator.vue')
 )
 
-const isPetCreating = ref(false);
+
 const petsList = ref([]);
 const counter = ref(0);
 const appointmentsList = ref([1, 1, 1 , 1, 1]);
 
+const isPetCreating = ref(false);
 function showCreator() {
     isPetCreating.value = !isPetCreating.value;
 }
@@ -66,12 +67,11 @@ function showCreator() {
 function createPetCard(pet) {
     petsList.value.push(pet.value);
     isPetCreating.value = false;
-    // console.log(toRaw(petsList.value[counter.value]))
-    counter.value++;
+    console.log(petsList.value)
 }
 
 
-function deletePet() {
+function deletePet(petId) {
     // petsList.value = petsList.value.filter((pet) => pet.id !== petId)
     console.log(deleting)
 }

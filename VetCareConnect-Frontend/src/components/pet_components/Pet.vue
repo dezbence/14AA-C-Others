@@ -5,7 +5,7 @@
             <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle"></PetMenu>
         </div>
         <div class="profile">
-            
+
         </div>
 
         <h3>{{ petsData[0].name }}</h3>
@@ -24,7 +24,6 @@ import { ref } from 'vue';
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 import ownerservice from '../../services/ownerservice.js'
-import { onMounted } from 'vue';
 
 const { user } = storeToRefs(useUserStore());
 // import PetMenu from './PetMenu.vue';
@@ -33,7 +32,7 @@ import { defineAsyncComponent } from 'vue'
 const petsData = ref();
 
 const PetMenu = defineAsyncComponent(() =>
-  import('./PetMenu.vue')
+    import('./PetMenu.vue')
 )
 const props = defineProps(['petsList'])
 
@@ -42,16 +41,16 @@ function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;
 }
 
-console.log(user.value.id)
+// console.log(user.value.id)
 
-
+const counter = ref(-1);
 function getPets() {
+    counter.value++;
     ownerservice.getOwnersPets(user.value.id, user.value.token)
-    .then((resp) => {
-    petsData.value = resp.data;
-    console.log(petsData.value)
-    // console.log(resp)
-});
+        .then((resp) => {
+            petsData.value = resp.data;
+            console.log(resp.data)
+        });
 }
 
 getPets();

@@ -3,16 +3,25 @@
         <div class="list" v-for="menu in MenuItems">
             <routerLink class="menuImg" :to="menu.link"><img :src="menu.img">{{ menu.name }}</routerLink>
         </div>
-        <hr>
-        <div class="list">
-            <li class="logOut" @click="onLogout()"><img src="../../assets/icons/logout.svg"><p>Kijelentkezés</p></li>
+        <hr v-if="status.loggedIn">
+        <div class="list" v-if="status.loggedIn">
+            <li class="logOut" @click="onLogout()"><img src="../../assets/icons/logout.svg">
+                <p>Kijelentkezés</p>
+            </li>
         </div>
     </div>
 </template>
 
 <script setup>
+import router from '@/router';
 import { useUserStore } from '../../store/userstore.js';
+import { storeToRefs } from "pinia";
+import { useToast } from 'vue-toastification';
+
+const { status } = storeToRefs(useUserStore());
 const { logout } = useUserStore();
+
+const toast = useToast();
 
 const MenuItems = [
     { name: "Adataim", link: "/", img: "src/assets/icons/profile-line.svg" },
@@ -22,8 +31,11 @@ const MenuItems = [
 
 const props = defineProps(['userMenuToggle'])
 
-function onLogout(){
-  logout().then(()=>{ router.push('/')  })
+function onLogout() {
+    logout().then(() => {
+        router.push('/');
+        toast.success('Sikeres kijelentkezés!', { position: "top-center" });
+    })
 }
 
 </script>
@@ -48,7 +60,7 @@ function onLogout(){
     padding: 0;
 }
 
-.listbox .list  {
+.listbox .list {
     padding: 5px 6px;
     border-radius: 7px;
     cursor: pointer;
@@ -73,6 +85,7 @@ function onLogout(){
     width: 20px;
     margin-right: 10px;
 }
+
 .logOut p {
     margin: 0;
 }
@@ -89,5 +102,5 @@ function onLogout(){
 
 hr {
     color: #368267;
-border: #368267 2px solid;}
-</style>
+    border: #368267 2px solid;
+}</style>

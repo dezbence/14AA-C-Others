@@ -7,9 +7,12 @@
         </div>
       </ul>
 
-      <div class="sign">
+      <div class="sign" v-if="!status.loggedIn">
         <button id="bejelentkezes"><router-link to="/bejelentkezes">Bejelentkezés</router-link></button>
         <span id="regisztracio"><router-link to="/regisztracio">Regisztráció</router-link></span>
+      </div>
+      <div class="sign" v-else>
+        <button class="logOut" @click="onLogout()">Kijelentkezés</button>
       </div>
     </div>
 
@@ -17,12 +20,31 @@
 </template>
   
 <script setup>
+import router from '@/router';
+import { storeToRefs } from "pinia";
+import { useUserStore } from "@/store/userstore";
+import { useToast } from 'vue-toastification';
+
+const { logout } = useUserStore();
+const { status} = storeToRefs(useUserStore());
+
+const toast = useToast();
+
 const Routes = [
   { name: "Kezdőlap", link: "/" },
+  { name: "Állatorvosok", link: "/allatorvosok" },
   { name: "Időpont foglalás", link: "/idopontfoglalas" },
   { name: "Kedvenceim", link: "/kedvenceim" },
   { name: "Naptáram", link: "/naptaram" }
-]
+];
+
+function onLogout(){
+  logout().then(() => {
+        router.push('/');
+        toast.success('Sikeres kijelentkezés!', {position: "top-center"});
+    })
+}
+
 </script>
   
 <style scoped>
@@ -93,6 +115,7 @@ button {
   border: 0;
   margin-bottom: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  color: white;
 }
 
 
