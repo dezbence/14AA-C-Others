@@ -1,8 +1,8 @@
 import Axios from './dataservice.js';
 
 export default {
-    postNewPet(data) {
-        return Axios.post('/new-pet', data)
+    postNewPet(data, token) {
+        return Axios.post('/new-pet', data, {headers: {"Authorization" : "Bearer "+ token}})
             .then(resp => {
                 return resp.data;
             })

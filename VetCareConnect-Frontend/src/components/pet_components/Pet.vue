@@ -8,10 +8,10 @@
             
         </div>
 
-        <h3>{{  }}</h3>
-        <p>{{ }}</p>
-        <p>{{ }}</p>
-        <p>{{ }} kg</p>
+        <h3>{{ petsData[0].name }}</h3>
+        <p>{{ petsData[0].species }}</p>
+        <p>{{ petsData[0].gender }}</p>
+        <p>{{ petsData[0].weight }} kg</p>
         <p>Utoljára {{ }} hónapja módosítva utoljára</p>
 
 
@@ -30,7 +30,7 @@ const { user } = storeToRefs(useUserStore());
 // import PetMenu from './PetMenu.vue';
 import { defineAsyncComponent } from 'vue'
 
-const petsData = ref(null);
+const petsData = ref();
 
 const PetMenu = defineAsyncComponent(() =>
   import('./PetMenu.vue')
@@ -46,11 +46,11 @@ console.log(user.value.id)
 
 
 function getPets() {
-    ownerservice.getOwnersPets(user.value.id)
+    ownerservice.getOwnersPets(user.value.id, user.value.token)
     .then((resp) => {
-    // petsData.value = resp;
-    // console.log(petsData.value)
-    console.log(resp)
+    petsData.value = resp.data;
+    console.log(petsData.value)
+    // console.log(resp)
 });
 }
 

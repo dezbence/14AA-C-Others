@@ -66,7 +66,7 @@ function showCreator() {
 function createPetCard(pet) {
     petsList.value.push(pet.value);
     isPetCreating.value = false;
-    console.log(toRaw(petsList.value[counter.value]))
+    // console.log(toRaw(petsList.value[counter.value]))
     counter.value++;
 }
 
