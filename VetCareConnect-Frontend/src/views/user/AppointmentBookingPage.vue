@@ -150,12 +150,13 @@ import Calendar from "../../components/Calendar.vue";
 import vetservice from "../../services/vetservice.js";
 // import AppointmentApprove from "../../components/AppointmentApprove.vue";
 
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeMount, onBeforeUpdate } from "vue";
 import { useDateFormat } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
 import { defineAsyncComponent } from "vue";
-import { useRoute } from 'vue-router';
+import { useRoute } from "vue-router";
+import { toRaw } from "vue";
 
 const AppointmentApprove = defineAsyncComponent(() =>
   import("../../components/AppointmentApprove.vue")
@@ -188,7 +189,7 @@ const errorMessage = ref("");
 const selectedDoctorId = ref(null);
 const route = useRoute();
 
-const vets = ref([]);
+const vets = ref();
 const cureTypes = ref([]);
 const pets = ref([]);
 
@@ -196,6 +197,7 @@ const { user } = storeToRefs(useUserStore());
 
 vetservice.getAllVet().then((resp) => {
   vets.value = resp.data;
+  console.log(vets.value);
 });
 
 vetservice.getAllCureTypes().then((resp) => {
@@ -204,7 +206,6 @@ vetservice.getAllCureTypes().then((resp) => {
 
 vetservice.getUsersPets(user.value.id, user.value.token).then((resp) => {
   pets.value = resp.data;
-  console.log(resp.data);
 });
 
 function isActiveToggle(index, time) {
@@ -213,7 +214,6 @@ function isActiveToggle(index, time) {
 }
 
 function BookClick() {
-  console.log(choosedData.value.vet);
   if (choosedData.value.vet == "") {
     errorMessage.value = "Kérem válasszon orvost!\n";
     showError.value = true;
@@ -240,8 +240,12 @@ function closeErrorMessage() {
 function hideBook() {
   showBookApprove.value = false;
 }
+
 onMounted(() => {
   selectedDoctorId.value = parseInt(route.params.doctorId);
+  console.log(vets);
+  console.log(vets.value);
+
   choosedData.value.vet = vets[selectedDoctorId.value];
 });
 </script>
