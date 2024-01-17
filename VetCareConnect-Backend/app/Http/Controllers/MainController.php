@@ -79,7 +79,7 @@ class MainController extends BaseController
 
         $newPet = Pet::create($request->all());
 
-        return  $this->sendResponse($request, 'Sikeres művelet!');
+        return  $this->sendResponse('', 'Sikeres művelet!');
     }
 
     public function getCureTypes()
