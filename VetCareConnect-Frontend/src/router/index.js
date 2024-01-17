@@ -23,6 +23,7 @@ const router = createRouter({
     { path: '/regisztracio', name: 'register', component: () => import('@/views/login/RegisterPage.vue') },
     { path: '/elfelejtett-jelszo', name: 'forgotPassword', component: () => import('@/views/login/ForgotPasswordPage.vue') },
     { path: '/allatorvosok', name: 'vets', component: () => import('@/views/VetSearchPage.vue') },
+    { path: '/gyik', name: 'gyik', component: () => import('@/views/OftenAskedQuestionsPage.vue') },
     // catch all 404
     { path: '/:catchAll(.*)', name: 'notfound', component: NotFoundPageVue }
   ]
