@@ -1,17 +1,30 @@
 <template>
-    <div class="questionComponent">
-        <h3>Ez itt egy komoly kérdés?</h3>
-        <p>Ez pedig itt egy nagyon komoly válasz. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti reiciendis facilis natus pariatur praesentium aut voluptate autem assumenda delectus totam blanditiis nihil, fugit ut tempore suscipit voluptates error doloremque ipsam.</p>
-
-    </div>
+    <Panel :header="question"  class="questionComponent" toggleable collapsed>
+        <p>
+            {{ answer }}
+        </p>
+    </Panel>
 </template>
 
 <script setup>
+import Panel from 'primevue/panel';
+defineProps({
+  question: String,
+  answer: String
+});
 
 </script>
 
-<style lang="css" scoped>
-.questionComponent{
+<style lang="css">
+.p-panel-header, .p-panel-content, .p-panel-toggler{
+    background-color: #005A70;
+    color: white;
+    border-color: #005A70;
+}
+.p-panel-title{
+    font-size: 26px;
+}
+.questionComponent {
     background-color: #005A70;
     color: white;
     border-radius: 7px;

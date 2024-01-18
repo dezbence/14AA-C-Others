@@ -32,6 +32,7 @@ const toast = useToast();
 
 const Routes = [
   { name: "Kezdőlap", link: "/" },
+  { name: "GYIK", link: "/gyik" },
   { name: "Állatorvosok", link: "/allatorvosok" },
   { name: "Időpont foglalás", link: "/idopontfoglalas" },
   { name: "Kedvenceim", link: "/kedvenceim" },
