@@ -31,25 +31,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const { status } = storeToRefs(useUserStore());
-  const publicPages = ['/', '/bejelentkezes', '/regisztracio', '/allatorvosok', '/gyik'];
+  const publicPages = ['/', '/bejelentkezes', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo'];
   const autRequired = !publicPages.includes(to.path);
   if (autRequired && !status.value.loggedIn) {
-    return toast.error("Bejelentkezés szükséges!", {
-      position: "top-center",
-      timeout: 3000,
-      closeOnClick: true,
-      pauseOnFocusLoss: true,
-      pauseOnHover: true,
-      draggable: true,
-      draggablePercent: 0.6,
-      showCloseButtonOnHover: true,
-      hideProgressBar: false,
-      closeButton: "button",
-      icon: true,
-      rtl: false
-    });
+    return toast.error("Bejelentkezés szükséges!", {position: "top-center"});
   }
-  next(); // tovább a to-ra
+  next();
 });
 
 export default router

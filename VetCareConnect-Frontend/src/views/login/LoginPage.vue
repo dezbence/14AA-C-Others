@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="forgotPassword">
-                        <router-link to="/forgot-password">Elfelejtette a jelszavát?</router-link>
+                        <router-link to="/elfelejtett-jelszo">Elfelejtette a jelszavát?</router-link>
                     </div>
 
                     <div class="submit">
