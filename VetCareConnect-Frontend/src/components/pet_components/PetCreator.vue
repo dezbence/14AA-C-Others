@@ -89,7 +89,7 @@ function handleSubmit() {
     emits('submit', pet)
     ownerservice.postNewPet(pet.value, user.value.token)
     .then((resp) => {
-        console.log(resp);
+        console.log(pet.value);
     });
     pet.value.gender = petGenderFormat(gender.value);
 }

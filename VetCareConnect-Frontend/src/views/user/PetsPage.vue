@@ -1,16 +1,20 @@
 <template>
     <Header></Header>
-    <PetCreator v-if="isPetCreating" @submit="createPetCard" :show-creator="showCreator"></PetCreator>
+    <PetCreator v-if="isPetCreating" @submit="showCreator" :show-creator="showCreator"></PetCreator>
 
     <div :class="isPetCreating ? 'overflowDisable' : ''">
         <div>
         <h1 class="pageTitle">Kedvenceim</h1>
         <div class="petsCard">
-            <Pet v-for="pet in petsList" v-if="petsList.length > 0"></Pet>
-            <div class="noPetsYet" v-else>
+
+            <div v-for="pet in pets">
+                <Pet :pet=pet></Pet>
+            </div>
+
+            <!-- <div class="noPetsYet" v-else>
                 <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
                 <img src="../../assets/icons/arrow_forward_ios.svg">
-            </div>
+            </div> -->
             <button class="addPet" @click="showCreator">
                 <img class="addPetIcon" src="../../assets/icons/add.svg">
             </button>
@@ -39,12 +43,15 @@
 import { ref } from 'vue';
 import Header from '@/components/page_controls/Header.vue';
 import Footer from '@/components/page_controls/Footer.vue';
-// import Pet from '@/components/pet_components/Pet.vue';
-// import PetCreator from '@/components/pet_components/PetCreator.vue';
 import PastAppointments from '@/components/appointment_components/PastAppointments.vue';
-import { toRaw } from 'vue';
+
 import InputText from 'primevue/inputtext';
 import { defineAsyncComponent } from 'vue'
+import { useUserStore } from '@/store/userstore';
+import { storeToRefs } from 'pinia';
+import ownerservice from '../../services/ownerservice.js'
+
+const { user } = storeToRefs(useUserStore());
 
 const Pet = defineAsyncComponent(() =>
   import('@/components/pet_components/Pet.vue')
@@ -54,28 +61,26 @@ const PetCreator = defineAsyncComponent(() =>
   import('@/components/pet_components/PetCreator.vue')
 )
 
-
-const petsList = ref([]);
-const counter = ref(0);
-const appointmentsList = ref([1, 1, 1 , 1, 1]);
+const appointmentsList = ref([]);
 
 const isPetCreating = ref(false);
+
 function showCreator() {
     isPetCreating.value = !isPetCreating.value;
 }
 
-function createPetCard(pet) {
-    petsList.value.push(pet.value);
-    isPetCreating.value = false;
-    console.log(petsList.value)
+const pets = ref();
+
+
+function getPets() {
+    ownerservice.getOwnersPets(user.value.id, user.value.token)
+        .then((resp) => {
+            pets.value = resp.data;
+            console.log(resp.data)
+        });
 }
 
-
-function deletePet(petId) {
-    // petsList.value = petsList.value.filter((pet) => pet.id !== petId)
-    console.log(deleting)
-}
-
+getPets();
 </script>
 
 <style scoped>
