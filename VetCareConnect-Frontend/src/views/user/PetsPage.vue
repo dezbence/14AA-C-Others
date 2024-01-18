@@ -1,6 +1,6 @@
 <template>
     <Header></Header>
-    <PetCreator v-if="isPetCreating" @submit="showCreator" :show-creator="showCreator"></PetCreator>
+    <PetCreator v-if="isPetCreating"  :submit-pet="submitPet" :show-creator="showCreator"></PetCreator>
 
     <div :class="isPetCreating ? 'overflowDisable' : ''">
         <div>
@@ -20,7 +20,7 @@
                 </button>
 
             </div>
-            <div class="filter">
+            <div class="filter" v-if="appointmentsList.length > 0">
                 <h1 class="pageTitle">Korábbi kezelések</h1>
 
                 <div class="iconInInput">
@@ -28,7 +28,6 @@
                     <InputText class="searchBar" placeholder="Keresés" />
                 </div>
 
-                <!-- <img id="searchIcon" src="../../assets/icons/search.svg"> -->
             </div>
 
             <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0"></PastAppointments>
@@ -50,7 +49,6 @@ import { defineAsyncComponent } from 'vue'
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 import ownerservice from '../../services/ownerservice.js'
-import { onUpdated } from 'vue';
 
 const { user } = storeToRefs(useUserStore());
 
@@ -70,6 +68,8 @@ function showCreator() {
     isPetCreating.value = !isPetCreating.value;
 }
 
+
+
 const pets = ref();
 function getPets() {
     ownerservice.getOwnersPets(user.value.id, user.value.token)
@@ -77,6 +77,11 @@ function getPets() {
             pets.value = resp.data;
             console.log(resp.data)
         });
+}
+
+function submitPet() {
+    setTimeout(getPets(), 2000);
+    isPetCreating.value = false;
 }
 
 getPets();
