@@ -4,38 +4,38 @@
 
     <div :class="isPetCreating ? 'overflowDisable' : ''">
         <div>
-        <h1 class="pageTitle">Kedvenceim</h1>
-        <div class="petsCard">
+            <h1 class="pageTitle">Kedvenceim</h1>
+            <div class="petsCard">
 
-            <div v-for="pet in pets">
-                <Pet :pet=pet></Pet>
-            </div>
+                <div v-for="pet in pets">
+                    <Pet :pet=pet></Pet>
+                </div>
 
-            <!-- <div class="noPetsYet" v-else>
+                <!-- <div class="noPetsYet" v-else>
                 <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
                 <img src="../../assets/icons/arrow_forward_ios.svg">
             </div> -->
-            <button class="addPet" @click="showCreator">
-                <img class="addPetIcon" src="../../assets/icons/add.svg">
-            </button>
+                <button class="addPet" @click="showCreator">
+                    <img class="addPetIcon" src="../../assets/icons/add.svg">
+                </button>
 
-        </div>
-        <div class="filter">
-            <h1 class="pageTitle">Korábbi kezelések</h1>
-
-            <div class="iconInInput">
-                <img id="searchIcon" src="../../assets/icons/search.svg">
-                <InputText class="searchBar" placeholder="Keresés" />
             </div>
-        
-            <!-- <img id="searchIcon" src="../../assets/icons/search.svg"> -->
-        </div>
+            <div class="filter">
+                <h1 class="pageTitle">Korábbi kezelések</h1>
 
-        <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0"></PastAppointments>
-        <div class="marginBottom">.</div>
+                <div class="iconInInput">
+                    <img id="searchIcon" src="../../assets/icons/search.svg">
+                    <InputText class="searchBar" placeholder="Keresés" />
+                </div>
+
+                <!-- <img id="searchIcon" src="../../assets/icons/search.svg"> -->
+            </div>
+
+            <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0"></PastAppointments>
+            <div class="marginBottom">.</div>
+        </div>
     </div>
-    </div>
-    
+
     <Footer></Footer>
 </template>
   
@@ -50,15 +50,16 @@ import { defineAsyncComponent } from 'vue'
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 import ownerservice from '../../services/ownerservice.js'
+import { onUpdated } from 'vue';
 
 const { user } = storeToRefs(useUserStore());
 
 const Pet = defineAsyncComponent(() =>
-  import('@/components/pet_components/Pet.vue')
+    import('@/components/pet_components/Pet.vue')
 )
 
 const PetCreator = defineAsyncComponent(() =>
-  import('@/components/pet_components/PetCreator.vue')
+    import('@/components/pet_components/PetCreator.vue')
 )
 
 const appointmentsList = ref([]);
@@ -70,8 +71,6 @@ function showCreator() {
 }
 
 const pets = ref();
-
-
 function getPets() {
     ownerservice.getOwnersPets(user.value.id, user.value.token)
         .then((resp) => {
@@ -162,17 +161,19 @@ input {
 @media (max-width: 552px) {
     .filter {
         flex-direction: column;
-        align-items: start;margin-bottom: 20px;
+        align-items: start;
+        margin-bottom: 20px;
     }
 
     .pageTitle {
         margin-bottom: 10px;
     }
+
     .iconInInput {
         margin: 0 0 20px 40px;
     }
 
-    
 
-} 
+
+}
 </style>

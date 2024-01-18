@@ -1,48 +1,38 @@
 <template>
     <div class="cardsBack">
-        <img @click="petMenuToggle()" class="dotsMenu" src="../../assets/icons/dots.svg">
+        <img @click="petMenuToggle()" class="dotsMenu" src="../../assets/icons/dots.svg" />
         <div class="menu">
             <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle"></PetMenu>
         </div>
-        <div class="profile">
-
-        </div>
+        <div class="profile"></div>
 
         <h3>{{ pet.name }}</h3>
-        <p>{{ pet.species }}</p>
-        <p>{{ pet.gender }}</p>
-        <p>{{ pet.weight }} kg</p>
-        <p>Utoljára {{ }} hónapja módosítva utoljára</p>
-
-
-
-
+        <div>
+            <p>{{ pet.species }}</p>
+            <p>{{ pet.gender == 0 ? "nősétny" : "hím" }}</p>
+            <p>{{ pet.weight }} kg</p>
+            <p>{{ pet.comment }}</p>
+        </div>
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
-const props = defineProps(['pet'])
+const props = defineProps(["pet"]);
 
 // import PetMenu from './PetMenu.vue';
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from "vue";
 
-const PetMenu = defineAsyncComponent(() =>
-    import('./PetMenu.vue')
-)
+const PetMenu = defineAsyncComponent(() => import("./PetMenu.vue"));
 
 const isMenuOpen = ref(false);
 function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;
 }
-
-
-
-
 </script>
 <style scoped>
 .cardsBack {
-    background-color: #50B692;
+    background-color: #50b692;
     border-radius: 7px;
     height: 420px;
     width: 270px;
