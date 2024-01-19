@@ -8,7 +8,7 @@
             <div class="petsCard">
 
                 <div v-for="pet in pets" v-if="pets.length > 0">
-                    <Pet :pet=pet ></Pet>
+                    <Pet :pet=pet :get-pets="getPets"></Pet>
                 </div>
 
                 <div class="noPetsYet" v-else>
@@ -68,7 +68,6 @@ const isPetCreating = ref(false);
 function showCreator() {
     isPetCreating.value = !isPetCreating.value;
 }
-
 
 
 const pets = ref([]);

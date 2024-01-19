@@ -88,9 +88,10 @@ function handleSubmit() {
     ownerservice.postNewPet(pet.value, user.value.token)
     .then((resp) => {
         console.log(pet.value);
+        props.submitPet();
     });
     pet.value.gender = petGenderFormat(gender.value);
-    props.submitPet();
+    
 }
 
 
