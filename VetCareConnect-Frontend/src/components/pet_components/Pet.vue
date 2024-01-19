@@ -2,7 +2,7 @@
     <div class="cardsBack">
         <img @click="petMenuToggle()" class="dotsMenu" src="../../assets/icons/dots.svg" />
         <div class="menu">
-            <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle"></PetMenu>
+            <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle" :deletePet="deletePet"></PetMenu>
         </div>
         <div class="profile"></div>
 
@@ -17,19 +17,31 @@
 </template>
 <script setup>
 import { ref } from "vue";
-
-const props = defineProps(["pet"]);
-
-// import PetMenu from './PetMenu.vue';
 import { defineAsyncComponent } from "vue";
+import { useUserStore } from '@/store/userstore';
+import { storeToRefs } from 'pinia';
+import ownerservice from '../../services/ownerservice.js';
+
+const { user } = storeToRefs(useUserStore());
 
 const PetMenu = defineAsyncComponent(() => import("./PetMenu.vue"));
+
+const props = defineProps(['pet', 'getPets']);
 
 const isMenuOpen = ref(false);
 function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;
 }
+
+function deletePet() {
+    console.log(props.pet.id)
+    ownerservice.deletePet(props.pet.id, user.value.token)
+    .then((resp) => {
+        console.log(resp.data);
+     });
+}
 </script>
+
 <style scoped>
 .cardsBack {
     background-color: #50b692;

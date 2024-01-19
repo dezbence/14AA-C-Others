@@ -1,20 +1,21 @@
 <template>
     <Header></Header>
-    <PetCreator v-if="isPetCreating"  :submit-pet="submitPet" :show-creator="showCreator"></PetCreator>
+    <PetCreator v-if="isPetCreating" :submit-pet="submitPet" :show-creator="showCreator"></PetCreator>
 
     <div :class="isPetCreating ? 'overflowDisable' : ''">
         <div>
             <h1 class="pageTitle">Kedvenceim</h1>
             <div class="petsCard">
 
-                <div v-for="pet in pets">
-                    <Pet :pet=pet></Pet>
+                <div v-for="pet in pets" v-if="pets.length > 0">
+                    <Pet :pet=pet ></Pet>
                 </div>
 
-                <!-- <div class="noPetsYet" v-else>
-                <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
-                <img src="../../assets/icons/arrow_forward_ios.svg">
-            </div> -->
+                <div class="noPetsYet" v-else>
+                    <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
+                    <img src="../../assets/icons/arrow_forward_ios.svg">
+                </div>
+
                 <button class="addPet" @click="showCreator">
                     <img class="addPetIcon" src="../../assets/icons/add.svg">
                 </button>
@@ -70,7 +71,7 @@ function showCreator() {
 
 
 
-const pets = ref();
+const pets = ref([]);
 function getPets() {
     ownerservice.getOwnersPets(user.value.id, user.value.token)
         .then((resp) => {
@@ -80,7 +81,7 @@ function getPets() {
 }
 
 function submitPet() {
-    setTimeout(getPets(), 2000);
+    getPets();
     isPetCreating.value = false;
 }
 

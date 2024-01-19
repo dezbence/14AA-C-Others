@@ -19,4 +19,13 @@ export default {
                 return Promise.reject(err.response);
             })
     },
+    deletePet(id, token) {
+        return Axios.get('/delete-pet/' + id, {headers: {"Authorization" : "Bearer "+ token}})
+        .then(resp => {
+            return resp.data;
+        })
+        .catch(err => {
+            return Promise.reject(err.response);
+        })
+    }
 }

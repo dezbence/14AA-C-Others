@@ -6,7 +6,7 @@
                 <p>Szerkesztés</p>
             </div>
             <hr>
-            <div class="petDelete" @click="deletePet">
+            <div class="petDelete" @click="deletePet()">
                 <img src="../../assets/icons/delete.svg">
                 <p>Törlés</p>
             </div>
@@ -15,13 +15,8 @@
 </template>
 
 <script setup>
-const props = defineProps(['petMenuToggle'])
+const props = defineProps(['petMenuToggle', 'deletePet'])
 
-const emits = defineEmits(['delete-pet'])
-
-function deletePet() {
-   emit('delete-pet')
-}
 </script>
 
 <style scoped>
