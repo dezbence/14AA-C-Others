@@ -28,8 +28,20 @@ defineProps({
     background-color: #005A70;
     color: white;
     border-radius: 7px;
-    width: 800px;
     padding: 40px;
     text-align: justify;
+    width: 800px;
 }
+
+@media (max-width: 900px) {
+    .questionComponent {
+        width: 500px;
+    }
+}
+@media (max-width: 600px) {
+    .questionComponent {
+        width: 300px;
+    }
+}
+
 </style>
