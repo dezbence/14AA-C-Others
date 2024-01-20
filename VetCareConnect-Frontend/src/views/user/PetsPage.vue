@@ -1,26 +1,27 @@
 <template>
     <Header></Header>
-    <PetCreator v-if="isPetCreating" @submit="showCreator" :show-creator="showCreator"></PetCreator>
+    <PetCreator v-if="isPetCreating" :submit-pet="submitPet" :show-creator="showCreator"></PetCreator>
 
     <div :class="isPetCreating ? 'overflowDisable' : ''">
         <div>
             <h1 class="pageTitle">Kedvenceim</h1>
             <div class="petsCard">
 
-                <div v-for="pet in pets">
-                    <Pet :pet=pet></Pet>
+                <div v-for="pet in pets" v-if="pets.length > 0">
+                    <Pet :pet=pet :get-pets="getPets"></Pet>
                 </div>
 
-                <!-- <div class="noPetsYet" v-else>
-                <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
-                <img src="../../assets/icons/arrow_forward_ios.svg">
-            </div> -->
+                <div class="noPetsYet" v-else>
+                    <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
+                    <img src="../../assets/icons/arrow_forward_ios.svg">
+                </div>
+
                 <button class="addPet" @click="showCreator">
                     <img class="addPetIcon" src="../../assets/icons/add.svg">
                 </button>
 
             </div>
-            <div class="filter">
+            <div class="filter" v-if="appointmentsList.length > 0">
                 <h1 class="pageTitle">Korábbi kezelések</h1>
 
                 <div class="iconInInput">
@@ -28,7 +29,6 @@
                     <InputText class="searchBar" placeholder="Keresés" />
                 </div>
 
-                <!-- <img id="searchIcon" src="../../assets/icons/search.svg"> -->
             </div>
 
             <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0"></PastAppointments>
@@ -50,7 +50,6 @@ import { defineAsyncComponent } from 'vue'
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 import ownerservice from '../../services/ownerservice.js'
-import { onUpdated } from 'vue';
 
 const { user } = storeToRefs(useUserStore());
 
@@ -70,13 +69,19 @@ function showCreator() {
     isPetCreating.value = !isPetCreating.value;
 }
 
-const pets = ref();
+
+const pets = ref([]);
 function getPets() {
     ownerservice.getOwnersPets(user.value.id, user.value.token)
         .then((resp) => {
             pets.value = resp.data;
             console.log(resp.data)
         });
+}
+
+function submitPet() {
+    getPets();
+    isPetCreating.value = false;
 }
 
 getPets();

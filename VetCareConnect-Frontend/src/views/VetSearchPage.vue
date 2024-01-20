@@ -124,4 +124,35 @@ input{
     color: #246951;
 }
 
+@media (max-width: 1100px) {
+    .searchResults {
+        padding-left: 25px;
+    }
+    .searchBar {
+        margin-right: 25px;
+    }
+}
+
+@media (max-width: 990px) {
+    .page {
+        flex-direction: column;
+        align-items: center;
+    }
+    .searchResults {
+        padding-left: 0;
+        margin-top: 25px;
+    }
+    .searchBar {
+        margin-right: 0;
+    }
+}
+@media (max-width: 670px) {
+    .searchResults {
+        width: 300px;
+    }
+    .vetsBox {
+        flex-direction: column;
+        align-items: start;
+    }
+}
 </style>

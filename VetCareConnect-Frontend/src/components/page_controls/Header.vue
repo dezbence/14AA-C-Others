@@ -46,7 +46,7 @@ const { status, user } = storeToRefs(useUserStore());
 
 const MenuItems = [
   { name: "Adataim", link: "/" },
-  { name: "GYIK", link: "/idopontfoglalas" },
+  { name: "GYIK", link: "/gyik" },
   { name: "Beállítások", link: "/kedvenceim" },
   { name: "Kijelentkezés", link: "/naptaram" }
 ]

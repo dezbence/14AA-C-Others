@@ -57,8 +57,7 @@ import ownerservice from '../../services/ownerservice.js'
 
 const { user } = storeToRefs(useUserStore());
 
-const props = defineProps(['showCreator'])
-const emits = defineEmits(['submit'])
+const props = defineProps(['showCreator', 'submitPet']);
 
 const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
 const genders = ['hím', 'nőstény']
@@ -86,12 +85,13 @@ const pet = ref({
 
 
 function handleSubmit() {
-    emits('submit', pet)
     ownerservice.postNewPet(pet.value, user.value.token)
     .then((resp) => {
         console.log(pet.value);
+        props.submitPet();
     });
     pet.value.gender = petGenderFormat(gender.value);
+    
 }
 
 
