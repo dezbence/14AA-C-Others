@@ -14,30 +14,15 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
+
 class MainController extends BaseController
 {
 
 
-    public function getOwnerData($id) {
-
-        $ownerData = Owner::where('id', '=', $id)
-            ->get();
-
-        unset($ownerData['email']);
-        unset($ownerData['password']);
-
-        return  $this->sendResponse($ownerData, 'Sikeres művelet!');
-    }
-
-    public function getVetData($id) {
-
-        $vetData = Vet::where('id', '=', $id)
-            ->get();
-
-        unset($vetData['email']);
-        unset($vetData['password']);
-
-        return  $this->sendResponse($vetData, 'Sikeres művelet!');
+    public function getUserData() {
+        return  $this->sendResponse(Auth::user(), 'Sikeres művelet!');
     }
 
     public function getAllVet() {
@@ -49,15 +34,19 @@ class MainController extends BaseController
         return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
-    public function getPets($id)
+    public function getPets(Request $request)
     {
-        $pets = Pet::where('owner_id', '=', $id)
+        $this->isOwner($request);
+
+        $pets = Pet::where('owner_id', '=', Auth::user()->id)
             ->get();
 
         return  $this->sendResponse($pets, 'Sikeres művelet!');
     }
 
     public function addNewPet(Request $request) {
+
+        $this->isOwner($request);
 
         $validatorFields = [
             'name' => 'required',
@@ -66,18 +55,20 @@ class MainController extends BaseController
             'weight' => 'required',
             'born_date' => 'required',
             'chip_number' => 'required',
-            'pedigree_number'=> 'required',
-            'owner_id'=> 'required'
+            'pedigree_number'=> 'required'
         ];
 
         $validator = Validator::make($request->all(), $validatorFields);
 
 
-         if ($validator->fails()){
+        if ($validator->fails()){
             return $this->sendError('Bad request', $validator->errors(), 400);
-         }
+        }
 
-        $newPet = Pet::create($request->all());
+        $petData = $request->all();
+        $petData['owner_id'] = Auth::user()->id;
+
+        $newPet = Pet::create($petData);
 
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
@@ -91,20 +82,22 @@ class MainController extends BaseController
 
     public function getOwnerAppointments($id)
     {
+        $this->isOwner($request);
+
         $appointments = Cure::with('cure_type', 'vet', 'pet.owner')
             ->get();
 
         $return = [];
 
         foreach ($appointments as $appointment) {
-            if ($appointment->pet->owner->id == $id) {
+            if ($appointment->pet->owner->id == Auth::user()->id) {
                 $return[] = [
-                    'ownerId' => $appointment->pet->owner->id,
-                    'petName' => $appointment->pet->name,
-                    'cureType' => $appointment->cure_type->type,
-                    'vetName' => $appointment->vet->name,
-                    'vetAddress' => $appointment->vet->address,
-                    'cureDate' => $appointment->date
+                    'owner_id' => $appointment->pet->owner->id,
+                    'pet_name' => $appointment->pet->name,
+                    'cure_type' => $appointment->cure_type->type,
+                    'vet_name' => $appointment->vet->name,
+                    'vet_address' => $appointment->vet->address,
+                    'cure_date' => $appointment->date
                  ];
             }
 
@@ -169,7 +162,11 @@ class MainController extends BaseController
     }
 
     public function deletePet($id) {
-        Pet::where('id', '=', $id)->delete();
+        $this->isOwner($request);
+
+        Pet::where('id', '=', $id)
+            ->where('owner_id', '=', Auth::user()->id)
+            ->delete();
 
         return $this->sendResponse('', 'Sikeres művelet!');
     }
@@ -203,6 +200,18 @@ class MainController extends BaseController
         return $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
+    public function bearerTest(Request $request) {
+
+        if ($this->getUserType($request) == "vet") {
+            return 'vet';
+        }
+        if ($this->getUserType($request) == "owner") {
+            return 'owner';
+        }
+
+        return $this->sendResponse($user, 'Sikeres művelet!');
+    }
+
     private function getDayName($day) {
 
         $days = [
@@ -216,6 +225,31 @@ class MainController extends BaseController
         ];
 
         return $days[$day];
+    }
+
+    private function getUserType(Request $request) {
+        //$request->bearerToken()
+
+        if (PersonalAccessToken::findToken($request->bearerToken())->tokenable_type == "App\\Models\\Vet") {
+            return "vet";
+        }
+        if (PersonalAccessToken::findToken($request->bearerToken())->tokenable_type == "App\\Models\\Owner") {
+            return "owner";
+        }
+
+        return "else";
+    }
+
+    private function isOwner(Request $request) {
+        if ($this->getUserType($request) != "owner") {
+            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
+        }
+    }
+
+    private function isVet() {
+        if ($this->getUserType($request) != "vet") {
+            return $this->sendError('unauthorized',['error'=>'Orvos bejelentkezés szükséges!'],401);
+        }
     }
 
 }

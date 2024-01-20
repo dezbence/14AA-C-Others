@@ -29,6 +29,8 @@ Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 
 
+
+
 Route::post('/search-vets', [MainController::class, 'searchVets']);
 //Route::post('/logout',[AuthController::class,'logout']);
 
@@ -36,19 +38,25 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/logout',[AuthController::class,'logout']);
 
     //owner
-    Route::get('/owner-data/{id}', [MainController::class, 'getOwnerData']);
-    Route::get('/pets/{id}', [MainController::class, 'getPets']);
+    Route::get('/user-data', [MainController::class, 'getUserData']);
+
+    Route::get('/pets', [MainController::class, 'getPets']);
     Route::get('/delete-pet/{id}', [MainController::class, 'deletePet']);
-    Route::get('/owner-appointments/{id}', [MainController::class, 'getOwnerAppointments']);
+    Route::get('/owner-appointments', [MainController::class, 'getOwnerAppointments']);
     Route::get('/free-appointments/{id}/{date}', [MainController::class, 'getFreeAppointments']);
     Route::post('/new-pet',[MainController::class,'addNewPet']);
 
 
+    //Route::middleware('auth:vet')->group(function(){
+        Route::get('/bearer-test',[MainController::class,'bearerTest']);
+    //});
     //vet
-    Route::get('/vet-data/{id}', [MainController::class, 'getVetData']);
+    //Route::get('/vet-data/{id}', [MainController::class, 'getVetData']);
 
 
 
 
 
 });
+
+
