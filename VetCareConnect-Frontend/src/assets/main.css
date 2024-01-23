@@ -114,6 +114,10 @@ select {
     max-height: 50px;
 }
 
+.p-tabview .p-tabview-panels {
+  padding: 0;
+}
+
 .p-tabview-nav-content {
   display: none;
 }
