@@ -2,22 +2,14 @@
   <Header></Header>
   <h1 class="pageTitle">Időpontfoglalás</h1>
   <div class="container">
-    <div
-      v-if="!showBookApprove"
-      class="row d-flex align-items-start mx-auto my-auto"
-    >
+    <div v-if="!showBookApprove" class="row d-flex align-items-start mx-auto my-auto">
       <div class="d-flex justify-content-center p-0 mb-3 col-xl-4 col-lg-12">
         <div class="col p-0">
           <div class="choosePanel rounded">
             <div class="col">
               <p class="mb-xl-2 mb-lg-2">Válasszon orvost!</p>
-              <select
-                v-model="choosedData.vet"
-                name="orvosok"
-                id="orvosok"
-                class="selectClass mt-0"
-              >
-                <option value="" disabled selected hidden>
+              <select v-model="choosedData.vet" name="orvosok" id="orvosok" class="selectClass mt-0" @change="refreshTimes()">
+                <option value="0" disabled selected hidden>
                   Kérem válasszon!
                 </option>
                 <option v-for="vet in vets" :value="vet">{{ vet.name }}</option>
@@ -28,12 +20,7 @@
               <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
                 Válassza ki az időpont típusát!
               </p>
-              <select
-                v-model="choosedData.type"
-                name="types"
-                id="type"
-                class="selectClass mt-0"
-              >
+              <select v-model="choosedData.type" name="types" id="type" class="selectClass mt-0">
                 <option value="" disabled selected hidden>
                   Kérem válasszon!
                 </option>
@@ -48,12 +35,7 @@
               <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
                 Válassza ki kiskedvencét!
               </p>
-              <select
-                v-model="choosedData.pet"
-                name="pets"
-                id="pet"
-                class="selectClass mt-0"
-              >
+              <select v-model="choosedData.pet" name="pets" id="pet" class="selectClass mt-0">
                 <option value="" disabled selected hidden>
                   Kérem válasszon!
                 </option>
@@ -76,44 +58,27 @@
         </div>
       </div>
 
-      <div
-        class="calendarAndChoosePanel d-flex align-items-center justify-content-center mb-3 mt-0 col-xl-8 col-lg-12"
-      >
-        <Calendar
-          class="calendar text-center col-md-12"
-          v-model="choosedDate"
-          :min-date="new Date()"
-        />
+      <div class="calendarAndChoosePanel d-flex align-items-center justify-content-center mb-3 mt-0 col-xl-8 col-lg-12">
+        <Calendar class="calendar text-center col-md-12" v-model="choosedDate" :min-date="new Date()" @date-select="refreshTimes()" />
         <div class="chooseDate rounded-end col-md-12">
           <h5 class="text-center choosedDate">{{ formattedDate }}</h5>
           <div class="line"></div>
           <div class="dates">
-            <div v-for="(time, index) in times" :key="index">
-              <div
-                class="times btnStyle"
-                @click="isActiveToggle(index, time)"
-                :class="{ active: activeIdx == index }"
-              >
+            <div v-for="(time, index) in appointments" :key="index">
+              <div class="times btnStyle" @click="isActiveToggle(index, time)" :class="{ active: activeIdx == index }">
                 {{ time }}
               </div>
             </div>
           </div>
           <div class="d-flex align-items-center justify-content-center">
-            <button
-              class="btnStyle btnBook text-center mt-5"
-              @click="BookClick()"
-            >
+            <button class="btnStyle btnBook text-center mt-5" @click="BookClick()">
               Lefoglalom
             </button>
           </div>
           <div v-if="showError" class="errorMessage">
             <div class="alert alert-danger show errMess" role="alert">
               {{ errorMessage }}
-              <button
-                type="button"
-                class="btn-close"
-                @click="closeErrorMessage()"
-              ></button>
+              <button type="button" class="btn-close" @click="closeErrorMessage()"></button>
             </div>
           </div>
           <div class="meanings meaningsInDates">
@@ -130,14 +95,9 @@
       </div>
     </div>
     <div v-else>
-      <AppointmentApprove
-        @remove="hideBook"
-        :choosed-vet="choosedData.vet"
-        :choosed-pet="choosedData.pet"
-        :choosed-type="choosedData.type"
-        :choosed-date="formattedDate"
-        :choosed-time="choosedData.time"
-      ></AppointmentApprove>
+      <AppointmentApprove @remove="hideBook" :choosed-vet="choosedData.vet" :choosed-pet="choosedData.pet"
+        :choosed-type="choosedData.type" :choosed-date="formattedDate" :choosed-time="choosedData.time">
+      </AppointmentApprove>
     </div>
   </div>
   <Footer></Footer>
@@ -156,31 +116,21 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
 import { defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
-import { toRaw } from "vue";
 
 const AppointmentApprove = defineAsyncComponent(() =>
   import("../../components/AppointmentApprove.vue")
 );
 
 const choosedData = ref({
-  vet: "",
+  vet: { id: 0},
   type: "",
   pet: "",
   time: "",
 });
 const choosedDate = ref();
 const formattedDate = useDateFormat(choosedDate, "YYYY. MMMM DD.");
+const dateSend = useDateFormat(choosedDate, "YYYY-MM-DD");
 
-const times = [
-  "9:30",
-  "10:30",
-  "11:00",
-  "12:00",
-  "12:00",
-  "12:00",
-  "12:00",
-  "9:30",
-];
 const activeIdx = ref(-1);
 
 const showBookApprove = ref(false);
@@ -192,6 +142,7 @@ const route = useRoute();
 const vets = ref();
 const cureTypes = ref([]);
 const pets = ref([]);
+const appointments = ref([]);
 
 const { user } = storeToRefs(useUserStore());
 
@@ -199,7 +150,7 @@ vetservice.getAllCureTypes().then((resp) => {
   cureTypes.value = resp.data;
 });
 
-vetservice.getUsersPets(user.value.id, user.value.token).then((resp) => {
+vetservice.getUsersPets(user.value.token).then((resp) => {
   pets.value = resp.data;
 });
 
@@ -236,16 +187,25 @@ function hideBook() {
   showBookApprove.value = false;
 }
 
+function refreshTimes() {
+  vetservice.getFreeAppointments(choosedData.value.vet.id, dateSend.value, user.value.token).then((resp) => {
+      appointments.value = resp.data;
+    });
+}
+
 onMounted(() => {
   vetservice.getAllVet().then((resp) => {
-  vets.value = resp.data;
-  selectedDoctorId.value = parseInt(route.params.doctorId) - 1;
-  for (let i = 0; i < vets.value.length; i++) {
-    if (vets.value[i].id == selectedDoctorId.value) {
-      choosedData.value.vet = vets.value[selectedDoctorId.value];
+    vets.value = resp.data;
+    if (route.params.doctorId != "") {
+      selectedDoctorId.value = parseInt(route.params.doctorId);
+      choosedData.value.vet = vets.value.find(x => x.id == selectedDoctorId.value);
+      refreshTimes();
     }
-  }
-});
+    else {
+      choosedData.value.vet = 0;
+    }
+
+  });
 
 });
 </script>
@@ -413,6 +373,9 @@ onMounted(() => {
   .choosePanel div {
     padding: 0px;
     text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
   }
 
   .choosePanel.p {
@@ -425,9 +388,11 @@ onMounted(() => {
     align-items: center;
     width: 300px;
   }
+
   .errMess {
     margin-bottom: -10px;
   }
+
   .meaningsInDates {
     display: block;
     background-color: #246951;
@@ -468,6 +433,7 @@ onMounted(() => {
     margin-top: 20px;
     flex-direction: column;
   }
+
   .chooseDate {
     width: 410px;
     height: 480px;
