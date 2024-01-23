@@ -6,48 +6,61 @@
             </div>
             <h4>Hozza létre kedvence adatlapját!</h4>
             <form submit.pervent="handleSubmit"></form>
+            <div class="">
+                <Button @click="active = 0" rounded label="1" class="w-2rem h-2rem p-0" :outlined="active !== 0" />
+            <Button @click="active = 1" rounded label="2" class="w-2rem h-2rem p-0" :outlined="active !== 1" />
+                <TabView v-model:activeIndex="active">
+                    <TabPanel :class="active ? '' : 'disabledTab'">
+                        <label>Kedvence neve:</label>
+                        <InputText v-model="pet.name"></InputText>
 
-            <label>Kedvence neve:</label>
-            <InputText v-model="pet.name"></InputText>
+                        <label>Chip szám (15 számjegy):</label>
+                        <InputNumber v-model="pet.chip_number" :min="0" :max="999999999999999" :useGrouping="false" />
+                        <label>Törzskönyv száma (8 számjegy):</label>
+                        <InputNumber v-model="pet.pedigree_number" :min="0" :max="99999999" :useGrouping="false" />
+                        <label>Fajtajelleg:</label>
+                        <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!"
+                            class="petDropdown" />
 
-            <div class="officalNumbers">
-                <div class="chipNum">
-                    <label>Chip szám:</label>
-                    <InputMask v-model="pet.chip_number" mask="999999999999999"></InputMask>
-                </div>
+                        <label>Ivar:</label>
+                        <Dropdown v-model="gender" :options="genders" showClear placeholder="Kérem válasszon!"
+                            class="petDropdown" />
+                        <button>Tovább</button>
+                    </TabPanel>
 
-                <div class="pedigreeNum">
-                    <label>Törzskönyv száma:</label>
-                    <InputMask v-model="pet.pedigree_number" mask="99999999"></InputMask>
-                </div>
+
+                    <TabPanel :class="active ? 'disabledTab' : ''">
+                        <label>Súlya (kg):</label>
+                        <InputNumber v-model="pet.weight" placeholder="0" :useGrouping="false" :minFractionDigits="0"
+                            :maxFractionDigits="2" :min="0.1" :max="999" suffix=" kg" />
+                        <label>Születési dátuma:</label>
+                        <Calendar class="bornDate" v-model="pet.born_date" :max-date="new Date()" dateFormat="yy.mm.dd"
+                            placeholder="éééé.hh.nn" />
+                        <label>Megjegyzés:</label>
+                        <Textarea placeholder="Allergiák, különlegességek, stb." v-model="pet.comment" rows="4" cols="40"
+                            autoResize></Textarea>
+                        <button @click="handleSubmit()">Létrehozás</button>
+                    </TabPanel>
+                </TabView>
+
+
 
             </div>
 
-            <label>Fajtajelleg:</label>
-            <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!"
-                class="petDropdown" />
 
-            <label>Ivar:</label>
-            <Dropdown v-model="gender" :options="genders" showClear placeholder="Kérem válasszon!" class="petDropdown" />
-
-            <label>Súlya (kg):</label>
-
-            <InputMask v-model="pet.weight" mask="99.99" placeholder="0" />
-            <label>Születési dátuma:</label>
-            <InputMask v-model="pet.born_date" placeholder="éééé.hh.nn" mask="9999.99.99" />
-            <label>Megjegyzés:</label>
-            <Textarea placeholder="Allergiák, különlegességek, stb." v-model="pet.comment" rows="4" cols="40" autoResize />
-
-            <button @click="handleSubmit()">Létrehozás</button>
 
         </div>
     </div>
 </template>
 
 <script setup>
+import Button from 'primevue/button';
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
-import InputMask from 'primevue/inputmask';
+import InputNumber from 'primevue/inputnumber';
+import Calendar from 'primevue/calendar';
 import Textarea from 'primevue/textarea';
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
@@ -86,12 +99,12 @@ const pet = ref({
 
 function handleSubmit() {
     ownerservice.postNewPet(pet.value, user.value.token)
-    .then((resp) => {
-        console.log(pet.value);
-        props.submitPet();
-    });
+        .then((resp) => {
+            console.log(pet.value);
+            props.submitPet();
+        });
     pet.value.gender = petGenderFormat(gender.value);
-    
+
 }
 
 
@@ -99,73 +112,55 @@ function handleSubmit() {
 </script>
 
 <style scoped>
+
+.disabledTab {
+    display: none;
+}
+
+
 .petCreatingForm {
+    background-color: white;
+    border-radius: 7px;
+    padding: 40px 30px 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.scrollForm {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: white;
-    border-radius: 7px;
-    padding: 40px 30px 30px;
-    max-height: 700px;
-    position: relative;
+    height: 600px;
+
 }
+
 
 input {
     padding: 5px 20px 5px 10px;
-    color: #000;
     border-radius: 7px;
     background-color: #ededed;
     border: 1px solid #c5c5c5;
     outline: none;
-    max-height: 50px;
+    max-height: 100px;
+    width: 300px;
 }
 
 button {
     width: 300px;
     border: none;
     border-radius: 7px;
+    margin-top: 20px;
     background-color: #50B692;
     color: white;
     padding: 5px 10px;
-    margin-top: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 label {
     margin-top: 12px;
-}
-
-.officalNumbers {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-
-}
-
-.chipNum,
-.pedigreeNum {
-    display: flex;
-    flex-direction: column;
-}
-
-.pedigreeNum {
-    align-items: end;
-}
-
-.chipNum label,
-.pedigreeNum label {
-    font-size: 0.9rem;
-}
-
-.pedigreeNum input {
-    width: 110px;
-    padding: 5px;
-}
-
-.chipNum input {
-    width: 160px;
-    padding: 5px;
 }
 
 h4 {
@@ -185,11 +180,33 @@ h4 {
 }
 
 .p-dropdown,
-.p-inputtext {
-    color: #000;
+.p-inputtext,
+.p-inputnumber,
+.bornDate {
     border-radius: 7px;
     background-color: #ededed;
-    border: 1px solid #c5c5c5;
     outline: none;
     width: 300px;
-}</style>
+}
+
+.scrollForm::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+.scrollForm::-webkit-scrollbar-track {
+    background: #ccc;
+    border-radius: 7px;
+}
+
+/* Handle */
+.scrollForm::-webkit-scrollbar-thumb {
+    background: #368267;
+    border-radius: 7px;
+}
+
+/* Handle on hover */
+.scrollForm::-webkit-scrollbar-thumb:hover {
+    background: #246951;
+}
+</style>

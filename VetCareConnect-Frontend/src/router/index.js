@@ -24,7 +24,7 @@ const router = createRouter({
     { path: '/elfelejtett-jelszo', name: 'forgotPassword', component: () => import('@/views/login/ForgotPasswordPage.vue') },
     { path: '/allatorvosok', name: 'vets', component: () => import('@/views/VetSearchPage.vue') },
     { path: '/gyik', name: 'gyik', component: () => import('@/views/OftenAskedQuestionsPage.vue') },
-    { path: '/orvosi-naptar', name: 'orvosiNaptar', component: () => import('@/views/VetCalendar.vue') },
+    { path: '/orvosi-naptar', name: 'orvosiNaptar', component: () => import('@/views/vet/VetCalendar.vue') },
     // catch all 404
     { path: '/:catchAll(.*)', name: 'notfound', component: NotFoundPageVue }
   ]

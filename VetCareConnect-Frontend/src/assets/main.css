@@ -113,3 +113,18 @@ select {
     border: 1px solid #c5c5c5;
     max-height: 50px;
 }
+/* 
+.p-tabview-nav-content {
+  display: none;
+} */
+
+.p-tabview-nav a{
+  color: #368267;
+  text-decoration: none;
+}
+
+.p-tabview-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

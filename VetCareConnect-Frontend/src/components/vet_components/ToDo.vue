@@ -11,8 +11,9 @@
 
 <style scoped>
 .main {
-    background-color:#246951;
+    background-color:#368267;
     border-radius: 7px;
     padding: 16px;
+    margin: 0 10px 10px 0;
 }
 </style>
