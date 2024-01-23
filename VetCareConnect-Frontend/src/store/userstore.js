@@ -21,7 +21,7 @@ export const useUserStore = defineStore('userstore',{
                     this.status.loggedIn = true;
                     this.user = resp.data.data;
                     this.status.message = ''; //resp.data.message;
-                    localStorage.setItem('user',JSON.stringify(this.user))
+                    sessionStorage.setItem('user',JSON.stringify(this.user))
                 })
                 .catch(err =>{
                     this.status.loggedIn = false;
@@ -35,7 +35,7 @@ export const useUserStore = defineStore('userstore',{
                 .then(()=>{
                     this.status.loggedIn = false;
                     this.user =  {name: '', token: '', id:null, role:null }
-                    localStorage.removeItem('user');
+                    sessionStorage.removeItem('user');
                 });
         }
     } 
