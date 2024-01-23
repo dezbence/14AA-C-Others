@@ -73,6 +73,31 @@ class MainController extends BaseController
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
 
+    public function addNewAppointment(Request $request){
+        $this->isOwner($request);
+
+        $validatorFields = [
+            'date' => 'required',
+            'pet_id'=> 'required',
+            'cure_type_id' => 'required',
+            'vet_id' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+
+        if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        $appointmentData = $request->all();
+        $appointmentData['owner_id'] = Auth::user()->id;
+
+        $newAppointment = Pet::create($appointmentData);
+
+        return  $this->sendResponse('', 'Sikeres művelet!');
+    }
+
     public function getCureTypes()
     {
         $cure_types = Cure_type::all();

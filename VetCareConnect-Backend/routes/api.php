@@ -45,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/owner-appointments', [MainController::class, 'getOwnerAppointments']);
     Route::get('/free-appointments/{id}/{date}', [MainController::class, 'getFreeAppointments']);
     Route::post('/new-pet',[MainController::class,'addNewPet']);
+    Route::post('/new-appointment',[MainController::class,'addNewAppointment']);
 
 
     //Route::middleware('auth:vet')->group(function(){
