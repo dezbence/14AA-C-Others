@@ -42,14 +42,19 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::get('/pets', [MainController::class, 'getPets']);
     Route::get('/delete-pet/{id}', [MainController::class, 'deletePet']);
+    Route::get('/delete-appointment/{id}', [MainController::class, 'deleteAppointment']);
     Route::get('/owner-appointments', [MainController::class, 'getOwnerAppointments']);
     Route::get('/free-appointments/{id}/{date}', [MainController::class, 'getFreeAppointments']);
     Route::post('/new-pet',[MainController::class,'addNewPet']);
+    Route::post('/new-appointment',[MainController::class,'addNewAppointment']);
 
 
-    //Route::middleware('auth:vet')->group(function(){
+    // Route::middleware('only-owner')->group(function(){
+    //     Route::get('/bearer-test',[MainController::class,'bearerTest']);
+    // });
+    Route::middleware('only-vet')->group(function(){
         Route::get('/bearer-test',[MainController::class,'bearerTest']);
-    //});
+    });
     //vet
     //Route::get('/vet-data/{id}', [MainController::class, 'getVetData']);
 

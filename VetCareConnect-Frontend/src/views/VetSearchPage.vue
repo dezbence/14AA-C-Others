@@ -67,7 +67,6 @@ const vetSearch = ref({
 function onSearch(){
     vetservice.getVetsByParams(vetSearch.value).then((resp) => {
         vets.value = resp.data;
-        console.log(vets.value);
     });
 }
 

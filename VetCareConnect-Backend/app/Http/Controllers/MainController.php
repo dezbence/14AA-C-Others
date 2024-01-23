@@ -36,7 +36,9 @@ class MainController extends BaseController
 
     public function getPets(Request $request)
     {
-        $this->isOwner($request);
+        if ($this->getUserType($request) != "owner") {
+            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
+        }
 
         $pets = Pet::where('owner_id', '=', Auth::user()->id)
             ->get();
@@ -46,7 +48,9 @@ class MainController extends BaseController
 
     public function addNewPet(Request $request) {
 
-        $this->isOwner($request);
+        if ($this->getUserType($request) != "owner") {
+            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
+        }
 
         $validatorFields = [
             'name' => 'required',
@@ -73,6 +77,31 @@ class MainController extends BaseController
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
 
+    public function addNewAppointment(Request $request){
+        $this->isOwner($request);
+
+        $validatorFields = [
+            'date' => 'required',
+            'pet_id'=> 'required',
+            'cure_type_id' => 'required',
+            'vet_id' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+
+        if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        $appointmentData = $request->all();
+        $appointmentData['owner_id'] = Auth::user()->id;
+
+        $newAppointment = Pet::create($appointmentData);
+
+        return  $this->sendResponse('', 'Sikeres művelet!');
+    }
+
     public function getCureTypes()
     {
         $cure_types = Cure_type::all();
@@ -80,9 +109,11 @@ class MainController extends BaseController
         return  $this->sendResponse($cure_types, 'Sikeres művelet!');
     }
 
-    public function getOwnerAppointments($id)
+    public function getOwnerAppointments(Request $request)
     {
-        $this->isOwner($request);
+        if ($this->getUserType($request) != "owner") {
+            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
+        }
 
         $appointments = Cure::with('cure_type', 'vet', 'pet.owner')
             ->get();
@@ -162,7 +193,9 @@ class MainController extends BaseController
     }
 
     public function deletePet($id) {
-        $this->isOwner($request);
+        if ($this->getUserType($request) != "owner") {
+            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
+        }
 
         Pet::where('id', '=', $id)
             ->where('owner_id', '=', Auth::user()->id)
@@ -179,7 +212,35 @@ class MainController extends BaseController
 
     }
 
-    public function deleteAppointment() {
+    public function deleteAppointment(Request $request, $id) {
+        if ($this->getUserType($request) != "owner") {
+            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
+        }
+
+        $cures = Cure::with([
+        'pet.owner' => function ($query) {
+            $query->where('id', '=', Auth::user()->id);
+        }
+        ])
+            ->where('id', '=', $id)
+            ->get();
+
+        $validCure = null;
+
+        foreach ($cures as $cure) {
+            if ($cure['pet']['owner'] != null) {
+                $validCure = $cure;
+                break;
+            }
+        }
+
+        if ($validCure == null) {
+            return "eznul";
+        } else {
+            Cure::find($validCure->id)->delete();
+        }
+
+        return $this->sendResponse("", 'Sikeres művelet!');
 
     }
 
@@ -202,14 +263,14 @@ class MainController extends BaseController
 
     public function bearerTest(Request $request) {
 
-        if ($this->getUserType($request) == "vet") {
-            return 'vet';
-        }
-        if ($this->getUserType($request) == "owner") {
-            return 'owner';
-        }
+        // if ($this->getUserType($request) == "vet") {
+        //     return 'vet';
+        // }
+        // if ($this->getUserType($request) == "owner") {
+        //     return 'owner';
+        // }
 
-        return $this->sendResponse($user, 'Sikeres művelet!');
+        return $this->sendResponse(Auth::user(), 'Sikeres művelet!');
     }
 
     private function getDayName($day) {
@@ -238,18 +299,6 @@ class MainController extends BaseController
         }
 
         return "else";
-    }
-
-    private function isOwner(Request $request) {
-        if ($this->getUserType($request) != "owner") {
-            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
-        }
-    }
-
-    private function isVet() {
-        if ($this->getUserType($request) != "vet") {
-            return $this->sendError('unauthorized',['error'=>'Orvos bejelentkezés szükséges!'],401);
-        }
     }
 
 }
