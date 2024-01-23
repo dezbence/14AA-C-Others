@@ -135,14 +135,7 @@ function handleSubmit() {
     position: relative;
 }
 
-.scrollForm {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 600px;
 
-}
 
 .pages {
     display: flex;
@@ -163,18 +156,10 @@ function handleSubmit() {
     cursor: pointer;
 }
 
+
+
 .activePage {
     background-color: #368267;
-}
-
-input {
-    padding: 5px 20px 5px 10px;
-    border-radius: 7px;
-    background-color: #ededed;
-    border: 1px solid #c5c5c5;
-    outline: none;
-    max-height: 100px;
-    width: 300px;
 }
 
 button {
@@ -185,7 +170,7 @@ button {
     background-color: #50B692;
     color: white;
     padding: 5px 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 label {
@@ -218,24 +203,26 @@ h4 {
     width: 300px;
 }
 
-.scrollForm::-webkit-scrollbar {
-    width: 7px;
-}
+@media (max-width: 514px) {
+   h4 {
+    font-size: 1.1rem;
+   }
 
-/* Track */
-.scrollForm::-webkit-scrollbar-track {
-    background: #ccc;
-    border-radius: 7px;
-}
+   .page {
+    font-size: 0.8rem;
+    width: 34px;
+   }
 
-/* Handle */
-.scrollForm::-webkit-scrollbar-thumb {
-    background: #368267;
-    border-radius: 7px;
+   .petCreatingForm {
+    width: 350px;
+    padding: 30px;
+   }
+   
+   .p-dropdown,
+.p-inputtext,
+.p-inputnumber,
+.bornDate, button {
+    width: 260px;
 }
-
-/* Handle on hover */
-.scrollForm::-webkit-scrollbar-thumb:hover {
-    background: #246951;
 }
 </style>
