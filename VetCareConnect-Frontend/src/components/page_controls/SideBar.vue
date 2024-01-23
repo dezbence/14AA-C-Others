@@ -36,7 +36,8 @@ const Routes = [
   { name: "Állatorvosok", link: "/allatorvosok" },
   { name: "Időpont foglalás", link: "/idopontfoglalas" },
   { name: "Kedvenceim", link: "/kedvenceim" },
-  { name: "Naptáram", link: "/naptaram" }
+  { name: "Naptáram", link: "/naptaram" },
+  { name: "Orvosi Naptáram", link: "/orvosi-naptar" }
 ];
 
 function onLogout(){
