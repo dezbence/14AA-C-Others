@@ -301,16 +301,4 @@ class MainController extends BaseController
         return "else";
     }
 
-    private function isOwner(Request $request) {
-        if ($this->getUserType($request) != "owner") {
-            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
-        }
-    }
-
-    private function isVet() {
-        if ($this->getUserType($request) != "vet") {
-            return $this->sendError('unauthorized',['error'=>'Orvos bejelentkezés szükséges!'],401);
-        }
-    }
-
 }

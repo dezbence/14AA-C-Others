@@ -49,9 +49,12 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/new-appointment',[MainController::class,'addNewAppointment']);
 
 
-    //Route::middleware('auth:vet')->group(function(){
+    // Route::middleware('only-owner')->group(function(){
+    //     Route::get('/bearer-test',[MainController::class,'bearerTest']);
+    // });
+    Route::middleware('only-vet')->group(function(){
         Route::get('/bearer-test',[MainController::class,'bearerTest']);
-    //});
+    });
     //vet
     //Route::get('/vet-data/{id}', [MainController::class, 'getVetData']);
 
