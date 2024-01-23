@@ -19,8 +19,6 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class MainController extends BaseController
 {
-
-
     public function getUserData() {
         return  $this->sendResponse(Auth::user(), 'Sikeres művelet!');
     }
@@ -34,12 +32,8 @@ class MainController extends BaseController
         return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
-    public function getPets(Request $request)
+    public function getPets()
     {
-        if ($this->getUserType($request) != "owner") {
-            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
-        }
-
         $pets = Pet::where('owner_id', '=', Auth::user()->id)
             ->get();
 
@@ -47,10 +41,6 @@ class MainController extends BaseController
     }
 
     public function addNewPet(Request $request) {
-
-        if ($this->getUserType($request) != "owner") {
-            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
-        }
 
         $validatorFields = [
             'name' => 'required',
@@ -78,7 +68,6 @@ class MainController extends BaseController
     }
 
     public function addNewAppointment(Request $request){
-        $this->isOwner($request);
 
         $validatorFields = [
             'date' => 'required',
@@ -89,15 +78,15 @@ class MainController extends BaseController
 
         $validator = Validator::make($request->all(), $validatorFields);
 
-
         if ($validator->fails()){
             return $this->sendError('Bad request', $validator->errors(), 400);
         }
 
-        $appointmentData = $request->all();
-        $appointmentData['owner_id'] = Auth::user()->id;
-
-        $newAppointment = Pet::create($appointmentData);
+        if (Pet::find($request->pet_id)->owner_id == Auth::user()->id) {
+            Cure::create($request->all());
+        } else {
+            return $this->sendError('Bad request', ['error'=>'nincs ilyen állata'], 400);
+        }
 
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
@@ -109,12 +98,8 @@ class MainController extends BaseController
         return  $this->sendResponse($cure_types, 'Sikeres művelet!');
     }
 
-    public function getOwnerAppointments(Request $request)
+    public function getOwnerAppointments()
     {
-        if ($this->getUserType($request) != "owner") {
-            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
-        }
-
         $appointments = Cure::with('cure_type', 'vet', 'pet.owner')
             ->get();
 
@@ -139,7 +124,6 @@ class MainController extends BaseController
 
     public function getFreeAppointments($id, $date)
     {
-
         $vets = Vet::with([
         'special_openings' => function ($query) use($date) {
             $query->where('date', '=', $date);
@@ -150,7 +134,6 @@ class MainController extends BaseController
         ])
             ->where('id', '=', $id)
             ->get();
-
 
         $opening_hours = [];
 
@@ -163,7 +146,6 @@ class MainController extends BaseController
                     array_push($opening_hours, $special_opening->working_hours);
                 }
             }
-
 
         $appointments = [];
 
@@ -193,9 +175,6 @@ class MainController extends BaseController
     }
 
     public function deletePet($id) {
-        if ($this->getUserType($request) != "owner") {
-            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
-        }
 
         Pet::where('id', '=', $id)
             ->where('owner_id', '=', Auth::user()->id)
@@ -212,10 +191,7 @@ class MainController extends BaseController
 
     }
 
-    public function deleteAppointment(Request $request, $id) {
-        if ($this->getUserType($request) != "owner") {
-            return $this->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401);
-        }
+    public function deleteAppointment($id) {
 
         $cures = Cure::with([
         'pet.owner' => function ($query) {
@@ -235,7 +211,7 @@ class MainController extends BaseController
         }
 
         if ($validCure == null) {
-            return "eznul";
+            return $this->sendError('Bad request', ['error'=>'nincs ilyen időpontja'], 400);
         } else {
             Cure::find($validCure->id)->delete();
         }
@@ -251,24 +227,15 @@ class MainController extends BaseController
             'address' => 'required'
         ];
 
-
         $vets = Vet::where('name', 'like', '%'.$request->all()['name'].'%')
             ->where('postal_code', 'like', '%'.$request->all()['postal_code'].'%')
             ->where('address', 'like', '%'.$request->all()['address'].'%')
             ->get();
 
-
         return $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
     public function bearerTest(Request $request) {
-
-        // if ($this->getUserType($request) == "vet") {
-        //     return 'vet';
-        // }
-        // if ($this->getUserType($request) == "owner") {
-        //     return 'owner';
-        // }
 
         return $this->sendResponse(Auth::user(), 'Sikeres művelet!');
     }
@@ -286,19 +253,6 @@ class MainController extends BaseController
         ];
 
         return $days[$day];
-    }
-
-    private function getUserType(Request $request) {
-        //$request->bearerToken()
-
-        if (PersonalAccessToken::findToken($request->bearerToken())->tokenable_type == "App\\Models\\Vet") {
-            return "vet";
-        }
-        if (PersonalAccessToken::findToken($request->bearerToken())->tokenable_type == "App\\Models\\Owner") {
-            return "owner";
-        }
-
-        return "else";
     }
 
 }

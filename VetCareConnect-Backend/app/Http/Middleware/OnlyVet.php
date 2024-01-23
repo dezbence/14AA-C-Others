@@ -8,8 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
+use App\Http\Controllers\BaseController;
 
-class OnlyVet
+class OnlyVet extends BaseController
 {
     /**
      * Handle an incoming request.
@@ -19,7 +20,8 @@ class OnlyVet
     public function handle(Request $request, Closure $next)
     {
         if (PersonalAccessToken::findToken($request->bearerToken())->tokenable_type != "App\\Models\\Vet") {
-            return response()->json("nem vet");
+            $baseController = new BaseController();
+            abort($baseController->sendError('unauthorized',['error'=>'Orvos bejelentkezés szükséges!'],401));
         }
         return $next($request);
     }

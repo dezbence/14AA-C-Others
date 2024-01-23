@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
+use App\Http\Controllers\BaseController;
 
 class OnlyOwner
 {
@@ -19,7 +20,8 @@ class OnlyOwner
     public function handle(Request $request, Closure $next)
     {
         if (PersonalAccessToken::findToken($request->bearerToken())->tokenable_type != "App\\Models\\Owner") {
-            return response()->json("nem owner");
+            $baseController = new BaseController();
+            abort($baseController->sendError('unauthorized',['error'=>'Gazda bejelentkezés szükséges!'],401));
         }
         return $next($request);
     }
