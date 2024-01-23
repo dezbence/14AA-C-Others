@@ -1,51 +1,56 @@
 <template>
     <div class="darkBack">
         <div class="petCreatingForm">
+
             <div class="close">
                 <img @click="showCreator()" src="../../assets/icons/arrow_back.svg">
             </div>
+
             <h4>Hozza létre kedvence adatlapját!</h4>
             <form submit.pervent="handleSubmit"></form>
-            <div class="">
-                <Button @click="active = 0" rounded label="1" class="w-2rem h-2rem p-0" :outlined="active !== 0" />
-            <Button @click="active = 1" rounded label="2" class="w-2rem h-2rem p-0" :outlined="active !== 1" />
-                <TabView v-model:activeIndex="active">
-                    <TabPanel :class="active ? '' : 'disabledTab'">
-                        <label>Kedvence neve:</label>
-                        <InputText v-model="pet.name"></InputText>
 
-                        <label>Chip szám (15 számjegy):</label>
-                        <InputNumber v-model="pet.chip_number" :min="0" :max="999999999999999" :useGrouping="false" />
-                        <label>Törzskönyv száma (8 számjegy):</label>
-                        <InputNumber v-model="pet.pedigree_number" :min="0" :max="99999999" :useGrouping="false" />
-                        <label>Fajtajelleg:</label>
-                        <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!"
-                            class="petDropdown" />
-
-                        <label>Ivar:</label>
-                        <Dropdown v-model="gender" :options="genders" showClear placeholder="Kérem válasszon!"
-                            class="petDropdown" />
-                        <button>Tovább</button>
-                    </TabPanel>
-
-
-                    <TabPanel :class="active ? 'disabledTab' : ''">
-                        <label>Súlya (kg):</label>
-                        <InputNumber v-model="pet.weight" placeholder="0" :useGrouping="false" :minFractionDigits="0"
-                            :maxFractionDigits="2" :min="0.1" :max="999" suffix=" kg" />
-                        <label>Születési dátuma:</label>
-                        <Calendar class="bornDate" v-model="pet.born_date" :max-date="new Date()" dateFormat="yy.mm.dd"
-                            placeholder="éééé.hh.nn" />
-                        <label>Megjegyzés:</label>
-                        <Textarea placeholder="Allergiák, különlegességek, stb." v-model="pet.comment" rows="4" cols="40"
-                            autoResize></Textarea>
-                        <button @click="handleSubmit()">Létrehozás</button>
-                    </TabPanel>
-                </TabView>
-
-
-
+            <div class="pages">
+                <button class="page" @click="active = 0" :class="{ 'activePage': active == 0 }">1</button>
+                <button class="page" @click="active = 1" :class="{ 'activePage': active == 1 }">2</button>
             </div>
+
+            <TabView v-model:activeIndex="active">
+                <TabPanel>
+                    <label>Kedvence neve:</label>
+                    <InputText v-model="pet.name"></InputText>
+
+                    <label>Chip szám (15 számjegy):</label>
+                    <InputNumber v-model="pet.chip_number" :min="0" :max="999999999999999" :useGrouping="false" />
+                    <label>Törzskönyv száma (8 számjegy):</label>
+                    <InputNumber v-model="pet.pedigree_number" :min="0" :max="99999999" :useGrouping="false" />
+                    <label>Fajtajelleg:</label>
+                    <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!"
+                        class="petDropdown" />
+
+                    <label>Ivar:</label>
+                    <Dropdown v-model="gender" :options="genders" showClear placeholder="Kérem válasszon!"
+                        class="petDropdown" />
+                    <button @click="active = 1">Tovább</button>
+                </TabPanel>
+
+
+                <TabPanel>
+                    <label>Súlya (kg):</label>
+                    <InputNumber v-model="pet.weight" placeholder="0" :useGrouping="false" :minFractionDigits="0"
+                        :maxFractionDigits="2" :min="0.1" :max="999" suffix=" kg" />
+                    <label>Születési dátuma:</label>
+                    <Calendar class="bornDate" v-model="pet.born_date" :max-date="new Date()" dateFormat="yy.mm.dd"
+                        placeholder="éééé.hh.nn" />
+                    <label>Megjegyzés:</label>
+                    <Textarea placeholder="Allergiák, különlegességek, stb." v-model="pet.comment" rows="4" cols="40"
+                        autoResize></Textarea>
+                    <button @click="handleSubmit()">Létrehozás</button>
+                </TabPanel>
+            </TabView>
+
+
+
+
 
 
 
@@ -54,7 +59,6 @@
 </template>
 
 <script setup>
-import Button from 'primevue/button';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import InputText from 'primevue/inputtext';
@@ -66,7 +70,15 @@ import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import ownerservice from '../../services/ownerservice.js'
+import { usePrimeVue } from 'primevue/config';
 
+
+const primevue = usePrimeVue();
+primevue.config.locale.firstDayOfWeek = 1;
+primevue.config.locale.dayNamesMin = ['V', 'H', 'K', 'Sz', 'Cs', 'P', 'Sz'];
+primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
+
+const active = ref(0);
 
 const { user } = storeToRefs(useUserStore());
 
@@ -75,12 +87,7 @@ const props = defineProps(['showCreator', 'submitPet']);
 const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
 const genders = ['hím', 'nőstény']
 
-const gender = ref();
-
-function petGenderFormat(gender1) {
-    if (gender1 == 'nőstény') return 0;
-    else return 1;
-}
+const pages = ref([1, 2])
 
 const pet = ref({
     name: "",
@@ -93,9 +100,18 @@ const pet = ref({
     comment: "",
     owner_id: user.value.id
 })
+const gender = ref();
 
+const activeIdx = ref(-1);
 
+function isActiveToggle(index) {
+    activeIdx.value = index;
+}
 
+function petGenderFormat(gender1) {
+    if (gender1 == 'nőstény') return 0;
+    else return 1;
+}
 
 function handleSubmit() {
     ownerservice.postNewPet(pet.value, user.value.token)
@@ -106,18 +122,9 @@ function handleSubmit() {
     pet.value.gender = petGenderFormat(gender.value);
 
 }
-
-
-
 </script>
 
 <style scoped>
-
-.disabledTab {
-    display: none;
-}
-
-
 .petCreatingForm {
     background-color: white;
     border-radius: 7px;
@@ -137,6 +144,28 @@ function handleSubmit() {
 
 }
 
+.pages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    width: 38px;
+    padding: 7px;
+    margin: 12px;
+    background-color: #50B692;
+    color: white;
+    cursor: pointer;
+}
+
+.activePage {
+    background-color: #368267;
+}
 
 input {
     padding: 5px 20px 5px 10px;
