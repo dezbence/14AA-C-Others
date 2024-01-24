@@ -17,6 +17,7 @@
 
 <script setup>
 import router from "@/router";
+import ownerservice from "@/services/ownerservice";
 import { defineEmits } from "vue";
 
 // @click="showSuccess"
@@ -38,12 +39,23 @@ defineProps({
 })
 
 const emit = defineEmits(["remove"]);
+// const appointmentData = {
+//   date: choosedDate,
+//   pet_id: choosedPet.id,
+//   cure_type_id: choosedType.id,
+//   vet_id: choosedVet.id
+// }
 
 function Back() {
   emit("remove");
 }
 
 function Book() {
+  console.log(appointmentData)
+  ownerservice.bookAppointment().then((resp) => {
+      appointments.value = resp.data;
+    });
+
   router.push("/naptaram");
 }
 </script>
