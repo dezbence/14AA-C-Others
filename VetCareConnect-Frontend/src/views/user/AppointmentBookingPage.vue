@@ -2,13 +2,22 @@
   <Header></Header>
   <h1 class="pageTitle">Időpontfoglalás</h1>
   <div class="container">
-    <div v-if="!showBookApprove" class="row d-flex align-items-start mx-auto my-auto">
+    <div
+      v-if="!showBookApprove"
+      class="row d-flex align-items-start mx-auto my-auto"
+    >
       <div class="d-flex justify-content-center p-0 mb-3 col-xl-4 col-lg-12">
         <div class="col p-0">
           <div class="choosePanel rounded">
             <div class="col">
               <p class="mb-xl-2 mb-lg-2">Válasszon orvost!</p>
-              <select v-model="choosedData.vet" name="orvosok" id="orvosok" class="selectClass mt-0" @change="refreshTimes()">
+              <select
+                v-model="choosedData.vet"
+                name="orvosok"
+                id="orvosok"
+                class="selectClass mt-0"
+                @change="refreshTimes()"
+              >
                 <option value="0" disabled selected hidden>
                   Kérem válasszon!
                 </option>
@@ -20,12 +29,17 @@
               <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
                 Válassza ki az időpont típusát!
               </p>
-              <select v-model="choosedData.type" name="types" id="type" class="selectClass mt-0">
-                <option value="" disabled selected hidden>
+              <select
+                v-model="choosedData.type"
+                name="types"
+                id="type"
+                class="selectClass mt-0"
+              >
+                <option value="0" disabled selected hidden>
                   Kérem válasszon!
                 </option>
 
-                <option v-for="curetype in cureTypes">
+                <option v-for="curetype in cureTypes" :value="curetype">
                   {{ curetype.type }}
                 </option>
               </select>
@@ -35,12 +49,17 @@
               <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
                 Válassza ki kiskedvencét!
               </p>
-              <select v-model="choosedData.pet" name="pets" id="pet" class="selectClass mt-0">
-                <option value="" disabled selected hidden>
+              <select
+                v-model="choosedData.pet"
+                name="pets"
+                id="pet"
+                class="selectClass mt-0"
+              >
+                <option value="0" disabled selected hidden>
                   Kérem válasszon!
                 </option>
 
-                <option v-for="pet in pets">{{ pet.name }}</option>
+                <option v-for="pet in pets" :value="pet">{{ pet.name }}</option>
               </select>
             </div>
           </div>
@@ -58,27 +77,45 @@
         </div>
       </div>
 
-      <div class="calendarAndChoosePanel d-flex align-items-center justify-content-center mb-3 mt-0 col-xl-8 col-lg-12">
-        <Calendar class="calendar text-center col-md-12" v-model="choosedDate" :min-date="new Date()" @date-select="refreshTimes()" />
+      <div
+        class="calendarAndChoosePanel d-flex align-items-center justify-content-center mb-3 mt-0 col-xl-8 col-lg-12"
+      >
+        <Calendar
+          class="calendar text-center col-md-12"
+          v-model="choosedDate"
+          :min-date="new Date()"
+          @date-select="refreshTimes()"
+        />
         <div class="chooseDate rounded-end col-md-12">
           <h5 class="text-center choosedDate">{{ formattedDate }}</h5>
           <div class="line"></div>
           <div class="dates">
             <div v-for="(time, index) in appointments" :key="index">
-              <div class="times btnStyle" @click="isActiveToggle(index, time)" :class="{ active: activeIdx == index }">
+              <div
+                class="times btnStyle"
+                @click="isActiveToggle(index, time)"
+                :class="{ active: activeIdx == index }"
+              >
                 {{ time }}
               </div>
             </div>
           </div>
           <div class="d-flex align-items-center justify-content-center">
-            <button class="btnStyle btnBook text-center mt-5" @click="BookClick()">
+            <button
+              class="btnStyle btnBook text-center mt-5"
+              @click="BookClick()"
+            >
               Lefoglalom
             </button>
           </div>
           <div v-if="showError" class="errorMessage">
             <div class="alert alert-danger show errMess" role="alert">
               {{ errorMessage }}
-              <button type="button" class="btn-close" @click="closeErrorMessage()"></button>
+              <button
+                type="button"
+                class="btn-close"
+                @click="closeErrorMessage()"
+              ></button>
             </div>
           </div>
           <div class="meanings meaningsInDates">
@@ -95,8 +132,15 @@
       </div>
     </div>
     <div v-else>
-      <AppointmentApprove @remove="hideBook" :choosed-vet="choosedData.vet" :choosed-pet="choosedData.pet"
-        :choosed-type="choosedData.type" :choosed-date="formattedDate" :choosed-time="choosedData.time">
+      <AppointmentApprove
+        @remove="hideBook"
+        :choosed-vet="choosedData.vet"
+        :choosed-pet="choosedData.pet"
+        :choosed-type="choosedData.type"
+        :choosed-date="formattedDate"
+        :choosed-time="choosedData.time"
+        :date-format="dateSend"
+      >
       </AppointmentApprove>
     </div>
   </div>
@@ -122,9 +166,9 @@ const AppointmentApprove = defineAsyncComponent(() =>
 );
 
 const choosedData = ref({
-  vet: { id: 0},
-  type: "",
-  pet: "",
+  vet: { id: 0 },
+  type: { id: 0 },
+  pet: { id: 0 },
   time: "",
 });
 const choosedDate = ref();
@@ -145,14 +189,6 @@ const pets = ref([]);
 const appointments = ref([]);
 
 const { user } = storeToRefs(useUserStore());
-
-vetservice.getAllCureTypes().then((resp) => {
-  cureTypes.value = resp.data;
-});
-
-vetservice.getUsersPets(user.value.token).then((resp) => {
-  pets.value = resp.data;
-});
 
 function isActiveToggle(index, time) {
   activeIdx.value = index;
@@ -188,7 +224,13 @@ function hideBook() {
 }
 
 function refreshTimes() {
-  vetservice.getFreeAppointments(choosedData.value.vet.id, dateSend.value, user.value.token).then((resp) => {
+  vetservice
+    .getFreeAppointments(
+      choosedData.value.vet.id,
+      dateSend.value,
+      user.value.token
+    )
+    .then((resp) => {
       appointments.value = resp.data;
     });
 }
@@ -198,15 +240,25 @@ onMounted(() => {
     vets.value = resp.data;
     if (route.params.doctorId != "") {
       selectedDoctorId.value = parseInt(route.params.doctorId);
-      choosedData.value.vet = vets.value.find(x => x.id == selectedDoctorId.value);
+      choosedData.value.vet = vets.value.find(
+        (x) => x.id == selectedDoctorId.value
+      );
       refreshTimes();
-    }
-    else {
+    } else {
       choosedData.value.vet = 0;
     }
-
   });
+  vetservice.getAllCureTypes().then((resp) => {
+      cureTypes.value = resp.data;
+      choosedData.value.type = 0;
 
+    });
+
+    vetservice.getUsersPets(user.value.token).then((resp) => {
+      pets.value = resp.data;
+      choosedData.value.pet = 0;
+
+    });
 });
 </script>
 
