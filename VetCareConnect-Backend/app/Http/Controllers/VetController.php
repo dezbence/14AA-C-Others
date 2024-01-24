@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class VetController extends BaseController
 {
-    public function getVetAppointments()
-    {
+    public function getVetAppointments() {
         $appointments = Cure::with('cure_type', 'vet', 'pet.owner')
             ->get();
 
@@ -39,5 +38,43 @@ class VetController extends BaseController
          }
 
         return $this->sendResponse($return, 'Sikeres művelet!');
+    }
+
+    public function addOpenings(Request $request) {
+
+        $validatorFields = [
+            'date' => 'required',
+            'working_hours'=> 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        foreach ($request->all() as $opening) {
+            $opening['vet_id'] = Auth::user()->id;
+            Opening::create($opening);
+        }
+    }
+
+    public function addSpecialOpenings(Request $request) {
+
+        $validatorFields = [
+            'working_hours' => 'required',
+            'day'=> 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        foreach ($request->all() as $specialOpening) {
+            $specialOpening['vet_id'] = Auth::user()->id;
+            SpecialOpening::create($specialOpening);
+        }
     }
 }
