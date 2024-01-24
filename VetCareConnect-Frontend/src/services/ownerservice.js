@@ -36,5 +36,14 @@ export default {
         .catch(err => {
             return Promise.reject(err.response);
         })
+    },
+    getAppointments(token){
+        return Axios.get('/owner-appointments', {headers: {"Authorization" : "Bearer "+ token}})
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
     }
 }
