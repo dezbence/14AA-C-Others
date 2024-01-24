@@ -1,58 +1,45 @@
 <template>
   <Header></Header>
-  <div>
-    <p class="pageTitle">Következő időpontok</p>
-  </div>
-  <div class="appointments">
-    <div v-for="appointment in ownerAppointments">
-      <div v-if="!appointment.is_old">
-        <Appointment
-        :pet="appointment.pet_name"
-        :title="appointment.cure_type"
-        :vet="appointment.vet_name"
-        :postalCode="appointment.vet_postal_code"
-        :vet-address="appointment.vet_address"
-        :date="appointment.cure_date"
-        :is-old="appointment.is_old"
-      ></Appointment>
-      </div>
-      
+  <div v-if="!store.show">
+    <div>
+      <p class="pageTitle">Következő időpontok</p>
     </div>
-  </div>
-  <div class="buttonContainer">
-    <router-link to="/idopontfoglalas">
-      <button class="newAppointmentButton">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="white"
-          height="35"
-          viewBox="0 -960 960 960"
-          width="35"
-        >
-          <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-        </svg>
-        Új időpont foglalás
-      </button>
-    </router-link>
-  </div>
-  <div>
-    <p class="pageTitle">Előző időpontok</p>
-  </div>
-  <div class="appointments">
-    <div v-for="appointment in ownerAppointments">
-      <div v-if="appointment.is_old">
-        <Appointment
-          :pet="appointment.pet_name"
-          :title="appointment.cure_type"
-          :vet="appointment.vet_name"
-          :postalCode="appointment.vet_postal_code"
-          :vet-address="appointment.vet_address"
-          :date="appointment.cure_date"
-          :is-old="appointment.is_old"
-        ></Appointment>
-        
+    <div class="appointments">
+      <div v-for="appointment in ownerAppointments">
+        <div v-if="!appointment.is_old">
+          <Appointment :pet="appointment.pet_name" :title="appointment.cure_type" :vet="appointment.vet_name"
+            :postalCode="appointment.vet_postal_code" :vet-address="appointment.vet_address" :date="appointment.cure_date"
+            :is-old="appointment.is_old"></Appointment>
+        </div>
+
       </div>
     </div>
+    <div class="buttonContainer">
+      <router-link to="/idopontfoglalas">
+        <button class="newAppointmentButton">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="white" height="35" viewBox="0 -960 960 960" width="35">
+            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+          </svg>
+          Új időpont foglalás
+        </button>
+      </router-link>
+    </div>
+    <div>
+      <p class="pageTitle">Előző időpontok</p>
+    </div>
+    <div class="appointments">
+      <div v-for="appointment in ownerAppointments">
+        <div v-if="appointment.is_old">
+          <Appointment :pet="appointment.pet_name" :title="appointment.cure_type" :vet="appointment.vet_name"
+            :postalCode="appointment.vet_postal_code" :vet-address="appointment.vet_address" :date="appointment.cure_date"
+            :is-old="appointment.is_old"></Appointment>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <CancelAppointment></CancelAppointment>
   </div>
   <Footer></Footer>
 </template>
@@ -62,13 +49,17 @@ import Header from "../../components/page_controls/Header.vue";
 import Footer from "../../components/page_controls/Footer.vue";
 import Appointment from "../../components/Appointment.vue";
 import ownerservice from "@/services/ownerservice";
+import CancelAppointment from "@/components/user_components/CancelAppointment.vue";
 
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
 
 const { user } = storeToRefs(useUserStore());
+const store = useUserStore();
+
 const ownerAppointments = ref();
+const showCancel = ref(store.show);
 
 ownerservice.getAppointments(user.value.token).then((resp) => {
   ownerAppointments.value = resp.data;

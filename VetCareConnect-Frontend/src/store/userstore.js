@@ -11,7 +11,8 @@ export const useUserStore = defineStore('userstore',{
         status:{
             loggedIn:false,
             message:''
-        }
+        },
+        show: false,
     }),
     getters:{},
     actions:{
@@ -37,6 +38,9 @@ export const useUserStore = defineStore('userstore',{
                     this.user =  {name: '', token: '', role:null}
                     localStorage.removeItem('user');
                 });
-        }
+        },
+        showAppointmentCancel(value) {
+            this.show = value;
+        },
     } 
 });
