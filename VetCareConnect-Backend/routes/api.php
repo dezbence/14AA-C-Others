@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\VetController;
 use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,7 @@ Route::post('/login',[AuthController::class,'login']);
 
 Route::post('/search-vets', [MainController::class, 'searchVets']);
 Route::get('/vet-all', [MainController::class, 'getAllVet']);
-Route::get('/cure-types-all', [MainController::class, 'getCureTypes']);
+Route::get('/cure-types-all', [MainController::class, 'getAllCureTypes']);
 
 Route::middleware('auth:sanctum')->group(function(){
 
@@ -36,13 +38,15 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::middleware('only-owner')->group(function(){
         //Route::get('/bearer-test',[MainController::class,'bearerTest']);
 
-        Route::get('/pets', [MainController::class, 'getPets']);
-        Route::get('/delete-pet/{id}', [MainController::class, 'deletePet']);
-        Route::get('/delete-appointment/{id}', [MainController::class, 'deleteAppointment']);
-        Route::get('/owner-appointments', [MainController::class, 'getOwnerAppointments']);
-        Route::get('/free-appointments/{id}/{date}', [MainController::class, 'getFreeAppointments']);
-        Route::post('/new-pet',[MainController::class,'addNewPet']);
-        Route::post('/new-appointment',[MainController::class,'addNewAppointment']);
+        Route::get('/pets', [OwnerController::class, 'getPets']);
+        Route::post('/new-pet',[OwnerController::class,'addNewPet']);
+        Route::post('/delete-pet', [OwnerController::class, 'deletePet']);
+
+        Route::post('/free-appointments', [OwnerController::class, 'getFreeAppointments']);
+        Route::post('/new-appointment',[OwnerController::class,'addNewAppointment']);
+        Route::get('/owner-appointments', [OwnerController::class, 'getOwnerAppointments']);
+        Route::post('/delete-appointment', [OwnerController::class, 'deleteAppointment']);
+
     });
 
     Route::middleware('only-vet')->group(function(){
