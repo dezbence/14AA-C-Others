@@ -177,6 +177,10 @@ class OwnerController extends BaseController
 
         foreach ($appointments as $appointment) {
             if ($appointment->pet->owner->id == Auth::user()->id) {
+
+                $old = false;
+                if (strtotime($appointment->date) < time()) $old = true;
+
                 $return[] = [
                     'owner_id' => $appointment->pet->owner->id,
                     'pet_name' => $appointment->pet->name,
@@ -184,8 +188,10 @@ class OwnerController extends BaseController
                     'vet_name' => $appointment->vet->name,
                     'vet_address' => $appointment->vet->address,
                     'vet_postal_code' => $appointment->vet->postal_code,
-                    'cure_date' => $appointment->date
+                    'cure_date' => $appointment->date,
+                    'old' => $old
                  ];
+
             }
 
          }
