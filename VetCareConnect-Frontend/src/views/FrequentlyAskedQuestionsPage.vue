@@ -11,13 +11,15 @@
 import Header from '@/components/page_controls/Header.vue';
 import Footer from '@/components/page_controls/Footer.vue';
 import questionComponent from '@/components/Question.vue'
+import { ref } from 'vue';
+import mainservices from '@/services/mainservices';
 
-const questions = [
-    { question: "asd", answer: "ldsfdsfsdcsísídsdc" },
-    { question: "esfdsdf", answer: "scscffsdcsdcsdcscscscscdsdcsdcs" },
-    { question: "asdfssd", answer: "dsaddasdsdasdadadadadasdsfsdv" },
-    { question: "assfssfeffed", answer: "cfdsfcsddsvsdvsdsdfsd" }
-];
+const questions = ref();
+
+mainservices.getAllQuestions().then(resp =>{
+    questions.value = resp.data;
+})
+
 </script>
 
 <style lang="css" scoped>
