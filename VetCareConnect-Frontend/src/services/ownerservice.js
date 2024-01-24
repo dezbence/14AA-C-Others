@@ -10,8 +10,8 @@ export default {
                 return Promise.reject(err.response);
             })
     },
-    getOwnersPets(id, token) {
-        return Axios.get('/pets/' + id, {headers: {"Authorization" : "Bearer "+ token}})
+    getOwnersPets(token) {
+        return Axios.get('/pets', {headers: {"Authorization" : "Bearer "+ token}})
             .then(resp => {
                 return resp.data;
             })
@@ -21,6 +21,15 @@ export default {
     },
     deletePet(id, token) {
         return Axios.get('/delete-pet/' + id, {headers: {"Authorization" : "Bearer "+ token}})
+        .then(resp => {
+            return resp.data;
+        })
+        .catch(err => {
+            return Promise.reject(err.response);
+        })
+    },
+    bookAppointment(appointment, token){
+        return Axios.post('/new-appointment', appointment, {headers: {"Authorization" : "Bearer "+ token}})
         .then(resp => {
             return resp.data;
         })

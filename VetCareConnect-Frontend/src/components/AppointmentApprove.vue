@@ -4,9 +4,9 @@
       <h2 class="header">Időpont részletei</h2>
       <p>Orvos neve: {{ choosedVet.name }}</p>
       <p>Időpont: {{ choosedDate }} {{ choosedTime }}</p>
-      <p>Időpont típusa: {{ choosedType }}</p>
+      <p>Időpont típusa: {{ choosedType.type }}</p>
       <p>Helyszín: {{ choosedVet.postal_code }}</p>
-      <p>Kisállat: {{ choosedPet}}</p>
+      <p>Kisállat: {{ choosedPet.name }}</p>
       <div class="buttons">
         <button class="btnStyle btnBook" @click="Back()">Vissza</button>
         <button class="btnStyle btnBook" @click="Book()" >Lefoglalom</button>
@@ -17,7 +17,10 @@
 
 <script setup>
 import router from "@/router";
+import ownerservice from "@/services/ownerservice";
 import { defineEmits } from "vue";
+import { storeToRefs } from "pinia";
+import { useUserStore } from "@/store/userstore";
 
 // @click="showSuccess"
 // import { useToast } from "primevue/usetoast";
@@ -27,23 +30,33 @@ import { defineEmits } from "vue";
 //     toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 });
 // };
 
-defineProps({
-  choosedVet: String,
-  choosedType: String,
-  choosedPet: String,
+const props = defineProps({
+  choosedVet: Object,
+  choosedType: Object,
+  choosedPet: Object,
   choosedDate: String,
   choosedTime: String,
-  vetAddress: String
-
+  dateFormat: String
 })
 
+const { user } = storeToRefs(useUserStore());
+
 const emit = defineEmits(["remove"]);
+const appointmentData = {
+  date: props.dateFormat + " " + props.choosedTime,
+  pet_id: props.choosedPet.id,
+  cure_type_id: props.choosedType.id,
+  vet_id: props.choosedVet.id
+}
 
 function Back() {
   emit("remove");
 }
 
 function Book() {
+  ownerservice.bookAppointment(appointmentData, user.value.token).then((resp) => {
+    });
+
   router.push("/naptaram");
 }
 </script>

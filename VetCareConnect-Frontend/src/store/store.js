@@ -16,7 +16,7 @@
 
 
 
-sessionStorage.setItem("petStore", [{
+localStorage.setItem("petStore", [{
     id: Math.floor(Math.random() * 1000000),
     name: "",
     species: "",
@@ -25,4 +25,4 @@ sessionStorage.setItem("petStore", [{
     born_date: "",
     comment: ""
 }])
-console.log(sessionStorage.getItem("petStore"))
+console.log(localStorage.getItem("petStore"))
