@@ -38,15 +38,11 @@ class MainController extends BaseController
         return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
-    public function getAllCureTypes()
-    {
-        $cure_types = Cure_type::all();
-
-        return  $this->sendResponse($cure_types, 'Sikeres művelet!');
+    public function getAllCureTypes() {
+        return  $this->sendResponse(Cure_type::all(), 'Sikeres művelet!');
     }
 
-    public function getAllQuestions()
-    {
+    public function getAllQuestions() {
         return  $this->sendResponse(FAQ::all(), 'Sikeres művelet!');
     }
 
