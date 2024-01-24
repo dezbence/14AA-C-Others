@@ -21,7 +21,7 @@ use App\Http\Controllers\AuthController;
 //     return $request->user();
 // });
 
-
+Route::get('/bearer-test',[MainController::class,'bearerTest']);
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function(){
     });
 
     Route::middleware('only-vet')->group(function(){
-        //Route::get('/bearer-test',[MainController::class,'bearerTest']);
+        Route::get('/vet-appointments', [VetController::class, 'getVetAppointments']);
     });
 
 });
