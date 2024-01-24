@@ -33,25 +33,34 @@
                 <ToDo></ToDo>
             </div>
         </div>
-        <div>
-            <Calendar class="vetCalendar" :min-date="new Date()" />
-        </div>
+            <Calendar dateFormat="dd.mm.yy" v-model="appointmentsDate" inline class="vetCalendar" :min-date="new Date()" />
+            <p>{{ appointmentsDate }}</p>
     </div>
     <Footer></Footer>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import Header from '@/components/page_controls/Header.vue';
 import Footer from '@/components/page_controls/Footer.vue';
-import Calendar from '@/components/Calendar.vue';
+import Calendar from 'primevue/calendar'
 import ToDo from '@/components/vet_components/ToDo.vue'
+import { usePrimeVue } from 'primevue/config';
+
+const primevue = usePrimeVue();
+primevue.config.locale.dayNamesMin = ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'];
+primevue.config.locale.firstDayOfWeek = 1;
+primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
+
+const appointmentsDate = ref();
 
 </script>
 
 <style scoped>
 .toDoBack {
-    margin-top: 80px;
+    margin-top: 60px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 100px;
@@ -64,6 +73,7 @@ import ToDo from '@/components/vet_components/ToDo.vue'
     background-color: #50B692;
     padding: 24px;
     color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .todaysToDo hr {
@@ -99,8 +109,11 @@ import ToDo from '@/components/vet_components/ToDo.vue'
   background: #246951;
 }
 
-.vetCalendar {
+.vetCalendar{
     width: 1000px;
     height: 700px;
+    border-radius: 7px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
 </style>
