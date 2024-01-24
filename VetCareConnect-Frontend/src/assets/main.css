@@ -188,3 +188,8 @@ select {
   border-radius: 7px;
   font-size: 1.6rem;
 }
+
+.vetCalendar .p-datepicker table td {
+  padding: 1.65rem 1rem;
+  font-size: 1.25rem;
+}

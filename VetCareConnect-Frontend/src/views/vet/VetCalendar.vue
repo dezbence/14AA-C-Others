@@ -33,8 +33,8 @@
                 <ToDo></ToDo>
             </div>
         </div>
-            <Calendar dateFormat="dd.mm.yy" v-model="appointmentsDate" inline class="vetCalendar" :min-date="new Date()" />
-            <p>{{ appointmentsDate }}</p>
+            <Calendar  v-model="appointmentsDate" inline class="vetCalendar" :min-date="new Date()" />
+            <p>{{ useDateFormat(appointmentsDate, "YYYY-MM-DD") }}</p>
     </div>
     <Footer></Footer>
 </template>
@@ -46,13 +46,14 @@ import Footer from '@/components/page_controls/Footer.vue';
 import Calendar from 'primevue/calendar'
 import ToDo from '@/components/vet_components/ToDo.vue'
 import { usePrimeVue } from 'primevue/config';
+import { useDateFormat } from "@vueuse/core";
 
 const primevue = usePrimeVue();
 primevue.config.locale.dayNamesMin = ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'];
 primevue.config.locale.firstDayOfWeek = 1;
 primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
 
-const appointmentsDate = ref();
+const appointmentsDate = ref()
 
 </script>
 
