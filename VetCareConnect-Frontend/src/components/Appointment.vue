@@ -1,5 +1,5 @@
 <template>
-  <div class="nextAppointmentCard" v-if="!showCancelComponent">
+  <div class="nextAppointmentCard">
     <p class="title">{{ pet }} {{ title }}</p>
     <p class="vet">Orvos: {{ vet }}</p>
     <p class="vet">Helyszín: {{ postalCode }} {{ vetAddress }}</p>
@@ -10,8 +10,10 @@
 </template>
 
 <script setup>
-import CancelAppointment from '../components/user_components/CancelAppointment.vue';
-import { useDateFormat } from "@vueuse/core";;
+import { useDateFormat } from "@vueuse/core";
+import { useUserStore } from '../store/userstore';
+
+const store = useUserStore();
 
 const props = defineProps({
   pet: String,
@@ -27,7 +29,7 @@ const props = defineProps({
 const formattedDate = useDateFormat(props.date, "YYYY. MMMM DD. HH:mm");
 
 function Cancel(){
-  
+    store.showAppointmentCancel(true);
 }
 
 </script>
