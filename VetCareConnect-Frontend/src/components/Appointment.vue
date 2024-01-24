@@ -1,16 +1,17 @@
 <template>
-  <div class="nextAppointmentCard">
+  <div class="nextAppointmentCard" v-if="!showCancelComponent">
     <p class="title">{{ pet }} {{ title }}</p>
     <p class="vet">Orvos: {{ vet }}</p>
     <p class="vet">Helyszín: {{ postalCode }} {{ vetAddress }}</p>
     <p class="date">{{ formattedDate }}</p>
 
-    <button class="btnStyle btnCancelAppointment" @click="CancelAppointment()" v-if="!isOld">Időpont lemondása</button>
+    <button class="btnStyle btnCancelAppointment" @click="Cancel()" v-if="!isOld">Időpont lemondása</button>
   </div>
 </template>
 
 <script setup>
-import { useDateFormat } from "@vueuse/core";
+import CancelAppointment from '../components/user_components/CancelAppointment.vue';
+import { useDateFormat } from "@vueuse/core";;
 
 const props = defineProps({
   pet: String,
@@ -22,9 +23,10 @@ const props = defineProps({
   isOld: Boolean
 });
 
+
 const formattedDate = useDateFormat(props.date, "YYYY. MMMM DD. HH:mm");
 
-function CancelAppointment(){
+function Cancel(){
   
 }
 
