@@ -117,6 +117,8 @@ class OwnerController extends BaseController
 
         foreach ($opening_hours as $interval) {
 
+            if ($interval == "zárva") return $this->sendResponse("Zárva!", 'Sikeres művelet!');
+
             $appointment = strtotime(explode('-', $interval)[0], 0);
             $closeTime = strtotime(explode('-', $interval)[1], 0);
 
@@ -136,6 +138,8 @@ class OwnerController extends BaseController
             $appointments = array_diff($appointments, [date('H:i', strtotime($cure->date))]);
 
         }
+
+        if (count($appointments) == 0) return $this->sendResponse("Zárva!", 'Sikeres művelet!');
 
         return $this->sendResponse($appointments, 'Sikeres művelet!');
     }
