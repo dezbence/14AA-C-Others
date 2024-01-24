@@ -19,49 +19,6 @@ primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Áprili
 
 <style lang="css">
 
-
-.p-datepicker {
- background-color: #50B692;
- color: #FFF;
- border: none;
-
-}
-
-.p-datepicker .p-datepicker-header {
- background-color: #50B692;
- border-bottom: 5px solid #368267;
-}
-
-.p-datepicker-month,
-.p-datepicker-year {
- color: #FFF;
-}
-
-.p-datepicker-next:hover,
-.p-datepicker-prev:hover {
- background-color: transparent;
-}
-
-td span:hover {
- background-color: #35a580;
-
-}
-
-.p-datepicker-today span {
- background-color: #368267;
- color: #FFF;
-}
-
-.p-datepicker .p-datepicker-header .p-datepicker-prev, .p-datepicker .p-datepicker-header .p-datepicker-next {
- color: #FFF;
- transform: scale(1.1);
-}
-
-.p-datepicker .p-datepicker-header .p-datepicker-prev:hover, .p-datepicker .p-datepicker-header .p-datepicker-next:hover {
- transform: scale(1.4);
- transition: ease-in-out 200ms;
-}
-
 @media (max-width: 576px) {
  .p-datepicker table td > span {
     width: 1.5rem !important;

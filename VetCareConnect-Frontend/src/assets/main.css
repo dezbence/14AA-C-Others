@@ -1,23 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;700&family=Roboto:wght@100;300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;700&family=Roboto:wght@100;300;400;500;700&display=swap");
 
 body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    position: relative;
-    min-height: 100vh;
-    padding-bottom : 70px;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 70px;
 }
 
 #app {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6, a, button {
-  font-family: 'Roboto', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+button {
+  font-family: "Roboto", sans-serif;
 }
-
 
 /* LoginPage, RegisterPage */
 .signInBackground {
@@ -102,16 +108,16 @@ button:active {
 
 input,
 select {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    border: none;
-    padding: 5px 40px 5px 10px;
-    color: #000;
-    border-radius: 7px;
-    background-color: #ededed;
-    border: 1px solid #c5c5c5;
-    max-height: 50px;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
+  padding: 5px 40px 5px 10px;
+  color: #000;
+  border-radius: 7px;
+  background-color: #ededed;
+  border: 1px solid #c5c5c5;
+  max-height: 50px;
 }
 
 .p-tabview .p-tabview-panels {
@@ -122,7 +128,7 @@ select {
   display: none;
 }
 
-.p-tabview-nav a{
+.p-tabview-nav a {
   color: #368267;
   text-decoration: none;
 }
@@ -131,4 +137,54 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* ----------------------------------------------Összes napár--------------------------------- */
+.p-datepicker {
+  background-color: #50B692;
+  color: #FFF;
+  border: none;
+  text-align: center;
+ }
+ 
+ .p-datepicker .p-datepicker-header {
+  background-color: #50B692;
+  border-bottom: 5px solid #368267;
+ }
+ 
+ .p-datepicker-month,
+ .p-datepicker-year {
+  color: #FFF;
+ }
+ 
+ .p-datepicker-next:hover,
+ .p-datepicker-prev:hover {
+  background-color: transparent;
+ }
+ 
+ td span:hover {
+  background-color: #35a580;
+ 
+ }
+ 
+ .p-datepicker-today span {
+  background-color: #368267;
+  color: #FFF;
+ }
+ 
+ .p-datepicker .p-datepicker-header .p-datepicker-prev, .p-datepicker .p-datepicker-header .p-datepicker-next {
+  color: #FFF;
+  transform: scale(1.1);
+ }
+ 
+ .p-datepicker .p-datepicker-header .p-datepicker-prev:hover, .p-datepicker .p-datepicker-header .p-datepicker-next:hover {
+  transform: scale(1.4);
+  transition: ease-in-out 200ms;
+ }
+ 
+ /* ----------------------------------------------Egyedi napárak--------------------------------- */
+
+ .vetCalendar .p-datepicker {
+  border-radius: 7px;
+  font-size: 1.6rem;
 }

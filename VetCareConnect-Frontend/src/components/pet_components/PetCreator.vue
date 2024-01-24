@@ -65,14 +65,7 @@ import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import ownerservice from '../../services/ownerservice.js'
-import { usePrimeVue } from 'primevue/config';
 import { useDateFormat } from "@vueuse/core";
-
-
-const primevue = usePrimeVue();
-primevue.config.locale.firstDayOfWeek = 1;
-primevue.config.locale.dayNamesMin = ['V', 'H', 'K', 'Sz', 'Cs', 'P', 'Sz'];
-primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
 
 const active = ref(0);
 
