@@ -1,18 +1,22 @@
 <template>
   <Header></Header>
   <div>
-    <p class="pageTitle">Következő időpontok:</p>
+    <p class="pageTitle">Következő időpontok</p>
   </div>
   <div class="appointments">
     <div v-for="appointment in ownerAppointments">
-      <Appointment
+      <div v-if="!appointment.is_old">
+        <Appointment
         :pet="appointment.pet_name"
         :title="appointment.cure_type"
         :vet="appointment.vet_name"
         :postalCode="appointment.vet_postal_code"
         :vet-address="appointment.vet_address"
         :date="appointment.cure_date"
+        :is-old="appointment.is_old"
       ></Appointment>
+      </div>
+      
     </div>
   </div>
   <div class="buttonContainer">
@@ -30,6 +34,25 @@
         Új időpont foglalás
       </button>
     </router-link>
+  </div>
+  <div>
+    <p class="pageTitle">Előző időpontok</p>
+  </div>
+  <div class="appointments">
+    <div v-for="appointment in ownerAppointments">
+      <div v-if="appointment.is_old">
+        <Appointment
+          :pet="appointment.pet_name"
+          :title="appointment.cure_type"
+          :vet="appointment.vet_name"
+          :postalCode="appointment.vet_postal_code"
+          :vet-address="appointment.vet_address"
+          :date="appointment.cure_date"
+          :is-old="appointment.is_old"
+        ></Appointment>
+        
+      </div>
+    </div>
   </div>
   <Footer></Footer>
 </template>
