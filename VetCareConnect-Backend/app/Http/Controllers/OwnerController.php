@@ -179,6 +179,7 @@ class OwnerController extends BaseController
                     'cure_type' => $appointment->cure_type->type,
                     'vet_name' => $appointment->vet->name,
                     'vet_address' => $appointment->vet->address,
+                    'vet_postal_code' => $appointment->vet->postal_code,
                     'cure_date' => $appointment->date
                  ];
             }
