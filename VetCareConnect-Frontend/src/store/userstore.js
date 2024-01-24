@@ -6,7 +6,7 @@ export const useUserStore = defineStore('userstore',{
         user: {
             name: '',
             token: '',
-            id:null           
+            role:null           
         },
         status:{
             loggedIn:false,
@@ -25,7 +25,7 @@ export const useUserStore = defineStore('userstore',{
                 })
                 .catch(err =>{
                     this.status.loggedIn = false;
-                    this.user =  {name: '', token: '', id:null, role:null }
+                    this.user =  {name: '', token: '', role:null}
                     this.status.message = err.data.data.error;
                     return Promise.reject(err.resposne);
                 })
@@ -34,7 +34,7 @@ export const useUserStore = defineStore('userstore',{
             return userservice.logout(this.user.token)
                 .then(()=>{
                     this.status.loggedIn = false;
-                    this.user =  {name: '', token: '', id:null, role:null }
+                    this.user =  {name: '', token: '', role:null}
                     localStorage.removeItem('user');
                 });
         }
