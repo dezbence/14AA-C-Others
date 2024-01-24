@@ -5,7 +5,7 @@
       <p>Orvos neve: {{ choosedVet.name }}</p>
       <p>Időpont: {{ choosedDate }} {{ choosedTime }}</p>
       <p>Időpont típusa: {{ choosedType.type }}</p>
-      <p>Helyszín: {{ choosedVet.postal_code }}</p>
+      <p>Helyszín: {{ choosedVet.postal_code }} {{ choosedVet.address }}</p>
       <p>Kisállat: {{ choosedPet.name }}</p>
       <div class="buttons">
         <button class="btnStyle btnBook" @click="Back()">Vissza</button>
@@ -37,7 +37,7 @@ const props = defineProps({
   choosedDate: String,
   choosedTime: String,
   dateFormat: String
-})
+});
 
 const { user } = storeToRefs(useUserStore());
 
@@ -55,9 +55,9 @@ function Back() {
 
 function Book() {
   ownerservice.bookAppointment(appointmentData, user.value.token).then((resp) => {
-    });
+    router.push("/naptaram");
+  });
 
-  router.push("/naptaram");
 }
 </script>
 

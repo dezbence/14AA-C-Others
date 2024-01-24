@@ -154,7 +154,7 @@ import Calendar from "../../components/Calendar.vue";
 import vetservice from "../../services/vetservice.js";
 // import AppointmentApprove from "../../components/AppointmentApprove.vue";
 
-import { ref, onMounted, onBeforeMount, onBeforeUpdate } from "vue";
+import { ref, onMounted } from "vue";
 import { useDateFormat } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
@@ -187,6 +187,7 @@ const vets = ref();
 const cureTypes = ref([]);
 const pets = ref([]);
 const appointments = ref([]);
+
 
 const { user } = storeToRefs(useUserStore());
 
@@ -224,10 +225,14 @@ function hideBook() {
 }
 
 function refreshTimes() {
+  const freeAppointmentData = {
+  id: choosedData.value.vet.id, 
+  date: dateSend.value 
+};
+  console.log(freeAppointmentData)
   vetservice
     .getFreeAppointments(
-      choosedData.value.vet.id,
-      dateSend.value,
+      freeAppointmentData,
       user.value.token
     )
     .then((resp) => {
