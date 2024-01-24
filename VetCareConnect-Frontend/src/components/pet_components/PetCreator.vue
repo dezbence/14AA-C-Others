@@ -23,6 +23,7 @@
                     <InputNumber v-model="pet.chip_number" :min="0" :max="999999999999999" :useGrouping="false" />
                     <label>Törzskönyv száma (8 számjegy):</label>
                     <InputNumber v-model="pet.pedigree_number" :min="0" :max="99999999" :useGrouping="false" />
+                    <p></p>
                     <label>Fajtajelleg:</label>
                     <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!"
                         class="petDropdown" />
@@ -47,12 +48,6 @@
                     <button @click="handleSubmit()">Létrehozás</button>
                 </TabPanel>
             </TabView>
-
-
-
-
-
-
 
         </div>
     </div>
@@ -86,8 +81,7 @@ const props = defineProps(['showCreator', 'submitPet']);
 
 const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
 const genders = ['hím', 'nőstény']
-
-const pages = ref([1, 2])
+const gender = ref();
 
 const pet = ref({
     name: "",
@@ -100,13 +94,7 @@ const pet = ref({
     comment: "",
     owner_id: user.value.id
 })
-const gender = ref();
 
-const activeIdx = ref(-1);
-
-function isActiveToggle(index) {
-    activeIdx.value = index;
-}
 
 function petGenderFormat(gender1) {
     if (gender1 == 'nőstény') return 0;
