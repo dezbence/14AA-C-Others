@@ -188,6 +188,7 @@ const cureTypes = ref([]);
 const pets = ref([]);
 const appointments = ref([]);
 
+
 const { user } = storeToRefs(useUserStore());
 
 function isActiveToggle(index, time) {
@@ -224,10 +225,14 @@ function hideBook() {
 }
 
 function refreshTimes() {
+  const freeAppointmentData = {
+  id: choosedData.value.vet.id, 
+  date: dateSend.value 
+};
+  console.log(freeAppointmentData)
   vetservice
     .getFreeAppointments(
-      choosedData.value.vet.id,
-      dateSend.value,
+      freeAppointmentData,
       user.value.token
     )
     .then((resp) => {

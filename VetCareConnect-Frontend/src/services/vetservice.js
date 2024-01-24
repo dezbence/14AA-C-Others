@@ -37,8 +37,8 @@ export default {
             return Promise.reject(err.response);
         }) 
     },
-    getFreeAppointments(id, date, token){
-        return Axios.get(`/free-appointments/${id}/${date}`, {headers: {"Authorization" : "Bearer "+token}})
+    getFreeAppointments(data, token){
+        return Axios.post(`/free-appointments`, data,  {headers: {"Authorization" : "Bearer "+token}})
         .then(resp => {
             return resp.data;
         })

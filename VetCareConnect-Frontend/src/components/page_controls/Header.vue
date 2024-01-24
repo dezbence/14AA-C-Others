@@ -58,7 +58,8 @@ const Routes = [
   { name: "Időpont foglalás", link: "/idopontfoglalas" },
   { name: "Kedvenceim", link: "/kedvenceim" },
   { name: "Naptáram", link: "/naptaram" },
-  { name: "Orvosi Naptáram", link: "/orvosi-naptar" }
+  { name: "Orvosi Naptáram", link: "/orvosi-naptar" },
+  { name: "Orvos beállítások", link: "/orvos-beallitasok" }
 ]
 
 const isSideBarOpen = ref(false);
