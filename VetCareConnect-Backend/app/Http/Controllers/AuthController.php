@@ -73,18 +73,18 @@ class AuthController extends BaseController
             unset($input['confirm_password']);
             $owner = Owner::create($input);
 
-            $success['token'] = $owner->createToken('Secret')->plainTextToken;
-            $success['name'] = $owner->name;
+            // $success['token'] = $owner->createToken('Secret')->plainTextToken;
+            // $success['name'] = $owner->name;
         } else {
             unset($input['role']);
             unset($input['confirm_password']);
             $vet = Vet::create($input);
 
-            $success['token'] = $vet->createToken('Secret')->plainTextToken;
-            $success['name'] = $vet->name;
+            // $success['token'] = $vet->createToken('Secret')->plainTextToken;
+            // $success['name'] = $vet->name;
         }
 
-        return $this->sendResponse($success,'Sikeres regisztráció!');
+        return $this->sendResponse('','Sikeres regisztráció!');
     }
 
 
@@ -111,7 +111,7 @@ class AuthController extends BaseController
             $user = Auth::guard('owner')->user();
             $success['token'] = $user->createToken('Secret')->plainTextToken;
             $success['name'] = $user->name;
-            $success['id'] = $user->id;
+            $success['role'] = 0;
 
             return $this->sendResponse($success,'Sikeres bejelentkezés!');
 
@@ -123,7 +123,7 @@ class AuthController extends BaseController
             $user = Auth::guard('vet')->user();
             $success['token'] = $user->createToken('Secret')->plainTextToken;
             $success['name'] = $user->name;
-            $success['id'] = $user->id;
+            $success['role'] = 1;
 
             return $this->sendResponse($success,'Sikeres bejelentkezés!');
 
