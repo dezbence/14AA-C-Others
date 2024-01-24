@@ -72,7 +72,7 @@ function showCreator() {
 
 const pets = ref([]);
 function getPets() {
-    ownerservice.getOwnersPets(user.value.id, user.value.token)
+    ownerservice.getOwnersPets(user.value.token)
         .then((resp) => {
             pets.value = resp.data;
             console.log(resp.data)

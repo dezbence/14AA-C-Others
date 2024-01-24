@@ -17,7 +17,7 @@
             <TabView v-model:activeIndex="active">
                 <TabPanel>
                     <label>Kedvence neve:</label>
-                    <InputText v-model="pet.name"></InputText>
+                    <InputText v-model.trim="pet.name"></InputText>
 
                     <label>Chip szám (15 számjegy):</label>
                     <InputNumber v-model="pet.chip_number" :min="0" :max="999999999999999" :useGrouping="false" />
@@ -43,7 +43,7 @@
                     <Calendar class="bornDate" v-model="pet.born_date" :max-date="new Date()" dateFormat="yy.mm.dd"
                         placeholder="éééé.hh.nn" />
                     <label>Megjegyzés:</label>
-                    <Textarea placeholder="Allergiák, különlegességek, stb." v-model="pet.comment" rows="4" cols="40"
+                    <Textarea placeholder="Allergiák, különlegességek, stb." v-model.trim="pet.comment" rows="4" cols="40"
                         autoResize></Textarea>
                     <button @click="handleSubmit()">Létrehozás</button>
                 </TabPanel>
@@ -66,6 +66,7 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import ownerservice from '../../services/ownerservice.js'
 import { usePrimeVue } from 'primevue/config';
+import { useDateFormat } from "@vueuse/core";
 
 
 const primevue = usePrimeVue();
@@ -91,8 +92,7 @@ const pet = ref({
     gender: 0,
     weight: 0,
     born_date: "",
-    comment: "",
-    owner_id: user.value.id
+    comment: ""
 })
 
 
@@ -102,9 +102,9 @@ function petGenderFormat(gender1) {
 }
 
 function handleSubmit() {
+    pet.value.born_date = useDateFormat(pet.value.born_date, "YYYY-MM-DD");
     ownerservice.postNewPet(pet.value, user.value.token)
         .then((resp) => {
-            console.log(pet.value);
             props.submitPet();
         });
     pet.value.gender = petGenderFormat(gender.value);
