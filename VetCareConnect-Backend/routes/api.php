@@ -29,6 +29,7 @@ Route::post('/login',[AuthController::class,'login']);
 Route::post('/search-vets', [MainController::class, 'searchVets']);
 Route::get('/vet-all', [MainController::class, 'getAllVet']);
 Route::get('/cure-types-all', [MainController::class, 'getAllCureTypes']);
+Route::get('/faq-all', [MainController::class, 'getAllQuestions']);
 
 Route::middleware('auth:sanctum')->group(function(){
 

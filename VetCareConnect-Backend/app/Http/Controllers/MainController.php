@@ -10,6 +10,7 @@ use App\Models\Special_opening;
 use App\Models\Owner;
 use App\Models\Pet;
 use App\Models\Vet;
+use App\Models\FAQ;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +43,11 @@ class MainController extends BaseController
         $cure_types = Cure_type::all();
 
         return  $this->sendResponse($cure_types, 'Sikeres művelet!');
+    }
+
+    public function getAllQuestions()
+    {
+        return  $this->sendResponse(FAQ::all(), 'Sikeres művelet!');
     }
 
     public function searchVets(Request $request) {
