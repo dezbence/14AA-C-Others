@@ -43,8 +43,8 @@ class VetController extends BaseController
     public function addOpenings(Request $request) {
 
         $validatorFields = [
-            'date' => 'required',
-            'working_hours'=> 'required'
+            'working_hours'=> 'required',
+            'day'=> 'required'
         ];
 
         $validator = Validator::make($request->all(), $validatorFields);
@@ -63,10 +63,12 @@ class VetController extends BaseController
 
         $validatorFields = [
             'working_hours' => 'required',
-            'day'=> 'required'
+            'date' => 'required'
         ];
 
-        $validator = Validator::make($request->all(), $validatorFields);
+        foreach ($request->all() as $specialOpening) {
+            $validator = Validator::make($specialOpening, $validatorFields);
+        }
 
         if ($validator->fails()){
             return $this->sendError('Bad request', $validator->errors(), 400);
@@ -74,7 +76,10 @@ class VetController extends BaseController
 
         foreach ($request->all() as $specialOpening) {
             $specialOpening['vet_id'] = Auth::user()->id;
-            SpecialOpening::create($specialOpening);
+            return $specialOpening;
+            //SpecialOpening::create($specialOpening);
         }
+
+        return $this->sendResponse('', 'Sikeres művelet!');
     }
 }

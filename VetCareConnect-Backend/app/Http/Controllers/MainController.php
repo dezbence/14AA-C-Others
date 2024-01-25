@@ -63,7 +63,7 @@ class MainController extends BaseController
 
     public function bearerTest(Request $request) {
 
-        return $this->sendResponse(date('Y-m-d'), 'Sikeres művelet!');
+        return $this->sendResponse(Auth::user(), 'Sikeres művelet!');
     }
 
 
