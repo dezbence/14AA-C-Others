@@ -134,8 +134,7 @@ class AuthController extends BaseController
     }
 
     public function logout(Request $request){
-
-        auth()->user()->tokens()->delete();
-        return $this->sendResponse('','Sikeres kijelentkezés!');
+        $request->user()->currentAccessToken()->delete();
+        return $this->sendResponse('' ,'Sikeres kijelentkezés!');
     }
 }
