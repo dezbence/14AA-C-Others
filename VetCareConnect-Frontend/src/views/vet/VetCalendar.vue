@@ -2,39 +2,16 @@
     <Header></Header>
     <div class="toDoBack">
         <div class="todaysToDo">
-            <h3>Mai ügyfelek</h3>
+            <h3>{{ selectedDay }} ügyfelek</h3>
             <hr>
             <div class="toDos">
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
-                <ToDo></ToDo>
+                <div v-for="appointmentData in appointmentsData">
+                    <ToDo :appointmentData="appointmentData"></ToDo>
+                </div>
             </div>
         </div>
             <Calendar  v-model="appointmentsDate" inline class="vetCalendar" :min-date="new Date()" />
-            <p>{{ useDateFormat(appointmentsDate, "YYYY-MM-DD") }}</p>
+            <p>{{ selectedDayFormatted }}</p>
     </div>
     <Footer></Footer>
 </template>
@@ -47,14 +24,33 @@ import Calendar from 'primevue/calendar'
 import ToDo from '@/components/vet_components/ToDo.vue'
 import { usePrimeVue } from 'primevue/config';
 import { useDateFormat } from "@vueuse/core";
+import vetservice from "@/services/vetservice"
+import { storeToRefs } from "pinia";
+import { useUserStore } from "../../store/userstore";
+
+const {user} = storeToRefs(useUserStore());
 
 const primevue = usePrimeVue();
 primevue.config.locale.dayNamesMin = ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'];
 primevue.config.locale.firstDayOfWeek = 1;
 primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
 
-const appointmentsDate = ref()
+const appointmentsDate = ref();
 
+let selectedDay = useDateFormat(appointmentsDate ,"MMMM DD.");
+let selectedDayFormatted = useDateFormat(appointmentsDate, "YYYY-MM-DD")
+
+
+const appointmentsData = ref();
+
+function getVetAppointments() {
+    vetservice.getVetsAppointmentToDays(user.value.token)
+    .then((resp) => {
+            appointmentsData.value = resp.data;
+            console.log(appointmentsData.value)
+        });
+}
+getVetAppointments()
 </script>
 
 <style scoped>
@@ -65,6 +61,7 @@ const appointmentsDate = ref()
     justify-content: center;
     align-items: center;
     gap: 100px;
+    padding: 0 60px;
 }
 
 .todaysToDo {
@@ -115,6 +112,11 @@ const appointmentsDate = ref()
     height: 700px;
     border-radius: 7px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+@media (max-width: 1150px) {
+   
 }
 
 </style>

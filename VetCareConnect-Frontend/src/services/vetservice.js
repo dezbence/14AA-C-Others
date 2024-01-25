@@ -10,40 +10,49 @@ export default {
                 return Promise.reject(err.response);
             })
     },
-    getAllCureTypes(){
+    getAllCureTypes() {
         return Axios.get('/cure-types-all')
             .then(resp => {
                 return resp.data;
             })
             .catch(err => {
                 return Promise.reject(err.response);
-            }) 
+            })
     },
-    getUsersPets(token){
-        return Axios.get(`/pets`, {headers: {"Authorization" : "Bearer "+token}})
-        .then(resp => {
-            return resp.data;
-        })
-        .catch(err => {
-            return Promise.reject(err.response);
-        }) 
+    getUsersPets(token) {
+        return Axios.get(`/pets`, { headers: { "Authorization": "Bearer " + token } })
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
     },
-    getVetsByParams(data){
+    getVetsByParams(data) {
         return Axios.post(`/search-vets`, data)
-        .then(resp => {
-            return resp.data;
-        })
-        .catch(err => {
-            return Promise.reject(err.response);
-        }) 
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
     },
-    getFreeAppointments(data, token){
-        return Axios.post(`/free-appointments`, data,  {headers: {"Authorization" : "Bearer "+token}})
-        .then(resp => {
-            return resp.data;
-        })
-        .catch(err => {
-            return Promise.reject(err.response);
-        })
+    getFreeAppointments(data, token) {
+        return Axios.post(`/free-appointments`, data, { headers: { "Authorization": "Bearer " + token } })
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
+    },
+    getVetsAppointmentToDays(token) {
+        return Axios.get(`/vet-appointments`, { headers: { "Authorization": "Bearer " + token } })
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
     }
 }

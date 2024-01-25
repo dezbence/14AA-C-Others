@@ -1,14 +1,18 @@
 <template>
     <div class="back">
-        <h4>{{ }}12:30 - 13:00</h4>
-        <h5>{{ }}Nagy Alga</h5>
-        <p></p>
+        <h4>{{ selectedDayDate }}</h4>
+        <h5>{{ appointmentData.pet_species }}</h5>
+        <p> {{ appointmentData.cure_type }}</p>
         
     </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+const props = defineProps(["appointmentData"]);
 
+const selectedDayDate = ref(props.appointmentData.cure_date.substring(0, 10));
+console.log(selectedDayDate.value)
 </script>
 
 <style scoped>
