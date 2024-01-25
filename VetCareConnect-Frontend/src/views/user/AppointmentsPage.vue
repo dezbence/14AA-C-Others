@@ -9,7 +9,7 @@
         <div v-if="!appointment.is_old">
           <Appointment :pet="appointment.pet_name" :title="appointment.cure_type" :vet="appointment.vet_name"
             :postalCode="appointment.vet_postal_code" :vet-address="appointment.vet_address" :date="appointment.cure_date"
-            :is-old="appointment.is_old" :appointment-id="appointment.cure_id" ></Appointment>
+            :is-old="appointment.is_old" :appointment-id="appointment.cure_id"  ></Appointment>
         </div>
 
       </div>
@@ -39,7 +39,7 @@
     </div>
   </div>
   <div v-else class="cancelAppointment">
-    <CancelAppointment></CancelAppointment>
+    <CancelAppointment :get-owner-appointments="getOwnerAppointments"></CancelAppointment>
   </div>
   <Footer></Footer>
 </template>
@@ -61,11 +61,12 @@ const store = useUserStore();
 const ownerAppointments = ref();
 const showCancel = ref(store.show);
 
-onMounted(() =>{
+function getOwnerAppointments(){
   ownerservice.getAppointments(user.value.token).then((resp) => {
     ownerAppointments.value = resp.data;
   });
-});
+}
+getOwnerAppointments();
 </script>
 
 <style lang="css" scoped>
