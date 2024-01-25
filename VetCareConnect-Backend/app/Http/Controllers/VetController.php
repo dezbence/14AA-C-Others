@@ -76,8 +76,7 @@ class VetController extends BaseController
 
         foreach ($request->all() as $specialOpening) {
             $specialOpening['vet_id'] = Auth::user()->id;
-            return $specialOpening;
-            //SpecialOpening::create($specialOpening);
+            SpecialOpening::create($specialOpening);
         }
 
         return $this->sendResponse('', 'Sikeres művelet!');
