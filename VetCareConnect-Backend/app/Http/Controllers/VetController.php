@@ -56,7 +56,6 @@ class VetController extends BaseController
 
         foreach ($request->all() as $opening) {
             $opening['vet_id'] = Auth::user()->id;
-            return $opening;
             Opening::create($opening);
         }
 
