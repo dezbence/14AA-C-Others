@@ -21,17 +21,20 @@ const appointment = {
     id: store.cancelAppointmentId
 };
 
+const props = defineProps(['getOwnerAppointments']);
+
 function ClickNo(){
     store.show = false;
-    router.go('/naptaram');
+    router.push('/naptaram');
 }
 
 function ClickYes(){
-    ownerservice.deleteAppointment(appointment, user.value.token).then(resp => {
-        console.log(resp.data)
+    console.log(appointment)
+    ownerservice.deleteAppointment(appointment, user.value.token).then((resp) => {
+        props.getOwnerAppointments();
     });
     store.show = false;
-    router.go('/naptaram');
+    router.push('/naptaram');
 }
 
 </script>
