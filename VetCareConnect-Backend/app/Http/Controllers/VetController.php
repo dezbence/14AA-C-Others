@@ -34,8 +34,9 @@ class VetController extends BaseController
                     ];
                 }
             }
+        }
 
-         }
+        ksort($return, 'cure_date');
 
         return $this->sendResponse($return, 'Sikeres művelet!');
     }
@@ -43,11 +44,13 @@ class VetController extends BaseController
     public function addOpenings(Request $request) {
 
         $validatorFields = [
-            'date' => 'required',
-            'working_hours'=> 'required'
+            'working_hours'=> 'required',
+            'day'=> 'required'
         ];
 
-        $validator = Validator::make($request->all(), $validatorFields);
+        foreach ($request->all() as $opening) {
+            $validator = Validator::make($opening, $validatorFields);
+        }
 
         if ($validator->fails()){
             return $this->sendError('Bad request', $validator->errors(), 400);
@@ -55,26 +58,35 @@ class VetController extends BaseController
 
         foreach ($request->all() as $opening) {
             $opening['vet_id'] = Auth::user()->id;
+            return $opening;
             Opening::create($opening);
         }
+
+        return $this->sendResponse('', 'Sikeres művelet!');
     }
 
     public function addSpecialOpenings(Request $request) {
 
         $validatorFields = [
             'working_hours' => 'required',
-            'day'=> 'required'
+            'date' => 'required'
         ];
 
-        $validator = Validator::make($request->all(), $validatorFields);
+        foreach ($request->all() as $specialOpening) {
+            $validator = Validator::make($specialOpening, $validatorFields);
+        }
 
         if ($validator->fails()){
             return $this->sendError('Bad request', $validator->errors(), 400);
         }
 
+        $test = [];
+
         foreach ($request->all() as $specialOpening) {
             $specialOpening['vet_id'] = Auth::user()->id;
-            SpecialOpening::create($specialOpening);
+            Special_opening::create($specialOpening);
         }
+
+        return $this->sendResponse('', 'Sikeres művelet!');
     }
 }

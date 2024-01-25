@@ -9,7 +9,7 @@
         <div v-if="!appointment.is_old">
           <Appointment :pet="appointment.pet_name" :title="appointment.cure_type" :vet="appointment.vet_name"
             :postalCode="appointment.vet_postal_code" :vet-address="appointment.vet_address" :date="appointment.cure_date"
-            :is-old="appointment.is_old"></Appointment>
+            :is-old="appointment.is_old" :appointment-id="appointment.cure_id" ></Appointment>
         </div>
 
       </div>
@@ -38,7 +38,7 @@
       </div>
     </div>
   </div>
-  <div v-else>
+  <div v-else class="cancelAppointment">
     <CancelAppointment></CancelAppointment>
   </div>
   <Footer></Footer>
@@ -51,7 +51,7 @@ import Appointment from "../../components/Appointment.vue";
 import ownerservice from "@/services/ownerservice";
 import CancelAppointment from "@/components/user_components/CancelAppointment.vue";
 
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
 
@@ -61,8 +61,10 @@ const store = useUserStore();
 const ownerAppointments = ref();
 const showCancel = ref(store.show);
 
-ownerservice.getAppointments(user.value.token).then((resp) => {
-  ownerAppointments.value = resp.data;
+onMounted(() =>{
+  ownerservice.getAppointments(user.value.token).then((resp) => {
+    ownerAppointments.value = resp.data;
+  });
 });
 </script>
 
@@ -105,6 +107,12 @@ ownerservice.getAppointments(user.value.token).then((resp) => {
 
 .newAppointmentButton svg {
   margin-bottom: 1px;
+}
+.cancelAppointment{
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 959px) {

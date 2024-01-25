@@ -4,7 +4,6 @@
     <p class="vet">Orvos: {{ vet }}</p>
     <p class="vet">Helyszín: {{ postalCode }} {{ vetAddress }}</p>
     <p class="date">{{ formattedDate }}</p>
-
     <button class="btnStyle btnCancelAppointment" @click="Cancel()" v-if="!isOld">Időpont lemondása</button>
   </div>
 </template>
@@ -22,7 +21,8 @@ const props = defineProps({
   vetAddress: String,
   postalCode: String,
   date: String,
-  isOld: Boolean
+  isOld: Boolean,
+  appointmentId: Number
 });
 
 
@@ -30,6 +30,7 @@ const formattedDate = useDateFormat(props.date, "YYYY. MMMM DD. HH:mm");
 
 function Cancel(){
     store.showAppointmentCancel(true);
+    store.cancelAppointmentId = props.appointmentId;
 }
 
 </script>

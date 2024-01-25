@@ -13,6 +13,7 @@ export const useUserStore = defineStore('userstore',{
             message:''
         },
         show: false,
+        cancelAppointmentId: null,
     }),
     getters:{},
     actions:{

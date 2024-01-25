@@ -52,6 +52,9 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::middleware('only-vet')->group(function(){
         Route::get('/vet-appointments', [VetController::class, 'getVetAppointments']);
+
+        Route::post('/new-openings', [VetController::class, 'addOpenings']);
+        Route::post('/new-special-openings', [VetController::class, 'addSpecialOpenings']);
     });
 
 });

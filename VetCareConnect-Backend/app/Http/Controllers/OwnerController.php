@@ -185,6 +185,7 @@ class OwnerController extends BaseController
                     'owner_id' => $appointment->pet->owner->id,
                     'pet_name' => $appointment->pet->name,
                     'cure_type' => $appointment->cure_type->type,
+                    'cure_id' => $appointment->id,
                     'vet_name' => $appointment->vet->name,
                     'vet_address' => $appointment->vet->address,
                     'vet_postal_code' => $appointment->vet->postal_code,
@@ -200,6 +201,16 @@ class OwnerController extends BaseController
     }
 
     public function deleteAppointment(Request $request) {
+
+        $validatorFields = [
+            'id' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()) {
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
 
         $cures = Cure::with([
         'pet.owner' => function ($query) {

@@ -45,5 +45,14 @@ export default {
             .catch(err => {
                 return Promise.reject(err.response);
             })
-    }
+    },
+    deleteAppointment(appointment, token){
+        return Axios.post('/delete-appointment', appointment, {headers: {"Authorization" : "Bearer "+ token}})
+        .then(resp => {
+            return resp.data;
+        })
+        .catch(err => {
+            return Promise.reject(err.response);
+        })
+},
 }
