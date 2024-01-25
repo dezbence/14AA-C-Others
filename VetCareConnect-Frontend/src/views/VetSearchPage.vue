@@ -112,7 +112,31 @@ input{
 }
 .searchResults{
     width: 600px;
+    height: 700px;
     padding-left: 75px;
+    overflow-y: scroll;
+    padding-right: 30px;
+
+}
+.searchResults::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+.searchResults::-webkit-scrollbar-track {
+  background: #ccc;
+  border-radius: 7px;
+}
+
+/* Handle */
+.searchResults::-webkit-scrollbar-thumb {
+  background: #368267;
+  border-radius: 7px;
+}
+
+/* Handle on hover */
+.searchResults::-webkit-scrollbar-thumb:hover {
+  background: #246951;
 }
 .vetsBox {
     display: flex;
