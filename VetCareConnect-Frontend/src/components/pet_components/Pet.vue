@@ -2,7 +2,7 @@
     <div class="cardsBack">
         <img @click="petMenuToggle()" class="dotsMenu" src="../../assets/icons/dots.svg" />
         <div class="menu">
-            <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle" :deletePet="deletePet"></PetMenu>
+            <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle" :deletePet="deletePet" ></PetMenu>
         </div>
         <div class="profile"></div>
 

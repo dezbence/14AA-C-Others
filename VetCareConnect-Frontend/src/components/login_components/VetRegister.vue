@@ -23,10 +23,23 @@
                         <InputText v-model="vetData.firstName" />
                         <InputText v-model="vetData.lastName" />
                     </div>
+
+                    <label>Orvosi azonosító pecsét</label>
+                    <InputNumber v-model="vetData.stamp" :useGrouping="false"/>
+
+                    <div class="nameLabel">
+                        <label>Irányítószám:</label>
+                        <label>Utca, házszám:</label>
+                    </div>
+                    <div class="nameInput">
+                        <InputNumber v-model="vetData.address" />
+                        <InputText v-model="vetData.address" />
+                    </div>
+
                     <label>Tel. szám:</label>
                     <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.fon" />
                     <label>E-mail cím:</label>
-                    <InputText v-model="vetData.email" placeholder="bodri@gmail.com" />
+                    <InputText type="email" v-model="vetData.email" placeholder="bodri@gmail.com" />
                     <label>Jelszó:</label>
                     <div class="passInfo">
                         <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()" @mouseleave="passwordInfoToggle()" class="passwordInfo">
@@ -35,7 +48,7 @@
                     <div v-if="passwordError" class="error">{{ passwordError }}</div>
                     <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
                     <label>Jelszó újra:</label>
-                    <InputText v-model="vetData.passwordAgain" type="password" placeholder="Bodri123" />
+                    <InputText v-model="vetData.confirm_password" type="password" placeholder="Bodri123" />
                     <div v-if="passwordErrorAgain" class="error">{{ passwordErrorAgain }}</div>
                     <div class="terms">
                         <input type="checkbox" v-model="vetData.terms" />
@@ -73,6 +86,7 @@ import { ref } from "vue";
 import TermsOfUse from "./TermsOfUse.vue";
 import PasswordRequirements from "./PasswordRequirements.vue";
 import InputMask from 'primevue/inputmask';
+import InputNumber from "primevue/inputnumber";
 import InputText from "primevue/inputtext";
 import router from '@/router';
 
@@ -94,7 +108,6 @@ const vetData = ref({
     lastName: "",
     phone: "",
     stamp: 0,
-    
     address: "",
     email: "",
     password: "",

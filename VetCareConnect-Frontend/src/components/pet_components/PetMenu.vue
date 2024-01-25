@@ -1,7 +1,7 @@
 <template>
     <div class="back" @mouseleave="petMenuToggle()">
         <div class="front">
-            <div class="petEdit">
+            <div class="petEdit" @click="editPet()">
                 <img src="../../assets/icons/edit.svg">
                 <p>Szerkesztés</p>
             </div>

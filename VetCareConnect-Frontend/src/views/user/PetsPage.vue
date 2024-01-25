@@ -69,7 +69,6 @@ function showCreator() {
     isPetCreating.value = !isPetCreating.value;
 }
 
-
 const pets = ref([]);
 function getPets() {
     ownerservice.getOwnersPets(user.value.token)
@@ -83,7 +82,6 @@ function submitPet() {
     getPets();
     isPetCreating.value = false;
 }
-
 getPets();
 </script>
 

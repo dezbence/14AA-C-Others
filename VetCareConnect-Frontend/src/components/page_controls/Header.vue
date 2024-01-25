@@ -72,9 +72,6 @@ const isUserMenuOpen = ref(false);
 function userMenuToggle() {
   isUserMenuOpen.value = !isUserMenuOpen.value;
 }
-
-console.log(user.value.role)
-
 </script>
 
 <style scoped>
