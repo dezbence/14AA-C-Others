@@ -2,7 +2,7 @@
     <Header></Header>
     <div class="toDoBack">
         <div class="todaysToDo">
-            <h3>{{ selectedDay }} ügyfelek</h3>
+            <h3>{{ selectedDay }} időpontok</h3>
             <hr>
             <div class="toDos">
                 <div v-for="appointmentData in appointmentsData">
@@ -37,7 +37,7 @@ primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Áprili
 
 const appointmentsDate = ref();
 
-let selectedDay = useDateFormat(appointmentsDate ,"MMMM DD.");
+let selectedDay = useDateFormat(appointmentsDate ,"YYYY. MMMM DD-i");
 let selectedDayFormatted = useDateFormat(appointmentsDate, "YYYY-MM-DD")
 
 

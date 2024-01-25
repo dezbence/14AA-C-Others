@@ -36,8 +36,6 @@ class VetController extends BaseController
             }
         }
 
-        ksort($return, 'cure_date');
-
         return $this->sendResponse($return, 'Sikeres művelet!');
     }
 

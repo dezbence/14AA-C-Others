@@ -3,7 +3,7 @@
     <div class="front">
       <ul>
         <div class="routers" v-for="route in Routes">
-          <li><router-link :to="route.link">{{ route.name }}</router-link></li>
+          <li v-if="route.roleAccess.includes(user.role)"><router-link :to="route.link">{{ route.name }}</router-link></li>
         </div>
       </ul>
 
@@ -26,18 +26,19 @@ import { useUserStore } from "@/store/userstore";
 import { useToast } from 'vue-toastification';
 
 const { logout } = useUserStore();
-const { status} = storeToRefs(useUserStore());
+const { status, user } = storeToRefs(useUserStore());
 
 const toast = useToast();
 
 const Routes = [
-  { name: "Kezdőlap", link: "/" },
-  { name: "GYIK", link: "/gyik" },
-  { name: "Állatorvosok", link: "/allatorvosok" },
-  { name: "Időpont foglalás", link: "/idopontfoglalas" },
-  { name: "Kedvenceim", link: "/kedvenceim" },
-  { name: "Naptáram", link: "/naptaram" },
-  { name: "Orvosi Naptáram", link: "/orvosi-naptar" }
+{ name: "Kezdőlap", link: "/", roleAccess: [0, 1, null] },
+  { name: "GYIK", link: "/gyik", roleAccess: [0, 1, null] },
+  { name: "Állatorvosok", link: "/allatorvosok", roleAccess: [0, null] },
+  { name: "Időpont foglalás", link: "/idopontfoglalas", roleAccess: [0] },
+  { name: "Kedvenceim", link: "/kedvenceim", roleAccess: [0] },
+  { name: "Naptáram", link: "/naptaram", roleAccess: [0] },
+  { name: "Orvosi Naptáram", link: "/orvosi-naptar", roleAccess: [1] },
+  { name: "Orvos beállítások", link: "/orvos-beallitasok", roleAccess: [1] }
 ];
 
 function onLogout(){

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1>404</h1>
-        <img id="notFound" src="../assets/Képek/NotFound.png">
+        <img id="notFound" src="../assets/images/not_found.png">
         <h3>Van egy kis bibi...</h3>
         <p>Kérjük próbálja újra később!</p>
 
