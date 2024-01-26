@@ -9,13 +9,31 @@
             <div class="dataSheet">
                 <div class="nameLabel">
                     <label>Név:</label>
-                    <InputText v-model="editedUserData.name" />
+                    <div class="inputEdit">
+                        <InputText v-model="editedUserData.name" />
+                        <img class="editData" src="../assets/icons/edit.svg">
+                    </div>
+
                     <label>Tel. szám:</label>
-                    <InputMask mask="99/999-9999" placeholder="00/000-0000" v-model="editedUserData.phone" />
+                    <div class="inputEdit">
+                        <InputMask mask="99/999-9999" placeholder="00/000-0000" v-model="editedUserData.phone" />
+                        <img class="editData" src="../assets/icons/edit.svg">
+
+                    </div>
                     <label>Irányítószám:</label>
-                    <InputMask mask="9999" placeholder="0000" v-model="editedUserData.postal_code" />
+                    <div class="inputEdit">
+                        <InputMask mask="9999" placeholder="0000" v-model="editedUserData.postal_code" />
+                        <img class="editData" src="../assets/icons/edit.svg">
+                    </div>
+
+
                     <label>E-mail cím:</label>
-                    <InputText v-model="editedUserData.email" placeholder="bodri@gmail.com" />
+                    <div class="inputEdit">
+                        <InputText v-model="editedUserData.email" placeholder="bodri@gmail.com" />
+                        <img class="editData" src="../assets/icons/edit.svg">
+                    </div>
+
+
                     <!-- <label>Jelszó:</label>
                 <InputText v-model="userData.password" type="password" placeholder="Bodri123" /> -->
 
@@ -77,14 +95,14 @@ getUsersData();
 
 function saveChanges() {
     if (editedUserData.value.name == userData.name &&
-        editedUserData.value.phone.replace(/[/-]/g,'') == userData.phone &&
+        editedUserData.value.phone.replace(/[/-]/g, '') == userData.phone &&
         editedUserData.value.postal_code == userData.postal_code &&
         editedUserData.value.email == userData.email) {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else {
         toast.success('Sikeres módosítás!', { position: "top-center" });
         userData.name = editedUserData.value.name;
-        userData.phone = editedUserData.value.phone.replace(/[/-]/g,'');
+        userData.phone = editedUserData.value.phone.replace(/[/-]/g, '');
         userData.postal_code = editedUserData.value.postal_code;
         userData.email = editedUserData.value.email;
     }
@@ -133,6 +151,12 @@ function saveChanges() {
     text-align: center;
     margin: 0;
 }
+
+.inputEdit {
+    display: flex;
+    cursor: pointer;
+}
+
 
 button {
     margin-top: 24px;
