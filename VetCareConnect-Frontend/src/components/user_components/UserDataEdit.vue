@@ -1,4 +1,5 @@
 <template>
+        <SureInEdit v-if="store.show"></SureInEdit>
     <div class="main">
         <div class="myDatas">
             <div class="dataHeader">
@@ -31,6 +32,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import SureInEdit from '../SureInEdit.vue';
 import InputText from 'primevue/inputtext';
 import InputMask from 'primevue/inputmask';
 import { useToast } from 'vue-toastification';
@@ -39,8 +41,7 @@ import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 
 const props = defineProps(['getUsersData']);
-
-
+const store = useUserStore();
 const { user } = storeToRefs(useUserStore());
 const toast = useToast();
 
@@ -56,6 +57,10 @@ let userData = {
     phone: "",
     postal_code: "",
     email: ""
+}
+
+function sureInEdit() {
+    store.showAppointmentCancel(true);
 }
 
 
@@ -79,6 +84,7 @@ function saveChanges() {
         editedUserData.value.email == userData.email) {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else {
+        sureInEdit();
         toast.success('Sikeres módosítás!', { position: "top-center" });
         userData.name = editedUserData.value.name;
         userData.phone = editedUserData.value.phone.replace(/[/-]/g, '');
