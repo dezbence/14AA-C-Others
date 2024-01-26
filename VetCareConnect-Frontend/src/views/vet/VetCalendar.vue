@@ -11,7 +11,7 @@
             </div>
         </div>
             <Calendar  v-model="appointmentsDate" inline class="vetCalendar" :min-date="new Date()" />
-            <p>{{ selectedDayFormatted }}</p>
+            <!-- <p>{{ selectedDayFormatted }}</p> -->
     </div>
     <Footer></Footer>
 </template>

@@ -24,7 +24,7 @@ const { logout } = useUserStore();
 const toast = useToast();
 
 const MenuItems = [
-    { name: "Adataim", link: "/", img: "src/assets/icons/profile-line.svg" },
+    { name: "Adataim", link: "/adataim", img: "src/assets/icons/profile-line.svg" },
     { name: "GYIK", link: "/gyik", img: "src/assets/icons/question-mark.svg" },
     { name: "Beállítások", link: "/kedvenceim", img: "src/assets/icons/settings.svg" }
 ]
