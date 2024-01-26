@@ -68,11 +68,26 @@ class OwnerController extends BaseController
             return $this->sendError('Bad request', $validator->errors(), 400);
         }
 
-        Pet::where('id', '=', $request->id)
+        $pets = Pet::where('id', '=', $request->id)
             ->where('owner_id', '=', Auth::user()->id)
+            ->get();
+        
+        $cures = Cure::with([
+            'pet' => function ($query) {
+                $query->where('owner_id', '=', Auth::user()->id);
+            }
+        ])
+        ->where('pet_id', '=', $pets[0]->id)
+        ->get();
+        
+        foreach ($cures as $cure) {
+            $cure->delete();
+        }
+
+        Pet::find($pets[0]->id)
             ->delete();
 
-        return $this->sendResponse('', 'Sikeres művelet!');
+        return $this->sendResponse("", 'Sikeres művelet!');
     }
 
     public function getFreeAppointments(Request $request)
