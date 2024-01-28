@@ -154,7 +154,28 @@ function handleSubmit() {
 
     if (!problem.value) {
         console.log('form submitted')
-        console.log(vetData.value)
+
+        registerData.value = {
+            name: vetData.value.firstName + " " + vetData.value.lastName,
+            phone: vetData.value.phone.replace(/[/-]/g, ''),
+            email: vetData.value.email,
+            stamp: vetData.value.stamp,
+            address: vetData.value.address,
+            password: vetData.value.password,
+            confirm_password: vetData.value.confirm_password,
+            role: 1
+        }
+ 
+        userservice.registerUser(registerData.value)
+            .then(resp => {
+            router.push('/bejelentkezes');
+            toast.success('Sikeres regisztráció', {position: 'top-center'});
+            console.log(resp);
+        })
+            .catch(err => {
+            console.log(err.data);
+            //errorMessages.value = err.data;
+        })
     }
 
 

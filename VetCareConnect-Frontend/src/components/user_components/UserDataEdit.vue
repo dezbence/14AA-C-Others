@@ -1,5 +1,5 @@
 <template>
-        <SureInEdit v-if="store.show"></SureInEdit>
+        <SureInEdit v-if="!store.show" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
     <div class="main">
         <div class="myDatas">
             <div class="dataHeader">
@@ -59,8 +59,22 @@ let userData = {
     email: ""
 }
 
-function sureInEdit() {
+function cancelEditing() {
+    editedUserData.value = userData;
     store.showAppointmentCancel(true);
+    toast.warning('Módosítások elvetve!', { position: "top-center" });
+}
+
+function editDatas() {
+    store.showAppointmentCancel(true);
+    toast.success('Sikeres módosítás!', { position: "top-center" });
+    // post datas
+}
+
+
+store.showAppointmentCancel(true);
+function sureInEdit() {
+    store.showAppointmentCancel(false);
 }
 
 
@@ -139,6 +153,11 @@ function saveChanges() {
     font-size: 0.8rem;
     text-align: center;
     margin: 0;
+}
+
+label {
+    font-weight: 600;
+    color: #246951;
 }
 
 input {

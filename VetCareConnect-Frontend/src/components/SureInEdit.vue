@@ -5,8 +5,8 @@
                 <h3>Biztos benne, hogy módosítja az adatait?</h3>
                 <p>Nem lehet visszavonni módosítás után!</p>
                 <div class="buttons">
-                    <button>Igen</button>
-                    <button @click="Cancel()">Mégse</button>
+                    <button id="yes" @click="editDatas()">Igen</button>
+                    <button id="cancel" @click="cancel()">Mégse</button>
                 </div>
             </div>
         </div>
@@ -14,15 +14,51 @@
 </template>
 
 <script setup>
-import { useUserStore } from '../store/userstore';
+const emits = defineEmits(['cancel', 'editDatas']);
 
-const store = useUserStore();
+function editDatas() {
+    emits('editDatas');
+}
 
-function Cancel(){
-    store.showAppointmentCancel(false);
+function cancel() {
+    emits('cancel');
 }
 </script>
 
 <style scoped>
+.back {
+    border-radius: 7px;
+    width: 400px;
+    height: fit-content;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
+}
+
+.buttons {
+    display: flex;
+    gap: 18px;
+}
+
+button {
+    color: white;
+    padding: 6px 12px;
+    border-radius: 7px;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
+}
+
+#yes {
+    background-color: #246951;
+}
+
+#cancel {
+    border: #246951 1px solid;
+    background-color: white;
+    color: #246951;
+}
 </style>

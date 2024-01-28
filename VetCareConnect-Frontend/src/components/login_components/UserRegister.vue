@@ -151,7 +151,7 @@ function handleSubmit() {
 
         registerData.value = {
             name: userData.value.firstName + " " + userData.value.lastName,
-            phone: userData.value.phone.replace('-', '').replace('/', ''),
+            phone: userData.value.phone.replace(/[/-]/g, ''),
             email: userData.value.email,
             postal_code: userData.value.postal_code,
             password: userData.value.password,
@@ -160,9 +160,10 @@ function handleSubmit() {
         }
        
         userservice.registerUser(registerData.value)
-            .then(response => {
-            router.push('/bejelentkezes')
-            console.log(response);
+            .then(resp => {
+            router.push('/bejelentkezes');
+            toast.success('Sikeres regisztráció', {position: 'top-center'});
+            console.log(resp);
         })
             .catch(err => {
             console.log(err.data);

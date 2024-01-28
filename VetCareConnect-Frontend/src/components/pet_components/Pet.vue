@@ -9,7 +9,7 @@
         <h3>{{ pet.name }}</h3>
         <div>
             <p>{{ pet.species }}</p>
-            <p>{{ pet.gender == 0 ? "nősétny" : "hím" }}</p>
+            <p>{{ pet.gender == 0 ? "nőstény" : "hím" }}</p>
             <p>{{ pet.weight }} kg</p>
             <p>{{ pet.comment }}</p>
         </div>

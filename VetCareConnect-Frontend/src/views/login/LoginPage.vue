@@ -81,9 +81,8 @@ const loginData = ref({
 function handleSubmit(){
     login(loginData.value)
     .then(resp => {
-        console.log(loginData.value)
+        router.push('/');
         toast.success('Sikeres bejelentkezés!', {position: "top-center"});
-        router.push('/')
     })
 }
     

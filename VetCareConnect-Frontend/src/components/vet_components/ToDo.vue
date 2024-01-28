@@ -9,7 +9,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useDateFormat } from "@vueuse/core";
 
 const props = defineProps(["appointmentData"]);
 

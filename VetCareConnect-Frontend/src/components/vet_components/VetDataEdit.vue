@@ -1,5 +1,5 @@
 <template>
-    <SureInEdit v-if="!store.show"></SureInEdit>
+    <SureInEdit v-if="!store.show" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
     <div class="main">
         <div class="myDatas">
             <div class="dataHeader">
@@ -64,8 +64,21 @@ let VetData = {
     email: ""
 }
 
-function sureInEdit() {
+function cancelEditing() {
+    editedVetData.value = VetData;
     store.showAppointmentCancel(true);
+    toast.warning('Módosítások elvetve!', { position: "top-center" });
+}
+
+function editDatas() {
+    store.showAppointmentCancel(true);
+    toast.success('Sikeres módosítás!', { position: "top-center" });
+    // post datas
+}
+
+store.showAppointmentCancel(true);
+function sureInEdit() {
+    store.showAppointmentCancel(false);
 }
 
 function getUsersData() {
@@ -90,12 +103,6 @@ function saveChanges() {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else {
         sureInEdit();
-        toast.success('Sikeres módosítás!', { position: "top-center" });
-        VetData.name = editedVetData.value.name;
-        VetData.phone = editedVetData.value.phone.replace(/[/-]/g, '');
-        VetData.address = editedVetData.value.address;
-        VetData.email = editedVetData.value.email;
-        VetData.stamp = editedVetData.value.stamp;
     }
 
 }
@@ -145,6 +152,11 @@ function saveChanges() {
     font-size: 0.8rem;
     text-align: center;
     margin: 0;
+}
+
+label {
+    font-weight: 600;
+    color: #246951;
 }
 
 input {
