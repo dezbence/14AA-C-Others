@@ -93,7 +93,6 @@ function getUsersData() {
 }
 getUsersData();
 
-
 function saveChanges() {
     if (editedVetData.value.name == VetData.name &&
         editedVetData.value.phone.replace(/[/-]/g, '') == VetData.phone &&

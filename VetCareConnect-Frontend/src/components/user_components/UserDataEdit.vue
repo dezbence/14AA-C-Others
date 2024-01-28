@@ -71,12 +71,10 @@ function editDatas() {
     // post datas
 }
 
-
 store.showAppointmentCancel(true);
 function sureInEdit() {
     store.showAppointmentCancel(false);
 }
-
 
 function getUsersData() {
     userservice.getUserData(user.value.token)
@@ -90,7 +88,6 @@ function getUsersData() {
 }
 getUsersData();
 
-
 function saveChanges() {
     if (editedUserData.value.name == userData.name &&
         editedUserData.value.phone.replace(/[/-]/g, '') == userData.phone &&
@@ -99,11 +96,6 @@ function saveChanges() {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else {
         sureInEdit();
-        toast.success('Sikeres módosítás!', { position: "top-center" });
-        userData.name = editedUserData.value.name;
-        userData.phone = editedUserData.value.phone.replace(/[/-]/g, '');
-        userData.postal_code = editedUserData.value.postal_code;
-        userData.email = editedUserData.value.email;
     }
 
 }
