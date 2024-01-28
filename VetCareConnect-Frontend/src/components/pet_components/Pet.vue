@@ -34,8 +34,6 @@ function petMenuToggle() {
 }
 
 function deletePet() {
-    console.log({id: props.pet.id})
-    console.log(user.value.token)
     ownerservice.deletePet({id: props.pet.id}, user.value.token)
         .then((resp) => {
             console.log(resp.data);
