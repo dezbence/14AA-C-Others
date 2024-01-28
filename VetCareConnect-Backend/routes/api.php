@@ -41,12 +41,12 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::get('/pets', [OwnerController::class, 'getPets']);
         Route::post('/new-pet',[OwnerController::class,'addNewPet']);
-        Route::post('/delete-pet', [OwnerController::class, 'deletePet']);
+        Route::delete('/delete-pet', [OwnerController::class, 'deletePet']);
 
-        Route::post('/free-appointments', [OwnerController::class, 'getFreeAppointments']);
+        Route::get('/free-appointments/{id}/{date}', [OwnerController::class, 'getFreeAppointments']);
         Route::post('/new-appointment',[OwnerController::class,'addNewAppointment']);
         Route::get('/owner-appointments', [OwnerController::class, 'getOwnerAppointments']);
-        Route::post('/delete-appointment', [OwnerController::class, 'deleteAppointment']);
+        Route::delete('/delete-appointment', [OwnerController::class, 'deleteAppointment']);
 
     });
 
