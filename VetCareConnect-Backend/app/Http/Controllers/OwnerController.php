@@ -71,7 +71,11 @@ class OwnerController extends BaseController
         $pets = Pet::where('id', '=', $request->id)
             ->where('owner_id', '=', Auth::user()->id)
             ->get();
-        
+
+        if (count($pets) == 0) {
+            return $this->sendError('Bad request', 'Nincs ilyen id', 400);
+        }
+
         $cures = Cure::with([
             'pet' => function ($query) {
                 $query->where('owner_id', '=', Auth::user()->id);
@@ -79,7 +83,7 @@ class OwnerController extends BaseController
         ])
         ->where('pet_id', '=', $pets[0]->id)
         ->get();
-        
+
         foreach ($cures as $cure) {
             $cure->delete();
         }
@@ -90,30 +94,17 @@ class OwnerController extends BaseController
         return $this->sendResponse("", 'Sikeres művelet!');
     }
 
-    public function getFreeAppointments(Request $request)
+    public function getFreeAppointments($id, $date)
     {
-
-        $validatorFields = [
-            'id' => 'required',
-            'date' => 'required'
-        ];
-
-        $validator = Validator::make($request->all(), $validatorFields);
-
-        if ($validator->fails()){
-            return $this->sendError('Bad request', $validator->errors(), 400);
-        }
-
-
         $vets = Vet::with([
-        'special_openings' => function ($query) use($request) {
-            $query->where('date', '=', $request->date);
+        'special_openings' => function ($query) use($date) {
+            $query->where('date', '=', $date);
         },
-        'openings' => function ($query) use($request){
-            $query->where('day', '=', $this->getDayName(date('l', strtotime($request->date))));
+        'openings' => function ($query) use($date){
+            $query->where('day', '=', $this->getDayName(date('l', strtotime($date))));
         }
         ])
-            ->where('id', '=', $request->id)
+            ->where('id', '=', $id)
             ->get();
 
         $opening_hours = [];
@@ -144,8 +135,8 @@ class OwnerController extends BaseController
 
         }
 
-        $cures = Cure::where('vet_id', '=', $request->id)
-            ->where('date', 'like', $request->date.'%')
+        $cures = Cure::where('vet_id', '=', $id)
+            ->where('date', 'like', $date.'%')
             ->get();
 
         foreach($cures as $cure) {
