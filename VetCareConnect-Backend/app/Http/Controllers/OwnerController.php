@@ -104,19 +104,9 @@ class OwnerController extends BaseController
 
     }
 
-    public function deletePet(Request $request) {
+    public function deletePet($id) {
 
-        $validatorFields = [
-            'id' => 'required'
-        ];
-
-        $validator = Validator::make($request->all(), $validatorFields);
-
-        if ($validator->fails()){
-            return $this->sendError('Bad request', $validator->errors(), 400);
-        }
-
-        $pets = Pet::where('id', '=', $request->id)
+        $pets = Pet::where('id', '=', $id)
             ->where('owner_id', '=', Auth::user()->id)
             ->get();
 
