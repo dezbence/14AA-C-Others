@@ -29,8 +29,8 @@ function ClickNo(){
 }
 
 function ClickYes(){
-    console.log(appointment)
-    ownerservice.deleteAppointment(appointment, user.value.token).then((resp) => {
+    console.log(user.value.token)
+    ownerservice.deleteAppointment(appointment.id, user.value.token).then((resp) => {
         props.getOwnerAppointments();
     });
     store.show = false;

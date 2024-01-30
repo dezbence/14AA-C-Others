@@ -46,8 +46,8 @@ export default {
                 return Promise.reject(err.response);
             })
     },
-    deleteAppointment(appointment, token){
-        return Axios.post('/delete-appointment', appointment, {headers: {"Authorization" : "Bearer "+ token}})
+    deleteAppointment(appointmentId, token){
+        return Axios.delete(`/delete-appointment/${appointmentId}`, {headers: {"Authorization" : "Bearer "+ token}})
         .then(resp => {
             return resp.data;
         })
