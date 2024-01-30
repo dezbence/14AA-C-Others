@@ -254,16 +254,6 @@ class OwnerController extends BaseController
 
     public function deleteAppointment($id) {
 
-        $validatorFields = [
-            'id' => 'required'
-        ];
-
-        $validator = Validator::make($request->all(), $validatorFields);
-
-        if ($validator->fails()) {
-            return $this->sendError('Bad request', $validator->errors(), 400);
-        }
-
         $cures = Cure::with([
         'pet.owner' => function ($query) {
             $query->where('id', '=', Auth::user()->id);
