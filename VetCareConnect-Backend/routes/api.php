@@ -48,7 +48,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/free-appointments/{id}/{date}', [OwnerController::class, 'getFreeAppointments']);
         Route::post('/new-appointment',[OwnerController::class,'addNewAppointment']);
         Route::get('/owner-appointments', [OwnerController::class, 'getOwnerAppointments']);
-        Route::delete('/delete-appointment', [OwnerController::class, 'deleteAppointment']);
+        Route::delete('/delete-appointment/{id}', [OwnerController::class, 'deleteAppointment']);
 
     });
 

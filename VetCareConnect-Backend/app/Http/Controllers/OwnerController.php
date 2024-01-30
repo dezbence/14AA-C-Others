@@ -252,7 +252,7 @@ class OwnerController extends BaseController
         return $this->sendResponse($return, 'Sikeres művelet!');
     }
 
-    public function deleteAppointment(Request $request) {
+    public function deleteAppointment(Request $id) {
 
         $validatorFields = [
             'id' => 'required'
@@ -269,7 +269,7 @@ class OwnerController extends BaseController
             $query->where('id', '=', Auth::user()->id);
         }
         ])
-            ->where('id', '=', $request->id)
+            ->where('id', '=', $id)
             ->get();
 
         $validCure = null;
