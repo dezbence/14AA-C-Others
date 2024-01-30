@@ -1,69 +1,63 @@
 <template>
   <Header></Header>
   <h1 class="pageTitle">Időpontfoglalás</h1>
-  <div class="container">
-    <div v-if="!showBookApprove" class="row d-flex align-items-start mx-auto my-auto">
-      <div class="d-flex justify-content-center p-0 mb-3 col-xl-4 col-lg-12">
-        <div class="col p-0">
-          <div class="choosePanel rounded">
-            <div class="col">
-              <p class="mb-xl-2 mb-lg-2">Válasszon orvost!</p>
-              <select v-model="choosedData.vet" name="orvosok" id="orvosok" class="selectClass mt-0"
-                @change="refreshTimes()">
-                <option value="0" disabled selected hidden>
-                  Kérem válasszon!
-                </option>
-                <option v-for="vet in vets" :value="vet">{{ vet.name }}</option>
-              </select>
-            </div>
-
-            <div class="col">
-              <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
-                Válassza ki az időpont típusát!
-              </p>
-              <select v-model="choosedData.type" name="types" id="type" class="selectClass mt-0">
-                <option value="0" disabled selected hidden>
-                  Kérem válasszon!
-                </option>
-
-                <option v-for="curetype in cureTypes" :value="curetype">
-                  {{ curetype.type }}
-                </option>
-              </select>
-            </div>
-
-            <div class="col">
-              <p class="mb-xl-2 mt-xl-4 mt-lg-0 mb-lg-2">
-                Válassza ki kiskedvencét!
-              </p>
-              <select v-model="choosedData.pet" name="pets" id="pet" class="selectClass mt-0">
-                <option value="0" disabled selected hidden>
-                  Kérem válasszon!
-                </option>
-
-                <option v-for="pet in pets" :value="pet">{{ pet.name }}</option>
-              </select>
-            </div>
+  <div class="page">
+    <div v-if="!showBookApprove" class="book">
+      <div class="bookData">
+        <div class="choosePanel">
+          <div>
+            <p>Válasszon orvost!</p>
+            <select v-model="choosedData.vet" name="orvosok" id="orvosok" class="selectClass" @change="refreshTimes()">
+              <option value="0" disabled selected hidden>
+                Kérem válasszon!
+              </option>
+              <option v-for="vet in vets" :value="vet">{{ vet.name }}</option>
+            </select>
           </div>
 
-          <div class="meanings meaningsOutside">
-            <div class="row">
-              <div class="colorMeaning canBeReservated col-3"></div>
-              <div class="col-9">Foglalható időpont</div>
-            </div>
-            <div class="row">
-              <div class="colorMeaning choosed col-3"></div>
-              <div class="col-9">Választott nap</div>
-            </div>
+          <div>
+            <p>
+              Válassza ki az időpont típusát!
+            </p>
+            <select v-model="choosedData.type" name="types" id="type" class="selectClass">
+              <option value="0" disabled selected hidden>
+                Kérem válasszon!
+              </option>
+              <option v-for="curetype in cureTypes" :value="curetype">
+                {{ curetype.type }}
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <p>
+              Válassza ki kiskedvencét!
+            </p>
+            <select v-model="choosedData.pet" name="pets" id="pet" class="selectClass">
+              <option value="0" disabled selected hidden>
+                Kérem válasszon!
+              </option>
+              <option v-for="pet in pets" :value="pet">{{ pet.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="meanings meaningsOutside">
+          <div class="canBeReservatedRow">
+            <div class="colorMeaning canBeReservated"></div>
+            <div class="">Foglalható időpont</div>
+          </div>
+          <div class="choosedRow">
+            <div class="colorMeaning choosed"></div>
+            <div class="">Választott nap</div>
           </div>
         </div>
       </div>
 
-      <div class="calendarAndChoosePanel d-flex align-items-center justify-content-center mb-3 mt-0 col-xl-8 col-lg-12">
-        <Calendar class="calendar text-center col-md-12" v-model="choosedDate" :min-date="new Date()"
-          @date-select="refreshTimes()" />
-        <div class="chooseDate rounded-end col-md-12">
-          <h5 class="text-center choosedDate">{{ formattedDate }}</h5>
+      <div class="calendarAndChoosePanel">
+        <Calendar class="calendar" v-model="choosedDate" :min-date="new Date()" @date-select="refreshTimes()" />
+        <div class="chooseDate">
+          <h5 class="choosedDate">{{ formattedDate }}</h5>
           <div class="line"></div>
           <div v-if="!isClosed" class="dates">
             <div v-for="(time, index) in appointments" :key="index">
@@ -75,25 +69,25 @@
           <div v-else class="closed">
             A válaszott orvos ezen a napon zárva tart!
           </div>
-          <div class="d-flex align-items-center justify-content-center">
-            <button class="btnStyle btnBook text-center mt-5" @click="BookClick()">
+          <div>
+            <button class="btnStyle btnBook" @click="BookClick()">
               Lefoglalom
             </button>
           </div>
           <div v-if="showError" class="errorMessage">
-            <div class="alert alert-danger show errMess" role="alert">
+            <div class="errMess" role="alert">
               {{ errorMessage }}
-              <button type="button" class="btn-close" @click="closeErrorMessage()"></button>
+              <button type="button" @click="closeErrorMessage()">X</button>
             </div>
           </div>
           <div class="meanings meaningsInDates">
-            <div class="row">
-              <div class="colorMeaning canBeReservated col-3"></div>
-              <div class="col-9">Foglalható időpont</div>
+            <div>
+              <div class="colorMeaning canBeReservated"></div>
+              <p>Foglalható időpont</p>
             </div>
-            <div class="row">
-              <div class="colorMeaning choosed col-3"></div>
-              <div class="col-9">Választott nap</div>
+            <div>
+              <div class="colorMeaning choosed"></div>
+              <p>Választott nap</p>
             </div>
           </div>
         </div>
@@ -169,7 +163,7 @@ function BookClick() {
   } else if (choosedData.value.pet == "") {
     errorMessage.value = "Kérem válassza ki kisállatát!\n";
     showError.value = true;
-  } else if (isClosed.value){
+  } else if (isClosed.value) {
     errorMessage.value = "A választott napra nem foglalható időpont!\n";
     showError.value = true;
   } else if (choosedData.value.time == "") {
@@ -241,6 +235,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.page {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 .header {
   text-align: center;
   color: #246951;
@@ -248,12 +249,31 @@ onMounted(() => {
   margin-bottom: 30px;
 }
 
+.book {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+}
+
+.bookData {
+  margin-right: 20px;
+}
+
+.calendarAndChoosePanel {
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+}
+
 .active {
-  border: 1.5px solid whitesmoke;
+  border: 1.5px solid #064931;
+  background-color: #064931 !important;
 }
 
 .btnBook {
   background-color: #50b692;
+  margin-top: 15px;
 }
 
 .colorMeaning {
@@ -264,18 +284,34 @@ onMounted(() => {
 
 .choosed {
   background-color: #3ca27e;
+  margin-right: 10px;
   margin-bottom: 5px;
+}
+
+.choosedRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .canBeReservated {
   background-color: #3ca27e;
+  margin-right: 10px;
   opacity: 50%;
+}
+
+.canBeReservatedRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .meanings {
   padding-top: 25px;
   padding-left: 25px;
   height: 130px;
+  display: flex;
+  flex-direction: column;
 }
 
 .meanings div {
@@ -286,11 +322,20 @@ onMounted(() => {
 
 .choosePanel {
   background-color: #50b692;
+  border-radius: 7px;
   color: white;
   width: 300px;
   height: 400px;
   min-width: 300px;
   padding: 40px;
+}
+
+.choosePanel div {
+  margin-bottom: 20px;
+}
+
+.choosePanel div p {
+  margin-bottom: 5px;
 }
 
 .selectClass {
@@ -310,6 +355,7 @@ onMounted(() => {
   min-width: 250px;
   padding: 40px;
   color: white;
+  border-radius: 0px 7px 7px 0px;
 }
 
 .line {
@@ -351,16 +397,28 @@ onMounted(() => {
   margin-top: 10px;
   font-size: small;
   margin-bottom: 0px;
+  background-color: #d63227;
+  height: 30px;
+  text-align: center;
+  border: 1px solid red;
+  border-radius: 7px;
 }
-.closed{
+
+.closed {
   text-align: center;
   background-color: #50b692;
   border-radius: 7px;
   margin: 10px;
   padding: 10px;
 }
+
+.chooseDate {
+  text-align: center;
+}
+
 /*----------- media töréspontok ------------*/
 @media (min-width: 1200px) {
+
   .header {
     font-size: large;
     font-weight: 400;
@@ -384,6 +442,17 @@ onMounted(() => {
 }
 
 @media (max-width: 1200px) {
+  .book {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bookData {
+    margin: 0px;
+    margin-bottom: 15px;
+    width: 790px;
+  }
+
   .header {
     font-size: 4rem;
     font-weight: 400;
@@ -395,19 +464,23 @@ onMounted(() => {
   }
 
   .calendarAndChoosePanel {
+    margin: 0px;
+    margin-top: 15px;
     margin-bottom: 30px !important;
   }
 
   .choosePanel {
     width: 100%;
     height: 170px;
-    margin: auto;
     display: flex;
     align-items: center;
+    justify-content: center;
+    padding: 30px;
   }
 
   .choosePanel div {
     padding: 0px;
+    margin: 5px;
     text-align: center;
     align-items: center;
     display: flex;
@@ -430,11 +503,21 @@ onMounted(() => {
   }
 
   .meaningsInDates {
-    display: block;
+    display: flex;
     background-color: #246951;
     border-radius: 7px;
-    margin-top: 20px;
-    align-items: center;
+    margin-top: 10px;
+    align-items: start;
+    justify-content: center;
+  }
+
+  .meaningsInDates div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .meaningsInDates div p {
+    text-align: center;
   }
 
   .meaningsOutside {
@@ -534,6 +617,7 @@ onMounted(() => {
     flex-direction: column;
     justify-content: start;
     margin-bottom: 0;
+    height: 100px;
   }
 
   .selectClass {
@@ -556,5 +640,4 @@ onMounted(() => {
   .errorMessage {
     font-size: xx-small;
   }
-}
-</style>
+}</style>
