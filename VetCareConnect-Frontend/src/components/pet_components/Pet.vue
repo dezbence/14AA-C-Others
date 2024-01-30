@@ -23,6 +23,7 @@ import { storeToRefs } from 'pinia';
 import ownerservice from '../../services/ownerservice.js';
 
 const { user } = storeToRefs(useUserStore());
+const store = useUserStore();
 
 const PetMenu = defineAsyncComponent(() => import("./PetMenu.vue"));
 
@@ -34,12 +35,8 @@ function petMenuToggle() {
 }
 
 function deletePet() {
-    ownerservice.deletePet({id: props.pet.id}, user.value.token)
-        .then((resp) => {
-            console.log(resp.data);
-            props.getPets();
-        });
-
+    store.showPetDelete(true);
+    store.deletePetId = props.pet.id;
 }
 </script>
 

@@ -1,41 +1,46 @@
 <template>
     <Header></Header>
-    <PetCreator v-if="isPetCreating" :submit-pet="submitPet" :show-creator="showCreator"></PetCreator>
+    <div v-if="!store.petDelete">
+        <PetCreator v-if="isPetCreating" :submit-pet="submitPet" :show-creator="showCreator"></PetCreator>
 
-    <div :class="isPetCreating ? 'overflowDisable' : ''">
-        <div>
-            <h1 class="pageTitle">Kedvenceim</h1>
-            <div class="petsCard">
+        <div :class="isPetCreating ? 'overflowDisable' : ''">
+            <div>
+                <h1 class="pageTitle">Kedvenceim</h1>
+                <div class="petsCard">
 
-                <div v-for="pet in pets" v-if="pets.length > 0">
-                    <Pet :pet=pet :get-pets="getPets"></Pet>
+                    <div v-for="pet in pets" v-if="pets.length > 0">
+                        <Pet :pet=pet :get-pets="getPets"></Pet>
+                    </div>
+
+                    <div class="noPetsYet" v-else>
+                        <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
+                        <img src="../../assets/icons/arrow_forward_ios.svg">
+                    </div>
+
+                    <button class="addPet" @click="showCreator">
+                        <img class="addPetIcon" src="../../assets/icons/add.svg">
+                    </button>
+
+                </div>
+                <div class="filter" v-if="appointmentsList.length > 0">
+                    <h1 class="pageTitle">Korábbi kezelések</h1>
+
+                    <div class="iconInInput">
+                        <img id="searchIcon" src="../../assets/icons/search.svg">
+                        <InputText class="searchBar" placeholder="Keresés" />
+                    </div>
+
                 </div>
 
-                <div class="noPetsYet" v-else>
-                    <p>Önnek még nincs egy kedvence sem rögzítve... Hozza létre kedvence(i) adatlapját!</p>
-                    <img src="../../assets/icons/arrow_forward_ios.svg">
-                </div>
-
-                <button class="addPet" @click="showCreator">
-                    <img class="addPetIcon" src="../../assets/icons/add.svg">
-                </button>
-
+                <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0">
+                </PastAppointments>
+                <div class="marginBottom">.</div>
             </div>
-            <div class="filter" v-if="appointmentsList.length > 0">
-                <h1 class="pageTitle">Korábbi kezelések</h1>
-
-                <div class="iconInInput">
-                    <img id="searchIcon" src="../../assets/icons/search.svg">
-                    <InputText class="searchBar" placeholder="Keresés" />
-                </div>
-
-            </div>
-
-            <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0"></PastAppointments>
-            <div class="marginBottom">.</div>
         </div>
     </div>
-
+    <div v-else>
+        <PetDelete></PetDelete>
+    </div>
     <Footer></Footer>
 </template>
   
@@ -52,6 +57,7 @@ import { storeToRefs } from 'pinia';
 import ownerservice from '../../services/ownerservice.js'
 
 const { user } = storeToRefs(useUserStore());
+const store = useUserStore();
 
 const Pet = defineAsyncComponent(() =>
     import('@/components/pet_components/Pet.vue')
@@ -60,7 +66,9 @@ const Pet = defineAsyncComponent(() =>
 const PetCreator = defineAsyncComponent(() =>
     import('@/components/pet_components/PetCreator.vue')
 )
-
+const PetDelete = defineAsyncComponent(() =>
+    import('@/components/pet_components/PetDeleteApprove.vue')
+)
 const appointmentsList = ref([]);
 
 const isPetCreating = ref(false);
