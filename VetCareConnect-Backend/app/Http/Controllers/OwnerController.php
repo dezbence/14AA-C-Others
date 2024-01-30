@@ -17,26 +17,6 @@ use Illuminate\Support\Facades\Auth;
 
 class OwnerController extends BaseController
 {
-    public function modifyOwnerData(Request $request) {
-
-        $validatorFields = [
-            'name' => 'required',
-            'email'=> 'required',
-            'postal_code' => 'required',
-            'phone' => 'required'
-        ];
-
-        $validator = Validator::make($request->all(), $validatorFields);
-
-        if ($validator->fails()){
-            return $this->sendError('Bad request', $validator->errors(), 400);
-        }
-
-        Auth::user()
-            ->update($request->all());
-
-        return  $this->sendResponse('', 'Sikeres művelet!');
-    }
 
     public function getPets()
     {

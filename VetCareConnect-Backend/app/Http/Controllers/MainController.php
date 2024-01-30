@@ -25,6 +25,30 @@ class MainController extends BaseController
         return  $this->sendResponse(Auth::user(), 'Sikeres művelet!');
     }
 
+    public function modifyUserData(Request $request) {
+
+        $validatorFields = [
+            'name' => 'required',
+            'postal_code' => 'required',
+            'phone' => 'required'
+        ];
+
+        if (PersonalAccessToken::findToken($request->bearerToken())->tokenable_type == "App\\Models\\Vet") {
+            $validatorFields['address'] = 'required';
+        }
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        Auth::user()
+            ->update($request->all());
+
+        return  $this->sendResponse('', 'Sikeres művelet!');
+    }
+
     public function getAllVet() {
 
         $vets = Vet::all();
