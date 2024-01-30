@@ -143,16 +143,18 @@ class OwnerController extends BaseController
 
             $appointment = strtotime(explode('-', $interval)[0], 0);
             $closeTime = strtotime(explode('-', $interval)[1], 0);
-            date_default_timezone_set('UTC');
-            return [strtotime(date('13:00'), 0), strtotime(date('H:i'), 0) + strtotime('01:00', 0)];
+
+            date_default_timezone_set('Europe/Budapest');
+
+            //return [strtotime(date('01:30'), 0), strtotime('01:30', 0)];
 
             while($appointment < $closeTime) {
                 if ($date == date('Y-m-d')) {
                     if ($appointment > strtotime(date('H:i'), 0)) array_push($appointments, date('H:i', $appointment));
 
                 } else array_push($appointments, date('H:i', $appointment));
-                
-                $appointment += strtotime('00:30', 0);
+
+                $appointment += (30 * 60);
             }
         }
 
