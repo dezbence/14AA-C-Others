@@ -20,7 +20,7 @@ export default {
             })
     },
     deletePet(id, token) {
-        return Axios.delete('/delete-pet', id, {headers: {"Authorization" : "Bearer "+ token}})
+        return Axios.delete(`/delete-pet/${id}`, {headers: {"Authorization" : "Bearer "+ token}})
         .then(resp => {
             return resp.data;
         })

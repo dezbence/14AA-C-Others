@@ -15,6 +15,8 @@ export const useUserStore = defineStore('userstore',{
         show: false,
         showSure: false,
         cancelAppointmentId: null,
+        petDelete: false,
+        deletePetId: null
     }),
     getters:{},
     actions:{
@@ -44,8 +46,8 @@ export const useUserStore = defineStore('userstore',{
         showAppointmentCancel(value) {
             this.show = value;
         },
-        showSureInEdit(value) {
-            this.showSure = value;
-        },
+        showPetDelete(value){
+            this.petDelete = value;
+        }
     } 
 });
