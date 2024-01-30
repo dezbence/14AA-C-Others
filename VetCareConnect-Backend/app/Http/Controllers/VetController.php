@@ -63,6 +63,47 @@ class VetController extends BaseController
         return $this->sendResponse('', 'Sikeres művelet!');
     }
 
+    public function modifyOpening(Request $request) {
+
+        $validatorFields = [
+            'id' => 'required',
+            'working_hours'=> 'required',
+            'day'=> 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        $opening = $request->all();
+        $opening['vet_id'] = Auth::user()->id;
+
+        $vetOpenings = Opening::where('id', '=', $request->id)
+            ->where('vet_id', '=', Auth::user()->id)
+            ->get();
+
+        if (count($vetOpenings) == 0) return $this->sendError('Bad request', 'Nincs ilyen nyitvatartása', 400);
+
+        Opening::find($request->id)->update($opening);
+
+        return $this->sendResponse(Opening::find($request->id), 'Sikeres művelet!');
+    }
+
+    public function deleteOpening($id) {
+
+        $vetOpenings = Opening::where('id', '=', $id)
+            ->where('vet_id', '=', Auth::user()->id)
+            ->get();
+
+        if (count($vetOpenings) == 0) return $this->sendError('Bad request', 'Nincs ilyen nyitvatartása', 400);
+
+        Opening::find($id)->delete();
+
+        return $this->sendResponse('', 'Sikeres művelet!');
+    }
+
     public function addSpecialOpenings(Request $request) {
 
         $validatorFields = [
@@ -84,6 +125,47 @@ class VetController extends BaseController
             $specialOpening['vet_id'] = Auth::user()->id;
             Special_opening::create($specialOpening);
         }
+
+        return $this->sendResponse('', 'Sikeres művelet!');
+    }
+
+    public function modifySpecialOpening(Request $request) {
+
+        $validatorFields = [
+            'id' => 'required',
+            'working_hours'=> 'required',
+            'date'=> 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        $specialOpening = $request->all();
+        $specialOpening['vet_id'] = Auth::user()->id;
+
+        $vetSpecialOpenings = Special_opening::where('id', '=', $request->id)
+            ->where('vet_id', '=', Auth::user()->id)
+            ->get();
+
+        if (count($vetSpecialOpenings) == 0) return $this->sendError('Bad request', 'Nincs ilyen nyitvatartása', 400);
+
+        Special_opening::find($request->id)->update($specialOpening);
+
+        return $this->sendResponse(Special_opening::find($request->id), 'Sikeres művelet!');
+    }
+
+    public function deleteSpecialOpening($id) {
+
+        $vetSpecialOpenings = Special_opening::where('id', '=', $id)
+            ->where('vet_id', '=', Auth::user()->id)
+            ->get();
+
+        if (count($vetSpecialOpenings) == 0) return $this->sendError('Bad request', 'Nincs ilyen nyitvatartása', 400);
+
+        Special_opening::find($id)->delete();
 
         return $this->sendResponse('', 'Sikeres művelet!');
     }
