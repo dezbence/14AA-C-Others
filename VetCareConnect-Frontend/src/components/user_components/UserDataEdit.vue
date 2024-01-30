@@ -1,5 +1,5 @@
 <template>
-        <SureInEdit v-if="!store.show" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
+        <SureInEdit v-if="!store.showSure" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
     <div class="main">
         <div class="myDatas">
             <div class="dataHeader">
@@ -61,19 +61,19 @@ let userData = {
 
 function cancelEditing() {
     editedUserData.value = userData;
-    store.showAppointmentCancel(true);
+    store.showSureInEdit(true);
     toast.warning('Módosítások elvetve!', { position: "top-center" });
 }
 
 function editDatas() {
-    store.showAppointmentCancel(true);
+    store.showSureInEdit(true);
     toast.success('Sikeres módosítás!', { position: "top-center" });
     // post datas
 }
 
-store.showAppointmentCancel(true);
+store.showSureInEdit(true);
 function sureInEdit() {
-    store.showAppointmentCancel(false);
+    store.showSureInEdit(false);
 }
 
 function getUsersData() {

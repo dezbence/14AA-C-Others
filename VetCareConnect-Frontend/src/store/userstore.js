@@ -13,6 +13,7 @@ export const useUserStore = defineStore('userstore',{
             message:''
         },
         show: false,
+        showSure: false,
         cancelAppointmentId: null,
     }),
     getters:{},
@@ -42,6 +43,9 @@ export const useUserStore = defineStore('userstore',{
         },
         showAppointmentCancel(value) {
             this.show = value;
+        },
+        showSureInEdit(value) {
+            this.showSure = value;
         },
     } 
 });
