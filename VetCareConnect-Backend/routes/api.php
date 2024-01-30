@@ -38,9 +38,11 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::middleware('only-owner')->group(function(){
         //Route::get('/bearer-test',[MainController::class,'bearerTest']);
+        Route::put('/modify-owner-data',[OwnerController::class,'modifyOwnerData']);
 
         Route::get('/pets', [OwnerController::class, 'getPets']);
         Route::post('/new-pet',[OwnerController::class,'addNewPet']);
+        Route::put('/modify-pet',[OwnerController::class,'modifyPet']);
         Route::delete('/delete-pet', [OwnerController::class, 'deletePet']);
 
         Route::get('/free-appointments/{id}/{date}', [OwnerController::class, 'getFreeAppointments']);

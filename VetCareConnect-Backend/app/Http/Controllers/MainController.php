@@ -25,10 +25,6 @@ class MainController extends BaseController
         return  $this->sendResponse(Auth::user(), 'Sikeres művelet!');
     }
 
-    public function modifyUserData() {
-
-    }
-
     public function getAllVet() {
 
         $vets = Vet::all();

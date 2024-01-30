@@ -17,6 +17,27 @@ use Illuminate\Support\Facades\Auth;
 
 class OwnerController extends BaseController
 {
+    public function modifyOwnerData(Request $request) {
+
+        $validatorFields = [
+            'name' => 'required',
+            'email'=> 'required',
+            'postal_code' => 'required',
+            'phone' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        Auth::user()
+            ->update($request->all());
+
+        return  $this->sendResponse('', 'Sikeres művelet!');
+    }
+
     public function getPets()
     {
         $pets = Pet::where('owner_id', '=', Auth::user()->id)
@@ -52,7 +73,34 @@ class OwnerController extends BaseController
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
 
-    public function modifyPet() {
+    public function modifyPet(Request $request) {
+
+        $validatorFields = [
+            'id' => 'required',
+            'name' => 'required',
+            'species'=> 'required',
+            'gender' => 'required',
+            'weight' => 'required',
+            'born_date' => 'required',
+            'chip_number' => 'required',
+            'pedigree_number'=> 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        $ownerPets = Pet::where('id', '=', $request->id)
+            ->where('owner_id', '=', Auth::user()->id)
+            ->get();
+
+        if (count($ownerPets) == 0) return $this->sendError('Bad request', 'Nincs ilyen állata', 400);
+
+        Pet::find($request->id)->update($request->all());
+
+        return  $this->sendResponse('Sikeres változtatás', 'Sikeres művelet!');
 
     }
 
@@ -72,9 +120,7 @@ class OwnerController extends BaseController
             ->where('owner_id', '=', Auth::user()->id)
             ->get();
 
-        if (count($pets) == 0) {
-            return $this->sendError('Bad request', 'Nincs ilyen id', 400);
-        }
+        if (count($pets) == 0) return $this->sendError('Bad request', 'Nincs ilyen állata', 404);
 
         $cures = Cure::with([
             'pet' => function ($query) {

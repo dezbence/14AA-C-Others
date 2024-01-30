@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Auth;
 
 class VetController extends BaseController
 {
+    public function modifyVetData() {
+
+    }
+    
     public function getVetAppointments() {
         $appointments = Cure::with('cure_type', 'vet', 'pet.owner')
             ->get();
