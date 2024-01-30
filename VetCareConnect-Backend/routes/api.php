@@ -35,15 +35,15 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/logout',[AuthController::class,'logout']);
     Route::get('/user-data', [MainController::class, 'getUserData']);
-
+    Route::put('/modify-user-data',[MainController::class,'modifyUserData']);
     Route::middleware('only-owner')->group(function(){
         //Route::get('/bearer-test',[MainController::class,'bearerTest']);
-        Route::put('/modify-owner-data',[OwnerController::class,'modifyOwnerData']);
+
 
         Route::get('/pets', [OwnerController::class, 'getPets']);
         Route::post('/new-pet',[OwnerController::class,'addNewPet']);
         Route::put('/modify-pet',[OwnerController::class,'modifyPet']);
-        Route::delete('/delete-pet', [OwnerController::class, 'deletePet']);
+        Route::delete('/delete-pet/{id}', [OwnerController::class, 'deletePet']);
 
         Route::get('/free-appointments/{id}/{date}', [OwnerController::class, 'getFreeAppointments']);
         Route::post('/new-appointment',[OwnerController::class,'addNewAppointment']);
