@@ -83,7 +83,7 @@ class MainController extends BaseController
 
     public function bearerTest(Request $request) {
 
-        return $this->sendResponse(Auth::user(), 'Sikeres művelet!');
+        return $this->sendResponse(2, 'Sikeres művelet!');
     }
 
 
