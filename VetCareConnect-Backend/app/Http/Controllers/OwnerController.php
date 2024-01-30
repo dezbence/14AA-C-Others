@@ -252,7 +252,7 @@ class OwnerController extends BaseController
         return $this->sendResponse($return, 'Sikeres művelet!');
     }
 
-    public function deleteAppointment(Request $id) {
+    public function deleteAppointment($id) {
 
         $validatorFields = [
             'id' => 'required'
