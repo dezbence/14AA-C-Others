@@ -56,7 +56,12 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/vet-appointments', [VetController::class, 'getVetAppointments']);
 
         Route::post('/new-openings', [VetController::class, 'addOpenings']);
+        Route::put('/modify-opening',[VetController::class,'modifyOpening']);
+        Route::delete('/delete-opening/{id}',[VetController::class,'deleteOpening']);
+
         Route::post('/new-special-openings', [VetController::class, 'addSpecialOpenings']);
+        Route::put('/modify-special-opening',[VetController::class,'modifySpecialOpening']);
+        Route::delete('/delete-special-opening/{id}',[VetController::class,'deleteSpecialOpening']);
     });
 
 });
