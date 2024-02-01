@@ -38,5 +38,14 @@ export default {
       .catch(err => {
         return Promise.reject(err.response);
       })
+  },
+  modifyUserData(data, token){
+    return Axios.put('/modify-user-data', data, { headers: { "Authorization": "Bearer " + token } })
+      .then(resp => {
+        return resp;
+      })
+      .catch(err => {
+        return Promise.reject(err.response);
+      })
   }
 }

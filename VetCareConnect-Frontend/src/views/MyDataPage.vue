@@ -2,7 +2,7 @@
     <Header></Header>
     <div class="main">
         <VetDataEdit v-if="user.role == 1" :get-users-data="getUsersData"></VetDataEdit>
-        <UserDataEdit v-if="user.role == 0" :get-users-data="getUsersData"></UserDataEdit>
+        <UserDataEdit v-if="user.role == 0"></UserDataEdit>
     </div>
     <Footer></Footer>
 </template>

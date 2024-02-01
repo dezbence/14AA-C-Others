@@ -40,7 +40,6 @@ import userservice from '@/services/userservice';
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 
-const props = defineProps(['getUsersData']);
 const store = useUserStore();
 const { user } = storeToRefs(useUserStore());
 const toast = useToast();
@@ -48,15 +47,13 @@ const toast = useToast();
 const editedUserData = ref({
     name: "",
     phone: "",
-    postal_code: "",
-    email: "",
+    postal_code: ""
 })
 
 let userData = {
     name: "",
     phone: "",
-    postal_code: "",
-    email: ""
+    postal_code: ""
 }
 
 function cancelEditing() {
@@ -69,6 +66,10 @@ function editDatas() {
     store.showSureInEdit(true);
     toast.success('Sikeres módosítás!', { position: "top-center" });
     // post datas
+    userservice.modifyUserData(editedUserData.value, user.value.token)
+        .then((resp) => {
+            user.value.name = editedUserData.value.name;
+        }); 
 }
 
 store.showSureInEdit(true);
