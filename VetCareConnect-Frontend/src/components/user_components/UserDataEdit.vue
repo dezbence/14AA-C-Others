@@ -16,9 +16,6 @@
                 <label>Irányítószám:</label>
                 <InputMask mask="9999" placeholder="0000" v-model="editedUserData.postal_code" />
 
-                <label>E-mail cím:</label>
-                <InputText v-model="editedUserData.email" placeholder="bodri@gmail.com" />
-
                 <button @click="saveChanges()">Változások mentése</button>
                 <div class="profileDelete">
                     <p class="showConfirmation">Kijelentkezés és profil törlése</p>
