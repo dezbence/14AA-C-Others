@@ -5,8 +5,7 @@
             <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle" :editpetId="pet.id" :deletePet="deletePet" :editPet="editPet"></PetMenu>
         </div>
         <div class="profile"></div>
-
-        <h3>{{ pet.id }}</h3>
+        
         <h3>{{ pet.name }}</h3>
         <div>
             <p>{{ pet.species }}</p>

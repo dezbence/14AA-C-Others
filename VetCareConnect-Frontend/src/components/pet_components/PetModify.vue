@@ -3,6 +3,7 @@
     <div class="main">
         <div>
             <div class="dataHeader">
+                <button @click="back()">&larr;</button>
                 <img src="../../assets/icons/profile-line.svg">
                 <h1>{{ petData.name }} adatai</h1>
             </div>
@@ -10,9 +11,9 @@
                 <label>Név:</label>
                 <InputText v-model="petData.name"></InputText>
                 <label>Chip szám (15 számjegy):</label>
-                <InputNumber v-model="petData.chip_number" :min="0" :max="999999999999999" />
+                <InputNumber v-model="petData.chip_number" :min="0" :max="999999999999999" :useGrouping="false"/>
                 <label>Törzskönyv száma (8 számjegy):</label>
-                <InputNumber v-model="petData.pedigree_number" :min="0" :max="99999999" />
+                <InputNumber v-model="petData.pedigree_number" :min="0" :max="99999999" :useGrouping="false"/>
                 <label>Fajtajelleg:</label>
                 <Dropdown v-model="petData.species" :options="species" showClear placeholder="Kérem válasszon!" class="petDropdown" />
                 <label>Ivar:</label>
@@ -20,7 +21,7 @@
                     class="petDropdown" />
                 <label>Súlya (kg):</label>
                 <InputNumber v-model="petData.weight" placeholder="0" :minFractionDigits="0"
-                    :maxFractionDigits="2" :min="0.1" :max="999" suffix=" kg" />
+                    :maxFractionDigits="2" :min="0.1" :max="999" suffix=" kg" :useGrouping="false"/>
                 <label>Születési dátuma:</label>
                 <Calendar v-model="petData.born_date" class="bornDate"  :max-date="new Date()" dateFormat="yy.mm.dd"
                     placeholder="éééé.hh.nn" />
@@ -47,6 +48,7 @@ import { useUserStore } from '@/store/userstore';
 import { useToast } from 'vue-toastification';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import router from '@/router';
 
 const store = useUserStore();
 const { user } = storeToRefs(useUserStore());
@@ -78,7 +80,9 @@ let petData = {
     chip_number: store.editPet.chip_number,
     pedigree_number: store.editPet.pedigree_number
 }
-
+function back(){
+    store.showPetEdit(false);
+}
 // function cancelEditing() {
 
 // }
@@ -147,9 +151,6 @@ label {
     font-weight: 600;
     color: #246951;
 }
-
-
-
 
 button {
     margin: 15px 0 12px;
