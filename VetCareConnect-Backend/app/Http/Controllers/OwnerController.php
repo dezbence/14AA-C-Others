@@ -139,14 +139,12 @@ class OwnerController extends BaseController
 
         foreach ($opening_hours as $interval) {
 
+            date_default_timezone_set('Europe/Budapest');
+
             if ($interval == "zárva") return $this->sendResponse("Zárva!", 'Sikeres művelet!');
 
             $appointment = strtotime(explode('-', $interval)[0], 0);
             $closeTime = strtotime(explode('-', $interval)[1], 0);
-
-            date_default_timezone_set('Europe/Budapest');
-
-            //return [strtotime(date('01:30'), 0), strtotime('01:30', 0)];
 
             while($appointment < $closeTime) {
                 if ($date == date('Y-m-d')) {
@@ -223,8 +221,9 @@ class OwnerController extends BaseController
                  ];
 
             }
+        }
 
-         }
+        usort($return, fn($a, $b) => $a['cure_date'] <=> $b['cure_date']);
 
         return $this->sendResponse($return, 'Sikeres művelet!');
     }

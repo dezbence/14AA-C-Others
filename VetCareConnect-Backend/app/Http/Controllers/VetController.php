@@ -37,6 +37,8 @@ class VetController extends BaseController
             }
         }
 
+        usort($return, fn($a, $b) => $a['cure_date'] <=> $b['cure_date']);
+
         return $this->sendResponse($return, 'Sikeres művelet!');
     }
 
