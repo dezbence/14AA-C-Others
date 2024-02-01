@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-const props = defineProps(['petMenuToggle', 'deletePet'])
+const props = defineProps(['petMenuToggle', 'deletePet', 'editPet']);
 
 </script>
 

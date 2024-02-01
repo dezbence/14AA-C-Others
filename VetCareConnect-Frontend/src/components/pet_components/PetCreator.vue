@@ -174,15 +174,7 @@ h4 {
     transition: 200ms;
 }
 
-.p-dropdown,
-.p-inputtext,
-.p-inputnumber,
-.bornDate {
-    border-radius: 7px;
-    background-color: #ededed;
-    outline: none;
-    width: 300px;
-}
+
 
 @media (max-width: 514px) {
    h4 {

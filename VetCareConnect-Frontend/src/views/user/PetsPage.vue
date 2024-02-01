@@ -1,6 +1,6 @@
 <template>
     <Header></Header>
-    <div v-if="!store.petDelete">
+    <div v-if="!store.petDelete && !store.petEdit">
         <PetCreator v-if="isPetCreating" :submit-pet="submitPet" :show-creator="showCreator"></PetCreator>
 
         <div :class="isPetCreating ? 'overflowDisable' : ''">
@@ -31,12 +31,12 @@
                     </div>
 
                 </div>
-
-                <PastAppointments v-for="appointment in appointmentsList" v-if="appointmentsList.length > 0">
-                </PastAppointments>
                 <div class="marginBottom">.</div>
             </div>
         </div>
+    </div>
+    <div v-else-if="store.petEdit">
+        <PetEdit></PetEdit>
     </div>
     <div v-else class="petDelete">
         <PetDelete></PetDelete>
@@ -48,13 +48,11 @@
 import { ref } from 'vue';
 import Header from '@/components/page_controls/Header.vue';
 import Footer from '@/components/page_controls/Footer.vue';
-import PastAppointments from '@/components/appointment_components/PastAppointments.vue';
 
 import InputText from 'primevue/inputtext';
 import { defineAsyncComponent } from 'vue'
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
-import ownerservice from '../../services/ownerservice.js'
 
 const { user } = storeToRefs(useUserStore());
 const store = useUserStore();
@@ -68,6 +66,9 @@ const PetCreator = defineAsyncComponent(() =>
 )
 const PetDelete = defineAsyncComponent(() =>
     import('@/components/pet_components/PetDeleteApprove.vue')
+)
+const PetEdit = defineAsyncComponent(() =>
+    import('@/components/pet_components/PetModify.vue')
 )
 const appointmentsList = ref([]);
 

@@ -18,7 +18,9 @@ export const useUserStore = defineStore('userstore',{
         showSure: false,
         cancelAppointmentId: null,
         petDelete: false,
-        deletePetId: null
+        deletePetId: null,
+        petEdit: false,
+        editPet: {}
     }),
     getters:{},
     actions:{
@@ -50,6 +52,9 @@ export const useUserStore = defineStore('userstore',{
         },
         showPetDelete(value){
             this.petDelete = value;
+        },
+        showPetEdit(value){
+            this.petEdit = value;
         },
         showSureInEdit(value){
             this.showSure = value;

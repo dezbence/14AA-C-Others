@@ -2,10 +2,11 @@
     <div class="cardsBack">
         <img @click="petMenuToggle()" class="dotsMenu" src="../../assets/icons/dots.svg" />
         <div class="menu">
-            <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle" :deletePet="deletePet" ></PetMenu>
+            <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle" :editpetId="pet.id" :deletePet="deletePet" :editPet="editPet"></PetMenu>
         </div>
         <div class="profile"></div>
 
+        <h3>{{ pet.id }}</h3>
         <h3>{{ pet.name }}</h3>
         <div>
             <p>{{ pet.species }}</p>
@@ -36,6 +37,12 @@ function petMenuToggle() {
 function deletePet() {
     store.showPetDelete(true);
     store.deletePetId = props.pet.id;
+}
+
+function editPet(){
+    store.showPetEdit(true);
+    store.editPet = props.pet;
+    console.log(store.editPet)
 }
 </script>
 

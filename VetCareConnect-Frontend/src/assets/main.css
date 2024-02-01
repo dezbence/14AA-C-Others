@@ -193,3 +193,13 @@ select {
   padding: 1.65rem 1rem;
   font-size: 1.25rem;
 }
+/* adatok */
+.p-dropdown,
+.p-inputtext,
+.p-inputnumber,
+.bornDate {
+    border-radius: 7px;
+    background-color: #ededed;
+    outline: none;
+    width: 300px;
+}
