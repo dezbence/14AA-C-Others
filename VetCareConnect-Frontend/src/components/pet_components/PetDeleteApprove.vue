@@ -25,12 +25,11 @@ function ClickNo() {
 
 function ClickYes() {
     store.petDelete = false;
-    router.push('/kedvenceim');
-
     ownerservice.deletePet(store.deletePetId, user.value.token)
-        .then((resp) => {
-            console.log(resp.data);
-        });
+    .then((resp) => {
+        store.getPets();
+    });
+    router.push('/kedvenceim');
 }
 
 </script>

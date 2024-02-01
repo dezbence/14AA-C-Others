@@ -20,14 +20,13 @@ import { ref } from "vue";
 import { defineAsyncComponent } from "vue";
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
-import ownerservice from '../../services/ownerservice.js';
 
 const { user } = storeToRefs(useUserStore());
 const store = useUserStore();
 
 const PetMenu = defineAsyncComponent(() => import("./PetMenu.vue"));
 
-const props = defineProps(['pet', 'getPets']);
+const props = defineProps(['pet']);
 
 const isMenuOpen = ref(false);
 function petMenuToggle() {

@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import userservice from "../services/userservice";
+import ownerservice from "@/services/ownerservice";
 
 export const useUserStore = defineStore('userstore',{
     state : ()=>({
@@ -12,6 +13,7 @@ export const useUserStore = defineStore('userstore',{
             loggedIn:false,
             message:''
         },
+        pets: [],
         show: false,
         showSure: false,
         cancelAppointmentId: null,
@@ -48,6 +50,12 @@ export const useUserStore = defineStore('userstore',{
         },
         showPetDelete(value){
             this.petDelete = value;
+        },
+        getPets() {
+            ownerservice.getOwnersPets(this.user.token)
+                .then((resp) => {
+                    this.pets= resp.data;
+                });
         }
     } 
 });

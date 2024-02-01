@@ -8,8 +8,8 @@
                 <h1 class="pageTitle">Kedvenceim</h1>
                 <div class="petsCard">
 
-                    <div v-for="pet in pets" v-if="pets.length > 0">
-                        <Pet :pet=pet :get-pets="getPets"></Pet>
+                    <div v-for="pet in store.pets" v-if="store.pets.length > 0">
+                        <Pet :pet=pet></Pet>
                     </div>
 
                     <div class="noPetsYet" v-else>
@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div v-else>
+    <div v-else class="petDelete">
         <PetDelete></PetDelete>
     </div>
     <Footer></Footer>
@@ -77,20 +77,12 @@ function showCreator() {
     isPetCreating.value = !isPetCreating.value;
 }
 
-const pets = ref([]);
-function getPets() {
-    ownerservice.getOwnersPets(user.value.token)
-        .then((resp) => {
-            pets.value = resp.data;
-            console.log(resp.data)
-        });
-}
-
 function submitPet() {
-    getPets();
+    store.getPets();
     isPetCreating.value = false;
 }
-getPets();
+
+store.getPets();
 </script>
 
 <style scoped>
@@ -166,6 +158,12 @@ input {
     position: relative;
     margin-left: 20px;
     margin-top: 10px;
+}
+.petDelete{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
 }
 
 
