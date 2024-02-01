@@ -51,6 +51,9 @@ export const useUserStore = defineStore('userstore',{
         showPetDelete(value){
             this.petDelete = value;
         },
+        showSureInEdit(value){
+            this.showSure = value;
+        },
         getPets() {
             ownerservice.getOwnersPets(this.user.token)
                 .then((resp) => {
