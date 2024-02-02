@@ -1,9 +1,9 @@
 <template>
     <!-- <SureInEdit v-if="!store.showSure" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit> -->
     <div class="main">
+        <button @click="back()" class="btnStyle btnBack">&larr;Vissza</button>
         <div>
             <div class="dataHeader">
-                <button @click="back()">&larr;</button>
                 <img src="../../assets/icons/profile-line.svg">
                 <h1>{{ petData.name }} adatai</h1>
             </div>
@@ -28,11 +28,11 @@
                 <label>Megjegyzés:</label>
                 <Textarea v-model="petData.comment" placeholder="Allergiák, különlegességek, stb." rows="4" cols="40"
                     autoResize></Textarea>
-                <button @click="saveChanges()">Változások mentése</button>
+                <button @click="saveChanges()" class="saveChanges">Változások mentése</button>
 
             </div>
         </div>
-
+        <div class="placeholder"></div>
     </div>
 </template>
 
@@ -60,14 +60,14 @@ const genders = ['hím', 'nőstény'];
 const petGender = store.editPet.gender == 0 ? 'nőstény' : 'hím';
 
 const editedPetData = ref({
-    name: "",
-    species: "",
-    gender: "",
-    weight: "",
-    born_date: "",
-    comment: "",
-    chip_number: "",
-    pedigree_number: ""
+    name: store.editPet.name,
+    species: store.editPet.species,
+    gender: petGender,
+    weight: store.editPet.weight,
+    born_date: store.editPet.born_date,
+    comment: store.editPet.comment,
+    chip_number: store.editPet.chip_number,
+    pedigree_number: store.editPet.pedigree_number
 })
 
 let petData = {
@@ -106,45 +106,19 @@ function back(){
 .main {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     height: 80vh;
     margin-top: 40px;
 }
-
-.dataHeader {
+.btnBack{
     background-color: #246951;
-    color: white;
-    display: flex;
-    border-radius: 7px 7px 0 0;
-    justify-content: center;
-    align-items: center;
-    padding: 18px 0;
-    gap: 12px;
-    width: 600px;
+    width: 120px;
+    margin-right: 30px;
 }
-
-.dataHeader img {
-    width: 40px;
-}
-
-.dataHeader h1 {
-    margin: 0;
-}
-
-.dataSheet {
+.placeholder{
+    width: 120px;
+    margin-left: 30px;
     background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    border-radius: 0 0 7px 7px;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.dataSheet label {
-    margin-top: 10px;
 }
 
 label {
@@ -152,7 +126,7 @@ label {
     color: #246951;
 }
 
-button {
+.saveChanges {
     margin: 15px 0 12px;
     background: #246951;
     font-size: 1.05rem;
