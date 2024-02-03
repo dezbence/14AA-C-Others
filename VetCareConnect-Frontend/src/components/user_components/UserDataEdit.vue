@@ -66,7 +66,10 @@ function editDatas() {
     userservice.modifyUserData(editedUserData.value, user.value.token)
         .then((resp) => {
             user.value.name = editedUserData.value.name;
-        }); 
+            userData.name = editedUserData.value.name;
+            userData.phone = editedUserData.value.phone;
+            userData.postal_code = editedUserData.value.postal_code;
+        });
 }
 
 store.showSureInEdit(true);
@@ -81,16 +84,16 @@ function getUsersData() {
             userData.name = resp.data.data.name;
             userData.phone = resp.data.data.phone;
             userData.postal_code = resp.data.data.postal_code;
-            userData.email = resp.data.data.email;
         });
 }
 getUsersData();
 
+
+
 function saveChanges() {
-    if (editedUserData.value.name == userData.name &&
-        editedUserData.value.phone.replace(/[/-]/g, '') == userData.phone &&
-        editedUserData.value.postal_code == userData.postal_code &&
-        editedUserData.value.email == userData.email) {
+    if (editedUserData.value.name === userData.name &&
+        editedUserData.value.phone.replace(/[/-]/g, '') === userData.phone.replace(/[/-]/g, '') &&
+        editedUserData.value.postal_code === userData.postal_code) {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else {
         sureInEdit();

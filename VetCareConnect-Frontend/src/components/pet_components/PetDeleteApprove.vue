@@ -2,8 +2,8 @@
     <div class="petDeleteComponent">
         <p>Biztosan kitörli a kisállatát?</p>
         <div>
-            <button class="btnStyle btnNo" @click="ClickNo()">Nem</button>
             <button class="btnStyle btnYes" @click="ClickYes()">Igen</button>
+            <button class="btnStyle btnNo" @click="ClickNo()">Nem</button>
         </div>
     </div>
 </template>
@@ -49,8 +49,7 @@ function ClickYes() {
     text-align: center;
 }
 
-.btnNo,
-.btnYes {
+.btnNo, .btnYes {
     margin: 15px;
     margin-top: 5px;
     background-color: #246951;
