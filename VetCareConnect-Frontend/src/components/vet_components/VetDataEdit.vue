@@ -88,17 +88,15 @@ function getUsersData() {
             VetData.name = resp.data.data.name;
             VetData.phone = resp.data.data.phone;
             VetData.address = resp.data.data.address;
-            VetData.email = resp.data.data.email;
         });
 }
 getUsersData();
 
 function saveChanges() {
     if (editedVetData.value.name == VetData.name &&
-        editedVetData.value.phone.replace(/[/-]/g, '') == VetData.phone &&
+        editedVetData.value.phone.replace(/[/-]/g, '') == VetData.phone.replace(/[/-]/g, '') &&
         editedVetData.value.address == VetData.address &&
-        editedVetData.value.stamp == VetData.stamp &&
-        editedVetData.value.email == VetData.email) {
+        editedVetData.value.stamp == VetData.stamp) {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else {
         sureInEdit();
