@@ -20,10 +20,11 @@
                     <InputText v-model.trim="pet.name"></InputText>
 
                     <label>Chip szám (15 számjegy):</label>
-                    <InputNumber v-model="pet.chip_number" :min="0" :max="999999999999999" :useGrouping="false" />
+                    <InputMask v-model="pet.chip_number" mask="999999999999999" />
+
                     <label>Törzskönyv száma (8 számjegy):</label>
-                    <InputNumber v-model="pet.pedigree_number" :min="0" :max="99999999" :useGrouping="false" />
-                    <p></p>
+                    <InputMask v-model="pet.pedigree_number" mask="99999999"/>
+                    
                     <label>Fajtajelleg:</label>
                     <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!"
                         class="petDropdown" />
@@ -54,6 +55,7 @@
 </template>
 
 <script setup>
+import InputMask from 'primevue/inputmask';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import InputText from 'primevue/inputtext';
@@ -84,10 +86,9 @@ const pet = ref({
     species: "",
     gender: 0,
     weight: 0,
-    born_date: "",
+    born_date: useDateFormat(Date(), "YYYY.MM.DD").value,
     comment: ""
 })
-
 
 function petGenderFormat(gender1) {
     if (gender1 == 'nőstény') return 0;
@@ -95,7 +96,7 @@ function petGenderFormat(gender1) {
 }
 
 function handleSubmit() {
-    pet.value.born_date = useDateFormat(pet.value.born_date, "YYYY-MM-DD");
+    pet.value.born_date = useDateFormat(pet.value.born_date, "YYYY.MM.DD");
     ownerservice.postNewPet(pet.value, user.value.token)
         .then((resp) => {
             props.submitPet();
@@ -116,7 +117,12 @@ function handleSubmit() {
     position: relative;
 }
 
-
+.p-dropdown,
+.p-inputtext,
+.p-inputnumber,
+.bornDate {
+    width: 300px;
+}
 
 .pages {
     display: flex;

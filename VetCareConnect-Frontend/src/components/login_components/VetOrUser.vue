@@ -29,6 +29,9 @@
 <script setup>
 import { ref } from "vue";
 import { defineEmits } from "vue";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 const emit = defineEmits(['removeVetOrUser'])
 
@@ -46,7 +49,11 @@ function isActiveToggle(index) {
 
 
 function sendType() {
-    emit('removeVetOrUser', activeIdx)
+    if (activeIdx.value == -1) {
+        toast.warning("Kérem válasszon profil típust!", {position: "top-center"});
+    } else {
+        emit('removeVetOrUser', activeIdx)
+    }
 }
 
 </script>

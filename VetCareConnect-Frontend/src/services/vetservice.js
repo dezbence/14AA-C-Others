@@ -46,8 +46,8 @@ export default {
                 return Promise.reject(err.response);
             })
     },
-    getVetsAppointmentToDays(token) {
-        return Axios.get(`/vet-appointments`, { headers: { "Authorization": "Bearer " + token } })
+    getVetsAppointmentToDays(token, date) {
+        return Axios.get(`/vet-appointments/${date}`, { headers: { "Authorization": "Bearer " + token } })
             .then(resp => {
                 return resp.data;
             })

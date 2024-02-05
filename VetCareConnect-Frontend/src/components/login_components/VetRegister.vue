@@ -6,7 +6,7 @@
     <div class="signInBackground">
 
         <div class="main">
-            <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" /> 
+            <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" />
             <!-- Bal oldal -->
             <div class="formCardLeft">
                 <form @submit.prevent="handleSubmit">
@@ -19,41 +19,48 @@
                         <label>Vezetéknév:</label>
                         <label>Keresztnév:</label>
                     </div>
+
                     <div class="nameInput">
                         <InputText v-model="vetData.firstName" />
                         <InputText v-model="vetData.lastName" />
                     </div>
 
-                    <label>Orvosi azonosító pecsét</label>
-                    <InputNumber v-model="vetData.stamp" :useGrouping="false"/>
-
-                    <div class="nameLabel">
+                    <div class="addressLabel">
                         <label>Irányítószám:</label>
-                        <label>Utca, házszám:</label>
+                        <label>Kamarai szám:</label>
                     </div>
                     <div class="nameInput">
-                        <InputNumber v-model="vetData.address" />
-                        <InputText v-model="vetData.address" />
+                        <InputNumber v-model="vetData.postal_code" />
+                        <InputMask mask="9999" v-model="vetData.stamp" />
                     </div>
+
+                    <label>Utca, házszám:</label>
+                    <InputText v-model="vetData.address" />
 
                     <label>Tel. szám:</label>
                     <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.fon" />
+
                     <label>E-mail cím:</label>
                     <InputText type="email" v-model="vetData.email" placeholder="bodri@gmail.com" />
+
                     <label>Jelszó:</label>
                     <div class="passInfo">
-                        <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()" @mouseleave="passwordInfoToggle()" class="passwordInfo">
+                        <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
+                        @mouseleave="passwordInfoToggle()" class="passwordInfo">
                         <InputText v-model="vetData.password" type="password" placeholder="Bodri123" />
                     </div>
                     <div v-if="passwordError" class="error">{{ passwordError }}</div>
                     <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
+
                     <label>Jelszó újra:</label>
                     <InputText v-model="vetData.confirm_password" type="password" placeholder="Bodri123" />
                     <div v-if="passwordErrorAgain" class="error">{{ passwordErrorAgain }}</div>
+
                     <div class="terms">
                         <input type="checkbox" v-model="vetData.terms" />
                         <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
                     </div>
+
                     <div class="submit">
                         <button>Regisztráció</button>
                     </div>
@@ -79,7 +86,6 @@
             </div>
         </div>
     </div>
-
 </template>
 <script setup>
 import { ref } from "vue";
@@ -108,6 +114,7 @@ const vetData = ref({
     lastName: "",
     phone: "",
     stamp: 0,
+    postal_code: 0,
     address: "",
     email: "",
     password: "",
@@ -165,17 +172,17 @@ function handleSubmit() {
             confirm_password: vetData.value.confirm_password,
             role: 1
         }
- 
+
         userservice.registerUser(registerData.value)
             .then(resp => {
-            router.push('/bejelentkezes');
-            toast.success('Sikeres regisztráció', {position: 'top-center'});
-            console.log(resp);
-        })
+                router.push('/bejelentkezes');
+                toast.success('Sikeres regisztráció', { position: 'top-center' });
+                console.log(resp);
+            })
             .catch(err => {
-            console.log(err.data);
-            //errorMessages.value = err.data;
-        })
+                console.log(err.data);
+                //errorMessages.value = err.data;
+            })
     }
 
 
@@ -197,6 +204,11 @@ function handleSubmit() {
     border-radius: 7px 0 0 7px;
     height: 760px;
     width: 420px;
+}
+
+.addressLabel {
+    display: flex;
+    gap: 60px;
 }
 
 .nameLabel {
@@ -302,7 +314,8 @@ label {
     margin-top: 30px;
 }
 
-input, .password {
+input,
+.password {
     display: block;
     box-sizing: border-box;
     width: 100%;

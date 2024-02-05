@@ -54,7 +54,9 @@ let userData = {
 }
 
 function cancelEditing() {
-    editedUserData.value = userData;
+    editedUserData.value.name = userData.name;
+    editedUserData.value.phone = userData.phone;
+    editedUserData.value.postal_code = userData.postal_code;
     store.showSureInEdit(true);
     toast.warning('Módosítások elvetve!', { position: "top-center" });
 }

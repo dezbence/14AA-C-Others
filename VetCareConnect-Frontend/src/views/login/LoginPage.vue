@@ -10,29 +10,29 @@
                     <h3>Bejelentkezés</h3>
                     <div class="middle">
                         <div class="noAccount">
-                        <span>Még nincs fiókja?</span>
-                        <router-link to="/regisztracio">Új fiók készítése</router-link>
-                    </div>
-                    <label>E-mail cím:</label>
+                            <span>Még nincs fiókja?</span>
+                            <router-link to="/regisztracio">Új fiók készítése</router-link>
+                        </div>
+                        <label>E-mail cím:</label>
 
-                    <input type="email" required v-model="loginData.email" placeholder="bodri@gmail.com" />
+                        <InputText type="email" required v-model="loginData.email" placeholder="bodri@gmail.com" />
 
-                    <label>Jelszó:</label>
-                    <div class="passwordAndEyeIcon">
-                        <img @click="passwordToggle" class="eyeIcon" draggable="false"
-                            :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'" />
-                        <input :type="typeOfInput" required v-model="loginData.password" placeholder="Bodri123" />
+                        <label>Jelszó:</label>
+                        <div class="passwordAndEyeIcon">
+                            <img @click="passwordToggle" class="eyeIcon" draggable="false"
+                                :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'" />
+                            <InputText :type="typeOfInput" required v-model="loginData.password" placeholder="Bodri123" />
+                        </div>
+
+                        <div class="forgotPassword">
+                            <router-link to="/elfelejtett-jelszo">Elfelejtette a jelszavát?</router-link>
+                        </div>
+
+                        <div class="submit">
+                            <button>Bejelentkezés</button>
+                        </div>
                     </div>
 
-                    <div class="forgotPassword">
-                        <router-link to="/elfelejtett-jelszo">Elfelejtette a jelszavát?</router-link>
-                    </div>
-
-                    <div class="submit">
-                        <button>Bejelentkezés</button>
-                    </div>
-                    </div>
-                    
                 </form>
             </div>
             <!-- Jobb oldal -->
@@ -58,13 +58,14 @@
 </template>
 
 <script setup>
+import InputText from 'primevue/inputtext';
 import { ref } from 'vue';
 import router from '@/router';
 import { useUserStore } from '@/store/userstore';
 import { useToast } from 'vue-toastification'
 const toast = useToast();
 
-const {login} = useUserStore();
+const { login } = useUserStore();
 
 const isVisibilityOn = ref(true);
 const typeOfInput = ref("password")
@@ -78,14 +79,18 @@ const loginData = ref({
     password: ""
 })
 
-function handleSubmit(){
+function handleSubmit() {
     login(loginData.value)
-    .then(resp => {
-        router.push('/');
-        toast.success('Sikeres bejelentkezés!', {position: "top-center"});
-    })
+        .then(resp => {
+            router.push('/');
+            toast.success('Sikeres bejelentkezés!', { position: "top-center" });
+        })
+        .catch(err => {
+            toast.error('Sikertelen bejelentkezés!', { position: "top-center" });
+        })
+
 }
-    
+
 
 
 function passwordToggle() {
@@ -274,9 +279,10 @@ button:hover {
         flex-direction: column-reverse;
     }
 
-    .formRight ul li, .formRight ul li p {
+    .formRight ul li,
+    .formRight ul li p {
         margin: 0;
-        
+
     }
 
     .formLeft {
@@ -286,7 +292,7 @@ button:hover {
         padding: 40px 80px;
     }
 
-    
+
 
     form {
         padding: 0;
@@ -303,6 +309,7 @@ button:hover {
     .submit {
         margin-top: 26px;
     }
+
     .middle {
         display: flex;
         flex-direction: column;
@@ -314,13 +321,15 @@ button:hover {
 
     #logo {
         width: 160px;
-        margin: 30px 0;           
+        margin: 30px 0;
     }
 }
 
 
 @media (max-width: 551px) {
-    .formRight, .formLeft {
+
+    .formRight,
+    .formLeft {
         width: 350px;
         padding: 40px;
     }
@@ -331,8 +340,7 @@ button:hover {
 
     #logo {
         width: 140px;
-        margin: 20px 0;           
+        margin: 20px 0;
     }
 }
-
 </style>

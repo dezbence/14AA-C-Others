@@ -38,16 +38,17 @@ primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Áprili
 const appointmentsDate = ref();
 
 let selectedDay = useDateFormat(appointmentsDate ,"YYYY. MMMM DD-i");
-let selectedDayFormatted = useDateFormat(appointmentsDate, "YYYY-MM-DD")
+
+const selectedDayFormatted = ref(useDateFormat(appointmentsDate, "YYYY-MM-DD"));
 
 
 const appointmentsData = ref();
 
 function getVetAppointments() {
-    vetservice.getVetsAppointmentToDays(user.value.token)
+    vetservice.getVetsAppointmentToDays(user.value.token, selectedDayFormatted)
     .then((resp) => {
             appointmentsData.value = resp.data;
-            console.log(appointmentsData.value)
+            console.log(selectedDayFormatted.value)
         });
 }
 getVetAppointments()
