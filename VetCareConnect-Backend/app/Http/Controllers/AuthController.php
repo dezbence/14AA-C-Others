@@ -137,4 +137,9 @@ class AuthController extends BaseController
         Auth::user()->currentAccessToken()->delete();
         return $this->sendResponse('' ,'Sikeres kijelentkezés!');
     }
+
+    public function logoutAllDevice(){
+        Auth::user()->tokens()->delete();
+        return $this->sendResponse('' ,'Sikeres kijelentkezés az összes eszközön!');
+    }
 }
