@@ -15,13 +15,13 @@
                         </div>
                         <label>E-mail cím:</label>
 
-                        <InputText type="email" required v-model="loginData.email" placeholder="bodri@gmail.com" />
+                        <InputText type="email" v-model="loginData.email" placeholder="bodri@gmail.com" />
 
                         <label>Jelszó:</label>
                         <div class="passwordAndEyeIcon">
                             <img @click="passwordToggle" class="eyeIcon" draggable="false"
                                 :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'" />
-                            <InputText :type="typeOfInput" required v-model="loginData.password" placeholder="Bodri123" />
+                            <InputText :type="typeOfInput" v-model="loginData.password" placeholder="Bodri123" />
                         </div>
 
                         <div class="forgotPassword">
@@ -70,9 +70,8 @@ const { login } = useUserStore();
 const isVisibilityOn = ref(true);
 const typeOfInput = ref("password")
 
-function back() {
-    router.go(-1)
-}
+const loginSuccess = ref(false);
+const isFilled = ref(false);
 
 const loginData = ref({
     email: "",
@@ -80,17 +79,32 @@ const loginData = ref({
 })
 
 function handleSubmit() {
-    login(loginData.value)
-        .then(resp => {
-            router.push('/');
-            toast.success('Sikeres bejelentkezés!', { position: "top-center" });
-        })
-        .catch(err => {
-            toast.error('Sikertelen bejelentkezés!', { position: "top-center" });
-        })
+    if (loginData.value.email == "" || loginData.value.password == "") {
+        isFilled.value = false;
+    }
+    else isFilled.value = true;
+    console.log(loginData.value)
+
+    if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
+    else {
+        login(loginData.value)
+            .then(resp => {
+                router.push('/');
+                toast.success('Sikeres bejelentkezés!', { position: "top-center" });
+            })
+            .catch(err => {
+                toast.error('Sikertelen bejelentkezés!', { position: "top-center" });
+            })
+    }
+
+
+
 
 }
 
+function back() {
+    router.go(-1)
+}
 
 
 function passwordToggle() {

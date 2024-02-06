@@ -6,34 +6,43 @@
     <div class="signInBackground">
 
         <div class="main">
-            <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" /> 
+            <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" />
             <!-- Bal oldal -->
             <div class="formCardLeft">
                 <form @submit.prevent="handleSubmit">
                     <h3>Regisztrálás gazdaként</h3>
+
                     <div class="noAccount">
                         <span>Már van fiókja?</span>
                         <router-link to="/bejelentkezes">Bejelentkezés</router-link>
                     </div>
+
                     <div class="nameLabel">
                         <label>Vezetéknév:</label>
                         <label>Keresztnév:</label>
                     </div>
+
                     <div class="nameInput">
                         <InputText v-model="userData.firstName" />
                         <InputText v-model="userData.lastName" />
                     </div>
+
                     <label>Tel. szám:</label>
                     <InputMask mask="99/999-9999" placeholder="00/000-0000" v-model="userData.phone" />
+
                     <label>Irányítószám:</label>
                     <InputMask mask="9999" placeholder="0000" v-model="userData.postal_code" />
+
                     <label>E-mail cím:</label>
                     <InputText v-model="userData.email" placeholder="bodri@gmail.com" />
+
                     <label>Jelszó:</label>
                     <div class="passInfo">
-                        <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()" @mouseleave="passwordInfoToggle()" class="passwordInfo">
+                        <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
+                            @mouseleave="passwordInfoToggle()" class="passwordInfo">
                         <InputText v-model="userData.password" type="password" placeholder="Bodri123" />
                     </div>
+
                     <div v-if="passwordError" class="error">{{ passwordError }}</div>
                     <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
                     <label>Jelszó újra:</label>
@@ -68,11 +77,10 @@
             </div>
         </div>
     </div>
-
 </template>
 <script setup>
 import { ref } from "vue";
-import {useToast} from 'vue-toastification'
+import { useToast } from 'vue-toastification'
 import TermsOfUse from "./TermsOfUse.vue";
 import PasswordRequirements from "./PasswordRequirements.vue";
 import InputMask from 'primevue/inputmask';
@@ -89,7 +97,7 @@ function back() {
 const buttonTrigger = ref(false);
 const passwordError = ref("");
 const passwordErrorAgain = ref("");
-const problem = ref(true);
+const isRegistrationFailed = ref(true);
 
 const lowerCaseLetters = /[a-z]/g;
 const upperCaseLetters = /[A-Z]/g;
@@ -108,6 +116,7 @@ const userData = ref({
 
 const registerData = ref()
 
+const isFilled = ref();
 
 
 function TogglePopup() {
@@ -120,33 +129,40 @@ function passwordInfoToggle() {
 }
 
 function handleSubmit() {
-    if (userData.value.password.length < 8) {
-        passwordError.value = "Minimum 8 karakter hosszúnak kell lenni!";
-    } else {
-        passwordError.value = "";
-        if (!userData.value.password.match(lowerCaseLetters)) {
-            passwordError.value = "Nem tartalmaz kisbetűs karaktert!";
+    userData.value.stamp = parseInt(userData.value.stamp);
+    userData.value.postal_code = parseInt(userData.value.postal_code);
+    if (userData.value.firstName == "" || userData.value.lastName == "" || userData.value.phone == "" || userData.value.postal_code == 0 || userData.value.email == "" || userData.value.password == "" || userData.value.confirm_password == "" || userData.value.terms == null) {
+        isFilled.value = false;
+    }
+    else isFilled.value = true;
+    console.log(userData.value)
+
+    if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
+    else {
+        if (userData.value.password.length < 8) {
+            toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
         } else {
-            passwordError.value = "";
-            if (!userData.value.password.match(upperCaseLetters)) {
-                passwordError.value = "Nem tartalmaz nagybetűs karaktert!";
+            if (!userData.value.password.match(lowerCaseLetters)) {
+                toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' })
             } else {
-                passwordError.value = "";
-                if (!userData.value.password.match(numbers)) {
-                    passwordError.value = "Nem tartalmaz számot!";
+                if (!userData.value.password.match(upperCaseLetters)) {
+                    toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' })
                 } else {
-                    passwordError.value = "";
-                    if (userData.value.password === userData.value.confirm_password) {
-                        passwordErrorAgain.value = "";
-                        problem.value = false;
+                    if (!userData.value.password.match(numbers)) {
+                        toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' })
+                    } else {
+                        if (userData.value.password === userData.value.confirm_password) {
+                            isRegistrationFailed.value = false;
+                        }
+                        else toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }), isRegistrationFailed.value = true;
                     }
-                    else passwordErrorAgain.value = "Nem egyezik a két jelszó!", problem.value = true;
                 }
             }
         }
     }
 
-    if (!problem.value) {
+
+    if (!isRegistrationFailed.value) {
         console.log('form submitted')
 
         registerData.value = {
@@ -158,18 +174,18 @@ function handleSubmit() {
             confirm_password: userData.value.confirm_password,
             role: 0
         }
-       
+
         userservice.registerUser(registerData.value)
             .then(resp => {
-            router.push('/bejelentkezes');
-            toast.success('Sikeres regisztráció', {position: 'top-center'});
-            console.log(resp);
-        })
+                router.push('/bejelentkezes');
+                toast.success('Sikeres regisztráció', { position: 'top-center' });
+                console.log(resp);
+            })
             .catch(err => {
-            console.log(err.data);
-            //errorMessages.value = err.data;
-        })
-        
+                console.log(err.data);
+                //errorMessages.value = err.data;
+            })
+
     }
 
 
@@ -296,7 +312,8 @@ label {
     margin-top: 25px;
 }
 
-input, .password {
+input,
+.password {
     display: block;
     box-sizing: border-box;
     width: 100%;

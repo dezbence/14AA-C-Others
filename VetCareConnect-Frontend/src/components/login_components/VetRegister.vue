@@ -36,7 +36,7 @@
                             </div>
 
                             <label>Tel. szám:</label>
-                            <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.fon" />
+                            <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.phone" />
 
                             <label>E-mail cím:</label>
                             <InputText type="email" v-model="vetData.email" placeholder="bodri@gmail.com" />
@@ -53,13 +53,9 @@
                                 <label>Kamarai szám:</label>
                             </div>
                             <div class="nameInput">
-                                <InputNumber v-model="vetData.postal_code" />
+                                <InputMask mask="9999" v-model="vetData.postal_code" />
                                 <InputMask mask="9999" v-model="vetData.stamp" />
                             </div>
-
-
-
-
 
                             <label>Jelszó:</label>
                             <div class="passInfo">
@@ -116,24 +112,20 @@ import PasswordRequirements from "./PasswordRequirements.vue";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import InputMask from 'primevue/inputmask';
-import InputNumber from "primevue/inputnumber";
 import InputText from "primevue/inputtext";
 import router from '@/router';
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
 const active = ref(0);
-
-function back() {
-    router.go(-1)
-}
-
 const buttonTrigger = ref(false);
-const problem = ref(true);
 
+const isFilled = ref(false);
 const lowerCaseLetters = /[a-z]/g;
 const upperCaseLetters = /[A-Z]/g;
 const numbers = /[0-9]/g;
+
+const isRegistrationFailed = ref(true);
 
 const vetData = ref({
     firstName: "",
@@ -148,7 +140,9 @@ const vetData = ref({
     terms: null
 });
 
-const isFilled = ref(false);
+function back() {
+    router.go(-1)
+}
 
 function TogglePopup() {
     buttonTrigger.value = !buttonTrigger.value;
@@ -159,49 +153,47 @@ function passwordInfoToggle() {
     passwordInfo.value = !passwordInfo.value;
 }
 
-
 function handleSubmit() {
-
+    vetData.value.stamp = parseInt(vetData.value.stamp);
+    vetData.value.postal_code = parseInt(vetData.value.postal_code);
     if (vetData.value.firstName == "" || vetData.value.lastName == "" || vetData.value.phone == "" || vetData.value.stamp == 0 || vetData.value.postal_code == 0 || vetData.value.address == "" || vetData.value.email == "" || vetData.value.password == "" || vetData.value.confirm_password == "" || vetData.value.terms == null) {
-
+        isFilled.value = false;
     }
-    console.log(isFilled.value)
+    else isFilled.value = true;
+    console.log(vetData.value)
 
-
-
-    // if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
-    // else {
-    if (vetData.value.password.length < 8) {
-        toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
-    } else {
-        if (!vetData.value.password.match(lowerCaseLetters)) {
-            toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' })
+    if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
+    else {
+        if (vetData.value.password.length < 8) {
+            toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
         } else {
-            if (!vetData.value.password.match(upperCaseLetters)) {
-                toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' })
+            if (!vetData.value.password.match(lowerCaseLetters)) {
+                toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' })
             } else {
-                if (!vetData.value.password.match(numbers)) {
-                    toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' })
+                if (!vetData.value.password.match(upperCaseLetters)) {
+                    toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' })
                 } else {
-                    if (vetData.value.password === vetData.value.confirm_password) {
-                        problem.value = false;
+                    if (!vetData.value.password.match(numbers)) {
+                        toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' })
+                    } else {
+                        if (vetData.value.password === vetData.value.confirm_password) {
+                            isRegistrationFailed.value = false;
+                        }
+                        else toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }), isRegistrationFailed.value = true;
                     }
-                    else toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }), problem.value = true;
                 }
             }
         }
     }
-    // }
 
-
-
-    if (!problem.value) {
+    if (!isRegistrationFailed.value) {
         registerData.value = {
             name: vetData.value.firstName + " " + vetData.value.lastName,
             phone: vetData.value.phone.replace(/[/-]/g, ''),
             email: vetData.value.email,
-            stamp: vetData.value.stamp,
+            stamp: parseInt(vetData.value.stamp),
             address: vetData.value.address,
+            postal_code: parseInt(vetData.value.postal_code),
             password: vetData.value.password,
             confirm_password: vetData.value.confirm_password,
             role: 1
@@ -224,8 +216,6 @@ function handleSubmit() {
 <style scoped>
 .main {
     display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 7px;
@@ -236,7 +226,6 @@ function handleSubmit() {
     border-radius: 7px 0 0 7px;
     height: 650px;
     width: 420px;
-    text-align: left;
 }
 
 .addressLabel {
