@@ -49,7 +49,12 @@ import Header from '@/components/page_controls/Header.vue';
 import Footer from '@/components/page_controls/Footer.vue';
 import InputSwitch from 'primevue/inputswitch';
 import InputMask from 'primevue/inputmask';
+import vetService from '@/services/vetservice';
 import { ref } from 'vue';
+import { storeToRefs } from "pinia";
+import { useUserStore } from "../../store/userstore";
+
+const { user } = storeToRefs(useUserStore());
 
 const isBreak = ref();
 const isOpen = ref();
@@ -58,10 +63,6 @@ const choosedDay = ref();
 const openingHours = ref();
 const breakHours = ref();
 
-const saveOpeningData = {
-    working_hours: "",
-    day: ""
-};
 const sendOpeningData = [];
 
 const days = ["hétfő-péntek", "minden nap", "hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap"];
@@ -71,31 +72,30 @@ function showDayOpening(day){
     choosedDay.value = day;
 }
 
+function addOpeningData(data){
+    vetService.addOpeningTime(user.value.token, data);
+}
+
 function saveOpening(){
     if (choosedDay.value = "hétfő-péntek") {
         for (let i = 2; i < days.length - 2; i++) {
             if (isOpen.value) {
-                // if (isBreak.value) {
-                //     let dataOpen = openingHours.value.split("-");
-                //     let dataBreak = breakHours.value.split("-");
-                //     let opened = [ dataOpen[0] + "-" + dataBreak[0], dataOpen[1] + "-" + dataBreak[1] ]
-                //     opened.forEach(o => {
-                //         saveOpeningData.working_hours = o;
-                //         sendOpeningData.push(saveOpeningData);
-                //     });
-                // } else {
-                //     saveOpeningData.working_hours = openingHours.value;
-                //     sendOpeningData.push(saveOpeningData);
-                // }
+                if (isBreak.value) {
+                    let dataOpen = openingHours.value.split("-");
+                    let dataBreak = breakHours.value.split("-");
+                    let opened = [ dataOpen[0] + "-" + dataBreak[0], dataBreak[1] + "-" + dataOpen[1] ]
+                    opened.forEach(o => {
+                        sendOpeningData.push({'working_hours': o, 'day': days[i]});
+                        console.log(sendOpeningData);
+                    });
+                } else {
+                    sendOpeningData.push({'working_hours': openingHours.value, 'day': days[i]});
+                }
             } else {
-                saveOpeningData.day = days[i];
-                saveOpeningData.working_hours = "zárva"; 
-                sendOpeningData.push(saveOpeningData);
-
-                console.log(sendOpeningData)
+                sendOpeningData.push({'working_hours': "zárva", 'day': days[i]});
             }
-
         }
+        addOpeningData(sendOpeningData);
     }
     console.log(sendOpeningData)
 }

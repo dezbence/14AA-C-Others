@@ -54,5 +54,14 @@ export default {
             .catch(err => {
                 return Promise.reject(err.response);
             })
+    },
+    addOpeningTime(token, data){
+        return Axios.post(`/new-openings`, data, { headers: { "Authorization": "Bearer " + token } })
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
     }
 }
