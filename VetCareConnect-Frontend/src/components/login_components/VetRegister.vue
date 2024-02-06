@@ -15,55 +15,77 @@
                         <span>Már van fiókja?</span>
                         <router-link to="/bejelentkezes">Bejelentkezés</router-link>
                     </div>
-                    <div class="nameLabel">
-                        <label>Vezetéknév:</label>
-                        <label>Keresztnév:</label>
+
+                    <div class="pages">
+                        <button type="button" class="page" @click="active = 0"
+                            :class="{ 'activePage': active == 0 }">1</button>
+                        <button type="button" class="page" @click="active = 1"
+                            :class="{ 'activePage': active == 1 }">2</button>
                     </div>
 
-                    <div class="nameInput">
-                        <InputText v-model="vetData.firstName" />
-                        <InputText v-model="vetData.lastName" />
-                    </div>
+                    <TabView v-model:activeIndex="active">
+                        <TabPanel>
+                            <div class="nameLabel">
+                                <label>Vezetéknév:</label>
+                                <label>Keresztnév:</label>
+                            </div>
 
-                    <div class="addressLabel">
-                        <label>Irányítószám:</label>
-                        <label>Kamarai szám:</label>
-                    </div>
-                    <div class="nameInput">
-                        <InputNumber v-model="vetData.postal_code" />
-                        <InputMask mask="9999" v-model="vetData.stamp" />
-                    </div>
+                            <div class="nameInput">
+                                <InputText v-model="vetData.firstName" />
+                                <InputText v-model="vetData.lastName" />
+                            </div>
 
-                    <label>Utca, házszám:</label>
-                    <InputText v-model="vetData.address" />
+                            <label>Tel. szám:</label>
+                            <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.fon" />
 
-                    <label>Tel. szám:</label>
-                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.fon" />
+                            <label>E-mail cím:</label>
+                            <InputText type="email" v-model="vetData.email" placeholder="bodri@gmail.com" />
 
-                    <label>E-mail cím:</label>
-                    <InputText type="email" v-model="vetData.email" placeholder="bodri@gmail.com" />
+                            <label>Utca, házszám:</label>
+                            <InputText v-model="vetData.address" />
 
-                    <label>Jelszó:</label>
-                    <div class="passInfo">
-                        <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
-                        @mouseleave="passwordInfoToggle()" class="passwordInfo">
-                        <InputText v-model="vetData.password" type="password" placeholder="Bodri123" />
-                    </div>
-                    <div v-if="passwordError" class="error">{{ passwordError }}</div>
-                    <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
+                            <button type="button" class="submit" @click="active = 1">Tovább</button>
+                        </TabPanel>
 
-                    <label>Jelszó újra:</label>
-                    <InputText v-model="vetData.confirm_password" type="password" placeholder="Bodri123" />
-                    <div v-if="passwordErrorAgain" class="error">{{ passwordErrorAgain }}</div>
+                        <TabPanel>
+                            <div class="addressLabel">
+                                <label>Irányítószám:</label>
+                                <label>Kamarai szám:</label>
+                            </div>
+                            <div class="nameInput">
+                                <InputNumber v-model="vetData.postal_code" />
+                                <InputMask mask="9999" v-model="vetData.stamp" />
+                            </div>
 
-                    <div class="terms">
-                        <input type="checkbox" v-model="vetData.terms" />
-                        <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
-                    </div>
 
-                    <div class="submit">
-                        <button>Regisztráció</button>
-                    </div>
+
+
+
+                            <label>Jelszó:</label>
+                            <div class="passInfo">
+                                <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
+                                    @mouseleave="passwordInfoToggle()" class="passwordInfo">
+                                <InputText v-model="vetData.password" type="password" placeholder="Bodri123" />
+                            </div>
+
+                            <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
+
+                            <label>Jelszó újra:</label>
+                            <InputText v-model="vetData.confirm_password" type="password" placeholder="Bodri123" />
+
+                            <div class="terms">
+                                <input type="checkbox" v-model="vetData.terms" />
+                                <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
+                            </div>
+
+
+                            <button class="submit">Regisztráció</button>
+
+                        </TabPanel>
+                    </TabView>
+
+
+
                 </form>
             </div>
 
@@ -91,18 +113,22 @@
 import { ref } from "vue";
 import TermsOfUse from "./TermsOfUse.vue";
 import PasswordRequirements from "./PasswordRequirements.vue";
+import TabView from "primevue/tabview";
+import TabPanel from "primevue/tabpanel";
 import InputMask from 'primevue/inputmask';
 import InputNumber from "primevue/inputnumber";
 import InputText from "primevue/inputtext";
 import router from '@/router';
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const active = ref(0);
 
 function back() {
     router.go(-1)
 }
 
 const buttonTrigger = ref(false);
-const passwordError = ref("");
-const passwordErrorAgain = ref("");
 const problem = ref(true);
 
 const lowerCaseLetters = /[a-z]/g;
@@ -120,8 +146,9 @@ const vetData = ref({
     password: "",
     confirm_password: "",
     terms: null
-})
+});
 
+const isFilled = ref(false);
 
 function TogglePopup() {
     buttonTrigger.value = !buttonTrigger.value;
@@ -132,36 +159,43 @@ function passwordInfoToggle() {
     passwordInfo.value = !passwordInfo.value;
 }
 
+
 function handleSubmit() {
+
+    if (vetData.value.firstName == "" || vetData.value.lastName == "" || vetData.value.phone == "" || vetData.value.stamp == 0 || vetData.value.postal_code == 0 || vetData.value.address == "" || vetData.value.email == "" || vetData.value.password == "" || vetData.value.confirm_password == "" || vetData.value.terms == null) {
+
+    }
+    console.log(isFilled.value)
+
+
+
+    // if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
+    // else {
     if (vetData.value.password.length < 8) {
-        passwordError.value = "Minimum 8 karakter hosszúnak kell lenni!";
+        toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
     } else {
-        passwordError.value = "";
         if (!vetData.value.password.match(lowerCaseLetters)) {
-            passwordError.value = "Nem tartalmaz kisbetűs karaktert!";
+            toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' })
         } else {
-            passwordError.value = "";
             if (!vetData.value.password.match(upperCaseLetters)) {
-                passwordError.value = "Nem tartalmaz nagybetűs karaktert!";
+                toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' })
             } else {
-                passwordError.value = "";
                 if (!vetData.value.password.match(numbers)) {
-                    passwordError.value = "Nem tartalmaz számot!";
+                    toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' })
                 } else {
-                    passwordError.value = "";
-                    if (vetData.value.password === vetData.value.passwordAgain) {
-                        passwordErrorAgain.value = "";
+                    if (vetData.value.password === vetData.value.confirm_password) {
                         problem.value = false;
                     }
-                    else passwordErrorAgain.value = "Nem egyezik a két jelszó!", problem.value = true;
+                    else toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }), problem.value = true;
                 }
             }
         }
     }
+    // }
+
+
 
     if (!problem.value) {
-        console.log('form submitted')
-
         registerData.value = {
             name: vetData.value.firstName + " " + vetData.value.lastName,
             phone: vetData.value.phone.replace(/[/-]/g, ''),
@@ -177,10 +211,8 @@ function handleSubmit() {
             .then(resp => {
                 router.push('/bejelentkezes');
                 toast.success('Sikeres regisztráció', { position: 'top-center' });
-                console.log(resp);
             })
             .catch(err => {
-                console.log(err.data);
                 //errorMessages.value = err.data;
             })
     }
@@ -202,8 +234,9 @@ function handleSubmit() {
 .formCardLeft {
     background-color: #fff;
     border-radius: 7px 0 0 7px;
-    height: 760px;
+    height: 650px;
     width: 420px;
+    text-align: left;
 }
 
 .addressLabel {
@@ -214,6 +247,11 @@ function handleSubmit() {
 .nameLabel {
     display: flex;
     gap: 79px;
+}
+
+.nameLabel label,
+.addressLabel label {
+    margin-top: 6px;
 }
 
 .nameInput {
@@ -248,6 +286,7 @@ function handleSubmit() {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 #logo {
@@ -255,7 +294,7 @@ function handleSubmit() {
 }
 
 .formCardRight {
-    height: 760px;
+    height: 650px;
     width: 340px;
     background-color: #246951;
     border-radius: 0 7px 7px 0;
@@ -311,7 +350,7 @@ label {
     font-weight: bolder;
     letter-spacing: 0;
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 24px;
 }
 
 input,
@@ -382,7 +421,8 @@ button:hover {
 
 .submit {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 30px;
+    width: 100%;
 }
 
 .error {
@@ -391,5 +431,29 @@ button:hover {
     font-size: 0.8em;
     position: absolute;
     font-weight: 500;
+}
+
+.pages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    width: 38px;
+    padding: 7px;
+    margin: 12px;
+    background-color: #50B692;
+    color: white;
+    cursor: pointer;
+}
+
+.activePage {
+    background-color: #368267;
 }
 </style>
