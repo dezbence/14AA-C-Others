@@ -24,7 +24,9 @@ a,
 button {
   font-family: "Roboto", sans-serif;
 }
-
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: #246951;
+}
 /* LoginPage, RegisterPage */
 .signInBackground {
   background-image: url(../assets/images/sing_In_background.png);
