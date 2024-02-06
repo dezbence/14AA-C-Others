@@ -5,25 +5,25 @@
     <div class="main">
         <div class="days">
             <div v-for="day in days">
-                <button class="btnStyle btnDays">{{ day }}</button>
+                <button class="btnStyle btnDays" @click="showDayOpening(day)">{{ day }}</button>
             </div>
         </div>
-        <div class="opening">
+        <div class="opening" v-if="showOpening">
             <div class="daily">
-                <h4>NAP</h4>
+                <h4>{{ choosedDay }}</h4>
                 <div class="closed">
-                    <label v-if="!isClosed">Zárva</label>
+                    <label v-if="!isOpen">Zárva</label>
                     <label v-else>Nyitva</label> <br>
-                    <InputSwitch v-model="isClosed" />
+                    <InputSwitch v-model="isOpen" />
                 </div>
-                <div v-if="isClosed">
+                <div v-if="isOpen">
                     <div>
                         <label>Nyitvatartás</label>
-                        <InputMask mask="99:99-99:99" placeholder="08:00-16:00" />
+                        <InputMask mask="99:99-99:99" placeholder="08:00-16:00" v-model="openingHours"/>
                     </div>
                     <div>
                         <label>Munkaközi szünet</label>
-                        <InputMask mask="99:99-99:99" placeholder="12:00-13:30" :disabled="!isBreak" />
+                        <InputMask mask="99:99-99:99" placeholder="12:00-13:30" :disabled="!isBreak" v-model="breakHours" />
                         <div>
                             <label v-if="isBreak">Van munkaközi szünet</label>
                             <label v-else>Nincs munkaközi szünet</label>
@@ -34,7 +34,7 @@
                 <div v-else>
                     Ön ezen a napon zárva tart!
                 </div>
-                <button class="btnStyle">Nyitvatartás mentése</button>
+                <button class="btnStyle" @click="saveOpening()">Nyitvatartás mentése</button>
             </div>
         </div>
     </div>
@@ -52,9 +52,53 @@ import InputMask from 'primevue/inputmask';
 import { ref } from 'vue';
 
 const isBreak = ref();
-const isClosed = ref();
+const isOpen = ref();
+const showOpening = ref(false);
+const choosedDay = ref();
+const openingHours = ref();
+const breakHours = ref();
+
+const saveOpeningData = {
+    working_hours: "",
+    day: ""
+};
+const sendOpeningData = [];
 
 const days = ["hétfő-péntek", "minden nap", "hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap"];
+
+function showDayOpening(day){
+    showOpening.value = true;
+    choosedDay.value = day;
+}
+
+function saveOpening(){
+    if (choosedDay.value = "hétfő-péntek") {
+        for (let i = 2; i < days.length - 2; i++) {
+            if (isOpen.value) {
+                // if (isBreak.value) {
+                //     let dataOpen = openingHours.value.split("-");
+                //     let dataBreak = breakHours.value.split("-");
+                //     let opened = [ dataOpen[0] + "-" + dataBreak[0], dataOpen[1] + "-" + dataBreak[1] ]
+                //     opened.forEach(o => {
+                //         saveOpeningData.working_hours = o;
+                //         sendOpeningData.push(saveOpeningData);
+                //     });
+                // } else {
+                //     saveOpeningData.working_hours = openingHours.value;
+                //     sendOpeningData.push(saveOpeningData);
+                // }
+            } else {
+                saveOpeningData.day = days[i];
+                saveOpeningData.working_hours = "zárva"; 
+                sendOpeningData.push(saveOpeningData);
+
+                console.log(sendOpeningData)
+            }
+
+        }
+    }
+    console.log(sendOpeningData)
+}
 
 </script>
 
