@@ -10,8 +10,7 @@
                 </div>
             </div>
         </div>
-            <Calendar  v-model="appointmentsDate" inline class="vetCalendar" :min-date="new Date()" />
-            <!-- <p>{{ selectedDayFormatted }}</p> -->
+            <Calendar  v-model="appointmentsDate" inline class="vetCalendar" @date-select="getVetAppointments()" :min-date="new Date()" />
     </div>
     <Footer></Footer>
 </template>
@@ -45,10 +44,10 @@ const selectedDayFormatted = ref(useDateFormat(appointmentsDate, "YYYY-MM-DD"));
 const appointmentsData = ref();
 
 function getVetAppointments() {
-    vetservice.getVetsAppointmentToDays(user.value.token, selectedDayFormatted)
+    vetservice.getVetsAppointmentToDays(user.value.token, selectedDayFormatted.value)
     .then((resp) => {
             appointmentsData.value = resp.data;
-            console.log(selectedDayFormatted.value)
+            console.log(resp.data)
         });
 }
 getVetAppointments()
@@ -83,7 +82,7 @@ getVetAppointments()
 
 .todaysToDo .toDos {
     overflow-y: scroll;
-    max-height: 580px;
+    max-height: 550px;
 }
 
 /* width */

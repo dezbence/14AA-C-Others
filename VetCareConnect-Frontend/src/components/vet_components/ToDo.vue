@@ -9,10 +9,11 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useDateFormat } from '@vueuse/core';
 
 const props = defineProps(["appointmentData"]);
 
-const selectedDayDate = ref(props.appointmentData.cure_date.substring(0, 16));
+const selectedDayDate = ref(useDateFormat(props.appointmentData.cure_date, "YYYY-MM-DD"));
 </script>
 
 <style scoped>
