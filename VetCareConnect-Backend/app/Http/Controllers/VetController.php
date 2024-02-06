@@ -21,6 +21,7 @@ class VetController extends BaseController
     public function getVetAppointments($date) {
         $appointments = Cure::with('cure_type', 'vet', 'pet.owner')
             ->where('date', 'like', $date.'%')
+            ->where('vet_id', '=', Auth::user()->id)
             ->get();
 
         if (count($appointments) == 0) return $this->sendResponse('Nincs időpont', 'Sikeres művelet!');

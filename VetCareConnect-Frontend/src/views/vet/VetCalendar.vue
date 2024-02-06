@@ -5,13 +5,19 @@
             <h3>{{ selectedDay }} időpontok</h3>
             <hr>
             <div class="toDos">
-                <div v-for="appointmentData in appointmentsData">
-                    <ToDo :appointmentData="appointmentData"></ToDo>
+                <div v-if="showDate">
+                    <div v-for="appointmentData in appointmentsData">
+                        <ToDo :appointmentData="appointmentData"></ToDo>
+                    </div>
                 </div>
+                <div v-else>
+                    Önnek nincs időpontja erre a napra!
+                </div>
+
             </div>
         </div>
-            <Calendar  v-model="appointmentsDate" inline class="vetCalendar" :min-date="new Date()" />
-            <!-- <p>{{ selectedDayFormatted }}</p> -->
+        <Calendar v-model="appointmentsDate" inline class="vetCalendar" @date-select="getVetAppointments()"
+            :min-date="new Date()" />
     </div>
     <Footer></Footer>
 </template>
@@ -28,7 +34,7 @@ import vetservice from "@/services/vetservice"
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
 
-const {user} = storeToRefs(useUserStore());
+const { user } = storeToRefs(useUserStore());
 
 const primevue = usePrimeVue();
 primevue.config.locale.dayNamesMin = ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'];
@@ -36,8 +42,9 @@ primevue.config.locale.firstDayOfWeek = 1;
 primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
 
 const appointmentsDate = ref();
+const showDate = ref(null);
 
-let selectedDay = useDateFormat(appointmentsDate ,"YYYY. MMMM DD-i");
+let selectedDay = useDateFormat(appointmentsDate, "YYYY. MMMM DD-i");
 
 const selectedDayFormatted = ref(useDateFormat(appointmentsDate, "YYYY-MM-DD"));
 
@@ -45,11 +52,17 @@ const selectedDayFormatted = ref(useDateFormat(appointmentsDate, "YYYY-MM-DD"));
 const appointmentsData = ref();
 
 function getVetAppointments() {
-    vetservice.getVetsAppointmentToDays(user.value.token, selectedDayFormatted)
-    .then((resp) => {
-            appointmentsData.value = resp.data;
-            console.log(selectedDayFormatted.value)
+    vetservice.getVetsAppointmentToDays(user.value.token, selectedDayFormatted.value)
+        .then((resp) => {
+            if (resp.data == "Nincs időpont") {
+                showDate.value = false;
+            } else {
+
+                appointmentsData.value = resp.data;
+                showDate.value = true;
+            }
         });
+
 }
 getVetAppointments()
 </script>
@@ -83,32 +96,32 @@ getVetAppointments()
 
 .todaysToDo .toDos {
     overflow-y: scroll;
-    max-height: 580px;
+    max-height: 550px;
 }
 
 /* width */
 .toDos::-webkit-scrollbar {
-  width: 7px;
+    width: 7px;
 }
 
 /* Track */
 .toDos::-webkit-scrollbar-track {
-  background: #ccc;
-  border-radius: 7px;
+    background: #ccc;
+    border-radius: 7px;
 }
 
 /* Handle */
 .toDos::-webkit-scrollbar-thumb {
-  background: #368267;
-  border-radius: 7px;
+    background: #368267;
+    border-radius: 7px;
 }
 
 /* Handle on hover */
 .toDos::-webkit-scrollbar-thumb:hover {
-  background: #246951;
+    background: #246951;
 }
 
-.vetCalendar{
+.vetCalendar {
     width: 1000px;
     height: 700px;
     border-radius: 7px;
@@ -116,8 +129,5 @@ getVetAppointments()
 }
 
 
-@media (max-width: 1150px) {
-   
-}
-
+@media (max-width: 1150px) {}
 </style>
