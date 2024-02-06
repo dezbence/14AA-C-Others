@@ -34,8 +34,11 @@ Route::get('/faq-all', [MainController::class, 'getAllQuestions']);
 Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/logout',[AuthController::class,'logout']);
+    Route::post('/logout-all-device',[AuthController::class,'logoutAllDevice']);
+
     Route::get('/user-data', [MainController::class, 'getUserData']);
     Route::put('/modify-user-data',[MainController::class,'modifyUserData']);
+
     Route::middleware('only-owner')->group(function(){
         //Route::get('/bearer-test',[MainController::class,'bearerTest']);
 
