@@ -1,19 +1,16 @@
 <template>
     <div class="back">
-        <h4>{{ selectedDayDate }}</h4>
+        <h4>{{ useDateFormat(props.appointmentData.cure_date, "YYYY. MMMM DD.").value }}</h4>
         <h5>{{ appointmentData.pet_species }}</h5>
         <p> {{ appointmentData.cure_type }}</p>
-        
     </div>
+
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useDateFormat } from '@vueuse/core';
 
 const props = defineProps(["appointmentData"]);
-
-const selectedDayDate = ref(useDateFormat(props.appointmentData.cure_date, "YYYY-MM-DD"));
 </script>
 
 <style scoped>
