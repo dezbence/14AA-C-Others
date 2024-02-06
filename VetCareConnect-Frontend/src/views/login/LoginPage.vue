@@ -70,7 +70,6 @@ const { login } = useUserStore();
 const isVisibilityOn = ref(true);
 const typeOfInput = ref("password")
 
-const loginSuccess = ref(false);
 const isFilled = ref(false);
 
 const loginData = ref({
@@ -79,13 +78,10 @@ const loginData = ref({
 })
 
 function handleSubmit() {
-    if (loginData.value.email == "" || loginData.value.password == "") {
-        isFilled.value = false;
-    }
+    if (loginData.value.email == "" || loginData.value.password == "") isFilled.value = false;
     else isFilled.value = true;
-    console.log(loginData.value)
 
-    if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
+    if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
     else {
         login(loginData.value)
             .then(resp => {
@@ -96,16 +92,11 @@ function handleSubmit() {
                 toast.error('Sikertelen bejelentkezés!', { position: "top-center" });
             })
     }
-
-
-
-
 }
 
 function back() {
     router.go(-1)
 }
-
 
 function passwordToggle() {
     isVisibilityOn.value = !isVisibilityOn.value;
@@ -113,7 +104,6 @@ function passwordToggle() {
     if (isVisibilityOn.value) typeOfInput.value = "password";
     else typeOfInput.value = "text";
 }
-
 </script>
 
 <style scoped>

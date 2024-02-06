@@ -23,8 +23,8 @@
                     <InputMask v-model="pet.chip_number" mask="999999999999999" />
 
                     <label>Törzskönyv száma (8 számjegy):</label>
-                    <InputMask v-model="pet.pedigree_number" mask="99999999"/>
-                    
+                    <InputMask v-model="pet.pedigree_number" mask="99999999" />
+
                     <label>Fajtajelleg:</label>
                     <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!"
                         class="petDropdown" />
@@ -55,6 +55,12 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { useUserStore } from '@/store/userstore';
+import { storeToRefs } from 'pinia';
+import { useDateFormat } from "@vueuse/core";
+import { useToast } from 'vue-toastification';
+import ownerservice from '../../services/ownerservice.js'
 import InputMask from 'primevue/inputmask';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
@@ -63,28 +69,25 @@ import Dropdown from 'primevue/dropdown';
 import InputNumber from 'primevue/inputnumber';
 import Calendar from 'primevue/calendar';
 import Textarea from 'primevue/textarea';
-import { useUserStore } from '@/store/userstore';
-import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
-import ownerservice from '../../services/ownerservice.js'
-import { useDateFormat } from "@vueuse/core";
 
 const active = ref(0);
 
 const { user } = storeToRefs(useUserStore());
-
+const toast = useToast();
 const props = defineProps(['showCreator', 'submitPet']);
 
 const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
 const genders = ['hím', 'nőstény']
 const gender = ref();
 
+const isFilled = ref(false);
+
 const pet = ref({
     name: "",
     chip_number: 0,
     pedigree_number: 0,
     species: "",
-    gender: 0,
+    gender: -1,
     weight: 0,
     born_date: useDateFormat(Date(), "YYYY.MM.DD").value,
     comment: ""
@@ -96,12 +99,24 @@ function petGenderFormat(gender1) {
 }
 
 function handleSubmit() {
-    pet.value.born_date = useDateFormat(pet.value.born_date, "YYYY.MM.DD");
-    ownerservice.postNewPet(pet.value, user.value.token)
-        .then((resp) => {
-            props.submitPet();
-        });
-    pet.value.gender = petGenderFormat(gender.value);
+    if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || parseInt(pet.value.gender) == -1 || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") {
+        isFilled.value = false;
+    }
+    else isFilled.value = true;
+    console.log(pet.value)
+
+    if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
+    else {
+        pet.value.born_date = useDateFormat(pet.value.born_date, "YYYY.MM.DD");
+        ownerservice.postNewPet(pet.value, user.value.token)
+            .then((resp) => {
+                props.submitPet();
+            });
+        pet.value.gender = petGenderFormat(gender.value);
+    }
+
+
+
 
 }
 </script>
@@ -183,25 +198,26 @@ h4 {
 
 
 @media (max-width: 514px) {
-   h4 {
-    font-size: 1.1rem;
-   }
+    h4 {
+        font-size: 1.1rem;
+    }
 
-   .page {
-    font-size: 0.8rem;
-    width: 34px;
-   }
+    .page {
+        font-size: 0.8rem;
+        width: 34px;
+    }
 
-   .petCreatingForm {
-    width: 350px;
-    padding: 30px;
-   }
-   
-   .p-dropdown,
-.p-inputtext,
-.p-inputnumber,
-.bornDate, button {
-    width: 260px;
-}
+    .petCreatingForm {
+        width: 350px;
+        padding: 30px;
+    }
+
+    .p-dropdown,
+    .p-inputtext,
+    .p-inputnumber,
+    .bornDate,
+    button {
+        width: 260px;
+    }
 }
 </style>
