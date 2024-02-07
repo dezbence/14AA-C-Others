@@ -95,7 +95,7 @@ getVetAppointments()
 }
 
 .todaysToDo .toDos {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 550px;
 }
 

@@ -2,16 +2,18 @@
     <div class="cardsBack">
         <img @click="petMenuToggle()" class="dotsMenu" src="../../assets/icons/dots.svg" />
         <div class="menu">
-            <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle" :editpetId="pet.id" :deletePet="deletePet" :editPet="editPet"></PetMenu>
+            <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle" :editpetId="pet.id" :deletePet="deletePet"
+                :editPet="editPet"></PetMenu>
         </div>
         <div class="profile"></div>
-        
+
         <h3>{{ pet.name }}</h3>
         <div>
             <p>{{ pet.species }}</p>
             <p>{{ pet.gender == 0 ? "nőstény" : "hím" }}</p>
             <p>{{ pet.weight }} kg</p>
-            <p>{{ pet.comment }}</p>
+            <p id="petComment">{{ pet.comment }}</p>
+            <strong>{{ pet.name }} most {{ petAge }} {{ elapsedTime }}.</strong>
         </div>
     </div>
 </template>
@@ -19,9 +21,7 @@
 import { ref } from "vue";
 import { defineAsyncComponent } from "vue";
 import { useUserStore } from '@/store/userstore';
-import { storeToRefs } from 'pinia';
 
-const { user } = storeToRefs(useUserStore());
 const store = useUserStore();
 
 const PetMenu = defineAsyncComponent(() => import("./PetMenu.vue"));
@@ -29,6 +29,20 @@ const PetMenu = defineAsyncComponent(() => import("./PetMenu.vue"));
 const props = defineProps(['pet']);
 
 const isMenuOpen = ref(false);
+
+const elapsedTime = ref();
+const petAge = ref(Math.floor((Date.parse(Date()) - Date.parse(props.pet.born_date)) / (3600000 * 24)))
+
+if (petAge.value <= 30) {
+    elapsedTime.value = "napos";
+} else if (petAge.value > 30 && petAge.value <= 365) {
+    elapsedTime.value = "hónapos"
+    petAge.value = Math.floor(petAge.value / 30);
+} else if (petAge.value > 365) {
+    elapsedTime.value = "éves"
+    petAge.value = Math.floor(petAge.value / 30 / 12);
+}
+
 function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;
 }
@@ -38,7 +52,7 @@ function deletePet() {
     store.deletePetId = props.pet.id;
 }
 
-function editPet(){
+function editPet() {
     store.showPetEdit(true);
     store.editPet = props.pet;
     console.log(store.editPet)
@@ -61,6 +75,13 @@ function editPet(){
     justify-content: center;
     align-items: center;
     position: relative;
+    overflow-x: auto;
+}
+
+.cardsBack:hover {
+    background-color: #368267;
+    transform: scale(1.05);
+    transition: 200ms;
 }
 
 .menu {
@@ -91,5 +112,10 @@ function editPet(){
 
 h3 {
     margin: 0 0 10px;
+}
+
+#petComment {
+    max-width: 200px;
+    
 }
 </style>

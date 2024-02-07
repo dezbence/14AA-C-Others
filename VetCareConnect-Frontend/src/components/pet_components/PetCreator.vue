@@ -99,7 +99,7 @@ function petGenderFormat(gender1) {
 }
 
 function handleSubmit() {
-    if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || parseInt(pet.value.gender) == -1 || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") {
+    if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") {
         isFilled.value = false;
     }
     else isFilled.value = true;

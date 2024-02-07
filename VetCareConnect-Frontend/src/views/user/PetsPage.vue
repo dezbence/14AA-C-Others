@@ -4,7 +4,7 @@
         <PetCreator v-if="isPetCreating" :submit-pet="submitPet" :show-creator="showCreator"></PetCreator>
 
         <div :class="isPetCreating ? 'overflowDisable' : ''">
-            <div>
+           
                 <h1 class="pageTitle">Kedvenceim</h1>
                 <div class="petsCard">
 
@@ -22,17 +22,8 @@
                     </button>
 
                 </div>
-                <div class="filter" v-if="appointmentsList.length > 0">
-                    <h1 class="pageTitle">Korábbi kezelések</h1>
-
-                    <div class="iconInInput">
-                        <img id="searchIcon" src="../../assets/icons/search.svg">
-                        <InputText class="searchBar" placeholder="Keresés" />
-                    </div>
-
-                </div>
-                <div class="marginBottom">.</div>
-            </div>
+                
+          
         </div>
     </div>
     <div v-else-if="store.petEdit">
@@ -48,13 +39,9 @@
 import { ref } from 'vue';
 import Header from '@/components/page_controls/Header.vue';
 import Footer from '@/components/page_controls/Footer.vue';
-
-import InputText from 'primevue/inputtext';
 import { defineAsyncComponent } from 'vue'
 import { useUserStore } from '@/store/userstore';
-import { storeToRefs } from 'pinia';
 
-const { user } = storeToRefs(useUserStore());
 const store = useUserStore();
 
 const Pet = defineAsyncComponent(() =>
@@ -70,8 +57,6 @@ const PetDelete = defineAsyncComponent(() =>
 const PetEdit = defineAsyncComponent(() =>
     import('@/components/pet_components/PetModify.vue')
 )
-const appointmentsList = ref([]);
-
 const isPetCreating = ref(false);
 
 function showCreator() {
