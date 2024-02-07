@@ -5,7 +5,9 @@
     <div class="main">
         <div class="days">
             <div v-for="day in days">
-                <button class="btnStyle btnDays" @click="showDayOpening(day)">{{ day }}</button>
+                <button class="btnStyle btnDays" @click="showDayOpening(day)">
+                    {{ day }}
+                </button>
             </div>
         </div>
         <div class="opening" v-if="showOpening">
@@ -13,13 +15,13 @@
                 <h4>{{ choosedDay }}</h4>
                 <div class="closed">
                     <label v-if="!isOpen">Zárva</label>
-                    <label v-else>Nyitva</label> <br>
+                    <label v-else>Nyitva</label> <br />
                     <InputSwitch v-model="isOpen" />
                 </div>
                 <div v-if="isOpen">
                     <div>
                         <label>Nyitvatartás</label>
-                        <InputMask mask="99:99-99:99" placeholder="08:00-16:00" v-model="openingHours"/>
+                        <InputMask mask="99:99-99:99" placeholder="08:00-16:00" v-model="openingHours" />
                     </div>
                     <div>
                         <label>Munkaközi szünet</label>
@@ -31,26 +33,24 @@
                         </div>
                     </div>
                 </div>
-                <div v-else>
-                    Ön ezen a napon zárva tart!
-                </div>
-                <button class="btnStyle" @click="saveOpening()">Nyitvatartás mentése</button>
+                <div v-else>Ön ezen a napon zárva tart!</div>
+                <button class="btnStyle" @click="saveOpening()">
+                    Nyitvatartás mentése
+                </button>
             </div>
         </div>
     </div>
-
-
 
     <Footer></Footer>
 </template>
 
 <script setup>
-import Header from '@/components/page_controls/Header.vue';
-import Footer from '@/components/page_controls/Footer.vue';
-import InputSwitch from 'primevue/inputswitch';
-import InputMask from 'primevue/inputmask';
-import vetService from '@/services/vetservice';
-import { ref } from 'vue';
+import Header from "@/components/page_controls/Header.vue";
+import Footer from "@/components/page_controls/Footer.vue";
+import InputSwitch from "primevue/inputswitch";
+import InputMask from "primevue/inputmask";
+import vetService from "@/services/vetservice";
+import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
 
@@ -65,41 +65,77 @@ const breakHours = ref();
 
 const sendOpeningData = [];
 
-const days = ["hétfő-péntek", "minden nap", "hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap"];
+const days = [
+    "hétfő-péntek",
+    "minden nap",
+    "hétfő",
+    "kedd",
+    "szerda",
+    "csütörtök",
+    "péntek",
+    "szombat",
+    "vasárnap",
+];
 
-function showDayOpening(day){
+function showDayOpening(day) {
     showOpening.value = true;
     choosedDay.value = day;
 }
 
-function addOpeningData(data){
+function addOpeningData(data) {
     vetService.addOpeningTime(user.value.token, data);
 }
+function isOpenTime(day) {
+    if (isBreak.value) {
+        let dataOpen = openingHours.value.split("-");
+        let dataBreak = breakHours.value.split("-");
+        let opened = [
+            dataOpen[0] + "-" + dataBreak[0],
+            dataBreak[1] + "-" + dataOpen[1],
+        ];
+        opened.forEach((o) => {
+            sendOpeningData.push({ working_hours: o, day: day });
+            console.log(sendOpeningData);
+        });
+    } else {
+        sendOpeningData.push({ working_hours: openingHours.value, day: day });
+    }
+}
 
-function saveOpening(){
-    if (choosedDay.value = "hétfő-péntek") {
+function saveOpening() {
+    if ((choosedDay.value = "hétfő-péntek")) {
         for (let i = 2; i < days.length - 2; i++) {
             if (isOpen.value) {
-                if (isBreak.value) {
-                    let dataOpen = openingHours.value.split("-");
-                    let dataBreak = breakHours.value.split("-");
-                    let opened = [ dataOpen[0] + "-" + dataBreak[0], dataBreak[1] + "-" + dataOpen[1] ]
-                    opened.forEach(o => {
-                        sendOpeningData.push({'working_hours': o, 'day': days[i]});
-                        console.log(sendOpeningData);
-                    });
-                } else {
-                    sendOpeningData.push({'working_hours': openingHours.value, 'day': days[i]});
-                }
+                isOpenTime(days[i]);
             } else {
-                sendOpeningData.push({'working_hours': "zárva", 'day': days[i]});
+                sendOpeningData.push({ working_hours: "zárva", day: days[i] });
             }
         }
         addOpeningData(sendOpeningData);
+    } else if (choosedDay.value = "minden nap") {
+        sendOpeningData = [];
+        for (let i = 2; i < days.length; i++) {
+            if (isOpen.value) {
+                isOpenTime(days[i]);
+            } else {
+                sendOpeningData.push({ working_hours: "zárva", day: days[i] });
+            }
+        }
+        addOpeningData(sendOpeningData);
+    } else {
+        sendOpeningData = [];
+        for (let i = 2; i < days.length; i++) {
+            if (days[i] == choosedDay.value) {
+                if (isOpen.value) {
+                    isOpenTime(days[i]);
+                } else {
+                    sendOpeningData.push({ working_hours: "zárva", day: days[i] });
+                }
+            }
+            addOpeningData(sendOpeningData);
+        }
     }
-    console.log(sendOpeningData)
 }
-
 </script>
 
 <style lang="css" scoped>
@@ -108,14 +144,16 @@ h5 {
     color: #368267;
     font-weight: 500;
 }
+
 .main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 .daily {
-    background-color: #50B692;
+    background-color: #50b692;
     height: 420px;
     width: 300px;
     border-radius: 7px;
@@ -147,4 +185,5 @@ h5 {
 
 .btnDays {
     margin: 10px;
-}</style>
+}
+</style>
