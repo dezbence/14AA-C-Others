@@ -116,6 +116,5 @@ h3 {
 
 #petComment {
     max-width: 200px;
-    
 }
 </style>

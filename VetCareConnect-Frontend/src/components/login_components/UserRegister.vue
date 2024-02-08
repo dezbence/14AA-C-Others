@@ -102,6 +102,7 @@ const isRegistrationFailed = ref(true);
 const lowerCaseLetters = /[a-z]/g;
 const upperCaseLetters = /[A-Z]/g;
 const numbers = /[0-9]/g;
+const emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-z]{2,3}$/;
 
 const userData = ref({
     firstName: "",
@@ -139,6 +140,12 @@ function handleSubmit() {
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
+
+        if (!emailPattern.test(userData.value.email)) {
+            toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
+            isRegistrationFailed.value = true;
+        }
+
         if (userData.value.password.length < 8) {
             toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
         } else {

@@ -44,7 +44,7 @@
                     <Calendar class="bornDate" v-model="pet.born_date" :max-date="new Date()" dateFormat="yy.mm.dd"
                         placeholder="éééé.hh.nn" />
                     <label>Megjegyzés:</label>
-                    <Textarea placeholder="Allergiák, különlegességek, stb." v-model.trim="pet.comment" rows="4" cols="40"
+                    <Textarea class="petComment" maxlength="160" placeholder="Allergiák, különlegességek, stb." v-model.trim="pet.comment" rows="4" cols="40"
                         autoResize></Textarea>
                     <button @click="handleSubmit()">Létrehozás</button>
                 </TabPanel>
@@ -130,6 +130,10 @@ function handleSubmit() {
     align-items: center;
     flex-direction: column;
     position: relative;
+}
+
+.petComment {
+    max-height: 150px;
 }
 
 .p-dropdown,
