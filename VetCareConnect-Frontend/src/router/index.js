@@ -10,7 +10,27 @@ import NotFoundPageVue from '@/views/NotFoundPage.vue'
 import { useUserStore } from '../store/userstore.js'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'vue-toastification'
+
 const toast = useToast();
+
+const access = {
+  '/': [0, 1, null],
+  '/idopontfoglalas/:doctorId?': [0],
+  '/idopontfoglalas': [0],
+  '/kedvenceim': [0],
+  '/naptaram': [0],
+  '/bejelentkezes': [null],
+  '/regisztracio': [null],
+  '/elfelejtett-jelszo': [null],
+  '/allatorvosok': [0, 1, null],
+  '/gyik': [0, 1, null],
+  '/orvosi-naptar': [1],
+  '/orvos-beallitasok': [1],
+  '/adataim': [0, 1],
+  '/:catchAll(.*)': [0, 1, null]
+};
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,11 +53,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const { status } = storeToRefs(useUserStore());
+  const { status, user } = storeToRefs(useUserStore());
   const publicPages = ['/', '/bejelentkezes', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo', '/:catchAll(.*)'];
   const autRequired = !publicPages.includes(to.path);
   if (autRequired && !status.value.loggedIn) {
-    return toast.error("Bejelentkezés szükséges!", {position: "top-center"});
+    toast.error("Bejelentkezés szükséges!", { position: "top-center" });
+    return next('/bejelentkezés');
+
+  } else if(!access[to.path].includes(user.value.role)){
+    toast.error("Jogosultság szükséges!", { position: "top-center" });
+    return next('/');
   }
   next();
 });

@@ -1,7 +1,11 @@
 <template>
     <Header></Header>
     <h1 class="pageTitle">Beállítások</h1>
-    <h5>Általános nyitvatartás</h5>
+    <h5>Nyitvatartás</h5>
+    <div>
+        
+    </div>
+    <h5>Nyitvatartás módosítása</h5>
     <div class="main">
         <div class="days">
             <div v-for="day in days">
