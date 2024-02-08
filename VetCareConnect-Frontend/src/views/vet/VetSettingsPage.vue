@@ -63,10 +63,11 @@ const choosedDay = ref();
 const openingHours = ref();
 const breakHours = ref();
 
-const sendOpeningData = [];
+let sendOpeningData = [];
+let sendClosedDays = [];
 
 const days = [
-    "hétfő-péntek",
+    "hétköznapok",
     "minden nap",
     "hétfő",
     "kedd",
@@ -83,7 +84,11 @@ function showDayOpening(day) {
 }
 
 function addOpeningData(data) {
-    vetService.addOpeningTime(user.value.token, data);
+    vetService.addOpeningTime(user.value.token, data).then(resp => { console.log('siker') });
+}
+
+function deleteDayClosed(data){
+
 }
 function isOpenTime(day) {
     if (isBreak.value) {
@@ -95,7 +100,6 @@ function isOpenTime(day) {
         ];
         opened.forEach((o) => {
             sendOpeningData.push({ working_hours: o, day: day });
-            console.log(sendOpeningData);
         });
     } else {
         sendOpeningData.push({ working_hours: openingHours.value, day: day });
@@ -103,7 +107,8 @@ function isOpenTime(day) {
 }
 
 function saveOpening() {
-    if ((choosedDay.value = "hétfő-péntek")) {
+    if (choosedDay.value == "hétköznapok") {
+        sendOpeningData = [];
         for (let i = 2; i < days.length - 2; i++) {
             if (isOpen.value) {
                 isOpenTime(days[i]);
@@ -111,8 +116,10 @@ function saveOpening() {
                 sendOpeningData.push({ working_hours: "zárva", day: days[i] });
             }
         }
+        console.log(sendOpeningData);
         addOpeningData(sendOpeningData);
-    } else if (choosedDay.value = "minden nap") {
+    } else if (choosedDay.value == "minden nap") {
+        console.log('igen')
         sendOpeningData = [];
         for (let i = 2; i < days.length; i++) {
             if (isOpen.value) {
@@ -126,14 +133,15 @@ function saveOpening() {
         sendOpeningData = [];
         for (let i = 2; i < days.length; i++) {
             if (days[i] == choosedDay.value) {
+                console.log(days[i], choosedDay.value)
                 if (isOpen.value) {
                     isOpenTime(days[i]);
                 } else {
                     sendOpeningData.push({ working_hours: "zárva", day: days[i] });
                 }
             }
-            addOpeningData(sendOpeningData);
         }
+        addOpeningData(sendOpeningData);
     }
 }
 </script>
