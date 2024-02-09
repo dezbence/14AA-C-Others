@@ -33,30 +33,11 @@
                             <div class="nameInput">
                                 <InputText v-model="vetData.firstName" />
                                 <InputText v-model="vetData.lastName" />
-                            </div>
-
-                            <label>Tel. szám:</label>
-                            <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.phone" />
+                            </div>                       
 
                             <label>E-mail cím:</label>
                             <InputText type="email" v-model="vetData.email" placeholder="bodri@gmail.com" />
-
-                            <label>Utca, házszám:</label>
-                            <InputText v-model="vetData.address" />
-
-                            <button type="button" class="submit" @click="active = 1">Tovább</button>
-                        </TabPanel>
-
-                        <TabPanel>
-                            <div class="addressLabel">
-                                <label>Irányítószám:</label>
-                                <label>Kamarai szám:</label>
-                            </div>
-                            <div class="nameInput">
-                                <InputMask mask="9999" v-model="vetData.postal_code" />
-                                <InputMask mask="9999" v-model="vetData.stamp" />
-                            </div>
-
+                            
                             <label>Jelszó:</label>
                             <div class="passInfo">
                                 <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
@@ -69,14 +50,32 @@
                             <label>Jelszó újra:</label>
                             <InputText v-model="vetData.confirm_password" type="password" placeholder="Bodri123" />
 
+                            <button type="button" class="submit" @click="active = 1">Tovább</button>
+                        </TabPanel>
+
+                        <TabPanel>
+                            <label>Telefon szám:</label>
+                            <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.phone" />
+
+                            <label>Utca, házszám:</label>
+                            <InputText v-model="vetData.address" />
+
+                            <div class="addressLabel">
+                                <label>Irányítószám:</label>
+                                <label>Kamarai szám:</label>
+                            </div>
+
+                            <div class="nameInput">
+                                <InputMask mask="9999" v-model="vetData.postal_code" />
+                                <InputMask mask="9999" v-model="vetData.stamp_number" />
+                            </div>
+
                             <div class="terms">
                                 <input type="checkbox" v-model="vetData.terms" />
                                 <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
                             </div>
 
-
                             <button class="submit">Regisztráció</button>
-
                         </TabPanel>
                     </TabView>
 
@@ -115,23 +114,25 @@ import InputMask from 'primevue/inputmask';
 import InputText from "primevue/inputtext";
 import router from '@/router';
 import { useToast } from "vue-toastification";
+import userservice from "@/services/userservice";
+import { useUserStore } from "@/store/userstore";
+
+const store = useUserStore();
+
 
 const toast = useToast();
 const active = ref(0);
 const buttonTrigger = ref(false);
 
 const isFilled = ref(false);
-const lowerCaseLetters = /[a-z]/g;
-const upperCaseLetters = /[A-Z]/g;
-const numbers = /[0-9]/g;
-
+const registerData = ref()
 const isRegistrationFailed = ref(true);
 
 const vetData = ref({
     firstName: "",
     lastName: "",
     phone: "",
-    stamp: 0,
+    stamp_number: 0,
     postal_code: 0,
     address: "",
     email: "",
@@ -154,9 +155,9 @@ function passwordInfoToggle() {
 }
 
 function handleSubmit() {
-    vetData.value.stamp = parseInt(vetData.value.stamp);
+    vetData.value.stamp_number = parseInt(vetData.value.stamp_number);
     vetData.value.postal_code = parseInt(vetData.value.postal_code);
-    if (vetData.value.firstName == "" || vetData.value.lastName == "" || vetData.value.phone == "" || vetData.value.stamp == 0 || vetData.value.postal_code == 0 || vetData.value.address == "" || vetData.value.email == "" || vetData.value.password == "" || vetData.value.confirm_password == "" || vetData.value.terms == null) {
+    if (vetData.value.firstName == "" || vetData.value.lastName == "" || vetData.value.phone == "" || vetData.value.stamp_number == 0 || vetData.value.postal_code == 0 || vetData.value.address == "" || vetData.value.email == "" || vetData.value.password == "" || vetData.value.confirm_password == "" || vetData.value.terms == null) {
         isFilled.value = false;
     }
     else isFilled.value = true;
@@ -164,16 +165,22 @@ function handleSubmit() {
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
+
+        if (!store.emailPattern.test(userData.value.email)) {
+            toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
+            isRegistrationFailed.value = true;
+        }
+
         if (vetData.value.password.length < 8) {
             toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
         } else {
-            if (!vetData.value.password.match(lowerCaseLetters)) {
+            if (!vetData.value.password.match(store.lowerCaseLetters)) {
                 toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' })
             } else {
-                if (!vetData.value.password.match(upperCaseLetters)) {
+                if (!vetData.value.password.match(store.upperCaseLetters)) {
                     toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' })
                 } else {
-                    if (!vetData.value.password.match(numbers)) {
+                    if (!vetData.value.password.match(store.numbers)) {
                         toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' })
                     } else {
                         if (vetData.value.password === vetData.value.confirm_password) {
@@ -191,9 +198,9 @@ function handleSubmit() {
             name: vetData.value.firstName + " " + vetData.value.lastName,
             phone: vetData.value.phone.replace(/[/-]/g, ''),
             email: vetData.value.email,
-            stamp: parseInt(vetData.value.stamp),
+            stamp_number: vetData.value.stamp_number,
             address: vetData.value.address,
-            postal_code: parseInt(vetData.value.postal_code),
+            postal_code: vetData.value.postal_code,
             password: vetData.value.password,
             confirm_password: vetData.value.confirm_password,
             role: 1
@@ -238,8 +245,7 @@ function handleSubmit() {
     gap: 79px;
 }
 
-.nameLabel label,
-.addressLabel label {
+.nameLabel label {
     margin-top: 6px;
 }
 

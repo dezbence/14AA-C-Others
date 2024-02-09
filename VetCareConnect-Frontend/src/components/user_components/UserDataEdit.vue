@@ -67,7 +67,7 @@ function editDatas() {
     // post datas
     userservice.modifyUserData(editedUserData.value, user.value.token)
         .then((resp) => {
-            user.value.name = editedUserData.value.name;
+            user.name = editedUserData.value.name;
             userData.name = editedUserData.value.name;
             userData.phone = editedUserData.value.phone;
             userData.postal_code = editedUserData.value.postal_code;
@@ -93,6 +93,8 @@ getUsersData();
 
 
 function saveChanges() {
+    console.log(editedUserData.value)
+    console.log(userData)
     if (editedUserData.value.name === userData.name &&
         editedUserData.value.phone.replace(/[/-]/g, '') === userData.phone.replace(/[/-]/g, '') &&
         editedUserData.value.postal_code === userData.postal_code) {

@@ -30,8 +30,6 @@ const access = {
   '/:catchAll(.*)': [0, 1, null]
 };
 
-
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -58,8 +56,7 @@ router.beforeEach((to, from, next) => {
   const autRequired = !publicPages.includes(to.path);
   if (autRequired && !status.value.loggedIn) {
     toast.error("Bejelentkezés szükséges!", { position: "top-center" });
-    return next('/bejelentkezés');
-
+    return next('/');
   } else if(!access[to.path].includes(user.value.role)){
     toast.error("Jogosultság szükséges!", { position: "top-center" });
     return next('/');

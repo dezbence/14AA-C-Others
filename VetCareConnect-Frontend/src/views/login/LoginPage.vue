@@ -13,9 +13,9 @@
                             <span>Még nincs fiókja?</span>
                             <router-link to="/regisztracio">Új fiók készítése</router-link>
                         </div>
-                        <label>E-mail cím:</label>
 
-                        <InputText type="email" v-model="loginData.email" placeholder="bodri@gmail.com" />
+                        <label>E-mail cím:</label>
+                        <InputText v-model="loginData.email" placeholder="bodri@gmail.com" />
 
                         <label>Jelszó:</label>
                         <div class="passwordAndEyeIcon">

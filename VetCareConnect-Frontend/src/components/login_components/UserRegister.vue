@@ -87,7 +87,9 @@ import InputMask from 'primevue/inputmask';
 import InputText from "primevue/inputtext";
 import router from '@/router';
 import userservice from "@/services/userservice";
+import { useUserStore } from "@/store/userstore";
 
+const store = useUserStore();
 const toast = useToast();
 
 function back() {
@@ -98,11 +100,6 @@ const buttonTrigger = ref(false);
 const passwordError = ref("");
 const passwordErrorAgain = ref("");
 const isRegistrationFailed = ref(true);
-
-const lowerCaseLetters = /[a-z]/g;
-const upperCaseLetters = /[A-Z]/g;
-const numbers = /[0-9]/g;
-const emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-z]{2,3}$/;
 
 const userData = ref({
     firstName: "",
@@ -141,21 +138,26 @@ function handleSubmit() {
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
 
-        if (!emailPattern.test(userData.value.email)) {
+        if (!store.emailPattern.test(userData.value.email)) {
             toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
+            isRegistrationFailed.value = true;
+        }
+
+        if (!store.charactersPattern.test(userData.value.firstName) && !store.charactersPattern.test(userData.value.lastName)) {
+            toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' });
             isRegistrationFailed.value = true;
         }
 
         if (userData.value.password.length < 8) {
             toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
         } else {
-            if (!userData.value.password.match(lowerCaseLetters)) {
+            if (!userData.value.password.match(store.lowerCaseLetters)) {
                 toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' })
             } else {
-                if (!userData.value.password.match(upperCaseLetters)) {
+                if (!userData.value.password.match(store.upperCaseLetters)) {
                     toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' })
                 } else {
-                    if (!userData.value.password.match(numbers)) {
+                    if (!userData.value.password.match(store.numbers)) {
                         toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' })
                     } else {
                         if (userData.value.password === userData.value.confirm_password) {

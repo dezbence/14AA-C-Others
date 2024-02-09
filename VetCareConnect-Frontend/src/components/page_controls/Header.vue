@@ -43,14 +43,14 @@ import UserMenu from "./UserMenu.vue";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userstore";
+import userservice from "@/services/userservice";
 const { status, user } = storeToRefs(useUserStore());
 
-const MenuItems = [
-  { name: "Adataim", link: "/" },
-  { name: "GYIK", link: "/gyik" },
-  { name: "Beállítások", link: "/kedvenceim" },
-  { name: "Kijelentkezés", link: "/naptaram" }
-]
+// const userName = ref();
+// userservice.getUserData(user.value.token)
+//   .then((resp) => {
+//     userName.value = resp.data.data.name;
+//   });
 
 const Routes = [
   { name: "Kezdőlap", link: "/", roleAccess: [0, 1, null] },
@@ -95,6 +95,7 @@ function userMenuToggle() {
   display: flex;
   display: inline-block;
 }
+
 .navigation {
   display: flex;
   align-items: center;
@@ -110,7 +111,8 @@ function userMenuToggle() {
   justify-content: center;
 }
 
-.hamburgerMenu, .profile {
+.hamburgerMenu,
+.profile {
   display: none;
   cursor: pointer;
   filter: invert(100%);
@@ -123,7 +125,8 @@ function userMenuToggle() {
 }
 
 .hamburgerMenu:hover,
-.profile:hover, .profileLoggedIn:hover {
+.profile:hover,
+.profileLoggedIn:hover {
   transform: scale(1.1);
   transition: 200ms;
 }
@@ -206,7 +209,8 @@ function userMenuToggle() {
 
   .hamburgerMenu,
   #toggleIcon,
-  .profile, .profileLoggedIn {
+  .profile,
+  .profileLoggedIn {
     display: block;
     height: 30px;
   }

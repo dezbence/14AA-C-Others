@@ -1,5 +1,5 @@
 <template>
-    <SureInEdit v-if="!store.show" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
+    <SureInEdit v-if="!store.showSure" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
     <div class="main">
         <div class="myDatas">
             <div class="dataHeader">
@@ -11,16 +11,13 @@
                 <InputText v-model="editedVetData.name" />
 
                 <label>Orvosi azonosító:</label>
-                <InputMask mask="9999" placeholder="0000" v-model="editedVetData.stamp" />
+                <InputMask mask="9999" placeholder="0000" v-model="editedVetData.stamp_number" />
 
                 <label>Telefon szám:</label>
                 <InputMask mask="99/999-9999" placeholder="00/000-0000" v-model="editedVetData.phone" />
 
                 <label>Lakcím:</label>
                 <InputText placeholder="2900, Arany János u. 52." v-model="editedVetData.address" />
-
-                <label>E-mail cím:</label>
-                <InputText v-model="editedVetData.email" placeholder="bodri@gmail.com" />
 
                 <button @click="saveChanges()">Változások mentése</button>
                 <div class="profileDelete">
@@ -44,41 +41,49 @@ import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 
 const store = useUserStore();
-
 const { user } = storeToRefs(useUserStore());
 const toast = useToast();
 
 const editedVetData = ref({
     name: "",
     phone: "",
-    stamp: 0,
+    stamp_number: 0,
     address: "",
-    email: ""
 })
 
 let VetData = {
     name: "",
     phone: "",
-    stamp: 0,
+    stamp_number: 0,
     address: "",
-    email: ""
 }
 
 function cancelEditing() {
-    editedVetData.value = VetData;
-    store.showAppointmentCancel(true);
+    editedVetData.value.name = VetData.name;
+    editedVetData.value.phone = VetData.phone;
+    editedVetData.value.stamp_number = VetData.stamp_number;
+    editedVetData.value.address = VetData.address;
+    store.showSureInEdit(true);
     toast.warning('Módosítások elvetve!', { position: "top-center" });
 }
 
 function editDatas() {
-    store.showAppointmentCancel(true);
+    store.showSureInEdit(true);
     toast.success('Sikeres módosítás!', { position: "top-center" });
     // post datas
+    userservice.modifyUserData(editedVetData.value, user.value.token)
+        .then((resp) => {
+            user.value.name = editedVetData.value.name;
+            VetData.name = editedVetData.value.name;
+            VetData.phone = editedVetData.value.phone;
+            VetData.address = editedVetData.value.address;
+            VetData.stamp_number = editedVetData.value.stamp_number;
+        });
 }
 
-store.showAppointmentCancel(true);
+store.showSureInEdit(true);
 function sureInEdit() {
-    store.showAppointmentCancel(false);
+    store.showSureInEdit(false);
 }
 
 function getUsersData() {
@@ -88,15 +93,18 @@ function getUsersData() {
             VetData.name = resp.data.data.name;
             VetData.phone = resp.data.data.phone;
             VetData.address = resp.data.data.address;
+            VetData.stamp_number = resp.data.data.stamp_number;
         });
 }
 getUsersData();
 
 function saveChanges() {
-    if (editedVetData.value.name == VetData.name &&
-        editedVetData.value.phone.replace(/[/-]/g, '') == VetData.phone.replace(/[/-]/g, '') &&
-        editedVetData.value.address == VetData.address &&
-        editedVetData.value.stamp == VetData.stamp) {
+    console.log(editedVetData.value)
+    console.log(VetData)
+    if (editedVetData.value.name === VetData.name &&
+        editedVetData.value.phone.replace(/[/-]/g, '') === VetData.phone.replace(/[/-]/g, '') &&
+        editedVetData.value.address === VetData.address &&
+        editedVetData.value.stamp_number == VetData.stamp_number) {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else {
         sureInEdit();
@@ -135,7 +143,7 @@ function saveChanges() {
 
 .dataSheet {
     background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.24);
     padding: 32px;
     border-radius: 0 0 7px 7px;
     height: fit-content;

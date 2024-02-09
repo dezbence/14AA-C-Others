@@ -1,7 +1,7 @@
 <template>
     <Header></Header>
     <div class="main">
-        <VetDataEdit v-if="user.role == 1" :get-users-data="getUsersData"></VetDataEdit>
+        <VetDataEdit v-if="user.role == 1"></VetDataEdit>
         <UserDataEdit v-if="user.role == 0"></UserDataEdit>
     </div>
     <Footer></Footer>

@@ -2,16 +2,16 @@ import { defineStore } from "pinia";
 import userservice from "../services/userservice";
 import ownerservice from "@/services/ownerservice";
 
-export const useUserStore = defineStore('userstore',{
-    state : ()=>({
+export const useUserStore = defineStore('userstore', {
+    state: () => ({
         user: {
             name: '',
             token: '',
-            role:null           
+            role: null
         },
-        status:{
-            loggedIn:false,
-            message:''
+        status: {
+            loggedIn: false,
+            message: ''
         },
         pets: [],
         show: false,
@@ -20,50 +20,55 @@ export const useUserStore = defineStore('userstore',{
         petDelete: false,
         deletePetId: null,
         petEdit: false,
-        editPet: {}
+        editPet: {},
+        lowerCaseLetters: /[a-z]/,
+        upperCaseLetters: /[A-Z]/,
+        numbers: /[0-9]/,
+        emailPattern: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-z]{2,3}$/,
+        charactersPattern: /^[A-Za-z.-]+$/
     }),
-    getters:{},
-    actions:{
-        login(data){
+    getters: {},
+    actions: {
+        login(data) {
             return userservice.login(data)
-                .then(resp =>{
+                .then(resp => {
                     this.status.loggedIn = true;
                     this.user = resp.data.data;
                     this.status.message = ''; //resp.data.message;
-                    localStorage.setItem('user',JSON.stringify(this.user))
+                    localStorage.setItem('user', JSON.stringify(this.user))
                 })
-                .catch(err =>{
+                .catch(err => {
                     this.status.loggedIn = false;
-                    this.user =  {name: '', token: '', role:null}
+                    this.user = { name: '', token: '', role: null }
                     this.status.message = err.data.data.error;
                     return Promise.reject(err.resposne);
                 })
         },
-        logout(){
+        logout() {
             return userservice.logout(this.user.token)
-                .then(()=>{
+                .then(() => {
                     this.status.loggedIn = false;
-                    this.user =  {name: '', token: '', role:null}
+                    this.user = { name: '', token: '', role: null }
                     localStorage.removeItem('user');
                 });
         },
         showAppointmentCancel(value) {
             this.show = value;
         },
-        showPetDelete(value){
+        showPetDelete(value) {
             this.petDelete = value;
         },
-        showPetEdit(value){
+        showPetEdit(value) {
             this.petEdit = value;
         },
-        showSureInEdit(value){
+        showSureInEdit(value) {
             this.showSure = value;
         },
         getPets() {
             ownerservice.getOwnersPets(this.user.token)
                 .then((resp) => {
-                    this.pets= resp.data;
+                    this.pets = resp.data;
                 });
         }
-    } 
+    }
 });
