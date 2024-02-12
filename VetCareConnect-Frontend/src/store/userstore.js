@@ -21,11 +21,13 @@ export const useUserStore = defineStore('userstore', {
         deletePetId: null,
         petEdit: false,
         editPet: {},
-        lowerCaseLetters: /[a-z]/,
-        upperCaseLetters: /[A-Z]/,
+        lowerCaseLetters: /[a-záéiíoóöőuúüű]/,
+        upperCaseLetters: /[A-ZÁÉIÍOÓÖŐUÚÜŰ]/,
         numbers: /[0-9]/,
         emailPattern: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-z]{2,3}$/,
-        charactersPattern: /^[A-Za-z.-]+$/
+        charactersPattern: /[dD]?r?\.?\s?[A-Za-záéiíoóöőuúüűÁÉIÍOÓÖŐUÚÜŰä]+\s?-?[A-Za-záéiíoóöőuúüűÁÉIÍOÓÖŐUÚÜŰä]*/,
+        addressPattern: /[A-Za-záéiíoóöőuúüűÁÉIÍOÓÖŐUÚÜŰäß\s-]+\.?\s?[0-9]{1,3}\.?-?\/?[a-zA-Z0-9]{0,3}/,
+        stampAndPostalPattern: /[0-9]{4}/
     }),
     getters: {},
     actions: {
