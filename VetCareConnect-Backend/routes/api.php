@@ -63,7 +63,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/modify-opening',[VetController::class,'modifyOpening']);
         Route::delete('/delete-opening/{day}',[VetController::class,'deleteOpening']);
 
-    Route::get('/special-openings', [VetController::class, 'getSpecialOpenings']);
+        Route::get('/special-openings', [VetController::class, 'getSpecialOpenings']);
         Route::post('/new-special-openings', [VetController::class, 'addSpecialOpenings']);
         Route::put('/modify-special-opening',[VetController::class,'modifySpecialOpening']);
         Route::delete('/delete-special-opening/{id}',[VetController::class,'deleteSpecialOpening']);

@@ -106,23 +106,17 @@ class VetController extends BaseController
 
     public function deleteOpening($day) {
         $days = ["hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap", "hétköznap", "minden nap"];
+        $vetOpenings = collect();
 
         if (!in_array($day, $days)) return $this->sendError('Bad request', 'Nincs ilyen nap', 400);
 
         if ($day == $days[8]) {
             $vetOpenings = Opening::where('vet_id', '=', Auth::user()->id)->get();
         } else if ($day == $days[7]) {
-            $vetOpenings = [];
-            foreach ($days as $actDay) {
-
-                $act = Opening::where('vet_id', '=', Auth::user()->id)
-                ->where('day', '=', $actDay)
-                ->get();
-
-                if (count($act) != 0) {
-                    array_push($vetOpenings, $act);
-                    //$vetOpenings->add($act);
-                }
+            for ($i=0; $i <= 4; $i++) {
+                $vetOpenings->add(Opening::where('vet_id', '=', Auth::user()->id)
+                ->where('day', '=', $days[$i])
+                ->get());
             }
         } else {
             $vetOpenings = Opening::where('day', '=', $day)
