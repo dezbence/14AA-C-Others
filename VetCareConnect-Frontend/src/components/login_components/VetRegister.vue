@@ -58,7 +58,7 @@
                             <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.phone" />
 
                             <label>Utca, házszám:</label>
-                            <InputText v-model="vetData.address" />
+                            <InputText v-model="vetData.address" placeholder="Kossuth Lajos u. 1-3"/>
 
                             <div class="addressLabel">
                                 <label>Irányítószám:</label>
@@ -165,13 +165,19 @@ function handleSubmit() {
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
+        if (!store.charactersPattern.test(vetData.value.firstName) && !store.charactersPattern.test(vetData.value.lastName)) {
+            toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' });
+            isRegistrationFailed.value = true;
 
-        if (!store.emailPattern.test(userData.value.email)) {
+        } else if (!store.emailPattern.test(vetData.value.email)) {
             toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
             isRegistrationFailed.value = true;
-        }
 
-        if (vetData.value.password.length < 8) {
+        } else if (!store.addressPattern.test(vetData.value.address)) {
+            toast.error("Nem megfelelő utca vagy házszám formátum!", { position: 'top-center' });
+            isRegistrationFailed.value = true;
+
+        } else if (vetData.value.password.length < 8) {
             toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
         } else {
             if (!vetData.value.password.match(store.lowerCaseLetters)) {
@@ -211,8 +217,8 @@ function handleSubmit() {
                 router.push('/bejelentkezes');
                 toast.success('Sikeres regisztráció', { position: 'top-center' });
             })
-            .catch(err => {
-                //errorMessages.value = err.data;
+            .catch(error => {
+                toast.error(error.data.data.email[0], { position: 'top-center' })      
             })
     }
 

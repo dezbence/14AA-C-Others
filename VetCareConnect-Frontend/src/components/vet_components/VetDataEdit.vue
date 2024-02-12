@@ -68,17 +68,20 @@ function cancelEditing() {
 }
 
 function editDatas() {
-    store.showSureInEdit(true);
-    toast.success('Sikeres módosítás!', { position: "top-center" });
-    // post datas
-    userservice.modifyUserData(editedVetData.value, user.value.token)
-        .then((resp) => {
-            user.value.name = editedVetData.value.name;
-            VetData.name = editedVetData.value.name;
-            VetData.phone = editedVetData.value.phone;
-            VetData.address = editedVetData.value.address;
-            VetData.stamp_number = editedVetData.value.stamp_number;
-        });
+
+
+    
+        store.showSureInEdit(true);
+        toast.success('Sikeres módosítás!', { position: "top-center" });
+        userservice.modifyUserData(editedVetData.value, user.value.token)
+            .then((resp) => {
+                user.value.name = editedVetData.value.name;
+                VetData.name = editedVetData.value.name;
+                VetData.phone = editedVetData.value.phone;
+                VetData.address = editedVetData.value.address;
+                VetData.stamp_number = editedVetData.value.stamp_number;
+            });
+    
 }
 
 store.showSureInEdit(true);
@@ -106,6 +109,8 @@ function saveChanges() {
         editedVetData.value.address === VetData.address &&
         editedVetData.value.stamp_number == VetData.stamp_number) {
         toast.error('Nem történt változás!', { position: "top-center" });
+    } else if (!store.charactersPattern.test(editedVetData.value.name)) {
+        toast.error('Nem megfelelő név formátum!', { position: "top-center" });
     } else {
         sureInEdit();
     }
@@ -152,6 +157,7 @@ function saveChanges() {
     justify-content: center;
     align-items: center;
 }
+
 .dataSheet p {
     color: #C54F4F;
     font-size: 0.8rem;

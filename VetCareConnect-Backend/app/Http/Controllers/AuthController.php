@@ -36,7 +36,7 @@ class AuthController extends BaseController
 
             'email.required' => "Kötelező kitölteni!",
             'email.email' => "Hibás az email cím!",
-            'email.unique' => "Az email cím már létezik",
+            'email.unique' => "Az email cím már használatban van!",
 
             'address.required' => "Kötelező kitölteni!",
 

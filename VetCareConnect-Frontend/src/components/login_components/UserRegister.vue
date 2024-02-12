@@ -43,11 +43,9 @@
                         <InputText v-model="userData.password" type="password" placeholder="Bodri123" />
                     </div>
 
-                    <div v-if="passwordError" class="error">{{ passwordError }}</div>
                     <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
                     <label>Jelszó újra:</label>
                     <InputText v-model="userData.confirm_password" type="password" placeholder="Bodri123" />
-                    <div v-if="passwordErrorAgain" class="error">{{ passwordErrorAgain }}</div>
                     <div class="terms">
                         <input type="checkbox" v-model="userData.terms" />
                         <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
@@ -92,14 +90,9 @@ import { useUserStore } from "@/store/userstore";
 const store = useUserStore();
 const toast = useToast();
 
-function back() {
-    router.go(-1)
-}
-
 const buttonTrigger = ref(false);
-const passwordError = ref("");
-const passwordErrorAgain = ref("");
 const isRegistrationFailed = ref(true);
+const isFilled = ref();
 
 const userData = ref({
     firstName: "",
@@ -114,8 +107,9 @@ const userData = ref({
 
 const registerData = ref()
 
-const isFilled = ref();
-
+function back() {
+    router.go(-1)
+}
 
 function TogglePopup() {
     buttonTrigger.value = !buttonTrigger.value;
@@ -138,17 +132,13 @@ function handleSubmit() {
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
 
-        if (!store.emailPattern.test(userData.value.email)) {
-            toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
-            isRegistrationFailed.value = true;
-        }
-
         if (!store.charactersPattern.test(userData.value.firstName) && !store.charactersPattern.test(userData.value.lastName)) {
             toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' });
             isRegistrationFailed.value = true;
-        }
-
-        if (userData.value.password.length < 8) {
+        } else if (!store.emailPattern.test(userData.value.email)) {
+            toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
+            isRegistrationFailed.value = true;
+        } else if (userData.value.password.length < 8) {
             toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
         } else {
             if (!userData.value.password.match(store.lowerCaseLetters)) {
@@ -190,9 +180,8 @@ function handleSubmit() {
                 toast.success('Sikeres regisztráció', { position: 'top-center' });
                 console.log(resp);
             })
-            .catch(err => {
-                console.log(err.data);
-                //errorMessages.value = err.data;
+            .catch(error => {
+                toast.error(error.data.data.email[0], { position: 'top-center' })      
             })
 
     }
