@@ -40,7 +40,7 @@ function Cancel(){
   border-radius: 7px;
   background-color: #50b692;
   justify-self: center;
-  width: 300px;
+  width: 350px;
   padding: 15px;
   padding-left: 25px;
   margin: 10px;
@@ -86,6 +86,12 @@ p {
 
   .date {
     font-size: 25px;
+  }
+}
+
+@media (max-width: 560px){
+  .nextAppointmentCard {
+    width: 300px;
   }
 }
 </style>
