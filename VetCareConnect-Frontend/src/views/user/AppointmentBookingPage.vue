@@ -74,12 +74,6 @@
               Lefoglalom
             </button>
           </div>
-          <div v-if="showError" class="errorMessage">
-            <div class="errMess" role="alert">
-              {{ errorMessage }}
-              <button type="button" @click="closeErrorMessage()">X</button>
-            </div>
-          </div>
           <div class="meanings meaningsInDates">
             <div>
               <div class="colorMeaning canBeReservated"></div>
@@ -116,6 +110,9 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
 import { defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
+import { useToast } from 'vue-toastification'
+
+const toast = useToast();
 
 const AppointmentApprove = defineAsyncComponent(() =>
   import("../../components/AppointmentApprove.vue")
@@ -134,8 +131,6 @@ const dateSend = useDateFormat(choosedDate, "YYYY-MM-DD");
 const activeIdx = ref(-1);
 
 const showBookApprove = ref(false);
-const showError = ref(false);
-const errorMessage = ref("");
 const selectedDoctorId = ref(null);
 const route = useRoute();
 
@@ -155,30 +150,20 @@ function isActiveToggle(index, time) {
 
 function BookClick() {
   if (choosedData.value.vet == "") {
-    errorMessage.value = "Kérem válasszon orvost!\n";
-    showError.value = true;
+    toast.error("Kérem válasszon orvost!", { position: "top-center" });
   } else if (choosedData.value.type == "") {
-    errorMessage.value = "Kérem válassza ki az időpont típusát!\n";
-    showError.value = true;
+    toast.error("Kérem válassza ki az időpont típusát!", { position: "top-center" });
   } else if (choosedData.value.pet == "") {
-    errorMessage.value = "Kérem válassza ki kisállatát!\n";
-    showError.value = true;
+    toast.error("Kérem válassza ki kisállatát!", { position: "top-center" });
   } else if (isClosed.value) {
-    errorMessage.value = "A választott napra nem foglalható időpont!\n";
-    showError.value = true;
+    toast.error("A választott napra nem foglalható időpont!", { position: "top-center" });
   } else if (choosedData.value.time == "") {
-    errorMessage.value = "Kérem válasszon időpontot!\n";
-    showError.value = true;
+    toast.error("Kérem válasszon időpontot!", { position: "top-center" });
   } else {
-    showError.value = false;
-    errorMessage.value = "";
     showBookApprove.value = true;
   }
 }
 
-function closeErrorMessage() {
-  showError.value = false;
-}
 
 function hideBook() {
   showBookApprove.value = false;
@@ -189,7 +174,6 @@ function refreshTimes() {
     id: choosedData.value.vet.id,
     date: dateSend.value
   };
-  console.log(freeAppointmentData.id, freeAppointmentData.date)
   vetservice
     .getFreeAppointments(
       freeAppointmentData.id,
@@ -203,7 +187,6 @@ function refreshTimes() {
       } else {
         isClosed.value = false;
       }
-      console.log(appointments.value, isClosed.value)
     });
 }
 
