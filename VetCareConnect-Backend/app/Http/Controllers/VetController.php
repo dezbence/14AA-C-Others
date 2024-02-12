@@ -105,19 +105,19 @@ class VetController extends BaseController
     }
 
     public function deleteOpening($day) {
-        $days = ["hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap", "hétköznap", "minden nap"];
-        $vetOpenings = collect();
+        $days = ["hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap", "hétköznapok", "minden nap"];
 
         if (!in_array($day, $days)) return $this->sendError('Bad request', 'Nincs ilyen nap', 400);
 
         if ($day == $days[8]) {
             $vetOpenings = Opening::where('vet_id', '=', Auth::user()->id)->get();
         } else if ($day == $days[7]) {
-            for ($i=0; $i <= 4; $i++) {
-                $vetOpenings->add(Opening::where('vet_id', '=', Auth::user()->id)
-                ->where('day', '=', $days[$i])
-                ->get());
-            }
+            $vetOpenings = Opening::where([
+                    ['vet_id', '=', Auth::user()->id],
+                    ['day', '!=', 'szombat'],
+                    ['day', '!=', 'vasárnap']
+                ])
+                ->get();
         } else {
             $vetOpenings = Opening::where('day', '=', $day)
             ->where('vet_id', '=', Auth::user()->id)
@@ -126,7 +126,7 @@ class VetController extends BaseController
         if (count($vetOpenings) == 0) return $this->sendError('Bad request', 'Nincs ilyen nyitvatartása', 400);
 
         foreach ($vetOpenings as $item) {
-            //$item->delete();
+            $item->delete();
         }
 
         return $this->sendResponse($vetOpenings, 'Sikeres művelet!');
