@@ -58,10 +58,12 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::middleware('only-vet')->group(function(){
         Route::get('/vet-appointments/{date}', [VetController::class, 'getVetAppointments']);
 
+        Route::get('/openings', [VetController::class, 'getOpenings']);
         Route::post('/new-openings', [VetController::class, 'addOpenings']);
         Route::put('/modify-opening',[VetController::class,'modifyOpening']);
-        Route::delete('/delete-opening/{id}',[VetController::class,'deleteOpening']);
+        Route::delete('/delete-opening/{day}',[VetController::class,'deleteOpening']);
 
+    Route::get('/special-openings', [VetController::class, 'getSpecialOpenings']);
         Route::post('/new-special-openings', [VetController::class, 'addSpecialOpenings']);
         Route::put('/modify-special-opening',[VetController::class,'modifySpecialOpening']);
         Route::delete('/delete-special-opening/{id}',[VetController::class,'deleteSpecialOpening']);

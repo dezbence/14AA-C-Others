@@ -46,6 +46,13 @@ class VetController extends BaseController
         return $this->sendResponse($return, 'Sikeres művelet!');
     }
 
+    public function getOpenings(){
+        $openings = Opening::where('vet_id', '=', Auth::user()->id)
+            ->get();
+
+        return $this->sendResponse($openings, 'Sikeres művelet!');
+    }
+
     public function addOpenings(Request $request) {
 
         $validatorFields = [
@@ -97,17 +104,45 @@ class VetController extends BaseController
         return $this->sendResponse(Opening::find($request->id), 'Sikeres művelet!');
     }
 
-    public function deleteOpening($id) {
+    public function deleteOpening($day) {
+        $days = ["hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap", "hétköznap", "minden nap"];
 
-        $vetOpenings = Opening::where('id', '=', $id)
+        if (!in_array($day, $days)) return $this->sendError('Bad request', 'Nincs ilyen nap', 400);
+
+        if ($day == $days[8]) {
+            $vetOpenings = Opening::where('vet_id', '=', Auth::user()->id)->get();
+        } else if ($day == $days[7]) {
+            $vetOpenings = [];
+            foreach ($days as $actDay) {
+
+                $act = Opening::where('vet_id', '=', Auth::user()->id)
+                ->where('day', '=', $actDay)
+                ->get();
+
+                if (count($act) != 0) {
+                    array_push($vetOpenings, $act);
+                    //$vetOpenings->add($act);
+                }
+            }
+        } else {
+            $vetOpenings = Opening::where('day', '=', $day)
             ->where('vet_id', '=', Auth::user()->id)
             ->get();
-
+        }
         if (count($vetOpenings) == 0) return $this->sendError('Bad request', 'Nincs ilyen nyitvatartása', 400);
 
-        Opening::find($id)->delete();
+        foreach ($vetOpenings as $item) {
+            //$item->delete();
+        }
 
-        return $this->sendResponse('', 'Sikeres művelet!');
+        return $this->sendResponse($vetOpenings, 'Sikeres művelet!');
+    }
+
+    public function getSpecialOpenings(){
+        $openings = Special_opening::where('vet_id', '=', Auth::user()->id)
+            ->get();
+
+        return $this->sendResponse($openings, 'Sikeres művelet!');
     }
 
     public function addSpecialOpenings(Request $request) {
