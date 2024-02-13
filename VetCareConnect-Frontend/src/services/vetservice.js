@@ -63,5 +63,23 @@ export default {
             .catch(err => {
                 return Promise.reject(err.response);
             })
-    }
+    },
+    deleteOpening(token, day){
+        return Axios.delete(`/delete-opening/${day}`, { headers: { "Authorization": "Bearer " + token } })
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
+    },
+    getOpenings(token) {
+        return Axios.get(`/openings`, { headers: { "Authorization": "Bearer " + token } })
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
+    },
 }
