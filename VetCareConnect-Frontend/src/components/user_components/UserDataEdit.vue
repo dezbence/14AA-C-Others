@@ -67,7 +67,8 @@ function editDatas() {
     // post datas
     userservice.modifyUserData(editedUserData.value, user.value.token)
         .then((resp) => {
-            user.name = editedUserData.value.name;
+            user.value.name = editedUserData.value.name;
+            localStorage.setItem('user', JSON.stringify(user.value))
             userData.name = editedUserData.value.name;
             userData.phone = editedUserData.value.phone;
             userData.postal_code = editedUserData.value.postal_code;
@@ -99,6 +100,8 @@ function saveChanges() {
         editedUserData.value.phone.replace(/[/-]/g, '') === userData.phone.replace(/[/-]/g, '') &&
         editedUserData.value.postal_code === userData.postal_code) {
         toast.error('Nem történt változás!', { position: "top-center" });
+    } else if (!store.charactersPattern.test(editedUserData.value.name)) {
+        toast.error('Nem megfelelő név formátum!', { position: "top-center" });
     } else {
         sureInEdit();
     }

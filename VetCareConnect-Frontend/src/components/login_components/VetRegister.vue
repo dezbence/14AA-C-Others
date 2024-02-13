@@ -165,15 +165,15 @@ function handleSubmit() {
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
-        if (!store.charactersPattern.test(vetData.value.firstName) && !store.charactersPattern.test(vetData.value.lastName)) {
+        if (!vetData.value.firstName.match(store.charactersPattern) && !vetData.value.lastName.match(store.charactersPattern)) {
             toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' });
             isRegistrationFailed.value = true;
 
-        } else if (!store.emailPattern.test(vetData.value.email)) {
+        } else if (!vetData.value.email.match(store.emailPattern)) {
             toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
             isRegistrationFailed.value = true;
 
-        } else if (!store.addressPattern.test(vetData.value.address)) {
+        } else if (!vetData.value.address.match(store.addressPattern)) {
             toast.error("Nem megfelelő utca vagy házszám formátum!", { position: 'top-center' });
             isRegistrationFailed.value = true;
 

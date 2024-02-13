@@ -23,7 +23,6 @@
                 <div class="profileDelete">
                     <p class="showConfirmation">Kijelentkezés és profil törlése</p>
                 </div>
-
             </div>
         </div>
 
@@ -51,38 +50,37 @@ const editedVetData = ref({
     address: "",
 })
 
-let VetData = {
+const VetData = ref({
     name: "",
     phone: "",
     stamp_number: 0,
     address: "",
-}
+});
 
 function cancelEditing() {
-    editedVetData.value.name = VetData.name;
-    editedVetData.value.phone = VetData.phone;
-    editedVetData.value.stamp_number = VetData.stamp_number;
-    editedVetData.value.address = VetData.address;
+    editedVetData.value.name = VetData.value.name;
+    editedVetData.value.phone = VetData.value.phone;
+    editedVetData.value.stamp_number = VetData.value.stamp_number;
+    editedVetData.value.address = VetData.value.address;
     store.showSureInEdit(true);
     toast.warning('Módosítások elvetve!', { position: "top-center" });
 }
 
 function editDatas() {
+    store.showSureInEdit(true);
+    toast.success('Sikeres módosítás!', { position: "top-center" });
+    userservice.modifyUserData(editedVetData.value, user.value.token)
+        .then((resp) => {
+            user.value.name = editedVetData.value.name;
+            localStorage.setItem('user', JSON.stringify(user.value))
+            VetData.value.name = editedVetData.value.name;
+            VetData.value.phone = editedVetData.value.phone;
+            VetData.value.address = editedVetData.value.address;
+            VetData.value.stamp_number = editedVetData.value.stamp_number;
+        });
 
-
-    
-        store.showSureInEdit(true);
-        toast.success('Sikeres módosítás!', { position: "top-center" });
-        userservice.modifyUserData(editedVetData.value, user.value.token)
-            .then((resp) => {
-                user.value.name = editedVetData.value.name;
-                VetData.name = editedVetData.value.name;
-                VetData.phone = editedVetData.value.phone;
-                VetData.address = editedVetData.value.address;
-                VetData.stamp_number = editedVetData.value.stamp_number;
-            });
-    
 }
+
 
 store.showSureInEdit(true);
 function sureInEdit() {
@@ -93,29 +91,29 @@ function getUsersData() {
     userservice.getUserData(user.value.token)
         .then((resp) => {
             editedVetData.value = resp.data.data;
-            VetData.name = resp.data.data.name;
-            VetData.phone = resp.data.data.phone;
-            VetData.address = resp.data.data.address;
-            VetData.stamp_number = resp.data.data.stamp_number;
+            VetData.value.name = resp.data.data.name;
+            VetData.value.phone = resp.data.data.phone;
+            VetData.value.address = resp.data.data.address;
+            VetData.value.stamp_number = resp.data.data.stamp_number;
         });
 }
 getUsersData();
 
 function saveChanges() {
-    console.log(editedVetData.value)
-    console.log(VetData)
-    if (editedVetData.value.name === VetData.name &&
-        editedVetData.value.phone.replace(/[/-]/g, '') === VetData.phone.replace(/[/-]/g, '') &&
-        editedVetData.value.address === VetData.address &&
-        editedVetData.value.stamp_number == VetData.stamp_number) {
+    if (editedVetData.value.name === VetData.value.name &&
+        editedVetData.value.phone.replace(/[/-]/g, '') === VetData.value.phone.replace(/[/-]/g, '') &&
+        editedVetData.value.address === VetData.value.address &&
+        editedVetData.value.stamp_number == VetData.value.stamp_number) {
         toast.error('Nem történt változás!', { position: "top-center" });
-    } else if (!store.charactersPattern.test(editedVetData.value.name)) {
+    } else if (!editedVetData.value.name.match(store.charactersPattern)) {
         toast.error('Nem megfelelő név formátum!', { position: "top-center" });
     } else {
         sureInEdit();
     }
-
 }
+
+console.log(!store.charactersPattern.search(editedVetData.value.name))
+
 </script>
 
 <style scoped>
