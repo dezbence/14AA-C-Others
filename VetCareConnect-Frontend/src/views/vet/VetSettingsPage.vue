@@ -57,8 +57,10 @@ import vetService from "@/services/vetservice";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
+import { useToast } from 'vue-toastification'
 
 const { user } = storeToRefs(useUserStore());
+const toast = useToast();
 
 const isBreak = ref();
 const isOpen = ref();
@@ -128,10 +130,12 @@ function addOpenings(day) {
             deleteOpening(day);
         }
         addOpeningData(sendOpeningData);
+        toast.success(`Nyitvatartás elmentve a következő nap(ok)ra: ${day}.`, { position: "top-center" });
     } else {
         if (openDays.includes(day)) {
             deleteOpening(day);
         }
+        toast.success(`Nyitvatartás elmentve a következő nap(ok)ra: ${day}.`, { position: "top-center" });
     }
 }
 
