@@ -1,11 +1,11 @@
 <template>
     <Header></Header>
     <h1 class="pageTitle">Beállítások</h1>
-    <h5>Nyitvatartás</h5>
+    <h3>Nyitvatartás</h3>
     <div>
-        
+
     </div>
-    <h5>Nyitvatartás módosítása</h5>
+    <h3>Nyitvatartás módosítása</h3>
     <div class="main">
         <div class="days">
             <div v-for="day in days">
@@ -16,7 +16,7 @@
         </div>
         <div class="opening" v-if="showOpening">
             <div class="daily">
-                <h4>{{ choosedDay }}</h4>
+                <h1>{{ choosedDay }}</h1>
                 <div class="closed">
                     <label v-if="!isOpen">Zárva</label>
                     <label v-else>Nyitva</label> <br />
@@ -57,8 +57,10 @@ import vetService from "@/services/vetservice";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
+import { useToast } from 'vue-toastification'
 
 const { user } = storeToRefs(useUserStore());
+const toast = useToast();
 
 const isBreak = ref();
 const isOpen = ref();
@@ -66,9 +68,10 @@ const showOpening = ref(false);
 const choosedDay = ref();
 const openingHours = ref();
 const breakHours = ref();
+const opening = ref();
 
 let sendOpeningData = [];
-let sendClosedDays = [];
+let openDays = [];
 
 const days = [
     "hétköznapok",
@@ -91,9 +94,20 @@ function addOpeningData(data) {
     vetService.addOpeningTime(user.value.token, data).then(resp => { console.log('siker') });
 }
 
-function deleteDayClosed(data){
-
+function deleteOpening(day) {
+    vetService.deleteOpening(user.value.token, day).then(resp => { console.log('sikeres törlés', day) });
 }
+
+function getOpenings() {
+    vetService.getOpenings(user.value.token).then(resp => { 
+        opening.value = resp.data;
+        (opening.value).forEach(o => {
+            openDays.push(o.day);
+        }); 
+    });
+}
+getOpenings();
+
 function isOpenTime(day) {
     if (isBreak.value) {
         let dataOpen = openingHours.value.split("-");
@@ -109,6 +123,21 @@ function isOpenTime(day) {
         sendOpeningData.push({ working_hours: openingHours.value, day: day });
     }
 }
+function addOpenings(day) {
+    getOpenings();
+    if (sendOpeningData.length != 0) {
+        if (openDays.includes(day)) {
+            deleteOpening(day);
+        }
+        addOpeningData(sendOpeningData);
+        toast.success(`Nyitvatartás elmentve a következő nap(ok)ra: ${day}.`, { position: "top-center" });
+    } else {
+        if (openDays.includes(day)) {
+            deleteOpening(day);
+        }
+        toast.success(`Nyitvatartás elmentve a következő nap(ok)ra: ${day}.`, { position: "top-center" });
+    }
+}
 
 function saveOpening() {
     if (choosedDay.value == "hétköznapok") {
@@ -116,42 +145,38 @@ function saveOpening() {
         for (let i = 2; i < days.length - 2; i++) {
             if (isOpen.value) {
                 isOpenTime(days[i]);
-            } else {
-                sendOpeningData.push({ working_hours: "zárva", day: days[i] });
             }
         }
-        console.log(sendOpeningData);
-        addOpeningData(sendOpeningData);
+        addOpenings("hétköznapok");
     } else if (choosedDay.value == "minden nap") {
         console.log('igen')
         sendOpeningData = [];
         for (let i = 2; i < days.length; i++) {
             if (isOpen.value) {
                 isOpenTime(days[i]);
-            } else {
-                sendOpeningData.push({ working_hours: "zárva", day: days[i] });
             }
         }
-        addOpeningData(sendOpeningData);
+        addOpenings("minden nap");
     } else {
         sendOpeningData = [];
+        let dayClosed = "";
         for (let i = 2; i < days.length; i++) {
             if (days[i] == choosedDay.value) {
-                console.log(days[i], choosedDay.value)
                 if (isOpen.value) {
                     isOpenTime(days[i]);
-                } else {
-                    sendOpeningData.push({ working_hours: "zárva", day: days[i] });
+                }
+                else{
+                    dayClosed = days[i];
                 }
             }
         }
-        addOpeningData(sendOpeningData);
+        addOpenings(dayClosed);
     }
 }
 </script>
 
 <style lang="css" scoped>
-h5 {
+h3 {
     margin-left: 40px;
     color: #368267;
     font-weight: 500;
