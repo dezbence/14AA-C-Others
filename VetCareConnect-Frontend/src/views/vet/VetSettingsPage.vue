@@ -3,6 +3,9 @@
     <h1 class="pageTitle">Beállítások</h1>
     <h3>Nyitvatartás</h3>
     <div>
+        <div v-for="open in opening" >
+            {{ open.day }}: {{ open.working_hours }}
+        </div>
 
     </div>
     <h3>Nyitvatartás módosítása</h3>
@@ -91,11 +94,11 @@ function showDayOpening(day) {
 }
 
 function addOpeningData(data) {
-    vetService.addOpeningTime(user.value.token, data).then(resp => { console.log('siker') });
+    vetService.addOpeningTime(user.value.token, data);
 }
 
 function deleteOpening(day) {
-    vetService.deleteOpening(user.value.token, day).then(resp => { console.log('sikeres törlés', day) });
+    vetService.deleteOpening(user.value.token, day);
 }
 
 function getOpenings() {
@@ -123,17 +126,25 @@ function isOpenTime(day) {
         sendOpeningData.push({ working_hours: openingHours.value, day: day });
     }
 }
+
 function addOpenings(day) {
     getOpenings();
     if (sendOpeningData.length != 0) {
         if (openDays.includes(day)) {
             deleteOpening(day);
+        } else if(day == "minden nap"){
+            deleteOpening("minden nap");
+        }  else if(day == "hétköznapok"){
+            deleteOpening("hétköznapok");
         }
-        addOpeningData(sendOpeningData);
         toast.success(`Nyitvatartás elmentve a következő nap(ok)ra: ${day}.`, { position: "top-center" });
     } else {
         if (openDays.includes(day)) {
             deleteOpening(day);
+        } else if(day == "minden nap"){
+            deleteOpening("minden nap");
+        }  else if(day == "hétköznapok"){
+            deleteOpening("hétköznapok");
         }
         toast.success(`Nyitvatartás elmentve a következő nap(ok)ra: ${day}.`, { position: "top-center" });
     }
@@ -170,7 +181,7 @@ function saveOpening() {
                 }
             }
         }
-        addOpenings(dayClosed);
+        addOpenings(sendOpeningData[0].day);
     }
 }
 </script>
