@@ -102,7 +102,6 @@ import Header from "../../components/page_controls/Header.vue";
 import Footer from "../../components/page_controls/Footer.vue";
 import Calendar from "../../components/Calendar.vue";
 import vetservice from "../../services/vetservice.js";
-// import AppointmentApprove from "../../components/AppointmentApprove.vue";
 
 import { ref, onMounted } from "vue";
 import { useDateFormat } from "@vueuse/core";
@@ -115,7 +114,7 @@ import { useToast } from 'vue-toastification'
 const toast = useToast();
 
 const AppointmentApprove = defineAsyncComponent(() =>
-  import("../../components/AppointmentApprove.vue")
+  import("../../components/user_components/AppointmentApprove.vue")
 );
 
 const choosedData = ref({
