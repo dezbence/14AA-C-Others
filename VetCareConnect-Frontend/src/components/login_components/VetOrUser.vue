@@ -13,11 +13,8 @@
                 </div>
                 
                 </div>
-                <div class="buttonSection">
-                    <button @click="sendType">Tovább <svg xmlns="http://www.w3.org/2000/svg" height="24"
-                            viewBox="0 -960 960 960" width="24">
-                            <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-                        </svg></button>
+                <div v-if="activeIdx != -1" class="buttonSection">
+                    <button class="btnStyle" @click="sendType">Tovább <img src="../../assets/icons/arrow_back.svg"></button>
                 </div>
 
             </div>
@@ -75,13 +72,11 @@ body {
 .back {
     background-color: #fff;
     border-radius: 7px;
-    min-height: 30vh;
-    min-width: 40vh;
     width: 600px;
     height: 500px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    padding-top: 56px;
 }
 
 .front {
@@ -130,19 +125,13 @@ body {
 }
 
 .cardImg {
-    margin-top: 40px;
+    margin-top: 24px;
     filter: invert(30%) sepia(12%) saturate(2322%) hue-rotate(108deg) brightness(101%) contrast(80%);
     width: 60px;
 }
 
 
-form {
-    background-color: white;
-    height: 36vh;
-    text-align: left;
-    padding: 5vh;
-    border-radius: 7px;
-}
+
 
 h3 {
     color: #246951;
@@ -151,19 +140,6 @@ h3 {
     font-size: 1.6rem;
 }
 
-label {
-    font-size: 0.9rem;
-    color: #246951;
-    font-weight: bolder;
-    letter-spacing: 0;
-    display: inline-block;
-    margin-top: 3vh;
-}
-
-
-input[type="radio"]:checked {
-    accent-color: #246951;
-}
 
 .buttonSection {
     display: flex;
@@ -171,12 +147,11 @@ input[type="radio"]:checked {
     justify-content: center;
 }
 
-button svg {
+button img {
     transform: scaleX(-1);
-    fill: white;
+    filter: invert(100%);
     margin-left: 4px;
     width: 20px;
-    margin-bottom: 1px;
 }
 
 button {
@@ -184,9 +159,9 @@ button {
     font-size: 1.05rem;
     width: 50%;
     border: 0;
-    padding: 5px;
+    padding: 7px;
     color: white;
-    border-radius: 5px;
+    border-radius: 7px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     display: flex;
     align-items: center;
@@ -202,7 +177,7 @@ button:hover {
 
 .submit {
     text-align: center;
-    margin-top: 6vh;
+    margin-top: 50px;
 }
 
 .selected {

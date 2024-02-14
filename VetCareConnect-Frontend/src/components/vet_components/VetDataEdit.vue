@@ -19,7 +19,7 @@
                 <label>Lakcím:</label>
                 <InputText placeholder="2900, Arany János u. 52." v-model="editedVetData.address" />
 
-                <button @click="saveChanges()">Változások mentése</button>
+                <button class="btnStyle" @click="saveChanges()">Változások mentése</button>
                 <div class="profileDelete">
                     <p class="showConfirmation">Kijelentkezés és profil törlése</p>
                 </div>
@@ -112,7 +112,7 @@ function saveChanges() {
     }
 }
 
-console.log(!store.charactersPattern.search(editedVetData.value.name))
+// console.log(!store.charactersPattern.search(editedVetData.value.name))
 
 </script>
 
@@ -173,20 +173,10 @@ input {
     width: 70%;
 }
 
-
 button {
     margin: 36px 0 12px;
     background: #246951;
-    font-size: 1.05rem;
-    border: 0;
     width: 70%;
-    padding: 5px;
-    color: white;
-    border-radius: 7px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 button:hover {

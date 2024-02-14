@@ -43,14 +43,7 @@ import UserMenu from "./UserMenu.vue";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userstore";
-import userservice from "@/services/userservice";
 const { status, user } = storeToRefs(useUserStore());
-
-// const userName = ref();
-// userservice.getUserData(user.value.token)
-//   .then((resp) => {
-//     userName.value = resp.data.data.name;
-//   });
 
 const Routes = [
   { name: "Kezdőlap", link: "/", roleAccess: [0, 1, null] },
@@ -111,8 +104,7 @@ function userMenuToggle() {
   justify-content: center;
 }
 
-.hamburgerMenu,
-.profile {
+.hamburgerMenu, .profile {
   display: none;
   cursor: pointer;
   filter: invert(100%);
@@ -124,9 +116,7 @@ function userMenuToggle() {
   width: 30px;
 }
 
-.hamburgerMenu:hover,
-.profile:hover,
-.profileLoggedIn:hover {
+.hamburgerMenu:hover, .profile:hover, .profileLoggedIn:hover {
   transform: scale(1.1);
   transition: 200ms;
 }
@@ -192,8 +182,7 @@ function userMenuToggle() {
 
 @media (max-width: 991px) {
 
-  .routers,
-  .sign {
+  .routers, .sign {
     font-size: 0.9rem;
   }
 
@@ -209,10 +198,7 @@ function userMenuToggle() {
     display: none;
   }
 
-  .hamburgerMenu,
-  #toggleIcon,
-  .profile,
-  .profileLoggedIn {
+  .hamburgerMenu, #toggleIcon, .profile, .profileLoggedIn {
     display: block;
     height: 30px;
   }

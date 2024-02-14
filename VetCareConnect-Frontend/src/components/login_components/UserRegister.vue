@@ -50,8 +50,8 @@
                         <input type="checkbox" v-model="userData.terms" />
                         <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
                     </div>
-                    <div class="submit">
-                        <button>Regisztráció</button>
+                    <div >
+                        <button class="submit btnStyle">Regisztráció</button>
                     </div>
                 </form>
             </div>
@@ -310,8 +310,7 @@ label {
     margin-top: 25px;
 }
 
-input,
-.password {
+input, .password {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -335,22 +334,14 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
     accent-color: #246951;
 }
-
-button {
+.submit {
+    text-align: center;
+    margin-top: 30px;
     background: #246951;
-    font-size: 1.05rem;
     width: 100%;
-    border: 0;
-    padding: 5px;
-    color: white;
-    border-radius: 7px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-button:hover {
+.submit:hover {
     background-color: #368267;
     transition: 200ms;
 }
@@ -376,10 +367,7 @@ button:hover {
     text-decoration: underline;
 }
 
-.submit {
-    text-align: center;
-    margin-top: 30px;
-}
+
 
 .error {
     color: #ff0062;

@@ -5,7 +5,7 @@
             <div>
                 <h1>Mi az a VetCare Connect?</h1>
                 <p>A VetCare Connect összekapcsolja az állatokat, gazdáikat és állatorvosaikat, valamint segít a gyors és egyszerű kapcsolattartásban.</p>
-                <button><a href="#services">Tudj meg többet!</a></button>
+                <a href="#services"><button>Tudj meg többet!</button></a>
             </div>
             <div><img class="vetImage" src="../assets/images/vet_and_dog.png"></div>
         </div>
@@ -111,7 +111,7 @@ import Footer from '@/components/page_controls/Footer.vue';
 .greenCard .vetImage {
     position: absolute;
     height: 130%;
-    bottom: -22px;
+    bottom: -24px;
     right: 0;
 }
 
@@ -154,7 +154,7 @@ button {
     height: 40px;
 }
 
-button a {
+button {
     color: white;
     text-decoration: none;
     font-size: 0.9rem;

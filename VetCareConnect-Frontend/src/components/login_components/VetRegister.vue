@@ -17,9 +17,9 @@
                     </div>
 
                     <div class="pages">
-                        <button type="button" class="page" @click="active = 0"
+                        <button type="button" class="page btnStyle" @click="active = 0"
                             :class="{ 'activePage': active == 0 }">1</button>
-                        <button type="button" class="page" @click="active = 1"
+                        <button type="button" class="page btnStyle" @click="active = 1"
                             :class="{ 'activePage': active == 1 }">2</button>
                     </div>
 
@@ -50,7 +50,7 @@
                             <label>Jelszó újra:</label>
                             <InputText v-model="vetData.confirm_password" type="password" placeholder="Bodri123" />
 
-                            <button type="button" class="submit" @click="active = 1">Tovább</button>
+                            <button type="button" class="submit btnStyle" @click="active = 1">Tovább</button>
                         </TabPanel>
 
                         <TabPanel>
@@ -75,7 +75,7 @@
                                 <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
                             </div>
 
-                            <button class="submit">Regisztráció</button>
+                            <button class="submit btnStyle">Regisztráció</button>
                         </TabPanel>
                     </TabView>
 
@@ -380,25 +380,6 @@ input[type="checkbox"]:checked {
     accent-color: #246951;
 }
 
-button {
-    background: #246951;
-    font-size: 1.05rem;
-    width: 100%;
-    border: 0;
-    padding: 5px;
-    color: white;
-    border-radius: 7px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-button:hover {
-    background-color: #368267;
-    transition: 200ms;
-}
-
 .noAccount {
     text-align: left;
     margin-top: 10px;
@@ -424,6 +405,12 @@ button:hover {
     text-align: center;
     margin-top: 30px;
     width: 100%;
+    background-color: #246951;
+    font-size: 1.05rem;
+}
+.submit:hover {
+    background-color: #368267;
+    transition: 200ms;
 }
 
 .error {
@@ -445,7 +432,7 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 100px;
+    border-radius: 1000px;
     width: 38px;
     padding: 7px;
     margin: 12px;

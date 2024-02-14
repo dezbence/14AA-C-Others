@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="submit">
-                            <button>Bejelentkezés</button>
+                            <button >Bejelentkezés</button>
                         </div>
                     </div>
 
@@ -196,12 +196,14 @@ label {
 
 
 
-button {
+.submit button{
+    text-align: center;
+    margin-top: 50px;
     background: #246951;
     font-size: 1.05rem;
     width: 100%;
     border: 0;
-    padding: 5px;
+    padding: 7px;
     color: white;
     border-radius: 7px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -210,7 +212,7 @@ button {
     justify-content: center;
 }
 
-button:hover {
+.submit button:hover {
     background-color: #368267;
     transition: 200ms;
 }
@@ -245,11 +247,6 @@ button:hover {
 
 .noAccount a:hover {
     text-decoration: underline;
-}
-
-.submit {
-    text-align: center;
-    margin-top: 50px;
 }
 
 .error {
