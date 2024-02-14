@@ -57,7 +57,7 @@
       <div class="calendarAndChoosePanel">
         <Calendar class="calendar" v-model="choosedDate" :min-date="new Date()" @date-select="refreshTimes()" />
         <div class="chooseDate">
-          <h5 class="choosedDate">{{ formattedDate }}</h5>
+          <h3 class="choosedDate">{{ formattedDate }}</h3>
           <div class="line"></div>
           <div v-if="!isClosed" class="dates">
             <div v-for="(time, index) in appointments" :key="index">
@@ -329,8 +329,8 @@ onMounted(() => {
   background-color: #368267;
   padding: 5px 0 5px 10px;
   color: white;
+  font-size: 16px;
 }
-
 .chooseDate {
   background-color: #368267;
   height: 480px;
@@ -397,6 +397,11 @@ onMounted(() => {
 
 .chooseDate {
   text-align: center;
+}
+
+h3 {
+  margin-top: 0px !important;
+  margin-bottom: 10px !important;
 }
 
 /*----------- media töréspontok ------------*/

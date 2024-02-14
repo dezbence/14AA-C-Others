@@ -23,10 +23,10 @@
             <div v-for="vet in vets">
                 <div class="vetsBox">
                     <div>
-                        <h3 class="vetName">{{ vet.name }} </h3>
+                        <h2 class="vetName">{{ vet.name }} </h2>
                         <label><strong>Email:</strong> {{ vet.email  }}</label> <br>
                         <label><strong>Telefonszám: </strong>{{ vet.phone }} </label> <br>
-                        <label><strong>Cím: </strong>{{ vet.postal_code  }} </label>
+                        <label><strong>Cím: </strong>{{ vet.postal_code  }} {{ vet.address  }} </label>
                     </div>
                     <div>
                         <button class="btnStyle" @click="book(vet.id)">Időpontot foglalok!</button>
@@ -101,9 +101,11 @@ onMounted(() => {
 
 input{
     width: 200px;
+    height: 40px;
 }
 .btnStyle{
     background-color: #368267;
+    height: 45px;
 }
 .btnBox{
     display: flex;
@@ -111,7 +113,7 @@ input{
     justify-content: center;
 }
 .searchResults{
-    width: 600px;
+    width: 620px;
     height: 700px;
     padding-left: 75px;
     overflow-y: scroll;

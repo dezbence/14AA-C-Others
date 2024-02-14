@@ -40,11 +40,11 @@
 
     </div>
 
-    <h2 id="services" class="pageTitle">Szolgáltatásaink felhasználóinknak:</h2>
+    <h1 id="services" class="pageTitle">Szolgáltatásaink felhasználóinknak:</h1>
 
     <div class="summaryCards">
         <div class="summaryCard">
-            <h4>Orvosként elérhető szolgáltatások</h4>
+            <h2>Orvosként elérhető szolgáltatások</h2>
             <ul>
                 <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
                 <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="summaryCard">
-            <h4>Gazdaként elérhető szolgáltatások</h4>
+            <h2>Gazdaként elérhető szolgáltatások</h2>
             <ul>
                 <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
                 <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
@@ -74,6 +74,9 @@ import Footer from '@/components/page_controls/Footer.vue';
 </script>
   
 <style scoped>
+.pageTitle {
+    font-size: 40px !important;
+}
 .blueCard {
     background-color: #005A70;
     width: 100%;
@@ -148,6 +151,7 @@ button {
     border-radius: 50px;
     padding: 7px 16px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    height: 40px;
 }
 
 button a {
@@ -269,6 +273,9 @@ button a {
     .cards {
         flex-direction: column;
         align-items: center;
+    }
+    .pageTitle {
+        font-size: 30px !important;
     }
 
 }

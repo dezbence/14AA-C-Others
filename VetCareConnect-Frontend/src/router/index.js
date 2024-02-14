@@ -10,12 +10,12 @@ import NotFoundPageVue from '@/views/NotFoundPage.vue'
 import { useUserStore } from '../store/userstore.js'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'vue-toastification'
+import { nextTick } from 'vue'
 
 const toast = useToast();
 
 const access = {
   '/': [0, 1, null],
-  '/idopontfoglalas/:doctorId?': [0],
   '/idopontfoglalas': [0],
   '/kedvenceim': [0],
   '/naptaram': [0],
@@ -57,9 +57,13 @@ router.beforeEach((to, from, next) => {
   if (autRequired && !status.value.loggedIn) {
     toast.error("Bejelentkezés szükséges!", { position: "top-center" });
     return next('/');
-  } else if(!access[to.path].includes(user.value.role)){
+  } else if(!to.path.startsWith("/idopontfoglalas/") && !access[to.path].includes(user.value.role)){
     toast.error("Jogosultság szükséges!", { position: "top-center" });
     return next('/');
+  } else if(to.path.startsWith("/idopontfoglalas/")){
+    if (status.value.loggedIn && user.value.role == 0) {
+      return next();
+    }
   }
   next();
 });

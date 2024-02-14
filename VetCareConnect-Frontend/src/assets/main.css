@@ -60,6 +60,7 @@ button:active {
 
 .btnStyle {
   padding: 10px 20px;
+  font-size: 16px;
   border-radius: 7px;
   cursor: pointer;
   color: white;
@@ -152,6 +153,7 @@ select {
  .p-datepicker .p-datepicker-header {
   background-color: #50B692;
   border-bottom: 5px solid #368267;
+  height: 70px;
  }
  
  .p-datepicker-month,

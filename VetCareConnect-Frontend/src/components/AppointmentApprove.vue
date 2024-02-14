@@ -54,6 +54,7 @@ function Back() {
 }
 
 function Book() {
+  console.log(appointmentData);
   ownerservice.bookAppointment(appointmentData, user.value.token).then((resp) => {
     router.push("/naptaram");
   });
