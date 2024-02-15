@@ -60,7 +60,7 @@ import vetService from "@/services/vetservice";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
-import { useToast } from 'vue-toastification'
+import { useToast } from 'vue-toastification';
 
 const { user } = storeToRefs(useUserStore());
 const toast = useToast();
@@ -129,28 +129,51 @@ function isOpenTime(day) {
 
 function addOpenings(day) {
     getOpenings();
+    console.log(sendOpeningData);
+    console.log(day);
+    console.log(openDays);
     if (sendOpeningData.length != 0) {
         if (openDays.includes(day)) {
             deleteOpening(day);
         } else if(day == "minden nap"){
-            deleteOpening("minden nap");
+            if (openDays.length != 0) {
+                deleteOpening("minden nap");
+            }
         }  else if(day == "hétköznapok"){
-            deleteOpening("hétköznapok");
+            if (openDays.length != 0) {
+                deleteOpening("hétköznapok");
+            }
         }
+        addOpeningData(sendOpeningData);
         toast.success(`Nyitvatartás elmentve a következő nap(ok)ra: ${day}.`, { position: "top-center" });
     } else {
         if (openDays.includes(day)) {
             deleteOpening(day);
         } else if(day == "minden nap"){
-            deleteOpening("minden nap");
+            if (openDays.length != 0) {
+                deleteOpening("minden nap");
+            }
         }  else if(day == "hétköznapok"){
-            deleteOpening("hétköznapok");
+            if (openDays.length != 0) {
+                deleteOpening("hétköznapok");
+            }
         }
         toast.success(`Nyitvatartás elmentve a következő nap(ok)ra: ${day}.`, { position: "top-center" });
     }
 }
 
 function saveOpening() {
+    //validálás
+    if (openingHours.value == null || openingHours.value == "" || openingHours.value == undefined || openingHours.value.length != 11) {
+        toast.error(`Kérem töltse ki a nyitvatartási idő mezőt!`, { position: "top-center" });
+        return;
+    } else if (isBreak.value) {
+        if(breakHours.value == null || breakHours.value == "" || breakHours.value == undefined || breakHours.value.length != 11){
+            toast.error(`Kérem töltse ki a munkaközi szünet mezőt!`, { position: "top-center" });
+            return;
+        }
+    }
+    //mentés
     if (choosedDay.value == "hétköznapok") {
         sendOpeningData = [];
         for (let i = 2; i < days.length - 2; i++) {
@@ -179,9 +202,10 @@ function saveOpening() {
                 else{
                     dayClosed = days[i];
                 }
+                console.log(days[i])
+                addOpenings(days[i]);
             }
         }
-        addOpenings(sendOpeningData[0].day);
     }
 }
 </script>
