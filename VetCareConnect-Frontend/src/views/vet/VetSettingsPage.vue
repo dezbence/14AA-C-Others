@@ -72,9 +72,13 @@ const choosedDay = ref();
 const openingHours = ref();
 const breakHours = ref();
 const opening = ref();
+const error = ref(false);
 
 let sendOpeningData = [];
 let openDays = [];
+let dataOpen = [];
+let dataBreak = [];
+let opened = [];
 
 const days = [
     "hétköznapok",
@@ -112,13 +116,34 @@ function getOpenings() {
 getOpenings();
 
 function isOpenTime(day) {
+    dataOpen = openingHours.value.split("-");
+    console.log(dataOpen)
+    console.log(dataOpen[0])
+    console.log(dataOpen[1])
+    if (dataOpen[0] > dataOpen[1]) {
+        toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
+        error.value = true;
+        return;
+    }
     if (isBreak.value) {
-        let dataOpen = openingHours.value.split("-");
-        let dataBreak = breakHours.value.split("-");
-        let opened = [
+        dataBreak = breakHours.value.split("-");
+        opened = [
             dataOpen[0] + "-" + dataBreak[0],
             dataBreak[1] + "-" + dataOpen[1],
         ];
+        if (dataOpen[0] > dataBreak[0]) {
+            toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
+            error.value = true;
+            return;
+        } else if(dataBreak[1] > dataOpen[1]){
+            toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
+            error.value = true;
+            return;
+        } else if(dataBreak[0] > dataBreak[1]){
+            toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
+            error.value = true;
+            return;
+        }
         opened.forEach((o) => {
             sendOpeningData.push({ working_hours: o, day: day });
         });
@@ -129,9 +154,6 @@ function isOpenTime(day) {
 
 function addOpenings(day) {
     getOpenings();
-    console.log(sendOpeningData);
-    console.log(day);
-    console.log(openDays);
     if (sendOpeningData.length != 0) {
         if (openDays.includes(day)) {
             deleteOpening(day);
@@ -164,14 +186,16 @@ function addOpenings(day) {
 
 function saveOpening() {
     //validálás
-    if (openingHours.value == null || openingHours.value == "" || openingHours.value == undefined || openingHours.value.length != 11) {
-        toast.error(`Kérem töltse ki a nyitvatartási idő mezőt!`, { position: "top-center" });
-        return;
-    } else if (isBreak.value) {
-        if(breakHours.value == null || breakHours.value == "" || breakHours.value == undefined || breakHours.value.length != 11){
-            toast.error(`Kérem töltse ki a munkaközi szünet mezőt!`, { position: "top-center" });
+    if (isOpen.value) {
+        if (openingHours.value == null || openingHours.value == "" || openingHours.value == undefined || openingHours.value.length != 11) {
+            toast.error(`Kérem töltse ki a nyitvatartási idő mezőt!`, { position: "top-center" });
             return;
-        }
+        } else if (isBreak.value) {
+            if(breakHours.value == null || breakHours.value == "" || breakHours.value == undefined || breakHours.value.length != 11){
+                toast.error(`Kérem töltse ki a munkaközi szünet mezőt!`, { position: "top-center" });
+                return;
+            }
+        } 
     }
     //mentés
     if (choosedDay.value == "hétköznapok") {
@@ -179,6 +203,10 @@ function saveOpening() {
         for (let i = 2; i < days.length - 2; i++) {
             if (isOpen.value) {
                 isOpenTime(days[i]);
+                if (error.value) {
+                    error.value = false;
+                    return;
+                }
             }
         }
         addOpenings("hétköznapok");
@@ -188,6 +216,10 @@ function saveOpening() {
         for (let i = 2; i < days.length; i++) {
             if (isOpen.value) {
                 isOpenTime(days[i]);
+                if (error.value) {
+                    error.value = false;
+                    return;
+                }
             }
         }
         addOpenings("minden nap");
@@ -198,6 +230,10 @@ function saveOpening() {
             if (days[i] == choosedDay.value) {
                 if (isOpen.value) {
                     isOpenTime(days[i]);
+                    if (error.value) {
+                    error.value = false;
+                    return;
+                }
                 }
                 else{
                     dayClosed = days[i];
@@ -257,5 +293,6 @@ h3 {
 
 .btnDays {
     margin: 10px;
+    padding: 10px 20px;
 }
 </style>
