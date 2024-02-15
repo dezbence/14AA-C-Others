@@ -2,7 +2,7 @@
     <Header></Header>
     <div class="toDoBack">
         <div class="todaysToDo">
-            <h3>{{ selectedDay }} időpontok</h3>
+            <h2>{{ selectedDay }} időpontok</h2>
             <hr>
             <div class="toDos">
                 <div v-if="showDate">
@@ -79,7 +79,7 @@ getVetAppointments()
 }
 
 .todaysToDo {
-    height: 700px;
+    height: 650px;
     width: 400px;
     border-radius: 7px;
     background-color: #50B692;
@@ -122,8 +122,8 @@ getVetAppointments()
 }
 
 .vetCalendar {
-    width: 1000px;
-    height: 700px;
+    width: 800px;
+    height: 650px;
     border-radius: 7px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }

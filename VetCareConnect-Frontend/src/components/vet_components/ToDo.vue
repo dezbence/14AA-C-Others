@@ -1,7 +1,7 @@
 <template>
     <div class="back">
-        <h4>{{ useDateFormat(props.appointmentData.cure_date, "YYYY. MMMM DD.").value }}</h4>
-        <h5>{{ appointmentData.pet_species }}</h5>
+        <h3>{{ useDateFormat(props.appointmentData.cure_date, "YYYY. MMMM DD. HH:mm").value }}</h3>
+        <h4>{{ appointmentData.pet_species }}</h4>
         <p> {{ appointmentData.cure_type }}</p>
     </div>
 

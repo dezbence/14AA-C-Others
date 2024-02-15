@@ -40,7 +40,7 @@
 
     </div>
 
-    <h1 id="services" class="pageTitle">Szolgáltatásaink felhasználóinknak:</h1>
+    <h1 id="services" class="pageTitle">Szolgáltatásaink felhasználóinknak</h1>
 
     <div class="summaryCards">
         <div class="summaryCard">
@@ -65,6 +65,33 @@
 
     </div>
 
+    <h1 class="pageTitle">Útmutató</h1>
+    <h2 class="steps">1. Regisztráció</h2>
+    <div class="text">
+        <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a felhasználói profilját (gazda vagy orvos), majd az adatok kitöltésével regisztráljon az oldalra!</p>
+        <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja megváltoztatni. A többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim" menüpontra kattintva van lehetőség.</p>
+    </div>
+    <h2 class="steps">2. Kisállat hozzáadása</h2>
+    <div class="text">
+        <p>Gazda bejelentkezés után a "Kedvenceim" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
+        <p>Az állatok adatait később tudja módosítani, az állat profiljának jobb felső sarkában található ikonra kattintva. Itt lehetősége van szerkeszteni, vagy törölni az állatot a profiljából.</p>
+    </div>
+    <h2 class="steps">3. Állatorvos kiválasztása</h2>
+    <div class="text">
+        <p>Az "Állatorvosok" menüpont alatt tud böngészni a beregisztrált állatorvosok között. Lehetősége van keresni közöttük név, irányítószám és cím alapján.</p>
+        <p>Az "Időpontot foglalok" gombra kattintva elnavigálhat az időpontfoglaló oldalra, ahol automatikusan a kiválasztott orvoshoz tud időpontot foglalni.</p>
+    </div>
+    <h2 class="steps">4. Időpont foglalás</h2>
+    <div class="text">
+        <p>Időpontot foglalni az "Időpont foglalás" menüpont alatt, vagy az Útmutató 3. pontjában említett módon tud.</p>
+        <p>Az időpontfoglaláshoz meg kell adnia a kiválasztott orvost, az időpont típusát, a kisállatát, akit az időpontra szeretni vinni, valamint ki tuda választani az időpontot az adott orvoshoz.</p>
+    </div>
+    <h2 class="steps">5. Lefoglalt időpontok</h2>
+    <div class="text">
+        <p>A "Naptáram" fül alatt tudja megtakinteni az állatorvosi időpontjait.</p>
+        <p>Amennyiben mégsem tud megjelenni az időponton, lehetősége van lemondani azt.</p>
+    </div>
+
     <Footer></Footer>
 </template>
   
@@ -76,6 +103,16 @@ import Footer from '@/components/page_controls/Footer.vue';
 <style scoped>
 .pageTitle {
     font-size: 40px !important;
+    text-align: center;
+}
+
+.steps {
+    margin-left: 50px;
+    color: #005A70;
+}
+.text {
+    margin: 20px 70px;
+    text-align: justify;
 }
 .blueCard {
     background-color: #005A70;
