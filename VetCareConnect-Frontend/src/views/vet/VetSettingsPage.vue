@@ -1,14 +1,14 @@
 <template>
     <Header></Header>
     <h1 class="pageTitle">Beállítások</h1>
-    <h3>Nyitvatartás</h3>
+    <h2 class="titles">Nyitvatartás</h2>
     <div>
         <div v-for="open in opening" >
             {{ open.day }}: {{ open.working_hours }}
         </div>
 
     </div>
-    <h3>Nyitvatartás módosítása</h3>
+    <h2  class="titles">Nyitvatartás módosítása</h2>
     <div class="main">
         <div class="days">
             <div v-for="day in days">
@@ -35,7 +35,7 @@
                         <InputMask mask="99:99-99:99" placeholder="12:00-13:30" :disabled="!isBreak" v-model="breakHours" />
                         <div>
                             <label v-if="isBreak">Van munkaközi szünet</label>
-                            <label v-else>Nincs munkaközi szünet</label>
+                            <label v-else>Nincs munkaközi szünet</label> <br>
                             <InputSwitch v-model="isBreak" />
                         </div>
                     </div>
@@ -48,6 +48,37 @@
         </div>
     </div>
 
+    <h2  class="titles">Különleges nyitvatartás hozzáadása</h2>
+    <div class="opening">
+            <div class="daily special">
+                <h2>Különleges nyitvatartás</h2>
+                <Calendar v-model="specialDate" dateFormat="yy-mm-dd" :min-date="new Date()" showIcon iconDisplay="input" class="calendarSpecial"/>
+                <div class="closed">
+                    <label v-if="!isOpenSpecial">Zárva</label>
+                    <label v-else>Nyitva</label> <br />
+                    <InputSwitch v-model="isOpenSpecial" />
+                </div>
+                <div v-if="isOpenSpecial">
+                    <div>
+                        <label>Nyitvatartás</label>
+                        <InputMask mask="99:99-99:99" placeholder="08:00-16:00" v-model="specialOpeningHours" />
+                    </div>
+                    <div>
+                        <label>Munkaközi szünet</label>
+                        <InputMask mask="99:99-99:99" placeholder="12:00-13:30" :disabled="!isBreakSpecial" v-model="specialBreakHours" />
+                        <div>
+                            <label v-if="isBreakSpecial">Van munkaközi szünet</label>
+                            <label v-else>Nincs munkaközi szünet</label> <br>
+                            <InputSwitch v-model="isBreakSpecial" />
+                        </div>
+                    </div>
+                </div>
+                <div v-else>Ön ezen a napon zárva tart!</div>
+                <button class="btnStyle" @click="saveSpecialOpening()">
+                    Nyitvatartás mentése
+                </button>
+            </div>
+        </div>
     <Footer></Footer>
 </template>
 
@@ -56,6 +87,7 @@ import Header from "@/components/page_controls/Header.vue";
 import Footer from "@/components/page_controls/Footer.vue";
 import InputSwitch from "primevue/inputswitch";
 import InputMask from "primevue/inputmask";
+import Calendar from 'primevue/calendar';
 import vetService from "@/services/vetservice";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
@@ -66,13 +98,18 @@ const { user } = storeToRefs(useUserStore());
 const toast = useToast();
 
 const isBreak = ref();
+const isBreakSpecial = ref();
 const isOpen = ref();
+const isOpenSpecial = ref();
 const showOpening = ref(false);
 const choosedDay = ref();
 const openingHours = ref();
+const specialOpeningHours = ref();
 const breakHours = ref();
+const specialBreakHours = ref();
 const opening = ref();
 const error = ref(false);
+const specialDate = ref(new Date());
 
 let sendOpeningData = [];
 let openDays = [];
@@ -233,7 +270,7 @@ function saveOpening() {
                     if (error.value) {
                     error.value = false;
                     return;
-                }
+                    }
                 }
                 else{
                     dayClosed = days[i];
@@ -247,7 +284,7 @@ function saveOpening() {
 </script>
 
 <style lang="css" scoped>
-h3 {
+.titles {
     margin-left: 40px;
     color: #368267;
     font-weight: 500;
@@ -263,7 +300,7 @@ h3 {
 .daily {
     background-color: #50b692;
     height: 420px;
-    width: 300px;
+    width: 350px;
     border-radius: 7px;
     padding: 40px;
     color: white;
@@ -276,10 +313,14 @@ h3 {
 
 .opening {
     margin: 30px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btnStyle {
     background-color: #246951;
+    padding: 10px 20px;
 }
 
 .p-inputswitch {
@@ -289,10 +330,44 @@ h3 {
 .days {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    margin: 20px;
+    align-items: center;
+    justify-content: center;
 }
 
 .btnDays {
     margin: 10px;
     padding: 10px 20px;
+    width: 140px;
+}
+
+.special {
+    width: 350px;
+    height: 500px;
+}
+.calendarSpecial{
+    margin-bottom: 10px;
+    width: 150px;
+}
+
+@media(max-width: 991px){
+    .days{
+        flex-direction: column;
+    }
+    .main{
+        flex-direction: row;
+    }
+}
+@media (max-width: 576px) {
+    .days{
+        flex-direction: row;
+    }
+    .main{
+        flex-direction: column;
+    }
+    .daily {
+        width: 300px;
+    }
 }
 </style>
