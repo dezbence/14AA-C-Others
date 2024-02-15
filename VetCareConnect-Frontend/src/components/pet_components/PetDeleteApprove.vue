@@ -1,9 +1,9 @@
 <template>
     <div class="petDeleteComponent">
-        <p>Biztosan kitörli a kisállatát?</p>
-        <div>
+        <h3>Biztosan kitörli a kisállatát?</h3>
+        <div class="middle">
             <button class="btnStyle btnYes" @click="ClickYes()">Igen</button>
-            <button class="btnStyle btnNo" @click="ClickNo()">Nem</button>
+            <button class="btnStyle btnNo" @click="ClickNo()">Mégse</button>
         </div>
     </div>
 </template>
@@ -37,8 +37,9 @@ function ClickYes() {
 <style lang="css" scoped>
 .petDeleteComponent {
     background-color: #50B692;
-    width: 500px;
-    height: 250px;
+    width: 400px;
+    height: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
     border-radius: 7px;
     color: white;
     display: flex;
@@ -49,10 +50,27 @@ function ClickYes() {
     text-align: center;
 }
 
-.btnNo, .btnYes {
-    margin: 15px;
-    margin-top: 5px;
-    background-color: #246951;
+.middle {
+    display: flex;
+    gap: 16px;
+}
+
+.btnStyle {
+    padding: 8px 16px;
+    border-radius: 7px;
+    margin-top: 12px;
+}
+
+.btnYes {
+    background-color: #368267;
+    border: none;
+}
+
+.btnNo {
+    border: none;
+    background-color: #50B692;
+    padding: 0;
+    box-shadow: none;
 }
 
 @media (max-width: 500px) {

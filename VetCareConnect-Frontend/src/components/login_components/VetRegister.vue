@@ -432,9 +432,9 @@ input[type="checkbox"]:checked {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 1000px;
-    width: 38px;
-    padding: 7px;
+    border-radius: 50%;
+    width: 40px;
+    padding: 10px;
     margin: 12px;
     background-color: #50B692;
     color: white;

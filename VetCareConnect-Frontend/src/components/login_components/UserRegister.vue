@@ -51,7 +51,7 @@
                         <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
                     </div>
                     <div >
-                        <button class="submit btnStyle">Regisztráció</button>
+                        <button class="btnStyle">Regisztráció</button>
                     </div>
                 </form>
             </div>
@@ -334,14 +334,14 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
     accent-color: #246951;
 }
-.submit {
+.btnStyle {
     text-align: center;
     margin-top: 30px;
     background: #246951;
     width: 100%;
 }
 
-.submit:hover {
+.btnStyle:hover {
     background-color: #368267;
     transition: 200ms;
 }

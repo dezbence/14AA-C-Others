@@ -7,7 +7,7 @@
         <div class="choosePanel">
           <div>
             <p>Válasszon orvost!</p>
-            <select v-model="choosedData.vet" name="orvosok" id="orvosok" class="selectClass" @change="refreshTimes()">
+            <select v-model="choosedData.vet" name="vets" id="vets" class="selectClass" @change="refreshTimes()">
               <option value="0" disabled selected hidden>
                 Kérem válasszon!
               </option>
@@ -56,7 +56,7 @@
 
       <div class="calendarAndChoosePanel">
         <Calendar class="calendar" v-model="choosedDate" :min-date="new Date()" @date-select="refreshTimes()" />
-        <div class="chooseDate">
+        <div class="chooseDate middle">
           <h3 class="choosedDate">{{ formattedDate }}</h3>
           <div class="line"></div>
           <div v-if="!isClosed" class="dates">
@@ -248,6 +248,12 @@ onMounted(() => {
   margin-left: 20px;
 }
 
+.middle {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .active {
   border: 1.5px solid #064931;
   background-color: #064931 !important;
@@ -256,6 +262,7 @@ onMounted(() => {
 .btnBook {
   background-color: #50b692;
   margin-top: 15px;
+  padding: 10px 20px;
 }
 
 .colorMeaning {
@@ -310,6 +317,7 @@ onMounted(() => {
   height: 400px;
   min-width: 300px;
   padding: 40px;
+  margin: 0;
 }
 
 .choosePanel div {
@@ -437,7 +445,10 @@ h3 {
   .bookData {
     margin: 0px;
     margin-bottom: 15px;
-    width: 790px;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    
   }
 
   .header {
@@ -457,7 +468,7 @@ h3 {
   }
 
   .choosePanel {
-    width: 100%;
+    width: 790px;
     height: 170px;
     display: flex;
     align-items: center;
@@ -526,7 +537,6 @@ h3 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: auto;
   }
 
   .calendar {
@@ -581,6 +591,9 @@ h3 {
     overflow: hidden !important;
   }
 
+  .bookData {
+    flex-direction: column;
+  }
   .chooseDate {
     width: 250px;
   }
@@ -605,11 +618,14 @@ h3 {
     justify-content: start;
     margin-bottom: 0;
     height: 100px;
+    padding: 16px 0 0;
+    width: fit-content;
   }
 
   .selectClass {
     height: 30px;
     width: 200px;
+    font-size: 0.8rem;
   }
 
   .chooseDate {
