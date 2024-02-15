@@ -89,7 +89,7 @@
     <h2 class="steps">5. Lefoglalt időpontok</h2>
     <div class="text">
         <p>A "Naptáram" fül alatt tudja megtakinteni az állatorvosi időpontjait.</p>
-        <p>Amennyiben mégsem tud megjelenni az időponton, lehetősége van lemondani azt.</p>
+        <p>Amennyiben mégsem tud megjelenni az időponton, 2 nappal hamarabb lehetősége van lemondani azt.</p>
     </div>
 
     <Footer></Footer>

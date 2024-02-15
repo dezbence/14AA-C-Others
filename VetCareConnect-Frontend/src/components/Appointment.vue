@@ -4,15 +4,21 @@
     <p class="vet">Orvos: {{ vet }}</p>
     <p class="vet">Helyszín: {{ postalCode }} {{ vetAddress }}</p>
     <p class="date">{{ formattedDate }}</p>
-    <button class="btnStyle btnCancelAppointment" @click="Cancel()" v-if="!isOld">Időpont lemondása</button>
+    <button class="btnStyle btnCancelAppointment" @click="Cancel()" v-if="!isOld && formattedCancelDate < date">Időpont lemondása</button>
+    <p v-else-if="!isOld">Ezt az időpontot már nem lehet lemondani.</p>
   </div>
 </template>
 
 <script setup>
 import { useDateFormat } from "@vueuse/core";
 import { useUserStore } from '../store/userstore';
+import { ref } from "vue";
 
 const store = useUserStore();
+const today = ref(new Date());
+const cancelBefore = ref(new Date());
+cancelBefore.value.setDate(today.value.getDate() + 2);
+
 
 const props = defineProps({
   pet: String,
@@ -27,6 +33,7 @@ const props = defineProps({
 
 
 const formattedDate = useDateFormat(props.date, "YYYY. MMMM DD. HH:mm");
+const formattedCancelDate = useDateFormat(cancelBefore, "YYYY-MM-DD HH:mm");
 
 function Cancel(){
     store.showAppointmentCancel(true);
