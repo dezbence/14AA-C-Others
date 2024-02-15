@@ -6,7 +6,7 @@
                 <!-- <p>Ön egy {{ userTypes[activeIdx]?.type }}</p> -->
                 <div class="cards">
                     <div v-for="(userType, index) in userTypes">
-                    <div @click="isActiveToggle(index)" :class="{ 'selected': activeIdx == index }" class="cardd">
+                    <div @click="isActiveToggle(index)" :class="{ 'selected': activeIdx == index }" class="profileCard">
                         <h4>{{ userType.type }}</h4>
                         <img class="cardImg" :src="userType.imgSrc">
                     </div>
@@ -97,7 +97,7 @@ body {
     color: black;
 }
 
-.cardd {
+.profileCard {
     height: 250px;
     width: 200px;
     border-radius: 7px;
@@ -113,14 +113,14 @@ body {
     margin: 20px 0;
 }
 
-.cardd:hover {
+.profileCard:hover {
     transform: scale(1.05);
     transition: 200ms;
     background-color: #246951;
     color: white;
 }
 
-.cardd:hover .cardImg {
+.profileCard:hover .cardImg {
     filter: invert(100%);
 }
 
@@ -129,9 +129,6 @@ body {
     filter: invert(30%) sepia(12%) saturate(2322%) hue-rotate(108deg) brightness(101%) contrast(80%);
     width: 60px;
 }
-
-
-
 
 h3 {
     color: #246951;
@@ -147,29 +144,21 @@ h3 {
     justify-content: center;
 }
 
-button img {
+.btnStyle img {
     transform: scaleX(-1);
     filter: invert(100%);
     margin-left: 4px;
     width: 20px;
 }
 
-button {
+.btnStyle {
     background: #246951;
-    font-size: 1.05rem;
     width: 50%;
-    border: 0;
     padding: 7px;
-    color: white;
-    border-radius: 7px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-top: 30px;
 }
 
-button:hover {
+.btnStyle:hover {
     background-color: #368267;
     transition: 200ms;
 }
@@ -188,5 +177,34 @@ button:hover {
 }
 .selected .cardImg {
     filter: invert(100%);
+}
+
+
+@media (max-width: 768px) {
+    .back {
+        width: 400px;
+        height: 480px;
+    }
+
+    .cards {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .profileCard {
+        margin: 0;
+        height: 100px;
+        width: 280px;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .cardImg {
+        margin: 0;
+        width: 40px;
+    }
+    h3 {
+        margin-bottom: 32px;
+    }
 }
 </style>
