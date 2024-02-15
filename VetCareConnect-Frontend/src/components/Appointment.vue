@@ -70,6 +70,7 @@ p {
 .btnCancelAppointment{
   background-color: #246951;
   margin-top: 15px;
+  padding: 10px 20px;
 }
 
 @media (min-width: 1260px) {

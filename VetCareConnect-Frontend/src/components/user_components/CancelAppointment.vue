@@ -53,10 +53,18 @@ function ClickYes(){
     padding: 40px;
     text-align: center;
 }
+
+.appointmentCancelComponent div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
 .btnNo, .btnYes {
     margin: 15px;
     margin-top: 5px;
     background-color: #246951;
+    padding: 10px 20px;
 }
 
 @media (max-width: 500px) {
