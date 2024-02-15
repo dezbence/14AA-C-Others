@@ -11,7 +11,7 @@
 <script setup>
 import router from '@/router';
 import { useUserStore } from "../../store/userstore";
-import ownerservice from '@/services/ownerservice';
+import petservice from '../../services/petservice.js'
 import { storeToRefs } from 'pinia';
 
 const store = useUserStore();
@@ -25,7 +25,7 @@ function ClickNo() {
 
 function ClickYes() {
     store.petDelete = false;
-    ownerservice.deletePet(store.deletePetId, user.value.token)
+    petservice.deletePet(store.deletePetId, user.value.token)
     .then((resp) => {
         store.getPets();
     });

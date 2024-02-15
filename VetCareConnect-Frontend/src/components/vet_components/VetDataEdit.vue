@@ -112,7 +112,8 @@ function saveChanges() {
     }
 }
 
-// console.log(!store.charactersPattern.search(editedVetData.value.name))
+console.log(editedVetData.value)
+console.log(editedVetData.value.name.match(store.charactersPattern))
 
 </script>
 
@@ -122,45 +123,6 @@ function saveChanges() {
     justify-content: center;
     align-items: center;
     height: 80vh;
-}
-
-.dataHeader {
-    background-color: #246951;
-    color: white;
-    display: flex;
-    border-radius: 7px 7px 0 0;
-    justify-content: center;
-    align-items: center;
-    padding: 18px 0;
-    gap: 12px;
-    width: 600px;
-}
-
-.dataHeader img {
-    width: 40px;
-}
-
-.dataHeader h1 {
-    margin: 0;
-}
-
-.dataSheet {
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.24);
-    padding: 32px;
-    border-radius: 0 0 7px 7px;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.dataSheet p {
-    color: #C54F4F;
-    font-size: 0.8rem;
-    text-align: center;
-    margin: 0;
 }
 
 label {

@@ -1,32 +1,34 @@
 <template>
-    <!-- <SureInEdit v-if="!store.showSure" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit> -->
+    <SureInEdit v-if="!store.showSure" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
     <div class="main">
-        <button @click="back()" class="btnStyle btnBack">&larr;Vissza</button>
+        <button @click="back()" class="btnStyle btnBack"><img style="filter: invert(100);"
+                src="../../assets/icons/arrow_back.svg">Vissza</button>
         <div>
             <div class="dataHeader">
                 <img src="../../assets/icons/profile-line.svg">
-                <h1>{{ petData.name }} adatai</h1>
+                <h1>{{ editedPetData.name }} adatai</h1>
             </div>
             <div class="dataSheet">
                 <label>Név:</label>
-                <InputText v-model="petData.name"></InputText>
+                <InputText v-model="editedPetData.name"></InputText>
                 <label>Chip szám (15 számjegy):</label>
-                <InputNumber v-model="petData.chip_number" :min="0" :max="999999999999999" :useGrouping="false"/>
+                <InputNumber v-model="editedPetData.chip_number" :min="0" :max="999999999999999" :useGrouping="false" />
                 <label>Törzskönyv száma (8 számjegy):</label>
-                <InputNumber v-model="petData.pedigree_number" :min="0" :max="99999999" :useGrouping="false"/>
+                <InputNumber v-model="editedPetData.pedigree_number" :min="0" :max="99999999" :useGrouping="false" />
                 <label>Fajtajelleg:</label>
-                <Dropdown v-model="petData.species" :options="species" showClear placeholder="Kérem válasszon!" class="petDropdown" />
+                <Dropdown v-model="editedPetData.species" :options="species" showClear placeholder="Kérem válasszon!"
+                    class="petDropdown" />
                 <label>Ivar:</label>
-                <Dropdown v-model="petData.gender" :options="genders" showClear placeholder="Kérem válasszon!"
+                <Dropdown v-model="editedPetData.gender" :options="genders" showClear placeholder="Kérem válasszon!"
                     class="petDropdown" />
                 <label>Súlya (kg):</label>
-                <InputNumber v-model="petData.weight" placeholder="0" :minFractionDigits="0"
-                    :maxFractionDigits="2" :min="0.1" :max="999" suffix=" kg" :useGrouping="false"/>
+                <InputNumber v-model="editedPetData.weight" placeholder="0" :minFractionDigits="0" :maxFractionDigits="2"
+                    :min="0.1" :max="999" suffix=" kg" :useGrouping="false" />
                 <label>Születési dátuma:</label>
-                <Calendar v-model="petData.born_date" class="bornDate"  :max-date="new Date()" dateFormat="yy.mm.dd"
+                <Calendar v-model="editedPetData.born_date" class="bornDate" :max-date="new Date()" dateFormat="yy.mm.dd"
                     placeholder="éééé.hh.nn" />
                 <label>Megjegyzés:</label>
-                <Textarea v-model="petData.comment" placeholder="Allergiák, különlegességek, stb." rows="4" cols="40"
+                <Textarea v-model="editedPetData.comment" placeholder="Allergiák, különlegességek, stb." rows="4" cols="40"
                     autoResize></Textarea>
                 <button @click="saveChanges()" class="saveChanges">Változások mentése</button>
 
@@ -37,7 +39,7 @@
 </template>
 
 <script setup>
-// import SureInEdit from '../SureInEdit.vue';
+import SureInEdit from '../SureInEdit.vue';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
@@ -48,7 +50,6 @@ import { useUserStore } from '@/store/userstore';
 import { useToast } from 'vue-toastification';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import router from '@/router';
 
 const store = useUserStore();
 const { user } = storeToRefs(useUserStore());
@@ -80,25 +81,34 @@ let petData = {
     chip_number: store.editPet.chip_number,
     pedigree_number: store.editPet.pedigree_number
 }
-function back(){
+
+// store.showPetEdit(false);
+
+function back() {
     store.showPetEdit(false);
+
 }
-// function cancelEditing() {
+ function cancelEditing() {
+    store.showPetEdit(false);
 
-// }
+    toast.warning('Módosítások elvetve!', { position: "top-center" });
+}
 
-// function editDatas() {
+function editDatas() {
+    store.showPetEdit(false);
 
-// }
+    toast.success('Sikeres módosítás!', { position: "top-center" });
+    // post datas
+}
 
 // function sureInEdit() {
 
 // }
 
 
-// function saveChanges() {
-
-// }
+function saveChanges() {
+    store.showPetEdit(true);
+}
 
 </script>
 
@@ -110,12 +120,22 @@ function back(){
     height: 80vh;
     margin-top: 40px;
 }
-.btnBack{
+
+.btnBack {
     background-color: #246951;
     width: 120px;
     margin-right: 30px;
 }
-.placeholder{
+
+.dataHeader {
+   width: 500px;
+}
+.dataSheet {
+    width: 500px;
+    padding: 30px 80px;
+}
+
+.placeholder {
     width: 120px;
     margin-left: 30px;
     background-color: white;
@@ -141,8 +161,11 @@ label {
     justify-content: center;
 }
 
+input, textarea, .p-dropdown, .p-inputtext, .p-inputnumber, .bornDate, .saveChanges {
+    width: 100%;
+}
+
 button:hover {
     background-color: #368267;
     transition: 200ms;
-}
-</style>
+}</style>

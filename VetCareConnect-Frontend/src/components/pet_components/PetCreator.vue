@@ -60,7 +60,7 @@ import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
 import { useDateFormat } from "@vueuse/core";
 import { useToast } from 'vue-toastification';
-import ownerservice from '../../services/ownerservice.js'
+import petservice from '../../services/petservice.js'
 import InputMask from 'primevue/inputmask';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
@@ -108,16 +108,12 @@ function handleSubmit() {
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
         pet.value.born_date = useDateFormat(pet.value.born_date, "YYYY.MM.DD");
-        ownerservice.postNewPet(pet.value, user.value.token)
+        petservice.postNewPet(pet.value, user.value.token)
             .then((resp) => {
                 props.submitPet();
             });
         pet.value.gender = petGenderFormat(gender.value);
     }
-
-
-
-
 }
 </script>
 
