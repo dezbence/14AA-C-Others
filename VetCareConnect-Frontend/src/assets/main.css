@@ -61,7 +61,7 @@ button:active {
   cursor: pointer;
   border: none;
   color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -184,6 +184,13 @@ select {
   transform: scale(1.4);
   transition: ease-in-out 200ms;
  }
+
+ @media (max-width: 576px) {
+    .p-datepicker tbody {
+      font-size: 0.8rem;
+    }
+
+  }
  
  /* ----------------------------------------------Egyedi napárak--------------------------------- */
 

@@ -105,8 +105,9 @@ input{
 }
 .btnStyle{
     background-color: #368267;
-    height: 45px;
+    padding: 10px 20px;
 }
+
 .btnBox{
     display: flex;
     align-items: center;
