@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import userservice from "../services/userservice";
-import ownerservice from "@/services/ownerservice";
+import petservice from "@/services/petservice";
 
 export const useUserStore = defineStore('userstore', {
     state: () => ({
@@ -67,7 +67,7 @@ export const useUserStore = defineStore('userstore', {
             this.showSure = value;
         },
         getPets() {
-            ownerservice.getOwnersPets(this.user.token)
+            petservice.getOwnersPets(this.user.token)
                 .then((resp) => {
                     this.pets = resp.data;
                 });
