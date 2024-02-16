@@ -82,4 +82,31 @@ export default {
                 return Promise.reject(err.response);
             })
     },
+    getSpecialOpenings(token) {
+        return Axios.get(`/special-openings`, { headers: { "Authorization": "Bearer " + token } })
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
+    },
+    addSpecialOpeningTime(token, data){
+        return Axios.post(`/new-special-openings`, data, { headers: { "Authorization": "Bearer " + token } })
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
+    },
+    deleteSpecialOpening(token, id){
+        return Axios.delete(`/delete-special-opening/${id}`, { headers: { "Authorization": "Bearer " + token } })
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
+    },
 }
