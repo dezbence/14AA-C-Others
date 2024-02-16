@@ -84,6 +84,19 @@
             </button>
         </div>
     </div>
+
+    <h2 class="titles">Különleges nyitvatartás eltávolítása</h2>
+    <div class="specialTable">
+        <DataTable v-model:selection="selectSpecialDelete" :value="specialOpening" dataKey="id">
+            <Column selectionMode="multiple" ></Column>
+            <Column field="date" header="Dátum"></Column>
+            <Column field="working_hours" header="Nyitvatartás"></Column>
+        </DataTable>
+        {{ selectSpecialDelete }}
+        <button class="btnStyle btnDelete" @click="deleteSpecial()">Törlés</button>
+    </div>
+
+
     <Footer></Footer>
 </template>
 
@@ -93,6 +106,9 @@ import Footer from "@/components/page_controls/Footer.vue";
 import InputSwitch from "primevue/inputswitch";
 import InputMask from "primevue/inputmask";
 import Calendar from 'primevue/calendar';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+
 import vetService from "@/services/vetservice";
 
 import { ref } from "vue";
@@ -120,6 +136,7 @@ const specialBreakHours = ref();
 const opening = ref();
 const specialOpening = ref();
 const specialOpeningDates = [];
+const selectSpecialDelete = ref();
 
 const error = ref(false);
 
@@ -182,6 +199,8 @@ function addSpecialOpening(data) {
 }
 
 function deleteSpecialOpening(id) {
+    console.log(user.value.token)
+    console.log(id)
     vetService.deleteSpecialOpening(user.value.token, id).then(resp => {
         console.log("sikeres törlés")
     });
@@ -323,7 +342,7 @@ function saveSpecialOpening() {
     //validálás
     if (specialOpeningDates.includes(specialDateFormatted.value)) {
         toast.error(`Önnek erre a napra már van különleges nyitvatartása! Távolítsa el, majd adjon hozzá másik nyitvatartást!`, { position: "top-center" });
-            return;
+        return;
     }
     if (isOpenSpecial.value) {
         if (specialOpeningHours.value == null || specialOpeningHours.value == "" || specialOpeningHours.value == undefined || specialOpeningHours.value.length != 11) {
@@ -379,6 +398,11 @@ function saveSpecialOpening() {
 
     // console.log(sendOpeningData);
     addSpecialOpening(sendOpeningData);
+}
+function deleteSpecial(){
+    (selectSpecialDelete.value).forEach(d => {
+        deleteSpecialOpening(d.id);
+    });
 }
 </script>
 
@@ -449,6 +473,19 @@ function saveSpecialOpening() {
     width: 350px;
     height: 500px;
 }
+
+.specialTable {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnDelete {
+    background-color: #af3b3b;
+}
+
+
 
 .calendarSpecial {
     margin-bottom: 10px;
