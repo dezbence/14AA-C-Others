@@ -285,3 +285,13 @@ select {
 .dataSheet label {
   margin-top: 10px;
 }
+
+.p-checkbox .p-checkbox-box.p-highlight, .p-checkbox .p-checkbox-box.p-highlight:hover {
+  background: #af3b3b;
+  border: none;
+}
+
+.p-checkbox .p-checkbox-box:hover {
+  border: #af3b3b 2px solid;
+
+}
