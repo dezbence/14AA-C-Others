@@ -2,13 +2,15 @@
     <Header></Header>
     <h1 class="pageTitle">Beállítások</h1>
     <h2 class="titles">Nyitvatartás</h2>
-    <div>
-        <div v-for="open in opening" >
+    <div class="openingHours">
+        <div v-for="open in opening">
             {{ open.day }}: {{ open.working_hours }}
         </div>
-
+        <div v-for="open in specialOpening">
+            {{ open.date }}: {{ open.working_hours }}
+        </div>
     </div>
-    <h2  class="titles">Nyitvatartás módosítása</h2>
+    <h2 class="titles">Nyitvatartás módosítása</h2>
     <div class="main">
         <div class="days">
             <div v-for="day in days">
@@ -48,37 +50,40 @@
         </div>
     </div>
 
-    <h2  class="titles">Különleges nyitvatartás hozzáadása</h2>
+    <h2 class="titles">Különleges nyitvatartás hozzáadása</h2>
     <div class="opening">
-            <div class="daily special">
-                <h2>Különleges nyitvatartás</h2>
-                <Calendar v-model="specialDate" dateFormat="yy-mm-dd" :min-date="new Date()" showIcon iconDisplay="input" class="calendarSpecial"/>
-                <div class="closed">
-                    <label v-if="!isOpenSpecial">Zárva</label>
-                    <label v-else>Nyitva</label> <br />
-                    <InputSwitch v-model="isOpenSpecial" />
-                </div>
-                <div v-if="isOpenSpecial">
-                    <div>
-                        <label>Nyitvatartás</label>
-                        <InputMask mask="99:99-99:99" placeholder="08:00-16:00" v-model="specialOpeningHours" />
-                    </div>
-                    <div>
-                        <label>Munkaközi szünet</label>
-                        <InputMask mask="99:99-99:99" placeholder="12:00-13:30" :disabled="!isBreakSpecial" v-model="specialBreakHours" />
-                        <div>
-                            <label v-if="isBreakSpecial">Van munkaközi szünet</label>
-                            <label v-else>Nincs munkaközi szünet</label> <br>
-                            <InputSwitch v-model="isBreakSpecial" />
-                        </div>
-                    </div>
-                </div>
-                <div v-else>Ön ezen a napon zárva tart!</div>
-                <button class="btnStyle" @click="saveSpecialOpening()">
-                    Nyitvatartás mentése
-                </button>
+        <div class="daily special">
+            <h2>Különleges nyitvatartás</h2>
+            <Calendar v-model="specialDate" dateFormat="yy-mm-dd" :min-date="new Date()" showIcon iconDisplay="input"
+                class="calendarSpecial" />
+            {{ specialDateFormatted }}
+            <div class="closed">
+                <label v-if="!isOpenSpecial">Zárva</label>
+                <label v-else>Nyitva</label> <br />
+                <InputSwitch v-model="isOpenSpecial" />
             </div>
+            <div v-if="isOpenSpecial">
+                <div>
+                    <label>Nyitvatartás</label>
+                    <InputMask mask="99:99-99:99" placeholder="08:00-16:00" v-model="specialOpeningHours" />
+                </div>
+                <div>
+                    <label>Munkaközi szünet</label>
+                    <InputMask mask="99:99-99:99" placeholder="12:00-13:30" :disabled="!isBreakSpecial"
+                        v-model="specialBreakHours" />
+                    <div>
+                        <label v-if="isBreakSpecial">Van munkaközi szünet</label>
+                        <label v-else>Nincs munkaközi szünet</label> <br>
+                        <InputSwitch v-model="isBreakSpecial" />
+                    </div>
+                </div>
+            </div>
+            <div v-else>Ön ezen a napon zárva tart!</div>
+            <button class="btnStyle" @click="saveSpecialOpening()">
+                Nyitvatartás mentése
+            </button>
         </div>
+    </div>
     <Footer></Footer>
 </template>
 
@@ -89,10 +94,12 @@ import InputSwitch from "primevue/inputswitch";
 import InputMask from "primevue/inputmask";
 import Calendar from 'primevue/calendar';
 import vetService from "@/services/vetservice";
+
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
 import { useToast } from 'vue-toastification';
+import { useDateFormat } from "@vueuse/core";
 
 const { user } = storeToRefs(useUserStore());
 const toast = useToast();
@@ -101,15 +108,23 @@ const isBreak = ref();
 const isBreakSpecial = ref();
 const isOpen = ref();
 const isOpenSpecial = ref();
+
 const showOpening = ref(false);
 const choosedDay = ref();
+
 const openingHours = ref();
 const specialOpeningHours = ref();
 const breakHours = ref();
 const specialBreakHours = ref();
+
 const opening = ref();
+const specialOpening = ref();
+const specialOpeningDates = [];
+
 const error = ref(false);
+
 const specialDate = ref(new Date());
+const specialDateFormatted = useDateFormat(specialDate, "YYYY-MM-DD");
 
 let sendOpeningData = [];
 let openDays = [];
@@ -143,20 +158,42 @@ function deleteOpening(day) {
 }
 
 function getOpenings() {
-    vetService.getOpenings(user.value.token).then(resp => { 
+    vetService.getOpenings(user.value.token).then(resp => {
         opening.value = resp.data;
         (opening.value).forEach(o => {
             openDays.push(o.day);
-        }); 
+        });
     });
 }
+
+function getSpecialOpenings() {
+    vetService.getSpecialOpenings(user.value.token).then(resp => {
+        specialOpening.value = resp.data;
+        (specialOpening.value).forEach(o => {
+            specialOpeningDates.push(o.date);
+        });
+    });
+}
+
+function addSpecialOpening(data) {
+    vetService.addSpecialOpeningTime(user.value.token, data).then(resp => {
+        console.log("sikeres hozzáadás")
+    });
+}
+
+function deleteSpecialOpening(id) {
+    vetService.deleteSpecialOpening(user.value.token, id).then(resp => {
+        console.log("sikeres törlés")
+    });
+}
+
 getOpenings();
+getSpecialOpenings();
 
 function isOpenTime(day) {
+    dataOpen = [];
+    dataBreak = [];
     dataOpen = openingHours.value.split("-");
-    console.log(dataOpen)
-    console.log(dataOpen[0])
-    console.log(dataOpen[1])
     if (dataOpen[0] > dataOpen[1]) {
         toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
         error.value = true;
@@ -172,11 +209,11 @@ function isOpenTime(day) {
             toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
             error.value = true;
             return;
-        } else if(dataBreak[1] > dataOpen[1]){
+        } else if (dataBreak[1] > dataOpen[1]) {
             toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
             error.value = true;
             return;
-        } else if(dataBreak[0] > dataBreak[1]){
+        } else if (dataBreak[0] > dataBreak[1]) {
             toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
             error.value = true;
             return;
@@ -194,11 +231,11 @@ function addOpenings(day) {
     if (sendOpeningData.length != 0) {
         if (openDays.includes(day)) {
             deleteOpening(day);
-        } else if(day == "minden nap"){
+        } else if (day == "minden nap") {
             if (openDays.length != 0) {
                 deleteOpening("minden nap");
             }
-        }  else if(day == "hétköznapok"){
+        } else if (day == "hétköznapok") {
             if (openDays.length != 0) {
                 deleteOpening("hétköznapok");
             }
@@ -208,11 +245,11 @@ function addOpenings(day) {
     } else {
         if (openDays.includes(day)) {
             deleteOpening(day);
-        } else if(day == "minden nap"){
+        } else if (day == "minden nap") {
             if (openDays.length != 0) {
                 deleteOpening("minden nap");
             }
-        }  else if(day == "hétköznapok"){
+        } else if (day == "hétköznapok") {
             if (openDays.length != 0) {
                 deleteOpening("hétköznapok");
             }
@@ -228,11 +265,11 @@ function saveOpening() {
             toast.error(`Kérem töltse ki a nyitvatartási idő mezőt!`, { position: "top-center" });
             return;
         } else if (isBreak.value) {
-            if(breakHours.value == null || breakHours.value == "" || breakHours.value == undefined || breakHours.value.length != 11){
+            if (breakHours.value == null || breakHours.value == "" || breakHours.value == undefined || breakHours.value.length != 11) {
                 toast.error(`Kérem töltse ki a munkaközi szünet mezőt!`, { position: "top-center" });
                 return;
             }
-        } 
+        }
     }
     //mentés
     if (choosedDay.value == "hétköznapok") {
@@ -268,11 +305,11 @@ function saveOpening() {
                 if (isOpen.value) {
                     isOpenTime(days[i]);
                     if (error.value) {
-                    error.value = false;
-                    return;
+                        error.value = false;
+                        return;
                     }
                 }
-                else{
+                else {
                     dayClosed = days[i];
                 }
                 console.log(days[i])
@@ -280,6 +317,68 @@ function saveOpening() {
             }
         }
     }
+}
+
+function saveSpecialOpening() {
+    //validálás
+    if (specialOpeningDates.includes(specialDateFormatted.value)) {
+        toast.error(`Önnek erre a napra már van különleges nyitvatartása! Távolítsa el, majd adjon hozzá másik nyitvatartást!`, { position: "top-center" });
+            return;
+    }
+    if (isOpenSpecial.value) {
+        if (specialOpeningHours.value == null || specialOpeningHours.value == "" || specialOpeningHours.value == undefined || specialOpeningHours.value.length != 11) {
+            toast.error(`Kérem töltse ki a nyitvatartási idő mezőt!`, { position: "top-center" });
+            return;
+        } else if (isBreakSpecial.value) {
+            if (specialBreakHours.value == null || specialBreakHours.value == "" || specialBreakHours.value == undefined || specialBreakHours.value.length != 11) {
+                toast.error(`Kérem töltse ki a munkaközi szünet mezőt!`, { position: "top-center" });
+                return;
+            }
+        }
+    }
+    //mentés
+    sendOpeningData = [];
+    dataOpen = [];
+    dataBreak = [];
+    if (isOpenSpecial.value) {
+        dataOpen = specialOpeningHours.value.split("-");
+        if (dataOpen[0] > dataOpen[1]) {
+            toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
+            error.value = true;
+            return;
+        }
+        if (isBreakSpecial.value) {
+            dataBreak = specialBreakHours.value.split("-");
+            opened = [
+                dataOpen[0] + "-" + dataBreak[0],
+                dataBreak[1] + "-" + dataOpen[1],
+            ];
+            if (dataOpen[0] > dataBreak[0]) {
+                toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
+                error.value = true;
+                return;
+            } else if (dataBreak[1] > dataOpen[1]) {
+                toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
+                error.value = true;
+                return;
+            } else if (dataBreak[0] > dataBreak[1]) {
+                toast.error("Rossz nyitvatartás formátum!", { position: "top-center" });
+                error.value = true;
+                return;
+            }
+            opened.forEach((o) => {
+                sendOpeningData.push({ working_hours: o, date: specialDateFormatted.value });
+            });
+        } else {
+            sendOpeningData.push({ working_hours: specialOpeningHours.value, date: specialDateFormatted.value });
+        }
+
+    } else {
+        sendOpeningData.push({ working_hours: "zárva", date: specialDateFormatted.value });
+    }
+
+    // console.log(sendOpeningData);
+    addSpecialOpening(sendOpeningData);
 }
 </script>
 
@@ -318,6 +417,10 @@ function saveOpening() {
     justify-content: center;
 }
 
+.openingHours {
+    margin-left: 50px;
+}
+
 .btnStyle {
     background-color: #246951;
     padding: 10px 20px;
@@ -346,26 +449,31 @@ function saveOpening() {
     width: 350px;
     height: 500px;
 }
-.calendarSpecial{
+
+.calendarSpecial {
     margin-bottom: 10px;
     width: 150px;
 }
 
-@media(max-width: 991px){
-    .days{
+@media(max-width: 991px) {
+    .days {
         flex-direction: column;
     }
-    .main{
+
+    .main {
         flex-direction: row;
     }
 }
+
 @media (max-width: 576px) {
-    .days{
+    .days {
         flex-direction: row;
     }
-    .main{
+
+    .main {
         flex-direction: column;
     }
+
     .daily {
         width: 300px;
     }
