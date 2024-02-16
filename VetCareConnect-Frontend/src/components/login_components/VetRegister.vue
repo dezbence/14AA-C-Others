@@ -33,11 +33,11 @@
                             <div class="nameInput">
                                 <InputText v-model="vetData.firstName" />
                                 <InputText v-model="vetData.lastName" />
-                            </div>                       
+                            </div>
 
                             <label>E-mail cím:</label>
                             <InputText type="email" v-model="vetData.email" placeholder="bodri@gmail.com" />
-                            
+
                             <label>Jelszó:</label>
                             <div class="passInfo">
                                 <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
@@ -58,7 +58,7 @@
                             <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.phone" />
 
                             <label>Utca, házszám:</label>
-                            <InputText v-model="vetData.address" placeholder="Kossuth Lajos u. 1-3"/>
+                            <InputText v-model="vetData.address" placeholder="Kossuth Lajos u. 1-3" />
 
                             <div class="addressLabel">
                                 <label>Irányítószám:</label>
@@ -218,7 +218,7 @@ function handleSubmit() {
                 toast.success('Sikeres regisztráció', { position: 'top-center' });
             })
             .catch(error => {
-                toast.error(error.data.data.email[0], { position: 'top-center' })      
+                toast.error(error.data.data.email[0], { position: 'top-center' })
             })
     }
 
@@ -407,6 +407,7 @@ input[type="checkbox"]:checked {
     background-color: #246951;
     font-size: 1.05rem;
 }
+
 .btnStyle:hover {
     background-color: #368267;
     transition: 200ms;
@@ -449,6 +450,7 @@ input[type="checkbox"]:checked {
     .main {
         flex-direction: column-reverse;
     }
+
     .formCardLeft {
         width: 400px;
         border-radius: 0 0 7px 7px;
@@ -463,11 +465,16 @@ input[type="checkbox"]:checked {
 
     }
 
+    .nameInput input {
+        width: 145px;
+    }
+
     #singInDog {
         display: none;
     }
 
-    .formCardRight ul li, p {
+    .formCardRight ul li,
+    p {
         margin: 0;
         font-size: 0.9rem;
     }
@@ -483,10 +490,11 @@ input[type="checkbox"]:checked {
     .formCardLeft {
         width: 300px;
         padding: 24px;
+        height: 560px;
     }
 
     .formCardRight {
-        height: 50px;
+        height: 20px;
         width: 300px;
     }
 
@@ -494,14 +502,45 @@ input[type="checkbox"]:checked {
         width: 240px;
     }
 
-    #logo, .formCardRight ul li, p  {
+    #logo,
+    .formCardRight ul li,
+    p {
         display: none;
     }
 
     h3 {
         font-size: 1.4rem;
     }
-    
 
+    #terms {
+        font-size: 0.75rem;
+    }
+
+    .nameInput {
+        width: 240px;
+    }
+
+    .nameInput input {
+        width: 115px;
+        padding: 5px 10px 5px;
+    }
+
+    .nameLabel {
+        gap: 50px;
+    }
+
+    .addressLabel {
+        gap: 40px;
+    }
+
+    .btnStyle {
+        width: 240px;
+    }
+
+    .page {
+        width: 32px;
+        height: 32px;
+        border-radius: 50px;
+    }
 }
 </style>
