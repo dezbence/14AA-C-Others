@@ -50,7 +50,7 @@
                             <label>Jelszó újra:</label>
                             <InputText v-model="vetData.confirm_password" type="password" placeholder="Bodri123" />
 
-                            <button type="button" class="submit btnStyle" @click="active = 1">Tovább</button>
+                            <button type="button" class="btnStyle" @click="active = 1">Tovább</button>
                         </TabPanel>
 
                         <TabPanel>
@@ -75,7 +75,7 @@
                                 <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
                             </div>
 
-                            <button class="submit btnStyle">Regisztráció</button>
+                            <button class="btnStyle">Regisztráció</button>
                         </TabPanel>
                     </TabView>
 
@@ -239,6 +239,7 @@ function handleSubmit() {
     border-radius: 7px 0 0 7px;
     height: 650px;
     width: 420px;
+    padding: 50px;
 }
 
 .addressLabel {
@@ -334,8 +335,6 @@ form {
     background-color: white;
     height: 100%;
     text-align: left;
-    padding: 50px;
-    border-radius: 7px 0 0 7px;
 }
 
 h3 {
@@ -401,14 +400,14 @@ input[type="checkbox"]:checked {
     text-decoration: underline;
 }
 
-.submit {
+.btnStyle {
     text-align: center;
     margin-top: 30px;
     width: 100%;
     background-color: #246951;
     font-size: 1.05rem;
 }
-.submit:hover {
+.btnStyle:hover {
     background-color: #368267;
     transition: 200ms;
 }
@@ -443,5 +442,66 @@ input[type="checkbox"]:checked {
 
 .activePage {
     background-color: #368267;
+}
+
+
+@media (max-width: 848px) {
+    .main {
+        flex-direction: column-reverse;
+    }
+    .formCardLeft {
+        width: 400px;
+        border-radius: 0 0 7px 7px;
+        height: 605px;
+    }
+
+    .formCardRight {
+        width: 400px;
+        border-radius: 7px 7px 0 0;
+        height: 200px;
+        padding: 24px 0 0;
+
+    }
+
+    #singInDog {
+        display: none;
+    }
+
+    .formCardRight ul li, p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    #logo {
+        width: 200px;
+        margin-bottom: 24px;
+    }
+
+}
+
+@media (max-width: 468px) {
+    .formCardLeft {
+        width: 300px;
+        padding: 24px;
+    }
+
+    .formCardRight {
+        height: 50px;
+        width: 300px;
+    }
+
+    input {
+        width: 240px;
+    }
+
+    #logo, .formCardRight ul li, p  {
+        display: none;
+    }
+
+    h3 {
+        font-size: 1.4rem;
+    }
+    
+
 }
 </style>

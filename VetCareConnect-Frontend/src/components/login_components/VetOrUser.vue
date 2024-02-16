@@ -206,5 +206,29 @@ h3 {
     h3 {
         margin-bottom: 32px;
     }
+
+    .btnStyle {
+        margin-top: 38px;
+    }
+}
+
+@media (max-width: 468px) {
+    .back {
+        width: 300px;
+        height: 380px;
+    }
+
+    .profileCard {
+        height: 60px;
+        width: 180px;
+    }
+
+    .cardImg {
+        width: 32px;
+    }
+
+    h3 {
+        font-size: 1.4rem;
+    }
 }
 </style>

@@ -18,7 +18,6 @@
 <script setup>
 import router from "@/router";
 import ownerservice from "@/services/ownerservice";
-import { defineEmits } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userstore";
 
