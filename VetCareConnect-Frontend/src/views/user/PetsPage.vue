@@ -2,8 +2,7 @@
     <Header></Header>
     <div v-if="!store.petDelete && !store.petEdit">
         <PetCreator v-if="isPetCreating" :submit-pet="submitPet" :show-creator="showCreator"></PetCreator>
-
-        <div :class="isPetCreating ? 'overflowDisable' : ''">
+        <div :class="{'overflowDisable': isPetCreating}">
            
                 <h1 class="pageTitle">Kedvenceim</h1>
                 <div class="petsCard">

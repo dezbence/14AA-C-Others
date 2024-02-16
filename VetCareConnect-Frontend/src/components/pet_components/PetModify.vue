@@ -1,5 +1,5 @@
 <template>
-    <SureInEdit v-if="!store.showSure" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
+    <SureInEdit v-if="store.showSure" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
     <div class="main">
         <button @click="back()" class="btnStyle btnBack"><img style="filter: invert(100);"
                 src="../../assets/icons/arrow_back.svg">Vissza</button>
@@ -12,9 +12,9 @@
                 <label>Név:</label>
                 <InputText v-model="editedPetData.name"></InputText>
                 <label>Chip szám (15 számjegy):</label>
-                <InputNumber v-model="editedPetData.chip_number" :min="0" :max="999999999999999" :useGrouping="false" />
+                <InputMask v-model="editedPetData.chip_number" mask="999999999999999"/>
                 <label>Törzskönyv száma (8 számjegy):</label>
-                <InputNumber v-model="editedPetData.pedigree_number" :min="0" :max="99999999" :useGrouping="false" />
+                <InputMask v-model="editedPetData.pedigree_number" mask="99999999"/>
                 <label>Fajtajelleg:</label>
                 <Dropdown v-model="editedPetData.species" :options="species" showClear placeholder="Kérem válasszon!"
                     class="petDropdown" />
@@ -30,7 +30,7 @@
                 <label>Megjegyzés:</label>
                 <Textarea v-model="editedPetData.comment" placeholder="Allergiák, különlegességek, stb." rows="4" cols="40"
                     autoResize></Textarea>
-                <button @click="saveChanges()" class="saveChanges">Változások mentése</button>
+                <button @click="saveChanges()" class="btnStyle">Változások mentése</button>
 
             </div>
         </div>
@@ -42,6 +42,7 @@
 import SureInEdit from '../SureInEdit.vue';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
+import InputMask from 'primevue/inputmask';
 import Dropdown from 'primevue/dropdown';
 import Textarea from 'primevue/textarea';
 import Calendar from 'primevue/calendar';
@@ -82,33 +83,38 @@ let petData = {
     pedigree_number: store.editPet.pedigree_number
 }
 
-// store.showPetEdit(false);
+store.showSureInEdit(false);
 
 function back() {
     store.showPetEdit(false);
 
 }
- function cancelEditing() {
-    store.showPetEdit(false);
-
+function cancelEditing() {
+    store.showSureInEdit(false);
+    store.showPetEdit(false)
     toast.warning('Módosítások elvetve!', { position: "top-center" });
 }
 
-function editDatas() {
-    store.showPetEdit(false);
-
-    toast.success('Sikeres módosítás!', { position: "top-center" });
-    // post datas
-}
-
-// function sureInEdit() {
-
-// }
 
 
 function saveChanges() {
-    store.showPetEdit(true);
+    if (editedPetData.value.name == "" || editedPetData.value.chip_number == 0 || editedPetData.value.pedigree_number == 0 || editedPetData.value.species == null || editedPetData.value.gender == null || editedPetData.value.weight == 0 || editedPetData.value.born_date == null) {
+        toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
+        console.log(editedPetData.value)
+    } else {
+        store.showSureInEdit(true);
+        console.log(editedPetData.value)
+    }
 }
+
+function editDatas() {
+    store.showSureInEdit(false);
+    store.showPetEdit(false)
+    toast.success('Sikeres módosítás!', { position: "top-center" });
+    // post datas
+}
+    
+   
 
 </script>
 
@@ -121,15 +127,12 @@ function saveChanges() {
     margin-top: 40px;
 }
 
-.btnBack {
-    background-color: #246951;
-    width: 120px;
-    margin-right: 30px;
-}
+
 
 .dataHeader {
-   width: 500px;
+    width: 500px;
 }
+
 .dataSheet {
     width: 500px;
     padding: 30px 80px;
@@ -142,26 +145,30 @@ function saveChanges() {
 }
 
 label {
-    font-weight: 600;
+    font-weight: 500;
     color: #246951;
+    margin: 10px 0 2px;
 }
 
-.saveChanges {
+.btnStyle {
     margin: 15px 0 12px;
     background: #246951;
-    font-size: 1.05rem;
-    border: 0;
-    width: 70%;
-    padding: 5px;
-    color: white;
-    border-radius: 7px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
 }
 
-input, textarea, .p-dropdown, .p-inputtext, .p-inputnumber, .bornDate, .saveChanges {
+.btnBack {
+    background-color: #246951;
+    width: 120px;
+    margin-right: 30px;
+}
+
+input,
+textarea,
+.p-dropdown,
+.p-inputtext,
+.p-inputnumber,
+.bornDate,
+.saveChanges {
     width: 100%;
 }
 

@@ -2,7 +2,7 @@
     <div class="darkBack">
         <div class="back">
             <div>
-                <h3>Módosítja az adatait?</h3>
+                <h3>Módosítja az adatokat?</h3>
                 <p>Nem lehet visszavonni módosítás után!</p>
                 <div class="rightSide">
                     <div class="buttons">

@@ -205,6 +205,9 @@ function handleSubmit() {
     border-radius: 7px 0 0 7px;
     height: 760px;
     width: 420px;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .nameLabel {
@@ -290,8 +293,8 @@ form {
     background-color: white;
     height: 100%;
     text-align: left;
-    padding: 50px;
     border-radius: 7px 0 0 7px;
+    width: fit-content;
 }
 
 h3 {
@@ -367,13 +370,108 @@ input[type="checkbox"]:checked {
     text-decoration: underline;
 }
 
+@media (max-width: 848px) {
+    .main {
+        flex-direction: column-reverse;
+    }
 
+    .formCardLeft {
+        width: 400px;
+        border-radius: 0 0 7px 7px;
+        height: fit-content;
+        padding: 36px;
+    }
 
-.error {
-    color: #ff0062;
-    margin-top: 4px;
-    font-size: 0.8em;
-    position: absolute;
-    font-weight: 500;
+    .formCardRight {
+        width: 400px;
+        border-radius: 7px 7px 0 0;
+        height: 200px;
+        padding: 24px 0 0;
+
+    }
+
+    input, .passInfo, .btnStyle, .nameInput {
+        width: 300px;
+    }
+
+    .nameInput input {
+        width: 145px;
+    }
+
+    #singInDog {
+        display: none;
+    }
+
+    .formCardRight ul li, p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    label {
+        font-size: 0.8rem;
+        margin-top: 16px;
+    }
+
+    h3 {
+        font-size: 1.3rem;
+    }
+
+    .noAccount {
+        font-size: 0.8rem;
+    }
+
+    #logo {
+        width: 200px;
+        margin-bottom: 24px;
+    }
+
+    #terms {
+        font-size: 0.75rem;
+    }
+
+}
+
+@media (max-width: 468px) {
+    .formCardLeft {
+        width: 300px;
+        padding: 24px;
+        height: 560px;
+        height: fit-content;
+    }
+
+    .formCardRight {
+        height: 20px;
+        width: 300px;
+    }
+
+    input, .passInfo, .btnStyle, .nameInput {
+        width: 252px;
+    }
+
+    #logo, .formCardRight ul li, p {
+        display: none;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    .noAccount, #terms {
+        font-size: 0.7rem;
+    }
+    .nameInput input {
+        width: 121px;
+        padding: 5px 10px 5px;
+    }
+
+    .terms input {
+        margin-right: 8px;
+    }
+
+    .nameLabel {
+        gap: 50px;
+    }
+
 }
 </style>

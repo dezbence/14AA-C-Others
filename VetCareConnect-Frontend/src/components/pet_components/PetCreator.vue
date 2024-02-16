@@ -32,7 +32,7 @@
                     <label>Ivar:</label>
                     <Dropdown v-model="gender" :options="genders" showClear placeholder="Kérem válasszon!"
                         class="petDropdown" />
-                    <button @click="active = 1">Tovább</button>
+                    <button class="btnStyle" @click="active = 1">Tovább</button>
                 </TabPanel>
 
 
@@ -46,7 +46,7 @@
                     <label>Megjegyzés:</label>
                     <Textarea class="petComment" maxlength="160" placeholder="Allergiák, különlegességek, stb." v-model.trim="pet.comment" rows="4" cols="40"
                         autoResize></Textarea>
-                    <button @click="handleSubmit()">Létrehozás</button>
+                    <button class="btnStyle" @click="handleSubmit()">Létrehozás</button>
                 </TabPanel>
             </TabView>
 
@@ -151,11 +151,13 @@ function handleSubmit() {
     align-items: center;
     border-radius: 100px;
     width: 38px;
+    height: 38px;
     padding: 7px;
     margin: 12px;
     background-color: #50B692;
     color: white;
     cursor: pointer;
+    border: none;
 }
 
 
@@ -166,21 +168,19 @@ function handleSubmit() {
 
 button {
     width: 300px;
-    border: none;
-    border-radius: 7px;
     margin-top: 20px;
     background-color: #50B692;
-    color: white;
-    padding: 5px 10px;
+    padding: 6px 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 label {
-    margin-top: 12px;
+    margin: 12px 0 2px;
 }
 
 h4 {
-    padding: 20px 15px 0;
+    font-size: 1.2rem;
+    margin: 12px 0;
 }
 
 .close {
@@ -195,16 +195,17 @@ h4 {
     transition: 200ms;
 }
 
-
-
 @media (max-width: 514px) {
     h4 {
         font-size: 1.1rem;
+        margin: 12px 0 0;
     }
 
     .page {
         font-size: 0.8rem;
-        width: 34px;
+        width: 80px;
+        height: 20px;
+        margin: 12px 12px 0;
     }
 
     .petCreatingForm {

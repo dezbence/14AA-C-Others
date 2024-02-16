@@ -353,8 +353,7 @@ label {
     margin-top: 24px;
 }
 
-input,
-.password {
+input, .password {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -411,14 +410,6 @@ input[type="checkbox"]:checked {
 .btnStyle:hover {
     background-color: #368267;
     transition: 200ms;
-}
-
-.error {
-    color: #ff0062;
-    margin-top: 4px;
-    font-size: 0.8em;
-    position: absolute;
-    font-weight: 500;
 }
 
 .pages {
