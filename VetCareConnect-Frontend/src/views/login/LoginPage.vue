@@ -28,8 +28,8 @@
                             <router-link to="/elfelejtett-jelszo">Elfelejtette a jelszavát?</router-link>
                         </div>
 
-                        <div class="submit">
-                            <button >Bejelentkezés</button>
+                        <div>
+                            <button class="btnStyle">Bejelentkezés</button>
                         </div>
                     </div>
 
@@ -196,10 +196,10 @@ label {
 
 
 
-.submit button{
+.btnStyle {
     text-align: center;
-    margin-top: 50px;
     background: #246951;
+    margin-top: 50px;
     font-size: 1.05rem;
     width: 100%;
     border: 0;
@@ -212,7 +212,7 @@ label {
     justify-content: center;
 }
 
-.submit button:hover {
+.btnStyle:hover {
     background-color: #368267;
     transition: 200ms;
 }
@@ -232,6 +232,7 @@ label {
 .noAccount {
     text-align: left;
     font-size: 0.9rem;
+    margin-bottom: 18px;
 }
 
 .noAccount span {
@@ -264,7 +265,7 @@ label {
     select,
     p,
     span,
-    button {
+    .btnStyle {
         font-size: 0.8rem;
     }
 
@@ -287,7 +288,7 @@ label {
     }
 
     .formLeft {
-        border-radius: 0 0 10px 10px;
+        border-radius: 0 0 7px 7px;
         height: 360px;
         width: 450px;
         padding: 40px 80px;
@@ -307,7 +308,7 @@ label {
         margin-bottom: 10px;
     }
 
-    .submit {
+    .btnStyle {
         margin-top: 26px;
     }
 
