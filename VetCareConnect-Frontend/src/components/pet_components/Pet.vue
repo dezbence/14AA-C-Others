@@ -5,7 +5,11 @@
             <PetMenu v-if="isMenuOpen" :petMenuToggle="petMenuToggle" :editpetId="pet.id" :deletePet="deletePet"
                 :editPet="editPet"></PetMenu>
         </div>
-        <div class="profile"></div>
+        <div>
+            <img class="profile" src="../../assets/images/kutya.png" alt="">
+            <img class="profile" :src="'../../assets/images/' + pet.species + '.png'">
+            <img class="profile" :src="require(`../../assets/images/${pet.species}.png`)" draggable="false"/>{{ pet.species }}
+        </div>
 
         <h3>{{ pet.name }}</h3>
         <div>
@@ -91,10 +95,8 @@ function editPet() {
 }
 
 .profile {
-    border-radius: 100%;
     width: 80px;
     height: 80px;
-    background-color: #fff;
     margin-bottom: 20px;
 }
 
