@@ -16,6 +16,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\PasswordForgot;
 
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -46,6 +49,7 @@ class MainController extends BaseController
         Auth::user()
             ->update($request->all());
 
+            Mail::to($request->email)->send(new PasswordForgot($request->email, $request->name));
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
 
