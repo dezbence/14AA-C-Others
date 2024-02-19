@@ -22,6 +22,7 @@ const access = {
   '/bejelentkezes': [null],
   '/regisztracio': [null],
   '/elfelejtett-jelszo': [null],
+  '/uj-jelszo': [null],
   '/allatorvosok': [0, 1, null],
   '/gyik': [0, 1, null],
   '/orvosi-naptar': [1],
@@ -40,6 +41,7 @@ const router = createRouter({
     { path: '/bejelentkezes', name: 'login', component: () => import('@/views/login/LoginPage.vue') },
     { path: '/regisztracio', name: 'register', component: () => import('@/views/login/RegisterPage.vue') },
     { path: '/elfelejtett-jelszo', name: 'forgotPassword', component: () => import('@/views/login/ForgotPasswordPage.vue') },
+    { path: '/uj-jelszo', name: 'resetPassword', component: () => import('@/views/login/PasswordReset.vue') },
     { path: '/allatorvosok', name: 'vets', component: () => import('@/views/VetSearchPage.vue') },
     { path: '/gyik', name: 'gyik', component: () => import('@/views/FrequentlyAskedQuestionsPage.vue') },
     { path: '/orvosi-naptar', name: 'orvosiNaptar', component: () => import('@/views/vet/VetCalendar.vue') },
@@ -52,7 +54,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const { status, user } = storeToRefs(useUserStore());
-  const publicPages = ['/', '/bejelentkezes', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo', '/:catchAll(.*)'];
+  const publicPages = ['/', '/bejelentkezes', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo', '/uj-jelszo', '/:catchAll(.*)'];
   const autRequired = !publicPages.includes(to.path);
   if (autRequired && !status.value.loggedIn) {
     toast.error("Bejelentkezés szükséges!", { position: "top-center" });

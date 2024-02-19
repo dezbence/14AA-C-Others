@@ -41,6 +41,8 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::get('/send-register', [MailController::class, 'sendRegisterConfirmMail']);
     Route::get('/send-login', [MailController::class, 'sendLoginMail']);
+    Route::get('/send-password-reset', [MailController::class,'sendPasswordResetMail']);
+    // Route::put('/modify-password', [AuthController::class,'modifyPassword']);)
 
     Route::middleware('only-owner')->group(function(){
         //Route::get('/bearer-test',[MainController::class,'bearerTest']);

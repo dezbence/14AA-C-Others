@@ -197,19 +197,10 @@ label {
 
 
 .btnStyle {
-    text-align: center;
     background: #246951;
     margin-top: 50px;
-    font-size: 1.05rem;
     width: 100%;
-    border: 0;
     padding: 7px;
-    color: white;
-    border-radius: 7px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btnStyle:hover {
@@ -249,14 +240,6 @@ label {
 .noAccount a:hover {
     text-decoration: underline;
 }
-
-.error {
-    color: #ff0062;
-    margin-top: 10px;
-    font-size: 0.6em;
-    font-weight: bold;
-}
-
 
 @media (max-width: 768px) {
 
