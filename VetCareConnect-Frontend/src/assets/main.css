@@ -295,3 +295,10 @@ select {
   border: #af3b3b 2px solid;
 
 }
+.p-datatable .p-datatable-thead > tr > th {
+  background-color: #e9ecef;
+}
+.p-datatable .p-datatable-tbody > tr.p-highlight {
+  background-color: #af3b3b4e;
+
+}

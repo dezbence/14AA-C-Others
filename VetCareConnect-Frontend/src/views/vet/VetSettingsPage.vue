@@ -2,15 +2,32 @@
     <Header></Header>
     <h1 class="pageTitle">Beállítások</h1>
     <h2 class="titles">Nyitvatartás</h2>
-    <div class="openingHours">
-        <div v-for="open in opening">
-            {{ open.day }}: {{ open.working_hours }}
+    <div class="openingHours"  >
+        <!-- <div class="normalOpening" v-if="opening.length != 0"> -->
+        <div class="normalOpening">
+            <DataTable :value="opening" class="openingTable">
+                <Column field="day" header="Nap"></Column>
+                <Column field="working_hours" header="Nyitvatartás"></Column>
+            </DataTable>
+            <a href="#edit">
+                <button class="btnStyle btnEdit">Módosítás</button>
+            </a>
         </div>
-        <div v-for="open in specialOpening">
-            {{ open.date }}: {{ open.working_hours }}
+        <!-- <div class="specialOpening" v-if="specialOpening.length != 0"> -->
+        <div class="specialOpening">
+            <DataTable :value="specialOpening" class="openingTable">
+                <Column field="date" header="Dátum"></Column>
+                <Column field="working_hours" header="Nyitvatartás"></Column>
+            </DataTable>
+            <a href="#editSpecial">
+                <button class="btnStyle btnEdit">Módosítás</button>
+            </a>
         </div>
+        <!-- <div v-else>
+            <h5>Önnek még nincs nyitvatartása. Kérem adjon hozzá nyitvatartást!</h5>
+        </div> -->
     </div>
-    <h2 class="titles">Nyitvatartás módosítása</h2>
+    <h2 class="titles" id="edit">Nyitvatartás módosítása</h2>
     <div class="main">
         <div class="days">
             <div v-for="day in days">
@@ -50,13 +67,12 @@
         </div>
     </div>
 
-    <h2 class="titles">Különleges nyitvatartás hozzáadása</h2>
+    <h2 class="titles" id="editSpecial">Különleges nyitvatartás hozzáadása</h2>
     <div class="opening">
         <div class="daily special">
             <h2>Különleges nyitvatartás</h2>
             <Calendar v-model="specialDate" dateFormat="yy-mm-dd" :min-date="new Date()" showIcon iconDisplay="input"
                 class="calendarSpecial" />
-            {{ specialDateFormatted }}
             <div class="closed">
                 <label v-if="!isOpenSpecial">Zárva</label>
                 <label v-else>Nyitva</label> <br />
@@ -88,11 +104,10 @@
     <h2 class="titles">Különleges nyitvatartás eltávolítása</h2>
     <div class="specialTable">
         <DataTable v-model:selection="selectSpecialDelete" :value="specialOpening" dataKey="id">
-            <Column selectionMode="multiple" ></Column>
+            <Column selectionMode="multiple"></Column>
             <Column field="date" header="Dátum"></Column>
             <Column field="working_hours" header="Nyitvatartás"></Column>
         </DataTable>
-        {{ selectSpecialDelete }}
         <button class="btnStyle btnDelete" @click="deleteSpecial()">Törlés</button>
     </div>
 
@@ -111,6 +126,7 @@ import Column from 'primevue/column';
 
 import vetService from "@/services/vetservice";
 
+// import { ref, onBeforeMount } from "vue";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
@@ -206,9 +222,6 @@ function deleteSpecialOpening(id) {
     });
 }
 
-getOpenings();
-getSpecialOpenings();
-
 function isOpenTime(day) {
     dataOpen = [];
     dataBreak = [];
@@ -275,6 +288,7 @@ function addOpenings(day) {
         }
         toast.success(`Nyitvatartás elmentve a következő nap(ok)ra: ${day}.`, { position: "top-center" });
     }
+
 }
 
 function saveOpening() {
@@ -336,6 +350,7 @@ function saveOpening() {
             }
         }
     }
+    getOpenings();
 }
 
 function saveSpecialOpening() {
@@ -398,12 +413,21 @@ function saveSpecialOpening() {
 
     // console.log(sendOpeningData);
     addSpecialOpening(sendOpeningData);
+    getSpecialOpenings();
 }
-function deleteSpecial(){
+function deleteSpecial() {
     (selectSpecialDelete.value).forEach(d => {
         deleteSpecialOpening(d.id);
     });
+    getSpecialOpenings();
 }
+
+getOpenings();
+getSpecialOpenings();
+// onBeforeMount(() => {
+//     getOpenings();
+//     getSpecialOpenings();
+// });
 </script>
 
 <style lang="css" scoped>
@@ -442,12 +466,33 @@ function deleteSpecial(){
 }
 
 .openingHours {
-    margin-left: 50px;
+    margin: 0px 50px;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.normalOpening, .specialOpening {
+    margin: 0px 20px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .btnStyle {
     background-color: #246951;
     padding: 10px 20px;
+}
+
+.btnEdit {
+    margin-top: 20px;
+}
+
+a {
+    text-decoration: none;
 }
 
 .p-inputswitch {
@@ -479,14 +524,17 @@ function deleteSpecial(){
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
+}
+
+.openingTable {
+    width: 280px;
 }
 
 .btnDelete {
     background-color: #af3b3b;
+    margin-top: 20px;
 }
-
-
-
 .calendarSpecial {
     margin-bottom: 10px;
     width: 150px;
@@ -499,6 +547,15 @@ function deleteSpecial(){
 
     .main {
         flex-direction: row;
+    }
+}
+@media(max-width: 750px) {
+    .openingHours {
+        flex-direction: column;
+        align-items: center;
+    }
+    .normalOpening {
+        margin-bottom: 50px;
     }
 }
 
@@ -514,5 +571,4 @@ function deleteSpecial(){
     .daily {
         width: 300px;
     }
-}
-</style>
+}</style>
