@@ -6,9 +6,7 @@
                 :editPet="editPet"></PetMenu>
         </div>
         <div>
-            <img class="profile" src="../../assets/images/kutya.png" alt="">
-            <img class="profile" :src="'../../assets/images/' + pet.species + '.png'">
-            <img class="profile" :src="require(`../../assets/images/${pet.species}.png`)" draggable="false"/>{{ pet.species }}
+            <img class="profile" :src="`src/assets/images/${pet.species}.png`" draggable="false"/>
         </div>
 
         <h3>{{ pet.name }}</h3>
