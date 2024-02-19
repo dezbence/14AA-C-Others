@@ -12,6 +12,11 @@ class MailController extends Controller
 
     public function sendLoginMail() {
         Mail::to($request->email)->send(new SuccesfulSignIn($request->email, $request->name));
-
     }
+
+    public function sendPasswordResetMail() {
+        Mail::to($request->email)->send(new PasswordReset($request->email, $request->name));
+    }
+
+
 }

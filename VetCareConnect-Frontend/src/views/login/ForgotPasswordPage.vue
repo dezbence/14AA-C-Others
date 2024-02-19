@@ -18,9 +18,9 @@
                     Eszébe jutott? <router-link to="/bejelentkezes">Jelentkezzen be!</router-link>
                 </div>
 
-                <div class="submit">
-                    <button>E-mail küldése</button>
-                </div>
+                
+                    <button class="btnStyle">E-mail küldése</button>
+                
 
 
             </form>
@@ -31,15 +31,25 @@
 import router from '@/router';
 import { useToast } from 'vue-toastification'
 import InputText from 'primevue/inputtext';
+import userservice from '@/services/userservice';
 const toast = useToast();
 
 function back() {
     router.go(-1)
 }
 
+
 function handelSubmit() {
-    router.push('/bejelentkezes');
     toast.success('E-mail küldve!', { position: "top-center" });
+    userservice.sendPasswordResetEmail(loginData.email)
+        .then(resp => {
+            console.log(resp.data);
+            // toast.success('Sikeres regisztráció', { position: 'top-center' });
+        })
+        .catch(error => {
+            console.log(error.response.data);
+            // toast.error(error.data.data.email[0], { position: 'top-center' })
+        })
 }
 
 </script>
@@ -71,15 +81,10 @@ p {
     font-weight: bold;
 }
 
-button {
+.btnStyle {
     background: #246951;
     width: 100%;
-    border: 0;
-    padding: 5px;
-    color: white;
-    border-radius: 7px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    font-family: 'Roboto', sans-serif;
+    padding: 7px;
     margin: 30px 0;
 }
 
@@ -99,4 +104,5 @@ button {
 
 .rememberPassword a:hover {
     text-decoration: underline;
-}</style>
+}
+</style>
