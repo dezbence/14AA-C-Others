@@ -2,7 +2,7 @@
     <Header></Header>
     <h1 class="pageTitle">Gyakran ismételt kérdések</h1>
     <div class="faq">
-        <Accordion :multiple="true" class="questions">
+        <Accordion :multiple="true" class="questions animation-scale">
             <AccordionTab v-for="question in questions" :header="question.question">
                 <p>
                     {{ question.answer }}

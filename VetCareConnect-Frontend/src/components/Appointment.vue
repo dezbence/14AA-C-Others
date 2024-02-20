@@ -1,5 +1,5 @@
 <template>
-  <div class="nextAppointmentCard">
+  <div class="nextAppointmentCard animation-scale">
     <p class="title">{{ pet }} {{ title }}</p>
     <p class="vet">Orvos: {{ vet }}</p>
     <p class="vet">Helyszín: {{ postalCode }} {{ vetAddress }}</p>

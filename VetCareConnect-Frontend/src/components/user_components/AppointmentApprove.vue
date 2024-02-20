@@ -1,5 +1,5 @@
 <template>
-  <div class="approve">
+  <div class="approve animation-scale">
     <div class="show">
       <h2 class="header">Időpont részletei</h2>
       <p>Orvos neve: {{ choosedVet.name }}</p>
@@ -80,6 +80,7 @@ function Book() {
 .btnStyle {
   background-color: #246951;
   margin: 5px;
+  padding: 10px 20px;
 }
 .header {
   text-align: center;

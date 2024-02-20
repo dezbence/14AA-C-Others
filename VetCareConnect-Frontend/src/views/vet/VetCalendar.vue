@@ -86,6 +86,8 @@ getVetAppointments()
     padding: 24px;
     color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    animation: load 0.5s ease-out;
+
 }
 
 .todaysToDo hr {
@@ -126,6 +128,8 @@ getVetAppointments()
     height: 650px;
     border-radius: 7px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    animation: load 0.5s ease-out;
+
 }
 
 

@@ -3,8 +3,7 @@
     <h1 class="pageTitle">Beállítások</h1>
     <h2 class="titles">Nyitvatartás</h2>
     <div class="openingHours"  >
-        <!-- <div class="normalOpening" v-if="opening.length != 0"> -->
-        <div class="normalOpening" v-if="opening.length != 0">
+        <div class="normalOpening animation-scale" v-if="opening.length != 0">
             <DataTable :value="opening" class="openingTable">
                 <Column field="day" header="Nap"></Column>
                 <Column field="working_hours" header="Nyitvatartás"></Column>
@@ -13,8 +12,7 @@
                 <button class="btnStyle btnEdit">Módosítás</button>
             </a>
         </div>
-        <!-- <div class="specialOpening" v-if="specialOpening.length != 0"> -->
-        <div class="specialOpening" v-if="specialOpening.length != 0">
+        <div class="specialOpening animation-scale" v-if="specialOpening.length != 0">
             <DataTable :value="specialOpening" class="openingTable">
                 <Column field="date" header="Dátum"></Column>
                 <Column field="working_hours" header="Nyitvatartás"></Column>
@@ -37,7 +35,7 @@
             </div>
         </div>
         <div class="opening" v-if="showOpening">
-            <div class="daily">
+            <div class="daily animation-scale">
                 <h1>{{ choosedDay }}</h1>
                 <div class="closed">
                     <label v-if="!isOpen">Zárva</label>
@@ -69,7 +67,7 @@
 
     <h2 class="titles" id="editSpecial">Különleges nyitvatartások módosítása</h2>
     <div class="opening specialOpeningEdit">
-        <div class="daily special">
+        <div class="daily special animation-scale">
             <h2>Különleges nyitvatartás hozzáadása</h2>
             <Calendar v-model="specialDate" dateFormat="yy-mm-dd" :min-date="new Date()" showIcon iconDisplay="input"
                 class="calendarSpecial" />
@@ -99,7 +97,7 @@
                 Nyitvatartás mentése
             </button>
         </div>
-        <div class="specialTable" v-if="specialOpening.length != 0">
+        <div class="specialTable animation-scale" v-if="specialOpening.length != 0">
             <DataTable v-model:selection="selectSpecialDelete" :value="specialOpening" dataKey="id">
                 <Column selectionMode="multiple"></Column>
                 <Column field="date" header="Dátum"></Column>
@@ -444,8 +442,6 @@ onBeforeMount(() => {
     padding: 40px;
     color: white;
     font-weight: 500;
-
-    animation: load 0.5s ease-out;
 }
 
 .daily div {

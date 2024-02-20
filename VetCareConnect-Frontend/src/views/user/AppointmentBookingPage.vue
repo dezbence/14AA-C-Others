@@ -3,7 +3,7 @@
   <h1 class="pageTitle">Időpontfoglalás</h1>
   <div class="page">
     <div v-if="!showBookApprove" class="book">
-      <div class="bookData">
+      <div class="bookData animation-scale">
         <div class="choosePanel">
           <div>
             <p>Válasszon orvost!</p>
@@ -41,48 +41,27 @@
             </select>
           </div>
         </div>
-
-        <div class="meanings meaningsOutside">
-          <div class="canBeReservatedRow">
-            <div class="colorMeaning canBeReservated"></div>
-            <div class="">Foglalható időpont</div>
-          </div>
-          <div class="choosedRow">
-            <div class="colorMeaning choosed"></div>
-            <div class="">Választott nap</div>
-          </div>
-        </div>
       </div>
 
-      <div class="calendarAndChoosePanel">
+      <div class="calendarAndChoosePanel animation-scale" >
         <Calendar class="calendar" v-model="choosedDate" :min-date="new Date()" @date-select="refreshTimes()" />
         <div class="chooseDate middle">
           <h3 class="choosedDate">{{ formattedDate }}</h3>
           <div class="line"></div>
-          <div v-if="!isClosed" class="dates">
+          <div v-if="!isClosed" class="dates animation-scale">
             <div v-for="(time, index) in appointments" :key="index">
               <div class="times btnStyle" @click="isActiveToggle(index, time)" :class="{ active: activeIdx == index }">
                 {{ time }}
               </div>
             </div>
           </div>
-          <div v-else class="closed">
+          <div v-else class="closed animation-scale">
             A válaszott orvos ezen a napon zárva tart!
           </div>
           <div>
             <button class="btnStyle btnBook" @click="BookClick()">
               Lefoglalom
             </button>
-          </div>
-          <div class="meanings meaningsInDates">
-            <div>
-              <div class="colorMeaning canBeReservated"></div>
-              <p>Foglalható időpont</p>
-            </div>
-            <div>
-              <div class="colorMeaning choosed"></div>
-              <p>Választott nap</p>
-            </div>
           </div>
         </div>
       </div>

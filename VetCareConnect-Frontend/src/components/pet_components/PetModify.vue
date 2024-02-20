@@ -1,9 +1,9 @@
 <template>
-    <SureInEdit v-if="store.showSure" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
+    <SureInEdit v-if="store.showSure" @cancel="cancelEditing" @editDatas="editDatas" class="animation-scale"></SureInEdit>
     <div class="main">
         <button @click="back()" class="btnStyle btnBack"><img style="filter: invert(100);"
                 src="../../assets/icons/arrow_back.svg">Vissza</button>
-        <div>
+        <div class="animation-scale">
             <div class="dataHeader">
                 <img src="../../assets/icons/profile-line.svg">
                 <h1>{{ editedPetData.name }} adatai</h1>

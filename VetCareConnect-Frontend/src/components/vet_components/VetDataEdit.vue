@@ -1,6 +1,6 @@
 <template>
     <SureInEdit v-if="!store.showSure" @cancel="cancelEditing" @editDatas="editDatas"></SureInEdit>
-    <div class="main">
+    <div class="main animation-scale">
         <div class="myDatas">
             <div class="dataHeader">
                 <img src="../../assets/icons/profile-line.svg">
