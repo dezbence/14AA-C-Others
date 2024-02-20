@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-use App\Mail\SuccesfulSignIn;
 use App\Mail\RegisterConfirm;
 
 class AuthController extends BaseController
@@ -118,8 +117,6 @@ class AuthController extends BaseController
             $success['name'] = $user->name;
             $success['role'] = 0;
 
-            Mail::to($request->email)->send(new SuccesfulSignIn($request->email, $request->name));
-
             return $this->sendResponse($success,'Sikeres bejelentkezés!');
 
         } elseif (Auth::guard('vet')->attempt([
@@ -132,7 +129,6 @@ class AuthController extends BaseController
             $success['name'] = $user->name;
             $success['role'] = 1;
 
-            Mail::to($request->email)->send(new SuccesfulSignIn($request->email, $request->name));
             return $this->sendResponse($success,'Sikeres bejelentkezés!');
 
         } else {

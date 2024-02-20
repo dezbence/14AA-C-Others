@@ -6,6 +6,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\VetController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MailController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,6 +31,8 @@ Route::post('/search-vets', [MainController::class, 'searchVets']);
 Route::get('/vet-all', [MainController::class, 'getAllVet']);
 Route::get('/cure-types-all', [MainController::class, 'getAllCureTypes']);
 Route::get('/faq-all', [MainController::class, 'getAllQuestions']);
+Route::get('/send-register', [MailController::class, 'sendRegisterConfirmMail']);
+Route::post('/send-password-reset', [MailController::class,'sendPasswordResetMail']);
 
 Route::middleware('auth:sanctum')->group(function(){
 
@@ -39,9 +42,6 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user-data', [MainController::class, 'getUserData']);
     Route::put('/modify-user-data',[MainController::class,'modifyUserData']);
 
-    Route::get('/send-register', [MailController::class, 'sendRegisterConfirmMail']);
-    Route::get('/send-login', [MailController::class, 'sendLoginMail']);
-    Route::get('/send-password-reset', [MailController::class,'sendPasswordResetMail']);
     // Route::put('/modify-password', [AuthController::class,'modifyPassword']);)
 
     Route::middleware('only-owner')->group(function(){

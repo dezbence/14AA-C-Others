@@ -49,7 +49,7 @@ export default {
       })
   },
   sendPasswordResetEmail(data) {
-    return Axios.get('/send-password-reset', data)
+    return Axios.post('/send-password-reset', data)
       .then(resp => {
         return resp;
       })
