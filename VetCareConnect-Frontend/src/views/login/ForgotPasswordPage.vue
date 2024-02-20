@@ -12,16 +12,13 @@
 
                 <label>E-mail cím:</label>
 
-                <InputText type="email" placeholder="bodri@gmail.com" v-model="loginData.email"></InputText>
+                <InputText placeholder="bodri@gmail.com" v-model="loginData.email"></InputText>
 
                 <div class="rememberPassword">
                     Eszébe jutott? <router-link to="/bejelentkezes">Jelentkezzen be!</router-link>
                 </div>
 
-                
-                    <button class="btnStyle">E-mail küldése</button>
-                
-
+                <button class="btnStyle">E-mail küldése</button>
 
             </form>
         </div>
@@ -33,27 +30,44 @@ import router from '@/router';
 import { useToast } from 'vue-toastification'
 import InputText from 'primevue/inputtext';
 import userservice from '@/services/userservice';
+import { useUserStore } from "@/store/userstore";
+
+const store = useUserStore();
 const toast = useToast();
 
-const loginData = ref( {
+const loginData = ref({
     'email': ""
 });
+
+const isFilled = ref(false);
+const isEmailFaliled = ref(true);
 
 function back() {
     router.go(-1)
 }
 
-
 function handleSubmit() {
-    userservice.sendPasswordResetEmail(loginData.value)
-        .then(resp => {
-            console.log(resp.data);
-            toast.success('E-mail küldve!', { position: "top-center" });
-        })
-        .catch(error => {
-            console.log(error.data);
-            toast.error('Hiba történt az email küldésekor!', { position: 'top-center' })
-        })
+    if (loginData.value.email == "") isFilled.value = false;
+    else isFilled.value = true;
+
+    if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
+    else if (!loginData.value.email.match(store.emailPattern)) {
+        toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
+        isEmailFaliled.value = true;
+    }
+
+    if (!isEmailFaliled.value) {
+        userservice.sendPasswordResetEmail(loginData.value)
+            .then(resp => {
+                console.log(resp.data);
+                toast.success('E-mail küldve!', { position: "top-center" });
+                router.push('/bejelentkezes')
+            })
+            .catch(error => {
+                console.log(error.data);
+                toast.error('Hiba történt az email küldésekor!', { position: 'top-center' })
+            })
+    }
 }
 
 </script>
