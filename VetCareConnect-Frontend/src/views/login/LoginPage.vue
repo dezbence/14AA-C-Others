@@ -29,7 +29,8 @@
                         </div>
 
                         <div>
-                            <button class="btnStyle">Bejelentkezés</button>
+                            <Button @click="handleSubmit()" class="btnStyle" label="Bejelentkezés"
+                                :disabled="isButtonDisabled"></Button>
                         </div>
                     </div>
 
@@ -39,10 +40,10 @@
             <div class="formRight">
                 <ul>
                     <li>
-                        <img id="logo" src="../../assets/images/logo.png" draggable="false" alt="" />
+                        <img id="logo" src="../../assets/images/logo.png" draggable="false" />
                     </li>
                     <li>
-                        <img id="singinImage" src="../../assets/images/sign_in.png" draggable="false" alt="" />
+                        <img id="singinImage" src="../../assets/images/sign_in.png" draggable="false" />
                     </li>
                     <li>
                         <p>
@@ -59,18 +60,22 @@
 
 <script setup>
 import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 import { ref } from 'vue';
 import router from '@/router';
 import { useUserStore } from '@/store/userstore';
 import { useToast } from 'vue-toastification'
+
+const store = useUserStore();
+const { login } = useUserStore();
 const toast = useToast();
 
-const { login } = useUserStore();
-
+const isButtonDisabled = ref(false);
 const isVisibilityOn = ref(true);
 const typeOfInput = ref("password")
 
 const isFilled = ref(false);
+const isLoginFailed = ref(true);
 
 const loginData = ref({
     email: "",
@@ -82,14 +87,24 @@ function handleSubmit() {
     else isFilled.value = true;
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
-    else {
+    else if (!loginData.value.email.match(store.emailPattern)) {
+        toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
+        isLoginFailed.value = true;
+    } else isLoginFailed.value = false;
+
+    console.log(isLoginFailed.value)
+
+    if (!isLoginFailed.value) {
+        isButtonDisabled.value = true;
         login(loginData.value)
             .then(resp => {
                 router.push('/');
                 toast.success('Sikeres bejelentkezés!', { position: "top-center" });
+                isButtonDisabled.value = false;
             })
             .catch(err => {
                 toast.error('Sikertelen bejelentkezés!', { position: "top-center" });
+                isButtonDisabled.value = false;
             })
     }
 }
