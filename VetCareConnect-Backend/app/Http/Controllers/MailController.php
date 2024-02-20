@@ -20,5 +20,8 @@ class MailController extends Controller
         Mail::to($request->input('email'))->send(new PasswordReset($request->email));
     }
 
+    public function verify(Request $request) {
+        // dd($request->all());
+    }
 
 }

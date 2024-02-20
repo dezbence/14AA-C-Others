@@ -49,7 +49,6 @@ class MainController extends BaseController
         Auth::user()
             ->update($request->all());
 
-            Mail::to($request->email)->send(new PasswordForgot($request->email, $request->name));
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
 

@@ -74,20 +74,28 @@ class AuthController extends BaseController
         if ($input['role'] == 0) {
             unset($input['role']);
             unset($input['confirm_password']);
+
+
             $owner = Owner::create($input);
+            // $owner->sendEmailVerificationNotification();
 
             // $success['token'] = $owner->createToken('Secret')->plainTextToken;
             // $success['name'] = $owner->name;
         } else {
             unset($input['role']);
             unset($input['confirm_password']);
+
+
             $vet = Vet::create($input);
+            // $vet->sendEmailVerificationNotification();
 
             // $success['token'] = $vet->createToken('Secret')->plainTextToken;
             // $success['name'] = $vet->name;
         }
 
-        Mail::to($request->email)->send(new RegisterConfirm($request->email, $request->name));
+        // Mail::to($request->email)->send(new RegisterConfirm($request->email, $request->name));
+
+
         return $this->sendResponse('','Sikeres regisztráció!');
     }
 

@@ -177,11 +177,12 @@ function handleSubmit() {
         userservice.registerUser(registerData.value)
             .then(resp => {
                 router.push('/bejelentkezes');
-                toast.success('Sikeres regisztráció', { position: 'top-center' });
+                toast.success('Sikeres regisztráció!', { position: 'top-center' });
                 console.log(resp);
             })
-            .catch(error => {
-                toast.error(error.data.data.email[0], { position: 'top-center' })      
+            .catch(err => {
+                console.log(err)
+                toast.error('Az email cím már használatban van!', { position: 'top-center' })      
             })
 
     }

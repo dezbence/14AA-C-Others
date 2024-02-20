@@ -33,6 +33,7 @@ Route::get('/cure-types-all', [MainController::class, 'getAllCureTypes']);
 Route::get('/faq-all', [MainController::class, 'getAllQuestions']);
 Route::get('/send-register', [MailController::class, 'sendRegisterConfirmMail']);
 Route::post('/send-password-reset', [MailController::class,'sendPasswordResetMail']);
+// Route::get('/email-verification', [MailController::class, 'verify']);
 
 Route::middleware('auth:sanctum')->group(function(){
 
