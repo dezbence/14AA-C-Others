@@ -4,7 +4,7 @@
     </div>
     <div class="signInBackground">
         <div class="passwordBack">
-            <form @submit.prevent="handelSubmit">
+            <form @submit.prevent="handleSubmit">
 
                 <h3>Elfelejtette a jelszavát?</h3>
                 <p>Kérjük írja be a regisztrációnál használt e-mail címét. Kapni fog egy levelet, amelyben tájékoztatjuk
@@ -12,7 +12,7 @@
 
                 <label>E-mail cím:</label>
 
-                <InputText type="email" placeholder="bodri@gmail.com"></InputText>
+                <InputText type="email" placeholder="bodri@gmail.com" v-model="loginData.email"></InputText>
 
                 <div class="rememberPassword">
                     Eszébe jutott? <router-link to="/bejelentkezes">Jelentkezzen be!</router-link>
@@ -28,27 +28,31 @@
     </div>
 </template>
 <script setup>
+import { ref } from 'vue';
 import router from '@/router';
 import { useToast } from 'vue-toastification'
 import InputText from 'primevue/inputtext';
 import userservice from '@/services/userservice';
 const toast = useToast();
 
+const loginData = ref( {
+    'email': ""
+});
+
 function back() {
     router.go(-1)
 }
 
 
-function handelSubmit() {
-    toast.success('E-mail küldve!', { position: "top-center" });
-    userservice.sendPasswordResetEmail(loginData.email)
+function handleSubmit() {
+    userservice.sendPasswordResetEmail(loginData.value)
         .then(resp => {
             console.log(resp.data);
-            // toast.success('Sikeres regisztráció', { position: 'top-center' });
+            toast.success('E-mail küldve!', { position: "top-center" });
         })
         .catch(error => {
-            console.log(error.response.data);
-            // toast.error(error.data.data.email[0], { position: 'top-center' })
+            console.log(error.data);
+            toast.error('Hiba történt az email küldésekor!', { position: 'top-center' })
         })
 }
 
@@ -57,7 +61,7 @@ function handelSubmit() {
 .passwordBack {
     background-color: white;
     border-radius: 10px;
-    height: 420px;
+    height: 360px;
     width: 400px;
     padding: 45px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -85,7 +89,7 @@ p {
     background: #246951;
     width: 100%;
     padding: 7px;
-    margin: 30px 0;
+    margin: 40px 0;
 }
 
 .rememberPassword {
