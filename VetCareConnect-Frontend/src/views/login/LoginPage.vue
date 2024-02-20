@@ -28,7 +28,8 @@
                             <router-link to="/elfelejtett-jelszo">Elfelejtette a jelszavát?</router-link>
                         </div>
 
-                        <div>
+                        <div class="relative">
+                            <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
                             <Button @click="handleSubmit()" class="btnStyle" label="Bejelentkezés"
                                 :disabled="isButtonDisabled"></Button>
                         </div>
@@ -103,7 +104,7 @@ function handleSubmit() {
                 isButtonDisabled.value = false;
             })
             .catch(err => {
-                toast.error('Sikertelen bejelentkezés!', { position: "top-center" });
+                toast.error('Rossz email cím vagy jelszó!', { position: "top-center" });
                 isButtonDisabled.value = false;
             })
     }
@@ -122,6 +123,19 @@ function passwordToggle() {
 </script>
 
 <style scoped>
+.relative {
+    position: relative;
+}
+
+.loadingSvg {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    z-index: 1;
+    top: 1px;
+    left: 50px;
+}
+
 .main {
     display: flex;
 }
@@ -131,7 +145,6 @@ function passwordToggle() {
     border-radius: 7px 0 0 7px;
     height: 450px;
     width: 320px;
-
 }
 
 .eyeIcon {
@@ -209,13 +222,12 @@ label {
     margin-top: 32px;
 }
 
-
-
 .btnStyle {
     background: #246951;
     margin-top: 50px;
     width: 100%;
     padding: 7px;
+    position: relative;
 }
 
 .btnStyle:hover {
@@ -282,7 +294,6 @@ label {
     .formRight ul li,
     .formRight ul li p {
         margin: 0;
-
     }
 
     .formLeft {
@@ -292,7 +303,10 @@ label {
         padding: 40px 80px;
     }
 
-
+    .loadingSvg {
+        top: 25px;
+        left: 70px;
+    }
 
     form {
         padding: 0;
@@ -325,7 +339,6 @@ label {
     }
 }
 
-
 @media (max-width: 551px) {
 
     .formRight,
@@ -341,6 +354,13 @@ label {
     #logo {
         width: 140px;
         margin: 20px 0;
+    }
+
+    .loadingSvg {
+        width: 26px;
+        height: 26px;
+        top: 28px;
+        left: 65px;
     }
 }
 </style>
