@@ -16,7 +16,7 @@
     </div>
     <div class="buttonContainer">
       <router-link to="/idopontfoglalas">
-        <button class="newAppointmentButton">
+        <button class="newAppointmentButton animation-scale">
           <svg xmlns="http://www.w3.org/2000/svg" fill="white" height="35" viewBox="0 -960 960 960" width="35">
             <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
           </svg>

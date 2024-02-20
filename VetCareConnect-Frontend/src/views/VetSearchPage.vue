@@ -2,7 +2,7 @@
     <Header></Header>
     <h1 class="pageTitle">Állatorvosok</h1>
     <div class="page">
-        <div class="searchBar">
+        <div class="searchBar animation-scale">
             <div class="nameSearch">
                 <label>Név:</label>
                 <InputText  placeholder="Dr. Állat Orvos" v-model="vetSearch.name"/>
@@ -19,7 +19,7 @@
                 <button class="btnStyle" @click="onSearch()">Keresés</button>
             </div>
         </div>
-        <div class="searchResults">
+        <div class="searchResults animation-scale">
             <div v-for="vet in vets">
                 <div class="vetsBox">
                     <div>

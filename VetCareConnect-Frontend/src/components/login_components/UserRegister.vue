@@ -5,7 +5,7 @@
 
     <div class="signInBackground">
 
-        <div class="main">
+        <div class="main animation-scale">
             <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" />
             <!-- Bal oldal -->
             <div class="formCardLeft">

@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main animation-scale">
         <div class="back">
             <div class="front">
                 <h3>Válasszon profil típust!</h3>

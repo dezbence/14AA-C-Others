@@ -1,5 +1,5 @@
 <template>
-    <div class="appointmentCancelComponent">
+    <div class="appointmentCancelComponent animation-scale">
         <p>Biztosan le szeretné mondani az időpontot?</p>
         <div>
             <button class="btnStyle btnNo" @click="ClickNo()">Nem</button>

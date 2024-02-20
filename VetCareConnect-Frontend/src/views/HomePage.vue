@@ -1,23 +1,25 @@
 <template>
     <Header></Header>
-        <div class="blueCard">
+    <div class="blueCard ">
         <div class="greenCard">
-            <div>
+            <div class="">
                 <h1>Mi az a VetCare Connect?</h1>
-                <p>A VetCare Connect összekapcsolja az állatokat, gazdáikat és állatorvosaikat, valamint segít a gyors és egyszerű kapcsolattartásban.</p>
+                <p>A VetCare Connect összekapcsolja az állatokat, gazdáikat és állatorvosaikat, valamint segít a gyors és
+                    egyszerű kapcsolattartásban.</p>
                 <a href="#services"><button>Tudj meg többet!</button></a>
             </div>
             <div><img class="vetImage" src="../assets/images/vet_and_dog.png"></div>
         </div>
     </div>
 
-    <div class="cards">
+    <div class="cards animation-scale">
         <div class="advantageCards">
             <div class="iconCircle">
                 <img src="../assets/icons/connection.svg">
             </div>
             <h1 id="cardTitle">Kapcsolat</h1>
-            <p id="cardText">Segítünk a kapcsolat-tartásban a kedvenceid egészsége érdekében, hogy Ők is boldogak legyenek!</p>
+            <p id="cardText">Segítünk a kapcsolat-tartásban a kedvenceid egészsége érdekében, hogy Ők is boldogak legyenek!
+            </p>
         </div>
 
         <div class="advantageCards">
@@ -25,7 +27,8 @@
                 <img src="../assets/icons/health_metrics.svg">
             </div>
             <h1 id="cardTitle">Egészség</h1>
-            <p id="cardText">Fontos számunkra, hogy a felhasználók állandóan támaszkodhassanak a VetCare Connect szolgáltatásaira.</p>
+            <p id="cardText">Fontos számunkra, hogy a felhasználók állandóan támaszkodhassanak a VetCare Connect
+                szolgáltatásaira.</p>
         </div>
 
 
@@ -35,61 +38,80 @@
                 <img src="../assets/icons/phone.svg">
             </div>
             <h1 id="cardTitle">Egyszerűség</h1>
-            <p id="cardText">Igyekszünk minél könnyebben kezelhető felületet készíteni, hogy Mindenki élvezhesse az állattartást!</p>
+            <p id="cardText">Igyekszünk minél könnyebben kezelhető felületet készíteni, hogy Mindenki élvezhesse az
+                állattartást!</p>
         </div>
 
     </div>
 
     <h1 id="services" class="pageTitle">Szolgáltatásaink felhasználóinknak</h1>
 
-    <div class="summaryCards">
+    <div class="summaryCards animation-scale">
         <div class="summaryCard">
             <h2>Orvosként elérhető szolgáltatások</h2>
             <ul>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
+                    aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
+                    aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
+                    aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
+                    aperiam itaque esse labore aliquam fugit.</li>
             </ul>
         </div>
 
         <div class="summaryCard">
             <h2>Gazdaként elérhető szolgáltatások</h2>
             <ul>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
+                    aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
+                    aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
+                    aperiam itaque esse labore aliquam fugit.</li>
+                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
+                    aperiam itaque esse labore aliquam fugit.</li>
             </ul>
         </div>
 
     </div>
 
     <h1 class="pageTitle">Útmutató</h1>
-    <h2 class="steps">1. Regisztráció</h2>
-    <div class="text">
-        <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a felhasználói profilját (gazda vagy orvos), majd az adatok kitöltésével regisztráljon az oldalra!</p>
-        <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja megváltoztatni. A többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim" menüpontra kattintva van lehetőség.</p>
-    </div>
-    <h2 class="steps">2. Kisállat hozzáadása</h2>
-    <div class="text">
-        <p>Gazda bejelentkezés után a "Kedvenceim" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
-        <p>Az állatok adatait később tudja módosítani, az állat profiljának jobb felső sarkában található ikonra kattintva. Itt lehetősége van szerkeszteni, vagy törölni az állatot a profiljából.</p>
-    </div>
-    <h2 class="steps">3. Állatorvos kiválasztása</h2>
-    <div class="text">
-        <p>Az "Állatorvosok" menüpont alatt tud böngészni a beregisztrált állatorvosok között. Lehetősége van keresni közöttük név, irányítószám és cím alapján.</p>
-        <p>Az "Időpontot foglalok" gombra kattintva elnavigálhat az időpontfoglaló oldalra, ahol automatikusan a kiválasztott orvoshoz tud időpontot foglalni.</p>
-    </div>
-    <h2 class="steps">4. Időpont foglalás</h2>
-    <div class="text">
-        <p>Időpontot foglalni az "Időpont foglalás" menüpont alatt, vagy az Útmutató 3. pontjában említett módon tud.</p>
-        <p>Az időpontfoglaláshoz meg kell adnia a kiválasztott orvost, az időpont típusát, a kisállatát, akit az időpontra szeretni vinni, valamint ki tuda választani az időpontot az adott orvoshoz.</p>
-    </div>
-    <h2 class="steps">5. Lefoglalt időpontok</h2>
-    <div class="text">
-        <p>A "Naptáram" fül alatt tudja megtakinteni az állatorvosi időpontjait.</p>
-        <p>Amennyiben mégsem tud megjelenni az időponton, 2 nappal hamarabb lehetősége van lemondani azt.</p>
+    <div class="animation-scale">
+
+        <h2 class="steps">1. Regisztráció</h2>
+        <div class="text">
+            <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a felhasználói
+                profilját (gazda vagy orvos), majd az adatok kitöltésével regisztráljon az oldalra!</p>
+            <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja megváltoztatni. A
+                többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim" menüpontra
+                kattintva van lehetőség.</p>
+        </div>
+        <h2 class="steps">2. Kisállat hozzáadása</h2>
+        <div class="text">
+            <p>Gazda bejelentkezés után a "Kedvenceim" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
+            <p>Az állatok adatait később tudja módosítani, az állat profiljának jobb felső sarkában található ikonra kattintva.
+                Itt lehetősége van szerkeszteni, vagy törölni az állatot a profiljából.</p>
+        </div>
+        <h2 class="steps">3. Állatorvos kiválasztása</h2>
+        <div class="text">
+            <p>Az "Állatorvosok" menüpont alatt tud böngészni a beregisztrált állatorvosok között. Lehetősége van keresni
+                közöttük név, irányítószám és cím alapján.</p>
+            <p>Az "Időpontot foglalok" gombra kattintva elnavigálhat az időpontfoglaló oldalra, ahol automatikusan a
+                kiválasztott orvoshoz tud időpontot foglalni.</p>
+        </div>
+        <h2 class="steps">4. Időpont foglalás</h2>
+        <div class="text">
+            <p>Időpontot foglalni az "Időpont foglalás" menüpont alatt, vagy az Útmutató 3. pontjában említett módon tud.</p>
+            <p>Az időpontfoglaláshoz meg kell adnia a kiválasztott orvost, az időpont típusát, a kisállatát, akit az időpontra
+                szeretni vinni, valamint ki tuda választani az időpontot az adott orvoshoz.</p>
+        </div>
+        <h2 class="steps">5. Lefoglalt időpontok</h2>
+        <div class="text">
+            <p>A "Naptáram" fül alatt tudja megtakinteni az állatorvosi időpontjait.</p>
+            <p>Amennyiben mégsem tud megjelenni az időponton, 2 nappal hamarabb lehetősége van lemondani azt.</p>
+        </div>
     </div>
 
     <Footer></Footer>
@@ -110,10 +132,12 @@ import Footer from '@/components/page_controls/Footer.vue';
     margin-left: 50px;
     color: #005A70;
 }
+
 .text {
     margin: 20px 70px;
     text-align: justify;
 }
+
 .blueCard {
     background-color: #005A70;
     width: 100%;
@@ -221,7 +245,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    flex-wrap: wrap;   
+    flex-wrap: wrap;
 }
 
 .summaryCard {
@@ -311,6 +335,7 @@ button {
         flex-direction: column;
         align-items: center;
     }
+
     .pageTitle {
         font-size: 30px !important;
     }
@@ -332,6 +357,5 @@ button {
     .greenCard h1 {
         font-size: 1.4rem;
     }
-}
-</style>
+}</style>
   

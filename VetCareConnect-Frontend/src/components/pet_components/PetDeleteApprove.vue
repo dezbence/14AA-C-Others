@@ -1,5 +1,5 @@
 <template>
-    <div class="petDeleteComponent">
+    <div class="petDeleteComponent animation-scale">
         <h3>Biztosan kitörli a kisállatát?</h3>
         <div class="middle">
             <button class="btnStyle btnYes" @click="ClickYes()">Igen</button>

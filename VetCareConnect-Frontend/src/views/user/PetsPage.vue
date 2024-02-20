@@ -8,7 +8,7 @@
                 <div class="petsCard">
 
                     <div v-for="pet in store.pets" v-if="store.pets.length > 0">
-                        <Pet :pet=pet></Pet>
+                        <Pet :pet=pet class="animation-scale"></Pet>
                     </div>
 
                     <div class="noPetsYet" v-else>

@@ -1,6 +1,6 @@
 <template>
     <div class="darkBack">
-        <div class="petCreatingForm">
+        <div class="petCreatingForm animation-scale">
 
             <div class="close">
                 <img @click="showCreator()" src="../../assets/icons/arrow_back.svg">

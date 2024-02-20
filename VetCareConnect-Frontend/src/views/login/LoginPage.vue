@@ -4,7 +4,7 @@
     </div>
 
     <div class="signInBackground">
-        <div class="main">
+        <div class="main animation-scale">
             <div class="formLeft">
                 <form @submit.prevent="handleSubmit">
                     <h3>Bejelentkezés</h3>

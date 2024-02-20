@@ -3,8 +3,7 @@
     <h1 class="pageTitle">Beállítások</h1>
     <h2 class="titles">Nyitvatartás</h2>
     <div class="openingHours"  >
-        <!-- <div class="normalOpening" v-if="opening.length != 0"> -->
-        <div class="normalOpening">
+        <div class="normalOpening animation-scale" v-if="opening.length != 0">
             <DataTable :value="opening" class="openingTable">
                 <Column field="day" header="Nap"></Column>
                 <Column field="working_hours" header="Nyitvatartás"></Column>
@@ -13,8 +12,7 @@
                 <button class="btnStyle btnEdit">Módosítás</button>
             </a>
         </div>
-        <!-- <div class="specialOpening" v-if="specialOpening.length != 0"> -->
-        <div class="specialOpening">
+        <div class="specialOpening animation-scale" v-if="specialOpening.length != 0">
             <DataTable :value="specialOpening" class="openingTable">
                 <Column field="date" header="Dátum"></Column>
                 <Column field="working_hours" header="Nyitvatartás"></Column>
@@ -23,9 +21,9 @@
                 <button class="btnStyle btnEdit">Módosítás</button>
             </a>
         </div>
-        <!-- <div v-else>
-            <h5>Önnek még nincs nyitvatartása. Kérem adjon hozzá nyitvatartást!</h5>
-        </div> -->
+        <div v-if="specialOpening.length == 0 && opening.length == 0">
+            <p>Önnek még nincs nyitvatartása. Kérem adjon hozzá nyitvatartást!</p>
+        </div>
     </div>
     <h2 class="titles" id="edit">Nyitvatartás módosítása</h2>
     <div class="main">
@@ -37,7 +35,7 @@
             </div>
         </div>
         <div class="opening" v-if="showOpening">
-            <div class="daily">
+            <div class="daily animation-scale">
                 <h1>{{ choosedDay }}</h1>
                 <div class="closed">
                     <label v-if="!isOpen">Zárva</label>
@@ -67,10 +65,10 @@
         </div>
     </div>
 
-    <h2 class="titles" id="editSpecial">Különleges nyitvatartás hozzáadása</h2>
-    <div class="opening">
-        <div class="daily special">
-            <h2>Különleges nyitvatartás</h2>
+    <h2 class="titles" id="editSpecial">Különleges nyitvatartások módosítása</h2>
+    <div class="opening specialOpeningEdit">
+        <div class="daily special animation-scale">
+            <h2>Különleges nyitvatartás hozzáadása</h2>
             <Calendar v-model="specialDate" dateFormat="yy-mm-dd" :min-date="new Date()" showIcon iconDisplay="input"
                 class="calendarSpecial" />
             <div class="closed">
@@ -99,19 +97,15 @@
                 Nyitvatartás mentése
             </button>
         </div>
+        <div class="specialTable animation-scale" v-if="specialOpening.length != 0">
+            <DataTable v-model:selection="selectSpecialDelete" :value="specialOpening" dataKey="id">
+                <Column selectionMode="multiple"></Column>
+                <Column field="date" header="Dátum"></Column>
+                <Column field="working_hours" header="Nyitvatartás"></Column>
+            </DataTable>
+            <button class="btnStyle btnDelete" @click="deleteSpecial()">Törlés</button>
+        </div>
     </div>
-
-    <h2 class="titles">Különleges nyitvatartás eltávolítása</h2>
-    <div class="specialTable">
-        <DataTable v-model:selection="selectSpecialDelete" :value="specialOpening" dataKey="id">
-            <Column selectionMode="multiple"></Column>
-            <Column field="date" header="Dátum"></Column>
-            <Column field="working_hours" header="Nyitvatartás"></Column>
-        </DataTable>
-        <button class="btnStyle btnDelete" @click="deleteSpecial()">Törlés</button>
-    </div>
-
-
     <Footer></Footer>
 </template>
 
@@ -126,8 +120,7 @@ import Column from 'primevue/column';
 
 import vetService from "@/services/vetservice";
 
-// import { ref, onBeforeMount } from "vue";
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../../store/userstore";
 import { useToast } from 'vue-toastification';
@@ -149,9 +142,9 @@ const specialOpeningHours = ref();
 const breakHours = ref();
 const specialBreakHours = ref();
 
-const opening = ref();
-const specialOpening = ref();
-const specialOpeningDates = [];
+const opening = ref([]);
+const specialOpening = ref([]);
+const specialOpeningDates = ref([]);
 const selectSpecialDelete = ref();
 
 const error = ref(false);
@@ -203,23 +196,17 @@ function getSpecialOpenings() {
     vetService.getSpecialOpenings(user.value.token).then(resp => {
         specialOpening.value = resp.data;
         (specialOpening.value).forEach(o => {
-            specialOpeningDates.push(o.date);
+            specialOpeningDates.value.push(o.date);
         });
     });
 }
 
 function addSpecialOpening(data) {
-    vetService.addSpecialOpeningTime(user.value.token, data).then(resp => {
-        console.log("sikeres hozzáadás")
-    });
+    vetService.addSpecialOpeningTime(user.value.token, data);
 }
 
 function deleteSpecialOpening(id) {
-    console.log(user.value.token)
-    console.log(id)
-    vetService.deleteSpecialOpening(user.value.token, id).then(resp => {
-        console.log("sikeres törlés")
-    });
+    vetService.deleteSpecialOpening(user.value.token, id);
 }
 
 function isOpenTime(day) {
@@ -318,7 +305,6 @@ function saveOpening() {
         }
         addOpenings("hétköznapok");
     } else if (choosedDay.value == "minden nap") {
-        console.log('igen')
         sendOpeningData = [];
         for (let i = 2; i < days.length; i++) {
             if (isOpen.value) {
@@ -345,7 +331,6 @@ function saveOpening() {
                 else {
                     dayClosed = days[i];
                 }
-                console.log(days[i])
                 addOpenings(days[i]);
             }
         }
@@ -355,7 +340,7 @@ function saveOpening() {
 
 function saveSpecialOpening() {
     //validálás
-    if (specialOpeningDates.includes(specialDateFormatted.value)) {
+    if (specialOpeningDates.value.includes(specialDateFormatted.value)) {
         toast.error(`Önnek erre a napra már van különleges nyitvatartása! Távolítsa el, majd adjon hozzá másik nyitvatartást!`, { position: "top-center" });
         return;
     }
@@ -411,23 +396,28 @@ function saveSpecialOpening() {
         sendOpeningData.push({ working_hours: "zárva", date: specialDateFormatted.value });
     }
 
-    // console.log(sendOpeningData);
     addSpecialOpening(sendOpeningData);
     getSpecialOpenings();
 }
 function deleteSpecial() {
+    if (selectSpecialDelete.value == undefined) {
+        toast.error(`Kérem válassza ki, hogy melyik nyitvatartást szeretné törölni!`, { position: "top-center" });
+        return;
+    }
     (selectSpecialDelete.value).forEach(d => {
         deleteSpecialOpening(d.id);
     });
+    specialOpeningDates.value = [];
     getSpecialOpenings();
 }
 
 getOpenings();
 getSpecialOpenings();
-// onBeforeMount(() => {
-//     getOpenings();
-//     getSpecialOpenings();
-// });
+onBeforeMount(() => {
+    getOpenings();
+    console.log(specialOpening.value)
+    getSpecialOpenings();
+});
 </script>
 
 <style lang="css" scoped>
@@ -517,6 +507,7 @@ a {
 .special {
     width: 350px;
     height: 500px;
+    margin: 0px 20px;
 }
 
 .specialTable {
@@ -524,9 +515,13 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+    margin: 0px 20px;
 }
-
+.specialOpeningEdit {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
 .openingTable {
     width: 280px;
 }
@@ -539,7 +534,16 @@ a {
     margin-bottom: 10px;
     width: 150px;
 }
-
+@keyframes load {
+    0%{
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 @media(max-width: 991px) {
     .days {
         flex-direction: column;
@@ -557,6 +561,19 @@ a {
     .normalOpening {
         margin-bottom: 50px;
     }
+    
+}
+
+@media (max-width: 900px) {
+    .specialOpeningEdit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .specialTable {
+        margin-top: 40px;
+    }
 }
 
 @media (max-width: 576px) {
@@ -571,4 +588,5 @@ a {
     .daily {
         width: 300px;
     }
-}</style>
+}
+</style>
