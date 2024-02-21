@@ -76,8 +76,7 @@ class AuthController extends BaseController
             unset($input['confirm_password']);
 
 
-            $owner = Owner::create($input);
-            // $owner->sendEmailVerificationNotification();
+            $owner = Owner::create($input)->sendEmailVerificationNotification();
 
             // $success['token'] = $owner->createToken('Secret')->plainTextToken;
             // $success['name'] = $owner->name;
@@ -86,8 +85,7 @@ class AuthController extends BaseController
             unset($input['confirm_password']);
 
 
-            $vet = Vet::create($input);
-            // $vet->sendEmailVerificationNotification();
+            $vet = Vet::create($input)->sendEmailVerificationNotification();
 
             // $success['token'] = $vet->createToken('Secret')->plainTextToken;
             // $success['name'] = $vet->name;
