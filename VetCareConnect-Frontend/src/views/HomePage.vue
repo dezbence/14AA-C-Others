@@ -50,47 +50,40 @@
         <div class="summaryCard">
             <h2>Orvosként elérhető szolgáltatások</h2>
             <ul>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
-                    aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
-                    aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
-                    aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
-                    aperiam itaque esse labore aliquam fugit.</li>
+                <li>Könnyen, egy helyen átláthatja az időpontjait</li>
+                <li>Nem kell az időpontfoglalások adminisztrációjával bajlódnia</li>
+                <li>Gyors, egyszerű adminisztráció</li>
+                <li>Könyű nyitvatartáskezelés</li>
             </ul>
         </div>
 
         <div class="summaryCard">
             <h2>Gazdaként elérhető szolgáltatások</h2>
             <ul>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
-                    aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
-                    aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
-                    aperiam itaque esse labore aliquam fugit.</li>
-                <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi facilis distinctio ad ex nulla
-                    aperiam itaque esse labore aliquam fugit.</li>
+                <li>Állatorvos böngésző</li>
+                <li>Egyszerű időpontfoglalás</li>
+                <li>Állatok adatainak nyilvántartása, adminisztrációja</li>
+                <li>Könnyen, egy helyen átláthatja az időpontjait</li>
+                <li>Emailes emlékeztetők a közelgő és lemondott kezelésekről</li>
             </ul>
         </div>
 
     </div>
 
-    <h1 class="pageTitle">Útmutató</h1>
+    <h1 class="pageTitle">Útmutató gazdáknak</h1>
     <div class="animation-scale">
 
         <h2 class="steps">1. Regisztráció</h2>
         <div class="text">
             <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a felhasználói
-                profilját (gazda vagy orvos), majd az adatok kitöltésével regisztráljon az oldalra!</p>
+                profilját (gazda), majd az adatok kitöltésével regisztráljon az oldalra!</p>
             <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja megváltoztatni. A
                 többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim" menüpontra
                 kattintva van lehetőség.</p>
         </div>
         <h2 class="steps">2. Kisállat hozzáadása</h2>
         <div class="text">
-            <p>Gazda bejelentkezés után a "Kedvenceim" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
+            <p>Bejelentkezés után a "Kedvenceim" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
             <p>Az állatok adatait később tudja módosítani, az állat profiljának jobb felső sarkában található ikonra kattintva.
                 Itt lehetősége van szerkeszteni, vagy törölni az állatot a profiljából.</p>
         </div>
@@ -111,6 +104,33 @@
         <div class="text">
             <p>A "Naptáram" fül alatt tudja megtakinteni az állatorvosi időpontjait.</p>
             <p>Amennyiben mégsem tud megjelenni az időponton, 2 nappal hamarabb lehetősége van lemondani azt.</p>
+        </div>
+    </div>
+
+    <h1 class="pageTitle">Útmutató orvosoknak</h1>
+    <div class="animation-scale">
+
+        <h2 class="steps">1. Regisztráció</h2>
+        <div class="text">
+            <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a felhasználói
+                profilját (orvos), majd az adatok kitöltésével regisztráljon az oldalra!</p>
+            <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja megváltoztatni. A
+                többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim" menüpontra
+                kattintva van lehetőség.</p>
+        </div>
+        <h2 class="steps">2. Nyitvatartás hozzáadása</h2>
+        <div class="text">
+            <p>Bejelentkezés után a "Nyitvatatás" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
+            <p>A nyitvatartás módosítására lehetősége van a fent említett menüpontban.</p>
+        </div>
+        <h2 class="steps">3. Speciális nyitvatartás</h2>
+        <div class="text">
+            <p>Lehetősége van speciális nyitvatartást felvenni az olyan napokra, amiken valamilyen okból kifolyólag zárva tart vagy másképp tart nyitva, mint a normál nyitvatartás.</p>
+            <p>Az ilyen időpontok kizárólag egy napra szólnak, ezeket a "Nyitvatartás" menüpont alatt tudja beállítani valamint törölni.</p>
+        </div>
+        <h2 class="steps">4. Időpontok</h2>
+        <div class="text">
+            <p>Az Ön időpontjait a "Naptáram" fül alatt tudja megtekinteni. A dátum kiválasztásával megjelennek az adott napi kezelések.</p>
         </div>
     </div>
 
@@ -244,19 +264,23 @@ button {
 .summaryCards {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .summaryCard {
     width: 500px;
-    height: max-content;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: #50B692;
     border-radius: 7px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     color: white;
     padding: 30px;
-    margin: 40px 80px;
+    margin: 40px;
 }
 
 .summaryCard:hover {
@@ -336,10 +360,14 @@ button {
         align-items: center;
     }
 
-    .pageTitle {
-        font-size: 30px !important;
-    }
+    
 
+}
+
+@media (max-width: 720px){
+    .pageTitle {
+        margin: 0 30px !important;
+    }
 }
 
 @media (max-width: 450px) {
@@ -357,5 +385,11 @@ button {
     .greenCard h1 {
         font-size: 1.4rem;
     }
+    .pageTitle {
+        font-size: 30px !important;
+        margin: 0 10px !important;
+
+    }
+    
 }</style>
   

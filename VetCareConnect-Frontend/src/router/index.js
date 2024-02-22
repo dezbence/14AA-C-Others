@@ -26,7 +26,7 @@ const access = {
   '/allatorvosok': [0, 1, null],
   '/gyik': [0, 1, null],
   '/orvosi-naptar': [1],
-  '/orvos-beallitasok': [1],
+  '/nyitvatartas': [1],
   '/adataim': [0, 1],
   '/:catchAll(.*)': [0, 1, null]
 };
@@ -45,7 +45,7 @@ const router = createRouter({
     { path: '/allatorvosok', name: 'vets', component: () => import('@/views/VetSearchPage.vue') },
     { path: '/gyik', name: 'gyik', component: () => import('@/views/FrequentlyAskedQuestionsPage.vue') },
     { path: '/orvosi-naptar', name: 'orvosiNaptar', component: () => import('@/views/vet/VetCalendar.vue') },
-    { path: '/orvos-beallitasok', name: 'orvosBeallitasok', component: () => import('@/views/vet/VetSettingsPage.vue') },
+    { path: '/nyitvatartas', name: 'nyitvatartas', component: () => import('@/views/vet/VetSettingsPage.vue') },
     { path: '/adataim', name: 'myData', component: () => import('@/views/MyDataPage.vue') },
     // catch all 404
     { path: '/:catchAll(.*)', name: 'notfound', component: NotFoundPageVue }

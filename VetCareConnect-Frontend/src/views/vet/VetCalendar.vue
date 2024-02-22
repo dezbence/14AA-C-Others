@@ -37,7 +37,7 @@ import { useUserStore } from "../../store/userstore";
 const { user } = storeToRefs(useUserStore());
 
 const primevue = usePrimeVue();
-primevue.config.locale.dayNamesMin = ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'];
+primevue.config.locale.dayNamesMin = ['V', 'H', 'K', 'Sz', 'Cs', 'P', 'Sz'];
 primevue.config.locale.firstDayOfWeek = 1;
 primevue.config.locale.monthNames = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
 
@@ -74,7 +74,7 @@ getVetAppointments()
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 100px;
+    gap: 50px;
     padding: 0 60px;
 }
 
@@ -98,7 +98,7 @@ getVetAppointments()
 
 .todaysToDo .toDos {
     overflow-y: auto;
-    max-height: 550px;
+    max-height: 530px;
 }
 
 /* width */
@@ -129,9 +129,20 @@ getVetAppointments()
     border-radius: 7px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     animation: load 0.5s ease-out;
-
 }
 
+@media (max-width: 650px) {
+    .toDoBack {
+        padding: 0px;
+    }
 
-@media (max-width: 1150px) {}
+    .todaysToDo {
+        width: 300px;
+    }
+    .toDos {
+        max-height: 500px !important;
+
+    }
+}
+
 </style>

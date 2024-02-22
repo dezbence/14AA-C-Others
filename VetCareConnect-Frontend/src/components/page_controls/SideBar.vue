@@ -37,8 +37,8 @@ const Routes = [
   { name: "Időpont foglalás", link: "/idopontfoglalas", roleAccess: [0] },
   { name: "Kedvenceim", link: "/kedvenceim", roleAccess: [0] },
   { name: "Naptáram", link: "/naptaram", roleAccess: [0] },
-  { name: "Orvosi Naptáram", link: "/orvosi-naptar", roleAccess: [1] },
-  { name: "Orvos beállítások", link: "/orvos-beallitasok", roleAccess: [1] }
+  { name: "Naptáram", link: "/orvosi-naptar", roleAccess: [1] },
+  { name: "Nyitvatartás", link: "/nyitvatartas", roleAccess: [1] }
 ];
 
 function onLogout(){
