@@ -4,8 +4,8 @@
             <routerLink class="menuImg" :to="menu.link"><img :src="menu.img">{{ menu.name }}</routerLink>
         </div>
         <hr v-if="status.loggedIn">
-        <div class="list" v-if="status.loggedIn">
-            <li class="logOut" @click="onLogout()"><img src="../../assets/icons/logout.svg">
+        <div class="list" @click="onLogout()" v-if="status.loggedIn">
+            <li class="logOut"><img src="../../assets/icons/logout.svg">
                 <p>Kijelentkezés</p>
             </li>
         </div>

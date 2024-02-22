@@ -241,6 +241,45 @@ select {
   padding: 1.65rem 1rem;
   font-size: 1.25rem;
 }
+@media (max-width: 991px) {
+  .vetCalendar .p-datepicker table th > span,
+  .vetCalendar .p-datepicker table td{
+    font-size: 1rem;
+  }
+}
+@media (max-width: 750px) {
+  .vetCalendar .p-datepicker table th > span,
+  .vetCalendar .p-datepicker table td{
+    font-size: 0.8rem;
+    padding: 15px;
+  }
+  .vetCalendar {
+    height: 500px !important;
+  }
+}
+@media (max-width: 650px) {
+  .vetCalendar .p-datepicker table th > span,
+  .vetCalendar .p-datepicker table td{
+    padding: 5px;
+  }
+  .vetCalendar {
+    height: 400px !important;
+    width: 400px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .vetCalendar .p-datepicker table th > span,
+  .vetCalendar .p-datepicker table td{
+    padding: 0px;
+  }
+  .vetCalendar {
+    height: 350px !important;
+    width: 300px !important;
+  }
+
+  
+}
 /* adatok ---- ezeket a styleokat ki kell szedni a mydata-ból*/
 .p-dropdown,
 .p-inputtext,

@@ -100,6 +100,7 @@ function handleSubmit() {
         login(loginData.value)
             .then(resp => {
                 router.push('/');
+                console.log('minden fasza')
                 toast.success('Sikeres bejelentkezés!', { position: "top-center" });
                 isButtonDisabled.value = false;
             })
