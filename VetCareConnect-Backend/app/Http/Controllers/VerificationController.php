@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use App\ApiCode;
 use App\Models\Owner;
 use App\Models\Vet;
 
@@ -15,33 +13,40 @@ class VerificationController extends BaseController
             return response()->json(["msg" => "Invalid/Expired url provided."], 401);
         }
 
-
-
-        // $vet = Vet::findOrFail($user_id);
-        $owner = Owner::findOrFail($user_id);
-
-        if (!$owner->hasVerifiedEmail()) {
-            $owner->markEmailAsVerified();
+        $user = Vet::find($user_id);
+        if ($user == null) {
+            $user = Owner::find($user_id);
         }
 
+        if ($user == null) {
+            return $this->sendResponse('','Hibás verifikáció!');
+        }
 
-        // if (!$vet->hasVerifiedEmail()) {
-        //     $vet->markEmailAsVerified();
-        // }
-
-
-        // return redirect()->to('/');
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
 
         return $this->sendResponse('','Sikeres megerősítés!');
     }
 
-    public function resend() {
-        if (user()->hasVerifiedEmail()) {
-            return response()->json(["msg" => "Email already verified."], 400);
+    public function resend($user_id) {
+        $user = Vet::find($user_id);
+        if ($user === null) {
+            $user = Owner::find($user_id);
         }
 
-        user()->sendEmailVerificationNotification();
+        if ($user === null) {
+            return $this->sendResponse('','Nincs ilyen user!');
+        }
 
-        return response()->json(["msg" => "Email verification link sent on your email id"]);
+        if ($user->hasVerifiedEmail()) {
+            return $this->sendResponse('','Az email már lett erősítve!');
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return $this->sendResponse('','Új megerősítő email sikeresen elküldve!');
     }
+
+
 }

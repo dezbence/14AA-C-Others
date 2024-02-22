@@ -91,9 +91,6 @@ class AuthController extends BaseController
             // $success['name'] = $vet->name;
         }
 
-        // Mail::to($request->email)->send(new RegisterConfirm($request->email, $request->name));
-
-
         return $this->sendResponse('','Sikeres regisztráció!');
     }
 
