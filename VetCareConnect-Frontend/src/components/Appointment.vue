@@ -48,10 +48,14 @@ function Cancel(){
   background-color: #50b692;
   justify-self: center;
   width: 350px;
+  height: 250px;
   padding: 15px;
   padding-left: 25px;
   margin: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 p {
@@ -78,6 +82,7 @@ p {
   background-color: #246951;
   margin-top: 15px;
   padding: 10px 20px;
+  width: 200px;
 }
 
 @media (min-width: 1260px) {
@@ -100,6 +105,7 @@ p {
 @media (max-width: 560px){
   .nextAppointmentCard {
     width: 300px;
+    height: 220px;
   }
 }
 </style>

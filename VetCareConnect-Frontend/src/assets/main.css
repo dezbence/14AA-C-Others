@@ -375,3 +375,29 @@ select {
       opacity: 1;
   }
 }
+.animation_float_left {
+  animation: float_left 1s ease-out;
+
+}
+@keyframes float_left {
+  0%{
+      transform: translateX(-1000px);
+  }
+  100%{
+    transform: translateX(0px);
+
+  }
+}
+.animation_float_right {
+  animation: float_right 1s ease-out;
+
+}
+@keyframes float_right {
+  0%{
+      transform: translateX(1000px);
+  }
+  100%{
+    transform: translateX(0px);
+
+  }
+}
