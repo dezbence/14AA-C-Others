@@ -10,7 +10,7 @@ class VerificationController extends BaseController
 
     public function verify($user_id, Request $request) {
         if (!$request->hasValidSignature()) {
-            return response()->json(["msg" => "Invalid/Expired url provided."], 401);
+            return $this->sendResponse('','Hibás vagy lejárt megerősítő link!');
         }
 
         $user = Vet::find($user_id);
@@ -36,7 +36,7 @@ class VerificationController extends BaseController
         }
 
         if ($user === null) {
-            return $this->sendResponse('','Nincs ilyen user!');
+            return $this->sendResponse('','Nincs ilyen felhasználó!');
         }
 
         if ($user->hasVerifiedEmail()) {
