@@ -40,7 +40,7 @@ class VerificationController extends BaseController
         }
 
         if ($user->hasVerifiedEmail()) {
-            return $this->sendResponse('','Az email már lett erősítve!');
+            return $this->sendResponse('','Az email már meg lett erősítve!');
         }
 
         $user->sendEmailVerificationNotification();
