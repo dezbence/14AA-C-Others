@@ -43,4 +43,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function sendPasswordResetNotification($token)
+    {
+        // $url = url(config('app.url').route('password.reset', $token, false));
+        $url = 'https://localhost:5173/reset-password?token='.$token;
+        $this->notify(new ResetPasswordNotification($url));
+    }
 }

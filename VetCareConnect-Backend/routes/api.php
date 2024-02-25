@@ -6,8 +6,9 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\VetController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MailController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\PasswordController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -36,9 +37,8 @@ Route::get('/faq-all', [MainController::class, 'getAllQuestions']);
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
 Route::get('email/resend/{id}', [VerificationController::class, 'resend'])->name('verification.resend');
 
-// Route::get('/send-register', [MailController::class, 'sendRegisterConfirmMail']);
-// Route::post('/send-password-reset', [MailController::class,'sendPasswordResetMail']);
-// Route::get('/email-verification', [MailController::class, 'verify']);
+Route::post('/forgot-password', [PasswordController::class, 'forgotPassword']);
+Route::post('reset-password', [PasswordController::class, 'reset']);
 
 Route::middleware('auth:sanctum')->group(function(){
 

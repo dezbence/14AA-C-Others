@@ -9,9 +9,7 @@ use App\Models\Vet;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
-use App\Mail\RegisterConfirm;
 
 class AuthController extends BaseController
 {
