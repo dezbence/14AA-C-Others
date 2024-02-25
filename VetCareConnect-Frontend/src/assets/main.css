@@ -376,9 +376,10 @@ select {
   }
 }
 .animation_float_left {
-  animation: float_left 1s ease-out;
+  animation: float_left 0.8s ease-out;
 
 }
+
 @keyframes float_left {
   0%{
       transform: translateX(-1000px);
@@ -388,10 +389,12 @@ select {
 
   }
 }
+
 .animation_float_right {
-  animation: float_right 1s ease-out;
+  animation: float_right 0.8s ease-out;
 
 }
+
 @keyframes float_right {
   0%{
       transform: translateX(1000px);
