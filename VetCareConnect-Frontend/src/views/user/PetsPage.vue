@@ -26,7 +26,7 @@
         </div>
     </div>
     <div v-else-if="store.petEdit">
-        <PetEdit></PetEdit>
+        <PetEdit :modify-pet="modifyPet"></PetEdit>
     </div>
     <div v-else class="petDelete">
         <PetDelete></PetDelete>
@@ -66,7 +66,9 @@ function submitPet() {
     store.getPets();
     isPetCreating.value = false;
 }
-
+function modifyPet(){
+    store.getPets();
+}
 store.getPets();
 </script>
 

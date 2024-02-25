@@ -9,9 +9,12 @@ import App from './App.vue'
 
 import 'primevue/resources/themes/saga-green/theme.css'
 import './assets/main.css'
+import AnimateOnScroll from 'primevue/animateonscroll';
+
 
 const app = createApp(App)
 
+app.directive('animateonscroll', AnimateOnScroll);
 app.use(createPinia())
 app.use(PrimeVue)
 app.use(router).mount('#app')

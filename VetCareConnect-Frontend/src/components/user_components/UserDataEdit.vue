@@ -94,8 +94,6 @@ getUsersData();
 
 
 function saveChanges() {
-    console.log(editedUserData.value)
-    console.log(userData)
     if (editedUserData.value.name === userData.name &&
         editedUserData.value.phone.replace(/[/-]/g, '') === userData.phone.replace(/[/-]/g, '') &&
         editedUserData.value.postal_code === userData.postal_code) {
@@ -114,7 +112,6 @@ function saveChanges() {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
 }
 
 label {

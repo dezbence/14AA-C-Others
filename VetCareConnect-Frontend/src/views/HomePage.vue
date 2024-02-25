@@ -6,7 +6,7 @@
                 <h1>Mi az a VetCare Connect?</h1>
                 <p>A VetCare Connect összekapcsolja az állatokat, gazdáikat és állatorvosaikat, valamint segít a gyors és
                     egyszerű kapcsolattartásban.</p>
-                <a href="#services"><button>Tudj meg többet!</button></a>
+                <a href="#services"><button class="btnMore">Tudj meg többet!</button></a>
             </div>
             <div><img class="vetImage" src="../assets/images/vet_and_dog.png"></div>
         </div>
@@ -44,165 +44,171 @@
 
     </div>
 
-    <h1 id="services" class="pageTitle">Szolgáltatásaink felhasználóinknak</h1>
-
-    <div class="summaryCards animation-scale">
-        <div class="summaryCard">
-            <h2>Orvosként elérhető szolgáltatások</h2>
-            <ul>
-                <li>Könnyen, egy helyen átláthatja az időpontjait</li>
-                <li>Nem kell az időpontfoglalások adminisztrációjával bajlódnia</li>
-                <li>Gyors, egyszerű adminisztráció</li>
-                <li>Könyű nyitvatartáskezelés</li>
-            </ul>
-        </div>
-
-        <div class="summaryCard">
-            <h2>Gazdaként elérhető szolgáltatások</h2>
-            <ul>
-                <li>Állatorvos böngésző</li>
-                <li>Egyszerű időpontfoglalás</li>
-                <li>Állatok adatainak nyilvántartása, adminisztrációja</li>
-                <li>Könnyen, egy helyen átláthatja az időpontjait</li>
-                <li>Emailes emlékeztetők a közelgő és lemondott kezelésekről</li>
-            </ul>
-        </div>
-
+    <div class="btns" id="services">
+        <button class="btnStyle btnTutorial" @click="showOwnerTutorial()">Gazda útmutató</button>
+        <button class="btnStyle btnTutorial" @click="showVetTutorial()">Orvos útmutató</button>
     </div>
 
-    <h1 class="pageTitle">Útmutató gazdáknak</h1>
-
-    <div class="steps_card_left animation_float_left">
-        <div>
-            <h2 class="steps">1. Regisztráció</h2>
-            <div class="text">
-                <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a
-                    felhasználói
-                    profilját (gazda), majd az adatok kitöltésével regisztráljon az oldalra!</p>
-                <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja
-                    megváltoztatni. A
-                    többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim"
-                    menüpontra
-                    kattintva van lehetőség.</p>
+    <div v-if="owner">
+        <h1 class="pageTitle">Útmutató gazdáknak</h1>
+        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
+            <div class="steps_card_left">
+                <div>
+                    <h2 class="steps">1. Regisztráció</h2>
+                    <div class="text">
+                        <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a
+                            felhasználói
+                            profilját (gazda), majd az adatok kitöltésével regisztráljon az oldalra!</p>
+                        <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja
+                            megváltoztatni. A
+                            többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim"
+                            menüpontra
+                            kattintva van lehetőség.</p>
+                    </div>
+                </div>
+                <img src="../assets/images/register.png" class="img_card">
             </div>
         </div>
-        <img src="../assets/images/register.png" class="img_card">
-    </div>
-    <div class="steps_card_right animation_float_right">
-        <img src="../assets/images/pets.png" class="img_card">
-        <div>
-            <h2 class="steps">2. Kisállat hozzáadása</h2>
-            <div class="text">
-                <p>Bejelentkezés után a "Kedvenceim" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
-                <p>Az állatok adatait később tudja módosítani, az állat profiljának jobb felső sarkában található ikonra
-                    kattintva.
-                    Itt lehetősége van szerkeszteni, vagy törölni az állatot a profiljából.</p>
+        <div v-animateonscroll="{ enterClass: 'animation_float_right' }">
+            <div class="steps_card_right">
+                <img src="../assets/images/pets.png" class="img_card">
+                <div>
+                    <h2 class="steps">2. Kisállat hozzáadása</h2>
+                    <div class="text">
+                        <p>Bejelentkezés után a "Kedvenceim" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
+                        <p>Az állatok adatait később tudja módosítani, az állat profiljának jobb felső sarkában található ikonra
+                            kattintva.
+                            Itt lehetősége van szerkeszteni, vagy törölni az állatot a profiljából.</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="steps_card_left">
-        <div>
-            <h2 class="steps">3. Állatorvos kiválasztása</h2>
-            <div class="text">
-                <p>Az "Állatorvosok" menüpont alatt tud böngészni a beregisztrált állatorvosok között. Lehetősége van
-                    keresni
-                    közöttük név, irányítószám és cím alapján.</p>
-                <p>Az "Időpontot foglalok" gombra kattintva elnavigálhat az időpontfoglaló oldalra, ahol automatikusan a
-                    kiválasztott orvoshoz tud időpontot foglalni.</p>
+        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
+            <div class="steps_card_left">
+                <div>
+                    <h2 class="steps">3. Állatorvos kiválasztása</h2>
+                    <div class="text">
+                        <p>Az "Állatorvosok" menüpont alatt tud böngészni a beregisztrált állatorvosok között. Lehetősége van
+                            keresni
+                            közöttük név, irányítószám és cím alapján.</p>
+                        <p>Az "Időpontot foglalok" gombra kattintva elnavigálhat az időpontfoglaló oldalra, ahol automatikusan a
+                            kiválasztott orvoshoz tud időpontot foglalni.</p>
+                    </div>
+                </div>
+                <img src="../assets/images/vets.png" class="img_card">
             </div>
         </div>
-        <img src="../assets/images/vets.png" class="img_card">
-    </div>
-    <div class="steps_card_right">
-        <img src="../assets/images/appointment_booking.png" class="img_card">
-        <div>
-            <h2 class="steps">4. Időpont foglalás</h2>
-            <div class="text">
-                <p>Időpontot foglalni az "Időpont foglalás" menüpont alatt, vagy az Útmutató 3. pontjában említett módon
-                    tud.
-                </p>
-                <p>Az időpontfoglaláshoz meg kell adnia a kiválasztott orvost, az időpont típusát, a kisállatát, akit az
-                    időpontra
-                    szeretni vinni, valamint ki tuda választani az időpontot az adott orvoshoz.</p>
+        <div v-animateonscroll="{ enterClass: 'animation_float_right' }">
+            <div class="steps_card_right">
+                <img src="../assets/images/appointment_booking.png" class="img_card">
+                <div>
+                    <h2 class="steps">4. Időpont foglalás</h2>
+                    <div class="text">
+                        <p>Időpontot foglalni az "Időpont foglalás" menüpont alatt, vagy az Útmutató 3. pontjában említett módon
+                            tud.
+                        </p>
+                        <p>Az időpontfoglaláshoz meg kell adnia a kiválasztott orvost, az időpont típusát, a kisállatát, akit az
+                            időpontra
+                            szeretni vinni, valamint ki tuda választani az időpontot az adott orvoshoz.</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="steps_card_left">
-        <div>
-            <h2 class="steps">5. Lefoglalt időpontok</h2>
-            <div class="text">
-                <p>A "Naptáram" fül alatt tudja megtakinteni az állatorvosi időpontjait.</p>
-                <p>Amennyiben mégsem tud megjelenni az időponton, 2 nappal hamarabb lehetősége van lemondani azt.</p>
-            </div>
-        </div>
-        <img src="../assets/images/appointments.png" class="img_card">
-    </div>
-
-    <h1 class="pageTitle">Útmutató orvosoknak</h1>
-    <div class="steps_card_right">
-        <img src="../assets/images/register.png" class="img_card">
-        <div>
-            <h2 class="steps">1. Regisztráció</h2>
-            <div class="text">
-                <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a
-                    felhasználói
-                    profilját (orvos), majd az adatok kitöltésével regisztráljon az oldalra!</p>
-                <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja
-                    megváltoztatni. A
-                    többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim"
-                    menüpontra
-                    kattintva van lehetőség.</p>
+        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
+            <div class="steps_card_left">
+                <div>
+                    <h2 class="steps">5. Lefoglalt időpontok</h2>
+                    <div class="text">
+                        <p>A "Naptáram" fül alatt tudja megtakinteni az állatorvosi időpontjait.</p>
+                        <p>Amennyiben mégsem tud megjelenni az időponton, 2 nappal hamarabb lehetősége van lemondani azt.</p>
+                    </div>
+                </div>
+                <img src="../assets/images/appointments.png" class="img_card">
             </div>
         </div>
     </div>
-    <div class="steps_card_left">
-        <div>
-            <h2 class="steps">2. Nyitvatartás hozzáadása</h2>
-            <div class="text">
-                <p>Bejelentkezés után a "Nyitvatatás" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
-                <p>A nyitvatartás módosítására lehetősége van a fent említett menüpontban.</p>
+
+    <div v-if="vet">
+        <h1 class="pageTitle">Útmutató orvosoknak</h1>
+        <div v-animateonscroll="{ enterClass: 'animation_float_right' }">
+            <div class="steps_card_right">
+                <img src="../assets/images/register.png" class="img_card">
+                <div>
+                    <h2 class="steps">1. Regisztráció</h2>
+                    <div class="text">
+                        <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a
+                            felhasználói
+                            profilját (orvos), majd az adatok kitöltésével regisztráljon az oldalra!</p>
+                        <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja
+                            megváltoztatni. A
+                            többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim"
+                            menüpontra
+                            kattintva van lehetőség.</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <img src="../assets/images/opening.png" class="img_card">
-    </div>
-    <div class="steps_card_right">
-        <img src="../assets/images/special_opening.png" class="img_card">
-        <div>
-            <h2 class="steps">3. Különleges nyitvatartás</h2>
-            <div class="text">
-                <p>Lehetősége van különleges nyitvatartást felvenni az olyan napokra, amiken valamilyen okból kifolyólag
-                    zárva
-                    tart vagy másképp tart nyitva, mint a normál nyitvatartás.</p>
-                <p>Az ilyen időpontok kizárólag egy napra szólnak, ezeket a "Nyitvatartás" menüpont alatt tudja beállítani
-                    valamint törölni.</p>
+        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
+            <div class="steps_card_left">
+                <div>
+                    <h2 class="steps">2. Nyitvatartás hozzáadása</h2>
+                    <div class="text">
+                        <p>Bejelentkezés után a "Nyitvatatás" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
+                        <p>A nyitvatartás módosítására lehetősége van a fent említett menüpontban.</p>
+                    </div>
+                </div>
+                <img src="../assets/images/opening.png" class="img_card">
+            </div>
+        </div>
+        <div v-animateonscroll="{ enterClass: 'animation_float_right' }">
+            <div class="steps_card_right">
+                <img src="../assets/images/special_opening.png" class="img_card">
+                <div>
+                    <h2 class="steps">3. Különleges nyitvatartás</h2>
+                    <div class="text">
+                        <p>Lehetősége van különleges nyitvatartást felvenni az olyan napokra, amiken valamilyen okból kifolyólag
+                            zárva
+                            tart vagy másképp tart nyitva, mint a normál nyitvatartás.</p>
+                        <p>Az ilyen időpontok kizárólag egy napra szólnak, ezeket a "Nyitvatartás" menüpont alatt tudja
+                            beállítani
+                            valamint törölni.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
+            <div class="steps_card_left">
+                <div>
+                    <h2 class="steps">4. Időpontok</h2>
+                    <div class="text">
+                        <p>Az Ön időpontjait a "Naptáram" fül alatt tudja megtekinteni. A dátum kiválasztásával megjelennek az adott
+                            napi kezelések.</p>
+                    </div>
+                </div>
+                <img src="../assets/images/vet_appointments.png" class="img_card">
             </div>
         </div>
     </div>
-    <div class="steps_card_left">
-        <div>
-            <h2 class="steps">4. Időpontok</h2>
-            <div class="text">
-                <p>Az Ön időpontjait a "Naptáram" fül alatt tudja megtekinteni. A dátum kiválasztásával megjelennek az adott
-                    napi kezelések.</p>
-            </div>
-        </div>
-        <img src="../assets/images/vet_appointments.png" class="img_card">
-    </div>
-
-    <div class="animation-scale">
-
-
-
-
-
-    </div>
-
     <Footer></Footer>
 </template>
   
 <script setup>
 import Header from '@/components/page_controls/Header.vue';
 import Footer from '@/components/page_controls/Footer.vue';
+import { ref } from 'vue';
+
+const owner = ref(false);
+const vet = ref(false);
+
+function showOwnerTutorial(){
+    owner.value = true;
+    vet.value = false;
+}
+
+function showVetTutorial(){
+    vet.value = true;
+    owner.value = false;
+}
 </script>
   
 <style scoped>
@@ -251,7 +257,18 @@ import Footer from '@/components/page_controls/Footer.vue';
     margin: 20px 70px;
     text-align: justify;
 }
-
+.btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.btnTutorial {
+    background-color: #368267;
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 20px;
+}
 .blueCard {
     background-color: #005A70;
     width: 100%;
@@ -320,7 +337,7 @@ import Footer from '@/components/page_controls/Footer.vue';
     justify-content: center;
 }
 
-button {
+.btnMore {
     background-color: #005A70;
     border: none;
     border-radius: 50px;
