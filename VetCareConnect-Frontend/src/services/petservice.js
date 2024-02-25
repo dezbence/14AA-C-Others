@@ -28,8 +28,8 @@ export default {
             return Promise.reject(err.response);
         })
     },
-    modifyPet(token) {
-        return Axios.put(`/modify-pet`, {headers: {"Authorization" : "Bearer "+ token}})
+    modifyPet(data, token) {
+        return Axios.put(`/modify-pet`, data, {headers: {"Authorization" : "Bearer "+ token}})
         .then(resp => {
             return resp.data;
         })

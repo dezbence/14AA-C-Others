@@ -12,9 +12,9 @@
                 <label>Név:</label>
                 <InputText v-model="editedPetData.name"></InputText>
                 <label>Chip szám (15 számjegy):</label>
-                <InputMask v-model="editedPetData.chip_number" mask="999999999999999"/>
+                <InputMask v-model="editedPetData.chip_number" mask="999999999999999" />
                 <label>Törzskönyv száma (8 számjegy):</label>
-                <InputMask v-model="editedPetData.pedigree_number" mask="99999999"/>
+                <InputMask v-model="editedPetData.pedigree_number" mask="99999999" />
                 <label>Fajtajelleg:</label>
                 <Dropdown v-model="editedPetData.species" :options="species" showClear placeholder="Kérem válasszon!"
                     class="petDropdown" />
@@ -46,6 +46,7 @@ import InputMask from 'primevue/inputmask';
 import Dropdown from 'primevue/dropdown';
 import Textarea from 'primevue/textarea';
 import Calendar from 'primevue/calendar';
+import petservice from '@/services/petservice';
 
 import { useUserStore } from '@/store/userstore';
 import { useToast } from 'vue-toastification';
@@ -55,6 +56,7 @@ import { ref } from 'vue';
 const store = useUserStore();
 const { user } = storeToRefs(useUserStore());
 const toast = useToast();
+const props = defineProps(['modifyPet']);
 
 const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó'];
 const genders = ['hím', 'nőstény'];
@@ -62,6 +64,7 @@ const genders = ['hím', 'nőstény'];
 const petGender = store.editPet.gender == 0 ? 'nőstény' : 'hím';
 
 const editedPetData = ref({
+    id: store.editPet.id,
     name: store.editPet.name,
     species: store.editPet.species,
     gender: petGender,
@@ -73,6 +76,7 @@ const editedPetData = ref({
 })
 
 let petData = {
+    id: store.editPet.id,
     name: store.editPet.name,
     species: store.editPet.species,
     gender: petGender,
@@ -87,8 +91,9 @@ store.showSureInEdit(false);
 
 function back() {
     store.showPetEdit(false);
-
+    toast.warning('Módosítások elvetve!', { position: "top-center" });
 }
+
 function cancelEditing() {
     store.showSureInEdit(false);
     store.showPetEdit(false)
@@ -98,23 +103,49 @@ function cancelEditing() {
 
 
 function saveChanges() {
-    if (editedPetData.value.name == "" || editedPetData.value.chip_number == 0 || editedPetData.value.pedigree_number == 0 || editedPetData.value.species == null || editedPetData.value.gender == null || editedPetData.value.weight == 0 || editedPetData.value.born_date == null) {
+    if (editedPetData.value.name == "" ||
+        editedPetData.value.chip_number == 0 ||
+        editedPetData.value.pedigree_number == 0 ||
+        editedPetData.value.species == null ||
+        editedPetData.value.gender == null ||
+        editedPetData.value.weight == 0 ||
+        editedPetData.value.born_date == null) {
         toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
         console.log(editedPetData.value)
+    } else if (editedPetData.value.name == petData.name &&
+        editedPetData.value.species == petData.species &&
+        editedPetData.value.gender == petData.gender &&
+        editedPetData.value.weight == petData.weight &&
+        editedPetData.value.born_date == petData.born_date &&
+        editedPetData.value.comment == petData.comment &&
+        editedPetData.value.chip_number == petData.chip_number &&
+        editedPetData.value.pedigree_number == petData.pedigree_number) {
+        toast.error('Nem történt változás!', { position: "top-center" });
+    } else if (!store.charactersPattern.test(editedPetData.value.name)) {
+        toast.error('Nem megfelelő név formátum!', { position: "top-center" });
     } else {
+        if (editedPetData.value.gender == "hím") {
+            editedPetData.value.gender = 1;
+            
+        } else {
+            editedPetData.value.gender = '0';
+        }
         store.showSureInEdit(true);
-        console.log(editedPetData.value)
     }
 }
-
 function editDatas() {
-    store.showSureInEdit(false);
-    store.showPetEdit(false)
-    toast.success('Sikeres módosítás!', { position: "top-center" });
     // post datas
+    console.log(editedPetData.value)
+    petservice.modifyPet(editedPetData.value, user.value.token)
+        .then((resp) => {
+            console.log('siker');
+            store.showSureInEdit(false);
+            store.showPetEdit(false);
+            props.modifyPet();
+        });
+    toast.success('Sikeres módosítás!', { position: "top-center" });
 }
-    
-   
+
 
 </script>
 
@@ -123,7 +154,6 @@ function editDatas() {
     display: flex;
     justify-content: center;
     align-items: start;
-    height: 80vh;
     margin-top: 40px;
 }
 
@@ -175,4 +205,5 @@ textarea,
 button:hover {
     background-color: #368267;
     transition: 200ms;
-}</style>
+}
+</style>

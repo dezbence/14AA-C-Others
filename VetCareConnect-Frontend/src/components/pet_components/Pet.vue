@@ -57,7 +57,6 @@ function deletePet() {
 function editPet() {
     store.showPetEdit(true);
     store.editPet = props.pet;
-    console.log(store.editPet)
 }
 </script>
 
