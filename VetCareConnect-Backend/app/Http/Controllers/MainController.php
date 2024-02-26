@@ -55,10 +55,14 @@ class MainController extends BaseController
     public function getAllVet() {
 
         $vets = Vet::all();
-        unset($vets['email']);
-        unset($vets['password']);
-
+        // unset($vets['password']);
         return  $this->sendResponse($vets, 'Sikeres művelet!');
+    }
+    public function getAllOwner() {
+
+        $owners = Owner::all();
+
+        return  $this->sendResponse($owners, 'Sikeres művelet!');
     }
 
     public function getAllCureTypes() {

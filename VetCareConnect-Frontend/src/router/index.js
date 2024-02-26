@@ -28,6 +28,7 @@ const access = {
   '/orvosi-naptar': [1],
   '/nyitvatartas': [1],
   '/adataim': [0, 1],
+  '/admin': [0, 1, null],
   '/:catchAll(.*)': [0, 1, null]
 };
 
@@ -47,6 +48,7 @@ const router = createRouter({
     { path: '/orvosi-naptar', name: 'orvosiNaptar', component: () => import('@/views/vet/VetCalendar.vue') },
     { path: '/nyitvatartas', name: 'nyitvatartas', component: () => import('@/views/vet/VetSettingsPage.vue') },
     { path: '/adataim', name: 'myData', component: () => import('@/views/MyDataPage.vue') },
+    { path: '/admin', name: 'admin', component: () => import('@/views/AdminPage.vue') },
     // catch all 404
     { path: '/:catchAll(.*)', name: 'notfound', component: NotFoundPageVue }
   ]

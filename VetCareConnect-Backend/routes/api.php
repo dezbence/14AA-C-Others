@@ -30,7 +30,7 @@ Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 
 Route::post('/search-vets', [MainController::class, 'searchVets']);
-Route::get('/vet-all', [MainController::class, 'getAllVet']);
+
 Route::get('/cure-types-all', [MainController::class, 'getAllCureTypes']);
 Route::get('/faq-all', [MainController::class, 'getAllQuestions']);
 
@@ -48,6 +48,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user-data', [MainController::class, 'getUserData']);
     Route::put('/modify-user-data',[MainController::class,'modifyUserData']);
 
+    Route::get('/vet-all', [MainController::class, 'getAllVet']);
+    Route::get('/owner-all', [MainController::class, 'getAllOwner']);
+    
     // Route::put('/modify-password', [AuthController::class,'modifyPassword']);)
 
     Route::middleware('only-owner')->group(function(){
