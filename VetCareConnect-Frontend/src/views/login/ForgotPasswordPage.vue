@@ -12,13 +12,13 @@
 
                 <label>E-mail cím:</label>
 
-                <InputText placeholder="bodri@gmail.com" v-model="loginData.email"></InputText>
+                <InputText placeholder="bodri@gmail.com" v-model="loginData"></InputText>
 
                 <div class="rememberPassword">
                     Eszébe jutott? <router-link to="/bejelentkezes">Jelentkezzen be!</router-link>
                 </div>
 
-                <button class="btnStyle">E-mail küldése</button>
+                <!-- <button type="button" class="btnStyle" @click="handleSubmit()">E-mail küldése</button> -->
 
             </form>
         </div>
@@ -35,9 +35,7 @@ import { useUserStore } from "@/store/userstore";
 const store = useUserStore();
 const toast = useToast();
 
-const loginData = ref({
-    'email': ""
-});
+const loginData = ref();
 
 const isFilled = ref(false);
 const isEmailFaliled = ref(true);
@@ -47,30 +45,33 @@ function back() {
 }
 
 function handleSubmit() {
-    if (loginData.value.email == "") isFilled.value = false;
+    if (loginData.value == "") isFilled.value = false;
     else isFilled.value = true;
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
-    else if (!loginData.value.email.match(store.emailPattern)) {
+    else if (!loginData.value.match(store.emailPattern)) {
         toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
         isEmailFaliled.value = true;
-    }
+    } else isEmailFaliled.value = false;
 
     if (!isEmailFaliled.value) {
+        console.log(loginData.value);
         userservice.sendPasswordResetEmail(loginData.value)
             .then(resp => {
                 console.log(resp.data);
                 toast.success('E-mail küldve!', { position: "top-center" });
                 router.push('/bejelentkezes')
             })
-            .catch(error => {
-                console.log(error.data);
+            .catch(err => {
+                console.log(err);
                 toast.error('Hiba történt az email küldésekor!', { position: 'top-center' })
             })
     }
 }
 
 </script>
+
+
 <style scoped>
 .passwordBack {
     background-color: white;

@@ -1,5 +1,10 @@
 /* Base */
 
+/* #50B692 - világos zöld
+#368267 - közepsen sötét zöld
+#246951 - sötét zöld
+#005A70 - sötét kék */
+
 body,
 body *:not(html):not(style):not(br):not(tr):not(code) {
     box-sizing: border-box;
@@ -11,7 +16,7 @@ body *:not(html):not(style):not(br):not(tr):not(code) {
 body {
     -webkit-text-size-adjust: none;
     background-color: #ffffff;
-    color: #718096;
+    color: #368267;
     height: 100%;
     line-height: 1.4;
     margin: 0;
@@ -28,7 +33,7 @@ blockquote {
 }
 
 a {
-    color: #3869d4;
+    color: #005A70;
 }
 
 a img {
@@ -38,7 +43,7 @@ a img {
 /* Typography */
 
 h1 {
-    color: #3d4852;
+    color: #246951;
     font-size: 18px;
     font-weight: bold;
     margin-top: 0;
@@ -103,7 +108,7 @@ img {
 }
 
 .header a {
-    color: #3d4852;
+    color: #246951;
     font-size: 19px;
     font-weight: bold;
     text-decoration: none;
@@ -170,13 +175,13 @@ img {
 }
 
 .footer p {
-    color: #b0adc5;
+    color: #246951;
     font-size: 12px;
     text-align: center;
 }
 
 .footer a {
-    color: #b0adc5;
+    color: #246951;
     text-decoration: underline;
 }
 
@@ -232,20 +237,20 @@ img {
 
 .button-blue,
 .button-primary {
-    background-color: #2d3748;
-    border-bottom: 8px solid #2d3748;
-    border-left: 18px solid #2d3748;
-    border-right: 18px solid #2d3748;
-    border-top: 8px solid #2d3748;
+    background-color: #005A70;
+    border-bottom: 8px solid #005A70;
+    border-left: 18px solid #005A70;
+    border-right: 18px solid #005A70;
+    border-top: 8px solid #005A70;
 }
 
 .button-green,
 .button-success {
-    background-color: #48bb78;
-    border-bottom: 8px solid #48bb78;
-    border-left: 18px solid #48bb78;
-    border-right: 18px solid #48bb78;
-    border-top: 8px solid #48bb78;
+    background-color: #50B692;
+    border-bottom: 8px solid #50B692;
+    border-left: 18px solid #50B692;
+    border-right: 18px solid #50B692;
+    border-top: 8px solid #50B692;
 }
 
 .button-red,
@@ -260,18 +265,18 @@ img {
 /* Panels */
 
 .panel {
-    border-left: #2d3748 solid 4px;
+    border-left: #246951 solid 4px;
     margin: 21px 0;
 }
 
 .panel-content {
-    background-color: #edf2f7;
-    color: #718096;
+    background-color: #50B692;
+    color: #fff;
     padding: 16px;
 }
 
 .panel-content p {
-    color: #718096;
+    color: #fff;
 }
 
 .panel-item {

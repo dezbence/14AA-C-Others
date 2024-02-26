@@ -7,10 +7,10 @@ use App\Models\Vet;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Validation\Rules\Password as RulesPassword;
+use App\Mail\PasswordReset as PasswordResetMail;
+use Illuminate\Support\Facades\Mail;
+
 
 class PasswordController extends BaseController
 {
@@ -77,7 +77,7 @@ class PasswordController extends BaseController
         ]);
 
         if($validator->fails()){
-            return $this->sendResponse('','Hibás vagy nem adott meg email címet!', 404);
+            return $this->sendError('Bad request', $validator->errors(), 400);
         }
 
         $user = Vet::where('email', $request->email)->first();
@@ -86,21 +86,21 @@ class PasswordController extends BaseController
         }
 
         if ($user == null) {
-                return $this->sendResponse('','Nincs fiók ezzel az email címmel!', 404);
+                return $this->sendError('','Nincs fiók ezzel az email címmel!', 404);
         }
 
         $token = Str::random(60);
 
         // dd(Carbon::now('GMT+1')->timestamp + 3600);
+        Mail::to($user)->send(new PasswordResetMail($token));
 
-        DB::table('password_reset_tokens')->insert([
-            'email' => $request->email,
-            'token' => $token,
-            'created_at' => Carbon::now('GMT+1')->timestamp
-        ]);
-
-
-        Mail::to($user)->send(new ResetPasswordNotification($token));
+        dd('halo');
+        $passwordReset = password_reset_token::create(['email' => $request->email,'token' => $token, 'created_at' => Carbon::now('GMT+1')->timestamp]);
+        // DB::table('password_reset_tokens')->insert([
+        //     'email' => $request->email,
+        //     'token' => $token,
+        //     'created_at' => Carbon::now('GMT+1')->timestamp
+        // ]);
 
         return $this->sendResponse('','Az email sikeresen elküldve!', 200);
     }

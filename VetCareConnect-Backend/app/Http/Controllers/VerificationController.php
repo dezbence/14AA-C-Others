@@ -10,7 +10,7 @@ class VerificationController extends BaseController
 
     public function verify($user_id, Request $request) {
         if (!$request->hasValidSignature()) {
-            return $this->sendResponse('','Hibás vagy lejárt megerősítő link!');
+            return $this->sendError('','Hibás vagy lejárt megerősítő link!');
         }
 
         $user = Vet::find($user_id);
@@ -19,7 +19,7 @@ class VerificationController extends BaseController
         }
 
         if ($user == null) {
-            return $this->sendResponse('','Hibás verifikáció!');
+            return $this->sendError('','Hibás verifikáció!');
         }
 
         if (!$user->hasVerifiedEmail()) {
@@ -36,11 +36,11 @@ class VerificationController extends BaseController
         }
 
         if ($user === null) {
-            return $this->sendResponse('','Nincs ilyen felhasználó!');
+            return $this->sendError('','Nincs ilyen felhasználó!');
         }
 
         if ($user->hasVerifiedEmail()) {
-            return $this->sendResponse('','Az email már meg lett erősítve!');
+            return $this->sendError('','Az email már meg lett erősítve!');
         }
 
         $user->sendEmailVerificationNotification();

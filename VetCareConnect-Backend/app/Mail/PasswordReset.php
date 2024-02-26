@@ -13,14 +13,16 @@ class PasswordReset extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $username;
+    public $url;
 
     /**
-     * Create a new message instance.
+     * Create a new notification instance.
+     *
+     * @return void
      */
-    public function __construct($username)
+    public function __construct(string $url)
     {
-        $this->username = $username;
+        $this->url = $url;
     }
 
     /**
@@ -41,6 +43,9 @@ class PasswordReset extends Mailable
     {
         return new Content(
             markdown: 'emails.password_reset',
+            with: [
+                'url' => $this->url,
+            ],
         );
     }
 
