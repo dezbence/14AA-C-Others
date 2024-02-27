@@ -27,5 +27,23 @@ export default {
             .catch(err => {
                 return Promise.reject(err.response);
             })
-    }
+    },
+    deleteVet(id, token) {
+        return Axios.delete(`/delete-vet/${id}`, {headers: {"Authorization" : "Bearer "+ token}})
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
+    },
+    deleteOwner(id, token) {
+        return Axios.delete(`/delete-owner/${id}`, {headers: {"Authorization" : "Bearer "+ token}})
+            .then(resp => {
+                return resp.data;
+            })
+            .catch(err => {
+                return Promise.reject(err.response);
+            })
+    },
 }

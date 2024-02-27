@@ -1,7 +1,7 @@
 <template>
     <div class="data">
         <h1>Állatorvosok</h1>
-        <DataTable class="table" v-model:selection="selectedPeople" v-model:editingRows="editingRows" :value="vets" editMode="row" dataKey="id"
+        <DataTable class="table" v-model:selection="selectedVet" v-model:editingRows="editingRowsVet" :value="vets" editMode="row" dataKey="id"
             @row-edit-save="onRowEditSave" :pt="{
                 table: { style: 'min-width: 50rem' },
                 column: {
@@ -35,13 +35,13 @@
             <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
         </DataTable>
         <div class="btns">
-            <button class="btnStyle btnDelete" @click="deleteUser">Törlés</button>
+            <button class="btnStyle btnDelete" @click="deleteVet">Törlés</button>
             <button class="btnStyle btnSave" @click="saveData">Mentés</button>
         </div>
     </div>
     <div class="data">
         <h1>Gazdák</h1>
-        <DataTable class="table" v-model:selection="selectedPeople" v-model:editingRows="editingRows" :value="owners" editMode="row" dataKey="id"
+        <DataTable class="table" v-model:selection="selectedOwner" v-model:editingRows="editingRowsOwner" :value="owners" editMode="row" dataKey="id"
             @row-edit-save="onRowEditSave" :pt="{
                 table: { style: 'min-width: 50rem' },
                 column: {
@@ -75,7 +75,7 @@
             <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
         </DataTable>
         <div class="btns">
-            <button class="btnStyle btnDelete" @click="deleteUser">Törlés</button>
+            <button class="btnStyle btnDelete" @click="deleteOwner">Törlés</button>
             <button class="btnStyle btnSave" @click="saveData">Mentés</button>
         </div>
     </div>
@@ -92,10 +92,12 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userstore";
 
 const { user } = storeToRefs(useUserStore());
-const editingRows = ref([]);
+const editingRowsVet = ref([]);
+const editingRowsOwner = ref([]);
 const owners = ref([]);
 const vets = ref([]);
-const selectedPeople = ref();
+const selectedVet = ref();
+const selectedOwner = ref();
 
 const onRowEditSave = (event) => {
     let { newData, index } = event;
@@ -107,8 +109,21 @@ function saveData(){
     // adatok módosítása
 }
 
-function deleteUser(){
-    // delete user
+function deleteVet(){
+    (selectedVet.value).forEach(vet => {
+        mainService.deleteVet(vet.id, user.value.token).then(resp => {
+            console.log('siker');
+        });
+    });
+}
+
+function deleteOwner(){
+    (selectedOwner.value).forEach(owner => {
+        mainService.deleteOwner(owner.id, user.value.token).then(resp => {
+            console.log('siker');
+            console.log(resp.data)
+        });
+    });
 }
 
 function getPeople(){
