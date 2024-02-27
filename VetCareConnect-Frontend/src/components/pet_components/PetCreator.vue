@@ -7,8 +7,9 @@
             </div>
 
             <h4>Hozza létre kedvence adatlapját!</h4>
+            <p class="mandatory">* Kötelező kitölteni</p>
             <form submit.pervent="handleSubmit"></form>
-
+            
             <div class="pages">
                 <button class="page" @click="active = 0" :class="{ 'activePage': active == 0 }">1</button>
                 <button class="page" @click="active = 1" :class="{ 'activePage': active == 1 }">2</button>
@@ -16,31 +17,31 @@
 
             <TabView v-model:activeIndex="active">
                 <TabPanel>
-                    <label>Kedvence neve:</label>
+                    <label>Kedvence neve*:</label>
                     <InputText v-model.trim="pet.name"></InputText>
 
-                    <label>Chip szám (15 számjegy):</label>
+                    <label>Chip szám (15 számjegy)*:</label>
                     <InputMask v-model="pet.chip_number" mask="999999999999999" />
 
-                    <label>Törzskönyv száma (8 számjegy):</label>
+                    <label>Törzskönyv száma (8 számjegy)*:</label>
                     <InputMask v-model="pet.pedigree_number" mask="99999999" />
 
-                    <label>Fajtajelleg:</label>
+                    <label>Fajtajelleg*:</label>
                     <Dropdown v-model="pet.species" :options="species" showClear placeholder="Kérem válasszon!"
                         class="petDropdown" />
 
-                    <label>Ivar:</label>
-                    <Dropdown v-model="gender" :options="genders" showClear placeholder="Kérem válasszon!"
+                        <label>Ivar*:</label>
+                        <Dropdown v-model="gender" :options="genders" showClear placeholder="Kérem válasszon!"
                         class="petDropdown" />
-                    <button class="btnStyle" @click="active = 1">Tovább</button>
-                </TabPanel>
-
+                        <button class="btnStyle" @click="active = 1">Tovább</button>
+                    </TabPanel>
+                    
 
                 <TabPanel>
-                    <label>Súlya (kg):</label>
+                    <label>Súlya (kg)*:</label>
                     <InputNumber v-model="pet.weight" placeholder="0" :useGrouping="false" :minFractionDigits="0"
                         :maxFractionDigits="2" :min="0.1" :max="999" suffix=" kg" />
-                    <label>Születési dátuma:</label>
+                    <label>Születési dátuma*:</label>
                     <Calendar class="bornDate" v-model="pet.born_date" :max-date="new Date()" dateFormat="yy.mm.dd"
                         placeholder="éééé.hh.nn" />
                     <label>Megjegyzés:</label>
@@ -99,7 +100,7 @@ function petGenderFormat(gender1) {
 }
 
 function handleSubmit() {
-    if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") {
+    if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || pet.value.gender == -1 || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") {
         isFilled.value = false;
     }
     else isFilled.value = true;
@@ -137,6 +138,11 @@ function handleSubmit() {
 .p-inputnumber,
 .bornDate {
     width: 300px;
+}
+
+.mandatory {
+    font-size: 0.8rem;
+    margin: 0 0 12px;
 }
 
 .pages {
@@ -180,7 +186,7 @@ label {
 
 h4 {
     font-size: 1.2rem;
-    margin: 12px 0;
+    margin: 12px 0 4px;
 }
 
 .close {

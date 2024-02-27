@@ -47,4 +47,9 @@ class Vet extends Authenticatable
     public function openings() {
         return $this->hasMany(Opening::class);
     }
+
+    public function password_reset() {
+        return $this->belongsTo(Password_reset::class, 'email', 'email');
+    }
+
 }

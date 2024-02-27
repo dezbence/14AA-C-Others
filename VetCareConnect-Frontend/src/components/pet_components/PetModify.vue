@@ -11,27 +11,32 @@
             <div class="dataSheet">
                 <label>Név:</label>
                 <InputText v-model="editedPetData.name"></InputText>
+
                 <label>Chip szám (15 számjegy):</label>
                 <InputMask v-model="editedPetData.chip_number" mask="999999999999999" />
+                
                 <label>Törzskönyv száma (8 számjegy):</label>
                 <InputMask v-model="editedPetData.pedigree_number" mask="99999999" />
+
                 <label>Fajtajelleg:</label>
-                <Dropdown v-model="editedPetData.species" :options="species" showClear placeholder="Kérem válasszon!"
-                    class="petDropdown" />
+                <Dropdown v-model="editedPetData.species" :options="species" showClear placeholder="Kérem válasszon!" class="petDropdown" />
+
                 <label>Ivar:</label>
-                <Dropdown v-model="editedPetData.gender" :options="genders" showClear placeholder="Kérem válasszon!"
-                    class="petDropdown" />
+                <Dropdown v-model="editedPetData.gender" :options="genders" showClear placeholder="Kérem válasszon!" class="petDropdown" />
+
                 <label>Súlya (kg):</label>
                 <InputNumber v-model="editedPetData.weight" placeholder="0" :minFractionDigits="0" :maxFractionDigits="2"
                     :min="0.1" :max="999" suffix=" kg" :useGrouping="false" />
+
                 <label>Születési dátuma:</label>
                 <Calendar v-model="editedPetData.born_date" class="bornDate" :max-date="new Date()" dateFormat="yy.mm.dd"
                     placeholder="éééé.hh.nn" />
+
                 <label>Megjegyzés:</label>
                 <Textarea v-model="editedPetData.comment" placeholder="Allergiák, különlegességek, stb." rows="4" cols="40"
                     autoResize></Textarea>
-                <button @click="saveChanges()" class="btnStyle">Változások mentése</button>
 
+                <button @click="saveChanges()" class="btnStyle">Változások mentése</button>
             </div>
         </div>
         <div class="placeholder"></div>
@@ -100,8 +105,6 @@ function cancelEditing() {
     toast.warning('Módosítások elvetve!', { position: "top-center" });
 }
 
-
-
 function saveChanges() {
     if (editedPetData.value.name == "" ||
         editedPetData.value.chip_number == 0 ||
@@ -126,7 +129,6 @@ function saveChanges() {
     } else {
         if (editedPetData.value.gender == "hím") {
             editedPetData.value.gender = 1;
-            
         } else {
             editedPetData.value.gender = '0';
         }
@@ -134,8 +136,6 @@ function saveChanges() {
     }
 }
 function editDatas() {
-    // post datas
-    console.log(editedPetData.value)
     petservice.modifyPet(editedPetData.value, user.value.token)
         .then((resp) => {
             console.log('siker');
@@ -145,8 +145,6 @@ function editDatas() {
         });
     toast.success('Sikeres módosítás!', { position: "top-center" });
 }
-
-
 </script>
 
 <style scoped>
@@ -156,8 +154,6 @@ function editDatas() {
     align-items: start;
     margin-top: 40px;
 }
-
-
 
 .dataHeader {
     width: 500px;
@@ -192,13 +188,7 @@ label {
     margin-right: 30px;
 }
 
-input,
-textarea,
-.p-dropdown,
-.p-inputtext,
-.p-inputnumber,
-.bornDate,
-.saveChanges {
+input, textarea, .p-dropdown, .p-inputtext, .p-inputnumber, .bornDate, .saveChanges {
     width: 100%;
 }
 

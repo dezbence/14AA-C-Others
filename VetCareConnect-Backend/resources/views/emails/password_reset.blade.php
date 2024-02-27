@@ -9,7 +9,7 @@ Az új jelszavának beállításához keresse fel a lenti linket vagy kattintson
 <x-mail::button :url="$url">
 Új jelszó létrehozása
 </x-mail::button>
-Amennyiben a fenti gombra kattintás nem működik, a linket másolja ki a böngészőjébe. Ha a jelszócserét nem Ön kezdeményezte, akkor hagyja levelünket figyelmen kívül. Sikeres jelszócserét követően felhasználói nevével és új jelszavával ismét használhatja fiókját.<br>http://localhost:5173?token={{ $url }}
+Amennyiben a fenti gombra kattintás nem működik, a linket másolja ki a böngészőjébe. Ha a jelszócserét nem Ön kezdeményezte, akkor hagyja levelünket figyelmen kívül. Sikeres jelszócserét követően felhasználói nevével és új jelszavával ismét használhatja fiókját.<br>http://localhost:5173/reset_password/{{ $url }}
 
 Köszönjük,<br>
 VetCareConnect

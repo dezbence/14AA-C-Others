@@ -37,4 +37,8 @@ class Owner extends Authenticatable
         return $this->hasMany(Pet::class);
     }
 
+    public function password_reset() {
+        return $this->belongsTo(Password_reset::class, 'email', 'email');
+    }
+
 }
