@@ -1,5 +1,9 @@
 <template>
-    <div class="data">
+    <div class="btns btnChoose">
+        <button class="btnStyle" @click="showVet()">Állatorvosok</button>
+        <button class="btnStyle" @click="showOwner()">Gazdák</button>
+    </div>
+    <div v-if="isVet" class="data">
         <h1>Állatorvosok</h1>
         <DataTable class="table" v-model:selection="selectedVet" v-model:editingRows="editingRowsVet" :value="vets" editMode="row" dataKey="id"
             @row-edit-save="onRowEditSave" :pt="{
@@ -39,7 +43,7 @@
             <button class="btnStyle btnSave" @click="saveData">Mentés</button>
         </div>
     </div>
-    <div class="data">
+    <div v-if="isOwner" class="data">
         <h1>Gazdák</h1>
         <DataTable class="table" v-model:selection="selectedOwner" v-model:editingRows="editingRowsOwner" :value="owners" editMode="row" dataKey="id"
             @row-edit-save="onRowEditSave" :pt="{
@@ -92,10 +96,16 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userstore";
 
 const { user } = storeToRefs(useUserStore());
+
+const isVet = ref(false);
+const isOwner = ref(false);
+
 const editingRowsVet = ref([]);
 const editingRowsOwner = ref([]);
+
 const owners = ref([]);
 const vets = ref([]);
+
 const selectedVet = ref();
 const selectedOwner = ref();
 
@@ -109,12 +119,23 @@ function saveData(){
     // adatok módosítása
 }
 
+function showVet(){
+    isVet.value = true;
+    isOwner.value = false;
+}
+
+function showOwner(){
+    isVet.value = false;
+    isOwner.value = true;
+}
+
 function deleteVet(){
     (selectedVet.value).forEach(vet => {
         mainService.deleteVet(vet.id, user.value.token).then(resp => {
             console.log('siker');
         });
     });
+    getPeople();
 }
 
 function deleteOwner(){
@@ -124,6 +145,7 @@ function deleteOwner(){
             console.log(resp.data)
         });
     });
+    getPeople();
 }
 
 function getPeople(){
@@ -146,9 +168,17 @@ getPeople();
     align-items: center;
     justify-content: center;
 }
+.btnChoose {
+    width: 100%;
+    background-color: #e9ecef;
+    position: fixed;
+    z-index: 100;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
 .btnStyle {
     padding: 10px 20px;
     margin: 20px 10px;
+    background-color: #555;
 }
 .btnDelete {
     background-color: red;
@@ -157,7 +187,8 @@ getPeople();
     background-color: green;
 }
 h1 {
-    color: #246951;
+    color: #555;
+    margin-top: 120px;
 }
 .table {
     max-width: 1000px;
