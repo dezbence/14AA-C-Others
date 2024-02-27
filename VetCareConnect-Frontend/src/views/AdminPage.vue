@@ -1,7 +1,11 @@
 <template>
-    <div class="data">
+    <div class="btns btnChoose">
+        <button class="btnStyle" @click="showVet()">Állatorvosok</button>
+        <button class="btnStyle" @click="showOwner()">Gazdák</button>
+    </div>
+    <div v-if="isVet" class="data">
         <h1>Állatorvosok</h1>
-        <DataTable class="table" v-model:selection="selectedPeople" v-model:editingRows="editingRows" :value="vets" editMode="row" dataKey="id"
+        <DataTable class="table" v-model:selection="selectedVet" v-model:editingRows="editingRowsVet" :value="vets" editMode="row" dataKey="id"
             @row-edit-save="onRowEditSave" :pt="{
                 table: { style: 'min-width: 50rem' },
                 column: {
@@ -35,13 +39,13 @@
             <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
         </DataTable>
         <div class="btns">
-            <button class="btnStyle btnDelete" @click="deleteUser">Törlés</button>
+            <button class="btnStyle btnDelete" @click="deleteVet">Törlés</button>
             <button class="btnStyle btnSave" @click="saveData">Mentés</button>
         </div>
     </div>
-    <div class="data">
+    <div v-if="isOwner" class="data">
         <h1>Gazdák</h1>
-        <DataTable class="table" v-model:selection="selectedPeople" v-model:editingRows="editingRows" :value="owners" editMode="row" dataKey="id"
+        <DataTable class="table" v-model:selection="selectedOwner" v-model:editingRows="editingRowsOwner" :value="owners" editMode="row" dataKey="id"
             @row-edit-save="onRowEditSave" :pt="{
                 table: { style: 'min-width: 50rem' },
                 column: {
@@ -75,7 +79,7 @@
             <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
         </DataTable>
         <div class="btns">
-            <button class="btnStyle btnDelete" @click="deleteUser">Törlés</button>
+            <button class="btnStyle btnDelete" @click="deleteOwner">Törlés</button>
             <button class="btnStyle btnSave" @click="saveData">Mentés</button>
         </div>
     </div>
@@ -92,10 +96,18 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userstore";
 
 const { user } = storeToRefs(useUserStore());
-const editingRows = ref([]);
+
+const isVet = ref(false);
+const isOwner = ref(false);
+
+const editingRowsVet = ref([]);
+const editingRowsOwner = ref([]);
+
 const owners = ref([]);
 const vets = ref([]);
-const selectedPeople = ref();
+
+const selectedVet = ref();
+const selectedOwner = ref();
 
 const onRowEditSave = (event) => {
     let { newData, index } = event;
@@ -107,8 +119,33 @@ function saveData(){
     // adatok módosítása
 }
 
-function deleteUser(){
-    // delete user
+function showVet(){
+    isVet.value = true;
+    isOwner.value = false;
+}
+
+function showOwner(){
+    isVet.value = false;
+    isOwner.value = true;
+}
+
+function deleteVet(){
+    (selectedVet.value).forEach(vet => {
+        mainService.deleteVet(vet.id, user.value.token).then(resp => {
+            console.log('siker');
+        });
+    });
+    getPeople();
+}
+
+function deleteOwner(){
+    (selectedOwner.value).forEach(owner => {
+        mainService.deleteOwner(owner.id, user.value.token).then(resp => {
+            console.log('siker');
+            console.log(resp.data)
+        });
+    });
+    getPeople();
 }
 
 function getPeople(){
@@ -131,9 +168,17 @@ getPeople();
     align-items: center;
     justify-content: center;
 }
+.btnChoose {
+    width: 100%;
+    background-color: #e9ecef;
+    position: fixed;
+    z-index: 100;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
 .btnStyle {
     padding: 10px 20px;
     margin: 20px 10px;
+    background-color: #555;
 }
 .btnDelete {
     background-color: red;
@@ -142,7 +187,8 @@ getPeople();
     background-color: green;
 }
 h1 {
-    color: #246951;
+    color: #555;
+    margin-top: 120px;
 }
 .table {
     max-width: 1000px;

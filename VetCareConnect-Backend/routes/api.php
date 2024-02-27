@@ -51,6 +51,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/vet-all', [MainController::class, 'getAllVet']);
     Route::get('/owner-all', [MainController::class, 'getAllOwner']);
 
+    Route::delete('/delete-vet/{id}', [MainController::class, 'deleteVet']);
+    Route::delete('/delete-owner/{id}', [MainController::class, 'deleteOwner']);
+
     // Route::put('/modify-password', [AuthController::class,'modifyPassword']);)
 
     Route::middleware('only-owner')->group(function(){
