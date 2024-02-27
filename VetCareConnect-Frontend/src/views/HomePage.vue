@@ -51,86 +51,87 @@
 
     <div v-if="owner">
         <h1 class="pageTitle">Útmutató gazdáknak</h1>
-        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
-            <div class="steps_card_left">
-                <div>
-                    <h2 class="steps">1. Regisztráció</h2>
-                    <div class="text">
-                        <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a
-                            felhasználói
-                            profilját (gazda), majd az adatok kitöltésével regisztráljon az oldalra!</p>
-                        <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja
-                            megváltoztatni. A
-                            többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim"
-                            menüpontra
-                            kattintva van lehetőség.</p>
+            <div v-animateonscroll="{ enterClass: 'animation_float_left' }" class="info-cards">
+                <div class="steps_card_left">
+                    <div>
+                        <h2 class="steps">1. Regisztráció</h2>
+                        <div class="text">
+                            <p>A "Regisztráció" gombra kattintva tud regisztrálni az oldalunkra. Először ki kell választania a
+                                felhasználói
+                                profilját (gazda), majd az adatok kitöltésével regisztráljon az oldalra!</p>
+                            <p>Kérjük ügyeljen az adatai pontos megadására, mivel az email címet a későbbiekben nem tudja
+                                megváltoztatni. A
+                                többi adat megváltoztatására bejelentkezés után, a neve melletti profil ikonra, majd az "Adataim"
+                                menüpontra
+                                kattintva van lehetőség.</p>
+                        </div>
                     </div>
-                </div>
-                <img src="../assets/images/register.png" class="img_card">
-            </div>
-        </div>
-        <div v-animateonscroll="{ enterClass: 'animation_float_right' }">
-            <div class="steps_card_right">
-                <img src="../assets/images/pets.png" class="img_card">
-                <div>
-                    <h2 class="steps">2. Kisállat hozzáadása</h2>
-                    <div class="text">
-                        <p>Bejelentkezés után a "Kedvenceim" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
-                        <p>Az állatok adatait később tudja módosítani, az állat profiljának jobb felső sarkában található ikonra
-                            kattintva.
-                            Itt lehetősége van szerkeszteni, vagy törölni az állatot a profiljából.</p>
-                    </div>
+                    <img src="../assets/images/register.png" class="img_card">
                 </div>
             </div>
-        </div>
-        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
-            <div class="steps_card_left">
-                <div>
-                    <h2 class="steps">3. Állatorvos kiválasztása</h2>
-                    <div class="text">
-                        <p>Az "Állatorvosok" menüpont alatt tud böngészni a beregisztrált állatorvosok között. Lehetősége van
-                            keresni
-                            közöttük név, irányítószám és cím alapján.</p>
-                        <p>Az "Időpontot foglalok" gombra kattintva elnavigálhat az időpontfoglaló oldalra, ahol automatikusan a
-                            kiválasztott orvoshoz tud időpontot foglalni.</p>
-                    </div>
-                </div>
-                <img src="../assets/images/vets.png" class="img_card">
-            </div>
-        </div>
-        <div v-animateonscroll="{ enterClass: 'animation_float_right' }">
-            <div class="steps_card_right">
-                <img src="../assets/images/appointment_booking.png" class="img_card">
-                <div>
-                    <h2 class="steps">4. Időpont foglalás</h2>
-                    <div class="text">
-                        <p>Időpontot foglalni az "Időpont foglalás" menüpont alatt, vagy az Útmutató 3. pontjában említett módon
-                            tud.
-                        </p>
-                        <p>Az időpontfoglaláshoz meg kell adnia a kiválasztott orvost, az időpont típusát, a kisállatát, akit az
-                            időpontra
-                            szeretni vinni, valamint ki tuda választani az időpontot az adott orvoshoz.</p>
+            <div v-animateonscroll="{ enterClass: 'animation_float_right' }" class="info-cards">
+                <div class="steps_card_right">
+                    <img src="../assets/images/pets.png" class="img_card">
+                    <div>
+                        <h2 class="steps">2. Kisállat hozzáadása</h2>
+                        <div class="text">
+                            <p>Bejelentkezés után a "Kedvenceim" menüpontra kattintva lehet állatokat adni a profilunkhoz.</p>
+                            <p>Az állatok adatait később tudja módosítani, az állat profiljának jobb felső sarkában található ikonra
+                                kattintva.
+                                Itt lehetősége van szerkeszteni, vagy törölni az állatot a profiljából.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
-            <div class="steps_card_left">
-                <div>
-                    <h2 class="steps">5. Lefoglalt időpontok</h2>
-                    <div class="text">
-                        <p>A "Naptáram" fül alatt tudja megtakinteni az állatorvosi időpontjait.</p>
-                        <p>Amennyiben mégsem tud megjelenni az időponton, 2 nappal hamarabb lehetősége van lemondani azt.</p>
+            <div v-animateonscroll="{ enterClass: 'animation_float_left' }" class="info-cards">
+                <div class="steps_card_left">
+                    <div>
+                        <h2 class="steps">3. Állatorvos kiválasztása</h2>
+                        <div class="text">
+                            <p>Az "Állatorvosok" menüpont alatt tud böngészni a beregisztrált állatorvosok között. Lehetősége van
+                                keresni
+                                közöttük név, irányítószám és cím alapján.</p>
+                            <p>Az "Időpontot foglalok" gombra kattintva elnavigálhat az időpontfoglaló oldalra, ahol automatikusan a
+                                kiválasztott orvoshoz tud időpontot foglalni.</p>
+                        </div>
+                    </div>
+                    <img src="../assets/images/vets.png" class="img_card">
+                </div>
+            </div>
+            <div v-animateonscroll="{ enterClass: 'animation_float_right' }" class="info-cards">
+                <div class="steps_card_right">
+                    <img src="../assets/images/appointment_booking.png" class="img_card">
+                    <div>
+                        <h2 class="steps">4. Időpont foglalás</h2>
+                        <div class="text">
+                            <p>Időpontot foglalni az "Időpont foglalás" menüpont alatt, vagy az Útmutató 3. pontjában említett módon
+                                tud.
+                            </p>
+                            <p>Az időpontfoglaláshoz meg kell adnia a kiválasztott orvost, az időpont típusát, a kisállatát, akit az
+                                időpontra
+                                szeretni vinni, valamint ki tuda választani az időpontot az adott orvoshoz.</p>
+                        </div>
                     </div>
                 </div>
-                <img src="../assets/images/appointments.png" class="img_card">
             </div>
-        </div>
+            <div v-animateonscroll="{ enterClass: 'animation_float_left' }" class="info-cards">
+                <div class="steps_card_left">
+                    <div>
+                        <h2 class="steps">5. Lefoglalt időpontok</h2>
+                        <div class="text">
+                            <p>A "Naptáram" fül alatt tudja megtakinteni az állatorvosi időpontjait.</p>
+                            <p>Amennyiben mégsem tud megjelenni az időponton, 2 nappal hamarabb lehetősége van lemondani azt.</p>
+                        </div>
+                    </div>
+                    <img src="../assets/images/appointments.png" class="img_card">
+                </div>
+            </div>
+
     </div>
 
     <div v-if="vet">
         <h1 class="pageTitle">Útmutató orvosoknak</h1>
-        <div v-animateonscroll="{ enterClass: 'animation_float_right' }">
+        <div v-animateonscroll="{ enterClass: 'animation_float_right' }" class="info-cards">
             <div class="steps_card_right">
                 <img src="../assets/images/register.png" class="img_card">
                 <div>
@@ -148,7 +149,7 @@
                 </div>
             </div>
         </div>
-        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
+        <div v-animateonscroll="{ enterClass: 'animation_float_left' }" class="info-cards">
             <div class="steps_card_left">
                 <div>
                     <h2 class="steps">2. Nyitvatartás hozzáadása</h2>
@@ -160,7 +161,7 @@
                 <img src="../assets/images/opening.png" class="img_card">
             </div>
         </div>
-        <div v-animateonscroll="{ enterClass: 'animation_float_right' }">
+        <div v-animateonscroll="{ enterClass: 'animation_float_right' }" class="info-cards">
             <div class="steps_card_right">
                 <img src="../assets/images/special_opening.png" class="img_card">
                 <div>
@@ -176,7 +177,7 @@
                 </div>
             </div>
         </div>
-        <div v-animateonscroll="{ enterClass: 'animation_float_left' }">
+        <div v-animateonscroll="{ enterClass: 'animation_float_left' }" class="info-cards">
             <div class="steps_card_left">
                 <div>
                     <h2 class="steps">4. Időpontok</h2>
@@ -255,7 +256,6 @@ function showVetTutorial(){
 
 .text {
     margin: 20px 70px;
-    text-align: justify;
 }
 .btns {
     display: flex;
@@ -432,6 +432,9 @@ button {
     .greenCard p {
         width: 100%;
     }
+    .img_card {
+        width: 300px;
+    }
 }
 
 @media (max-width: 991px) {
@@ -454,6 +457,9 @@ button {
     .greenCard p {
         margin-bottom: 25px;
     }
+    .steps_card_left, .steps_card_right {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 891px) {
@@ -471,13 +477,28 @@ button {
         align-items: center;
     }
 
-
+    .info-cards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .steps_card_left, .steps_card_right {
+        border-radius: 7px 7px 7px 7px;
+        margin: 30px 0px;
+    }
 
 }
 
 @media (max-width: 720px) {
     .pageTitle {
         margin: 0 30px !important;
+    }
+    .steps_card_right {
+        padding: 40px 0px;
+    }
+    .steps_card_left {
+        padding: 40px 0px;
     }
 }
 
@@ -501,6 +522,12 @@ button {
         font-size: 30px !important;
         margin: 0 10px !important;
 
+    }
+    .img_card {
+        width: 200px;
+    }
+    .steps {
+        font-size: 18px;
     }
 
 }

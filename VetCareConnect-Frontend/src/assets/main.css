@@ -17,12 +17,21 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6, a, button {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+button {
   font-family: "Roboto", sans-serif;
 }
+
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
   background: #246951;
 }
+
 /* LoginPage, RegisterPage */
 .signInBackground {
   background-image: url(../assets/images/sing_In_background.png);
@@ -103,6 +112,7 @@ button:active {
   justify-content: center;
   align-items: center;
 }
+
 .dataSheet p {
   color: #C54F4F;
   font-size: 0.8rem;
@@ -186,60 +196,62 @@ select {
   border: none;
   text-align: center;
   border-radius: 7px;
- }
- 
- .p-datepicker .p-datepicker-header {
+}
+
+.p-datepicker .p-datepicker-header {
   background-color: #50B692;
   border-bottom: 5px solid #368267;
   height: 70px;
- }
- 
- .p-datepicker-month,
- .p-datepicker-year {
+}
+
+.p-datepicker-month,
+.p-datepicker-year {
   color: #FFF;
- }
- 
- .p-datepicker-next:hover,
- .p-datepicker-prev:hover {
+}
+
+.p-datepicker-next:hover,
+.p-datepicker-prev:hover {
   background-color: transparent;
- }
- 
- td span:hover {
+}
+
+td span:hover {
   background-color: #35a580;
- 
- }
- 
- .p-datepicker-today span {
+
+}
+
+.p-datepicker-today span {
   background-color: #368267;
   color: #FFF;
- }
- 
- .p-datepicker .p-datepicker-header .p-datepicker-prev, .p-datepicker .p-datepicker-header .p-datepicker-next {
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev,
+.p-datepicker .p-datepicker-header .p-datepicker-next {
   color: #FFF;
   transform: scale(1.1);
- }
- 
- .p-datepicker .p-datepicker-header .p-datepicker-prev:hover, .p-datepicker .p-datepicker-header .p-datepicker-next:hover {
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev:hover,
+.p-datepicker .p-datepicker-header .p-datepicker-next:hover {
   transform: scale(1.4);
   transition: ease-in-out 200ms;
- }
+}
 
- @media (max-width: 576px) {
-    .p-datepicker tbody {
-      font-size: 0.8rem;
-    }
-
-  }
- 
- /* ----------------------------------------------Egyedi napárak--------------------------------- */
-
-
-
-  .calendar .p-datepicker {
-    border-radius: 0;
+@media (max-width: 576px) {
+  .p-datepicker tbody {
+    font-size: 0.8rem;
   }
 
- .vetCalendar .p-datepicker {
+}
+
+/* ----------------------------------------------Egyedi napárak--------------------------------- */
+
+
+
+.calendar .p-datepicker {
+  border-radius: 0;
+}
+
+.vetCalendar .p-datepicker {
   border-radius: 7px;
   font-size: 1.6rem;
 }
@@ -248,27 +260,35 @@ select {
   padding: 1.65rem 1rem;
   font-size: 1.25rem;
 }
+
 @media (max-width: 991px) {
-  .vetCalendar .p-datepicker table th > span,
-  .vetCalendar .p-datepicker table td{
+
+  .vetCalendar .p-datepicker table th>span,
+  .vetCalendar .p-datepicker table td {
     font-size: 1rem;
   }
 }
+
 @media (max-width: 750px) {
-  .vetCalendar .p-datepicker table th > span,
-  .vetCalendar .p-datepicker table td{
+
+  .vetCalendar .p-datepicker table th>span,
+  .vetCalendar .p-datepicker table td {
     font-size: 0.8rem;
     padding: 15px;
   }
+
   .vetCalendar {
     height: 500px !important;
   }
 }
+
 @media (max-width: 650px) {
-  .vetCalendar .p-datepicker table th > span,
-  .vetCalendar .p-datepicker table td{
+
+  .vetCalendar .p-datepicker table th>span,
+  .vetCalendar .p-datepicker table td {
     padding: 5px;
   }
+
   .vetCalendar {
     height: 400px !important;
     width: 400px !important;
@@ -276,25 +296,28 @@ select {
 }
 
 @media (max-width: 650px) {
-  .vetCalendar .p-datepicker table th > span,
-  .vetCalendar .p-datepicker table td{
+
+  .vetCalendar .p-datepicker table th>span,
+  .vetCalendar .p-datepicker table td {
     padding: 0px;
   }
+
   .vetCalendar {
     height: 350px !important;
     width: 300px !important;
   }
 
-  
+
 }
+
 /* adatok ---- ezeket a styleokat ki kell szedni a mydata-ból*/
 .p-dropdown,
 .p-inputtext,
 .p-inputnumber,
 .bornDate {
-    border-radius: 7px;
-    background-color: #ededed;
-    outline: none;
+  border-radius: 7px;
+  background-color: #ededed;
+  outline: none;
 }
 
 .dataHeader {
@@ -308,6 +331,7 @@ select {
   gap: 12px;
   width: 600px;
 }
+
 .dataSheet {
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -332,9 +356,26 @@ select {
   margin-top: 10px;
 }
 
+@media (max-width: 750px) {
+
+  .myDatas,
+  .dataHeader {
+    width: 500px;
+  }
+}
+
+@media (max-width: 550px) {
+
+  .myDatas,
+  .dataHeader {
+    width: 300px;
+  }
+}
+
 /* Időpont táblázatok */
 
-.p-checkbox .p-checkbox-box.p-highlight, .p-checkbox .p-checkbox-box.p-highlight:hover {
+.p-checkbox .p-checkbox-box.p-highlight,
+.p-checkbox .p-checkbox-box.p-highlight:hover {
   background: #af3b3b;
   border: none;
 }
@@ -343,10 +384,12 @@ select {
   border: #af3b3b 2px solid;
 
 }
-.p-datatable .p-datatable-thead > tr > th {
+
+.p-datatable .p-datatable-thead>tr>th {
   background-color: #e9ecef;
 }
-.p-datatable .p-datatable-tbody > tr.p-highlight {
+
+.p-datatable .p-datatable-tbody>tr.p-highlight {
   background-color: #af3b3b4e;
 
 }
@@ -360,10 +403,12 @@ select {
   .p-accordion .p-accordion-header .p-accordion-header-link {
     font-size: 14px;
   }
+
   .p-accordion .p-accordion-content {
     font-size: 12px;
   }
 }
+
 @media (max-width: 650px) {
   .p-accordion .p-accordion-header .p-accordion-header-link {
     font-size: 12px;
@@ -374,24 +419,28 @@ select {
 .animation-scale {
   animation: load 0.5s ease-out;
 }
+
 @keyframes load {
-  0%{
-      opacity: 0;
+  0% {
+    opacity: 0;
   }
-  100%{
-      opacity: 1;
+
+  100% {
+    opacity: 1;
   }
 }
+
 .animation_float_left {
   animation: float_left 0.8s ease-out;
 
 }
 
 @keyframes float_left {
-  0%{
-      transform: translateX(-1000px);
+  0% {
+    transform: translateX(-1000px);
   }
-  100%{
+
+  100% {
     transform: translateX(0px);
 
   }
@@ -403,11 +452,33 @@ select {
 }
 
 @keyframes float_right {
-  0%{
-      transform: translateX(1000px);
+  0% {
+    transform: translateX(1000px);
   }
-  100%{
+
+  100% {
     transform: translateX(0px);
 
+  }
+}
+
+/* admin page */
+
+@media (max-width:1100px) {
+  .p-datatable .p-datatable-thead>tr>th, .p-datatable .p-datatable-tbody > tr > td {
+    padding: 10px;
+  }
+}
+
+@media (max-width:1100px) {
+  .p-datatable .p-datatable-thead>tr>th, .p-datatable .p-datatable-tbody > tr > td {
+    font-size: 14px;
+    padding: 5px;
+  }
+}
+
+@media (max-width: 950px) {
+  .p-datatable-table {
+    max-height: 500px;
   }
 }

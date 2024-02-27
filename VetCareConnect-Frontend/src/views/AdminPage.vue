@@ -199,4 +199,18 @@ h1 {
     flex-direction: column;
     align-items: center;
 }
+
+@media (max-width: 1100px) {
+    .table {
+        width: 850px;
+    }
+}
+@media (max-width: 900px) {
+    .table {
+        width: 650px;
+        max-height: 500px;
+        overflow: scroll;
+    }
+
+}
 </style>
