@@ -124,15 +124,7 @@ function passwordToggle() {
 </script>
 
 <style scoped>
-.relative {
-    position: relative;
-}
-
 .loadingSvg {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    z-index: 1;
     top: 1px;
     left: 50px;
 }

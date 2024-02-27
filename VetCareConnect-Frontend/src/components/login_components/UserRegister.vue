@@ -50,8 +50,10 @@
                         <input type="checkbox" v-model="userData.terms" />
                         <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
                     </div>
-                    <div >
-                        <button class="btnStyle">Regisztráció</button>
+                    <div class="relative">
+                        <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+                        <Button @click="handleSubmit()" class="btnStyle" label="Regisztráció"
+                            :disabled="isButtonDisabled"></Button>
                     </div>
                 </form>
             </div>
@@ -83,6 +85,7 @@ import TermsOfUse from "./TermsOfUse.vue";
 import PasswordRequirements from "./PasswordRequirements.vue";
 import InputMask from 'primevue/inputmask';
 import InputText from "primevue/inputtext";
+import Button from "primevue/button";
 import router from '@/router';
 import userservice from "@/services/userservice";
 import { useUserStore } from "@/store/userstore";
@@ -90,6 +93,7 @@ import { useUserStore } from "@/store/userstore";
 const store = useUserStore();
 const toast = useToast();
 
+const isButtonDisabled = ref(false);
 const buttonTrigger = ref(false);
 const isRegistrationFailed = ref(true);
 const isFilled = ref();
@@ -162,7 +166,7 @@ function handleSubmit() {
 
 
     if (!isRegistrationFailed.value) {
-        console.log('form submitted')
+        isButtonDisabled.value = true;
 
         registerData.value = {
             name: userData.value.firstName + " " + userData.value.lastName,
@@ -179,10 +183,12 @@ function handleSubmit() {
                 router.push('/bejelentkezes');
                 toast.success('Sikeres regisztráció!', { position: 'top-center' });
                 console.log(resp);
+                isButtonDisabled.value = true;
             })
             .catch(err => {
                 console.log(err)
-                toast.error('Az email cím már használatban van!', { position: 'top-center' })      
+                toast.error('Hiba!', { position: 'top-center' })
+                isButtonDisabled.value = true;
             })
 
     }
@@ -209,6 +215,10 @@ function handleSubmit() {
     padding: 50px;
     display: flex;
     justify-content: center;
+}
+
+.loadingSvg {
+    left: 80px;
 }
 
 .nameLabel {
@@ -314,7 +324,8 @@ label {
     margin-top: 25px;
 }
 
-input, .password {
+input,
+.password {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -338,6 +349,7 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
     accent-color: #246951;
 }
+
 .btnStyle {
     text-align: center;
     margin-top: 30px;
@@ -391,7 +403,14 @@ input[type="checkbox"]:checked {
 
     }
 
-    input, .passInfo, .btnStyle, .nameInput {
+    .loadingSvg {
+        left: 60px;
+    }
+
+    input,
+    .passInfo,
+    .btnStyle,
+    .nameInput {
         width: 300px;
     }
 
@@ -403,7 +422,8 @@ input[type="checkbox"]:checked {
         display: none;
     }
 
-    .formCardRight ul li, p {
+    .formCardRight ul li,
+    p {
         margin: 0;
         font-size: 0.9rem;
     }
@@ -445,11 +465,20 @@ input[type="checkbox"]:checked {
         width: 300px;
     }
 
-    input, .passInfo, .btnStyle, .nameInput {
+    input,
+    .passInfo,
+    .btnStyle,
+    .nameInput {
         width: 252px;
     }
 
-    #logo, .formCardRight ul li, p {
+    .loadingSvg {
+        left: 45px;
+    }
+
+    #logo,
+    .formCardRight ul li,
+    p {
         display: none;
     }
 
@@ -458,9 +487,11 @@ input[type="checkbox"]:checked {
         margin-bottom: 12px;
     }
 
-    .noAccount, #terms {
+    .noAccount,
+    #terms {
         font-size: 0.7rem;
     }
+
     .nameInput input {
         width: 121px;
         padding: 5px 10px 5px;
@@ -474,5 +505,4 @@ input[type="checkbox"]:checked {
         gap: 50px;
     }
 
-}
-</style>
+}</style>

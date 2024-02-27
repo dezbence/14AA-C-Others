@@ -46,6 +46,17 @@ button {
   align-items: center;
 }
 
+.loadingSvg {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 100;
+}
+
+.relative {
+  position: relative;
+}
+
 .backToHome {
   position: fixed;
   top: 5%;
@@ -186,7 +197,6 @@ select {
 .p-tabview-panel {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 /* ----------------------------------------------Összes napár--------------------------------- */

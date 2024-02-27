@@ -75,7 +75,11 @@
                                 <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
                             </div>
 
-                            <button class="btnStyle">Regisztráció</button>
+                            <div class="relative">
+                                <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+                                <Button @click="handleSubmit()" class="btnStyle" label="Regisztráció"
+                                    :disabled="isButtonDisabled"></Button>
+                            </div>
                         </TabPanel>
                     </TabView>
 
@@ -112,6 +116,7 @@ import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import InputMask from 'primevue/inputmask';
 import InputText from "primevue/inputtext";
+import Button from "primevue/button";
 import router from '@/router';
 import { useToast } from "vue-toastification";
 import userservice from "@/services/userservice";
@@ -119,7 +124,7 @@ import { useUserStore } from "@/store/userstore";
 
 const store = useUserStore();
 
-
+const isButtonDisabled = ref(false);
 const toast = useToast();
 const active = ref(0);
 const buttonTrigger = ref(false);
@@ -200,6 +205,7 @@ function handleSubmit() {
     }
 
     if (!isRegistrationFailed.value) {
+        isButtonDisabled.value = true;
         registerData.value = {
             name: vetData.value.firstName + " " + vetData.value.lastName,
             phone: vetData.value.phone.replace(/[/-]/g, ''),
@@ -216,9 +222,12 @@ function handleSubmit() {
             .then(resp => {
                 router.push('/bejelentkezes');
                 toast.success('Sikeres regisztráció', { position: 'top-center' });
+                isButtonDisabled.value = false;
             })
             .catch(error => {
-                toast.error(error.data.data.email[0], { position: 'top-center' })
+                console.log(error)
+                toast.error('Hiba!', { position: 'top-center' });
+                isButtonDisabled.value = false;
             })
     }
 
@@ -233,6 +242,7 @@ function handleSubmit() {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 7px;
 }
+
 
 .formCardLeft {
     background-color: #fff;
@@ -262,7 +272,7 @@ function handleSubmit() {
 }
 
 .nameInput input {
-    width: 160px;
+    width: 155px;
 }
 
 .passwordInfo {
@@ -334,7 +344,6 @@ function handleSubmit() {
 form {
     background-color: white;
     height: 100%;
-    text-align: left;
 }
 
 h3 {
@@ -353,7 +362,8 @@ label {
     margin-top: 24px;
 }
 
-input, .password {
+input,
+.password {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -412,6 +422,11 @@ input[type="checkbox"]:checked {
     transition: 200ms;
 }
 
+.loadingSvg {
+    left: 80px;
+    top: 30px;
+}
+
 .pages {
     display: flex;
     justify-content: center;
@@ -456,6 +471,10 @@ input[type="checkbox"]:checked {
 
     }
 
+    .loadingSvg {
+        left: 60px;
+    }
+
     .nameInput input {
         width: 145px;
     }
@@ -491,6 +510,10 @@ input[type="checkbox"]:checked {
 
     input {
         width: 240px;
+    }
+
+    .loadingSvg {
+        left: 45px;
     }
 
     #logo,
