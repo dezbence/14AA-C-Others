@@ -185,6 +185,7 @@ select {
   color: #FFF;
   border: none;
   text-align: center;
+  border-radius: 7px;
  }
  
  .p-datepicker .p-datepicker-header {
@@ -231,6 +232,12 @@ select {
   }
  
  /* ----------------------------------------------Egyedi napárak--------------------------------- */
+
+
+
+  .calendar .p-datepicker {
+    border-radius: 0;
+  }
 
  .vetCalendar .p-datepicker {
   border-radius: 7px;

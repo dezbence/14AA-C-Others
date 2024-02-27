@@ -68,6 +68,11 @@ getVetAppointments()
 </script>
 
 <style scoped>
+
+h2 {
+    margin: 14px 0 0;
+}
+
 .toDoBack {
     margin-top: 60px;
     display: flex;
