@@ -1,8 +1,8 @@
 import Axios from './dataservice.js';
 
 export default {
-    getAllVet() {
-        return Axios.get('/vet-all')
+    getAllVet(token) {
+        return Axios.get('/vet-all', { headers: { "Authorization": "Bearer " + token } })
             .then(resp => {
                 return resp.data;
             })

@@ -169,7 +169,7 @@ function refreshTimes() {
 }
 
 onMounted(() => {
-  vetservice.getAllVet().then((resp) => {
+  vetservice.getAllVet(user.value.token).then((resp) => {
     vets.value = resp.data;
     if (route.params.doctorId != "") {
       selectedDoctorId.value = parseInt(route.params.doctorId);
