@@ -56,7 +56,7 @@
             </div>
           </div>
           <div v-else class="closed animation-scale">
-            A válaszott orvos ezen a napon zárva tart!
+            A válaszott orvoshoz erre a napra nem foglalható időpont!
           </div>
           <div>
             <button class="btnStyle btnBook" @click="BookClick()">
@@ -152,20 +152,22 @@ function refreshTimes() {
     id: choosedData.value.vet.id,
     date: dateSend.value
   };
-  vetservice
-    .getFreeAppointments(
-      freeAppointmentData.id,
-      freeAppointmentData.date,
-      user.value.token
-    )
-    .then((resp) => {
-      appointments.value = resp.data;
-      if (appointments.value == "Zárva!") {
-        isClosed.value = true;
-      } else {
-        isClosed.value = false;
-      }
-    });
+  if (choosedData.value.vet.id != null) {
+    vetservice
+      .getFreeAppointments(
+        freeAppointmentData.id,
+        freeAppointmentData.date,
+        user.value.token
+      )
+      .then((resp) => {
+        appointments.value = resp.data;
+        if (appointments.value == "Zárva!") {
+          isClosed.value = true;
+        } else {
+          isClosed.value = false;
+        }
+      });
+  }
 }
 
 onMounted(() => {

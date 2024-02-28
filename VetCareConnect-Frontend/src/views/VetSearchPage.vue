@@ -38,6 +38,7 @@
                     <hr class="line">
                 </div>
             </div>
+            <div v-if="showNotFound" class="notFound">A megadott paraméterekkel nem található orvos az adatbázisban!</div>
         </div>
     </div>
 
@@ -59,14 +60,18 @@ const vetSearch = ref({
     postal_code: "",
     address: ""
 });
-
-// vetservice.getAllVet().then((resp) => {
-//   vets.value = resp.data;
-// });
+const showNotFound = ref(false);
 
 function onSearch(){
     vetservice.getVetsByParams(vetSearch.value).then((resp) => {
         vets.value = resp.data;
+        console.log(vets.value.length)
+        if (vets.value.length == 0) {
+           showNotFound.value = true; 
+        }
+        else {
+            showNotFound.value = false;
+        }
     });
 }
 
@@ -148,6 +153,13 @@ input{
 }
 .vetName {
     color: #246951;
+}
+.notFound {
+    background-color: #246951;
+    color: white;
+    padding: 20px;
+    border-radius: 7px;
+    text-align: center;
 }
 
 @media (max-width: 1100px) {

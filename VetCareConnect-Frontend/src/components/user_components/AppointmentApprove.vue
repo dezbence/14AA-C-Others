@@ -21,14 +21,6 @@ import ownerservice from "@/services/ownerservice";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userstore";
 
-// @click="showSuccess"
-// import { useToast } from "primevue/usetoast";
-// const toast = useToast();
-
-// const showSuccess = () => {
-//     toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 });
-// };
-
 const props = defineProps({
   choosedVet: Object,
   choosedType: Object,
@@ -53,7 +45,6 @@ function Back() {
 }
 
 function Book() {
-  console.log(appointmentData);
   ownerservice.bookAppointment(appointmentData, user.value.token).then((resp) => {
     router.push("/naptaram");
   });
