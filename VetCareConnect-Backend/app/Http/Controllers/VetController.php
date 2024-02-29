@@ -48,7 +48,6 @@ class VetController extends BaseController
 
     public function getOpenings(){
         $openings = Opening::where('vet_id', '=', Auth::user()->id)
-            ->orderBy('day')
             ->get();
 
         return $this->sendResponse($openings, 'Sikeres művelet!');

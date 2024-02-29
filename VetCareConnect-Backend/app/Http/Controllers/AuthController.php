@@ -119,7 +119,7 @@ class AuthController extends BaseController
             $success['role'] = 0;
 
 
-            if ($user['email_verified_at'] == null) return $this->sendError('Not verified',['error' => 'Az email cím nincs megerősítve!'],403);
+            if ($user['email_verified_at'] == null) return $this->sendError('Not verified','Az email cím nincs megerősítve!',403);
 
             return $this->sendResponse($success,'Sikeres bejelentkezés!');
 
@@ -133,7 +133,7 @@ class AuthController extends BaseController
             $success['name'] = $user->name;
             $success['role'] = 1;
 
-            if ($user['email_verified_at'] == null) return $this->sendError('Not verified',['error' => 'Az email cím nincs megerősítve!'],403);
+            if ($user['email_verified_at'] == null) return $this->sendError('Not verified','Az email cím nincs megerősítve!',403);
 
             return $this->sendResponse($success,'Sikeres bejelentkezés!');
 
