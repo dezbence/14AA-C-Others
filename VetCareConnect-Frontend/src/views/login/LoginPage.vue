@@ -66,6 +66,7 @@ import { ref } from 'vue';
 import router from '@/router';
 import { useUserStore } from '@/store/userstore';
 import { useToast } from 'vue-toastification'
+import userservice from '@/services/userservice';
 
 const store = useUserStore();
 const { login } = useUserStore();
@@ -73,7 +74,8 @@ const toast = useToast();
 
 const isButtonDisabled = ref(false);
 const isVisibilityOn = ref(true);
-const typeOfInput = ref("password")
+const typeOfInput = ref("password");
+const isEmailVerified = ref(false);
 
 const isFilled = ref(false);
 const isLoginFailed = ref(true);
@@ -83,8 +85,19 @@ const loginData = ref({
     password: ""
 })
 
+function back() {
+    router.go(-1)
+}
+
+function passwordToggle() {
+    isVisibilityOn.value = !isVisibilityOn.value;
+
+    if (isVisibilityOn.value) typeOfInput.value = "password";
+    else typeOfInput.value = "text";
+}
+
 function handleSubmit() {
-    if (loginData.value.email == "" || loginData.value.password == "") isFilled.value = false;
+       if (loginData.value.email == "" || loginData.value.password == "") isFilled.value = false;
     else isFilled.value = true;
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
@@ -102,22 +115,12 @@ function handleSubmit() {
                 isButtonDisabled.value = false;
             })
             .catch(err => {
-                toast.error('Rossz email cím vagy jelszó!', { position: "top-center" });
+                toast.error(err, { position: "top-center" });
                 isButtonDisabled.value = false;
             })
     }
 }
 
-function back() {
-    router.go(-1)
-}
-
-function passwordToggle() {
-    isVisibilityOn.value = !isVisibilityOn.value;
-
-    if (isVisibilityOn.value) typeOfInput.value = "password";
-    else typeOfInput.value = "text";
-}
 </script>
 
 <style scoped>

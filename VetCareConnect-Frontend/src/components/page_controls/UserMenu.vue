@@ -28,7 +28,7 @@ const MenuItems = [
     { name: "GYIK", link: "/gyik", img: "src/assets/icons/question-mark.svg" }
 ]
 
-const props = defineProps(['userMenuToggle'])
+const props = defineProps(['userMenuToggle', 'isUserMenuOpen'])
 
 function onLogout() {
     logout().then(() => {

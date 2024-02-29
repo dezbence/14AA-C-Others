@@ -43,7 +43,7 @@ export const useUserStore = defineStore('userstore', {
                     this.status.loggedIn = false;
                     this.user = { name: '', token: '', role: null }
                     this.status.message = err.data.data.error;
-                    return Promise.reject(err.resposne);
+                    return Promise.reject(this.status.message);
                 })
         },
         logout() {
