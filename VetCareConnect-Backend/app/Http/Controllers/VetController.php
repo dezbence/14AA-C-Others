@@ -48,6 +48,7 @@ class VetController extends BaseController
 
     public function getOpenings(){
         $openings = Opening::where('vet_id', '=', Auth::user()->id)
+            ->orderBy('day')
             ->get();
 
         return $this->sendResponse($openings, 'Sikeres művelet!');
@@ -133,7 +134,12 @@ class VetController extends BaseController
     }
 
     public function getSpecialOpenings(){
+        $oldOpenings = Special_opening::where('vet_id', '=', Auth::user()->id)
+            ->where('date', '<', date("Y-m-d"))
+            ->delete();
+
         $openings = Special_opening::where('vet_id', '=', Auth::user()->id)
+            ->orderBy('date')
             ->get();
 
         return $this->sendResponse($openings, 'Sikeres művelet!');
