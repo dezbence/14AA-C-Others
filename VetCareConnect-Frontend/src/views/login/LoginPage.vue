@@ -115,6 +115,7 @@ function handleSubmit() {
                 isButtonDisabled.value = false;
             })
             .catch(err => {
+                console.log(err)
                 toast.error(err, { position: "top-center" });
                 isButtonDisabled.value = false;
             })

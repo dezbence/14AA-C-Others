@@ -13,11 +13,11 @@ class PasswordReset extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $token;
+    public $url;
 
         public function __construct(string $url)
     {
-        $this->url = 'http://localhost:5173/uj-jelszo/'.$token;
+        $this->url = 'http://localhost:5173/uj-jelszo/'.$url;
     }
 
     public function envelope(): Envelope

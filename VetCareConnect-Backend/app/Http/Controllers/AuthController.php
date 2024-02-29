@@ -138,7 +138,7 @@ class AuthController extends BaseController
             return $this->sendResponse($success,'Sikeres bejelentkezés!');
 
         } else {
-            return $this->sendError('Unauthorized',['error' => 'Sikertelen bejelentkezés!'],401);
+            return $this->sendError('Unauthorized','Sikertelen bejelentkezés!',401);
         }
 
     }
