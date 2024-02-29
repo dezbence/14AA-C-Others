@@ -12,14 +12,17 @@
 
                 <label>E-mail cím:</label>
 
-                <InputText placeholder="bodri@gmail.com" v-model="loginData"></InputText>
+                <InputText placeholder="bodri@gmail.com" v-model="loginData.email"></InputText>
 
                 <div class="rememberPassword">
                     Eszébe jutott? <router-link to="/bejelentkezes">Jelentkezzen be!</router-link>
                 </div>
 
-                <!-- <button type="button" class="btnStyle" @click="handleSubmit()">E-mail küldése</button> -->
-
+                <div class="relative">
+                            <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+                            <Button @click="handleSubmit()" class="btnStyle" label="Email küldése"
+                                :disabled="isButtonDisabled" />
+                        </div>
             </form>
         </div>
     </div>
@@ -29,41 +32,50 @@ import { ref } from 'vue';
 import router from '@/router';
 import { useToast } from 'vue-toastification'
 import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 import userservice from '@/services/userservice';
 import { useUserStore } from "@/store/userstore";
 
 const store = useUserStore();
 const toast = useToast();
 
-const loginData = ref();
+const loginData = ref({
+    email: ""
+});
 
 const isFilled = ref(false);
 const isEmailFaliled = ref(true);
+const isButtonDisabled = ref(false);
 
 function back() {
     router.go(-1)
 }
 
 function handleSubmit() {
-    if (loginData.value == "") isFilled.value = false;
+    if (loginData.value.email == "") isFilled.value = false;
     else isFilled.value = true;
+    console.log(loginData.value)
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
-    else if (!loginData.value.match(store.emailPattern)) {
+    else if (!loginData.value.email.match(store.emailPattern)) {
         toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
         isEmailFaliled.value = true;
     } else isEmailFaliled.value = false;
 
     if (!isEmailFaliled.value) {
+        isButtonDisabled.value = true;
         console.log(loginData.value);
+
         userservice.sendPasswordResetEmail(loginData.value)
             .then(resp => {
                 console.log(resp.data);
+                isButtonDisabled.value = false;
                 toast.success('E-mail küldve!', { position: "top-center" });
-                router.push('/bejelentkezes')
+                router.push('/uj-jelszo')
             })
             .catch(err => {
                 console.log(err);
+                isButtonDisabled.value = false;
                 toast.error('Hiba történt az email küldésekor!', { position: 'top-center' })
             })
     }
