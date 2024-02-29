@@ -1,10 +1,14 @@
 <template>
     <div class="btns btnChoose">
-        <button class="btnStyle" @click="showVet()">Állatorvosok</button>
-        <button class="btnStyle" @click="showOwner()">Gazdák</button>
+        <div class="btns">
+            <button class="btnStyle" @click="showVet()">Állatorvosok</button>
+            <button class="btnStyle" @click="showOwner()">Gazdák</button>
+        </div>
+        <h1 v-if="isVet">Állatorvosok</h1>
+        <h1 v-if="isOwner">Gazdák</h1>
+        <button class="btnStyle" @click="onLogout()">Kijelentkezés</button>
     </div>
     <div v-if="isVet" class="data">
-        <h1>Állatorvosok</h1>
         <DataTable class="table" v-model:selection="selectedVet" v-model:editingRows="editingRowsVet" :value="vets" editMode="row" dataKey="id"
             @row-edit-save="onRowEditSave" :pt="{
                 table: { style: 'min-width: 50rem' },
@@ -44,7 +48,6 @@
         </div>
     </div>
     <div v-if="isOwner" class="data">
-        <h1>Gazdák</h1>
         <DataTable class="table" v-model:selection="selectedOwner" v-model:editingRows="editingRowsOwner" :value="owners" editMode="row" dataKey="id"
             @row-edit-save="onRowEditSave" :pt="{
                 table: { style: 'min-width: 50rem' },
@@ -94,7 +97,11 @@ import InputText from 'primevue/inputtext';
 import { ref } from 'vue';
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userstore";
+import router from '@/router';
+import { useToast } from 'vue-toastification';
+const toast = useToast();
 
+const { logout } = useUserStore();
 const { user } = storeToRefs(useUserStore());
 
 const isVet = ref(false);
@@ -127,6 +134,12 @@ function showVet(){
 function showOwner(){
     isVet.value = false;
     isOwner.value = true;
+}
+function onLogout() {
+    logout().then(() => {
+        router.push('/');
+        toast.success('Sikeres kijelentkezés!', { position: "top-center" });
+    })
 }
 
 function deleteVet(){
@@ -166,7 +179,7 @@ getPeople();
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 .btnChoose {
     width: 100%;
@@ -188,11 +201,10 @@ getPeople();
 }
 h1 {
     color: #555;
-    margin-top: 120px;
 }
 .table {
     max-width: 1000px;
-    margin: 10px 40px;
+    margin: 100px 40px;
 }
 .data {
     display: flex;

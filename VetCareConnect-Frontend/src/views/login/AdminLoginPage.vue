@@ -7,13 +7,8 @@
         <div class="main animation-scale">
             <div class="formLeft">
                 <form @submit.prevent="handleSubmit">
-                    <h3>Bejelentkezés</h3>
+                    <h3>Admin bejelentkezés</h3>
                     <div class="middle">
-                        <div class="noAccount">
-                            <span>Még nincs fiókja?</span>
-                            <router-link to="/regisztracio">Új fiók készítése</router-link>
-                        </div>
-
                         <label>E-mail cím:</label>
                         <InputText v-model="loginData.email" placeholder="bodri@gmail.com" />
 
@@ -22,10 +17,6 @@
                             <img @click="passwordToggle" class="eyeIcon" draggable="false"
                                 :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'" />
                             <InputText :type="typeOfInput" v-model="loginData.password" placeholder="Bodri123" />
-                        </div>
-
-                        <div class="forgotPassword">
-                            <router-link to="/elfelejtett-jelszo">Elfelejtette a jelszavát?</router-link>
                         </div>
 
                         <div class="relative">
@@ -93,11 +84,13 @@ function handleSubmit() {
         isLoginFailed.value = true;
     } else isLoginFailed.value = false;
 
+    console.log(isLoginFailed.value)
+
     if (!isLoginFailed.value) {
         isButtonDisabled.value = true;
         login(loginData.value)
             .then(resp => {
-                router.push('/');
+                router.push('/admin');
                 toast.success('Sikeres bejelentkezés!', { position: "top-center" });
                 isButtonDisabled.value = false;
             })
@@ -223,39 +216,6 @@ label {
 .btnStyle:hover {
     background-color: #368267;
     transition: 200ms;
-}
-
-.forgotPassword {
-    text-align: right;
-    font-size: 0.8rem;
-    margin-top: 4px;
-    cursor: pointer;
-}
-
-.forgotPassword a {
-    text-decoration: none;
-    color: #246951;
-}
-
-.noAccount {
-    text-align: left;
-    font-size: 0.9rem;
-    margin-bottom: 18px;
-}
-
-.noAccount span {
-    font-weight: bold;
-    margin-right: 10px;
-    color: #246951;
-}
-
-.noAccount a {
-    text-decoration: none;
-    color: #005a70;
-}
-
-.noAccount a:hover {
-    text-decoration: underline;
 }
 
 @media (max-width: 768px) {
