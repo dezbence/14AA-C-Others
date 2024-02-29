@@ -47,10 +47,21 @@ class VetController extends BaseController
     }
 
     public function getOpenings(){
-        $openings = Opening::where('vet_id', '=', Auth::user()->id)
-            ->get();
+        $order = ["hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap"];
 
-        return $this->sendResponse($openings, 'Sikeres művelet!');
+        $openings = Opening::where('vet_id', '=', Auth::user()->id)
+                ->get();
+
+        $openingsSorted = $openings->sortBy(function ($item) use ($order){
+            return array_search($item["day"], $order);
+        });
+
+        $openingsSortedArray = array();
+        foreach ($openingsSorted as $item) {
+            array_push($openingsSortedArray, $item);
+        }
+
+        return $this->sendResponse($openingsSortedArray, 'Sikeres művelet!');
     }
 
     public function addOpenings(Request $request) {
@@ -209,4 +220,5 @@ class VetController extends BaseController
 
         return $this->sendResponse('', 'Sikeres művelet!');
     }
+
 }
