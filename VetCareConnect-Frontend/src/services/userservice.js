@@ -12,15 +12,6 @@ export default {
         return Promise.reject(err.response);
       })
   },
-  isUsersEmailVerified() {
-    return Axios.get('register/is-verified')
-      .then(resp => {
-        return resp;
-      })
-      .catch(err => {
-        return Promise.reject(err.response);
-      })
-  },
   login(data) {
     return Axios.post('/login', data)
       .then(resp => {

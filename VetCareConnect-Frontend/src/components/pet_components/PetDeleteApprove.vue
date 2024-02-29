@@ -28,8 +28,8 @@ function ClickYes() {
     petservice.deletePet(store.deletePetId, user.value.token)
     .then((resp) => {
         store.getPets();
+        router.push('/kedvenceim');
     });
-    router.push('/kedvenceim');
 }
 
 </script>
