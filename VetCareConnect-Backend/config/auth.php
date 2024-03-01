@@ -51,6 +51,11 @@ return [
             'provider' => 'owners',
         ],
 
+        'admin'  => [
+            'driver'  => 'session',
+            'provider' => 'admins',
+        ],
+
     ],
 
     /*
@@ -84,6 +89,11 @@ return [
         'owners' => [
             'driver' => 'eloquent',
             'model' => App\Models\Owner::class,
+        ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
     ],
 
