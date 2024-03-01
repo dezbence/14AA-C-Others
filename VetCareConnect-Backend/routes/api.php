@@ -36,7 +36,7 @@ Route::get('/cure-types-all', [MainController::class, 'getAllCureTypes']);
 Route::get('/faq-all', [MainController::class, 'getAllQuestions']);
 
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::get('email/resend/{id}', [VerificationController::class, 'resend'])->name('verification.resend');
+Route::get('email/resend/{email}', [VerificationController::class, 'resend'])->name('verification.resend');
 
 Route::post('/forgot-password', [PasswordController::class, 'forgotPassword']);
 // Route::post('/reset-password', [PasswordController::class, 'reset']);

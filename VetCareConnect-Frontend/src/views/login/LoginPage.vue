@@ -5,55 +5,61 @@
 
     <div class="signInBackground">
         <div class="main animation-scale">
-            <div class="formLeft">
-                <form @submit.prevent="handleSubmit">
-                    <h3>Bejelentkezés</h3>
-                    <div class="middle">
-                        <div class="noAccount">
-                            <span>Még nincs fiókja?</span>
-                            <router-link to="/regisztracio">Új fiók készítése</router-link>
+            <div v-if="!isEmailResendable" class="main">
+                <div class="formLeft">
+                    <form @submit.prevent="handleSubmit">
+                        <h3>Bejelentkezés</h3>
+                        <div class="middle">
+                            <div class="noAccount">
+                                <span>Még nincs fiókja?</span>
+                                <router-link to="/regisztracio">Új fiók készítése</router-link>
+                            </div>
+
+                            <label>E-mail cím:</label>
+                            <InputText v-model="loginData.email" placeholder="bodri@gmail.com" />
+
+                            <label>Jelszó:</label>
+                            <div class="passwordAndEyeIcon">
+                                <img @click="passwordToggle" class="eyeIcon" draggable="false"
+                                    :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'" />
+                                <InputText :type="typeOfInput" v-model="loginData.password" placeholder="Bodri123" />
+                            </div>
+
+                            <div class="forgotPassword">
+                                <router-link to="/elfelejtett-jelszo">Elfelejtette a jelszavát?</router-link>
+                            </div>
+
+                            <div class="relative">
+                                <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+                                <Button @click="handleSubmit()" class="btnStyle" label="Bejelentkezés"
+                                    :disabled="isButtonDisabled"></Button>
+                            </div>
                         </div>
 
-                        <label>E-mail cím:</label>
-                        <InputText v-model="loginData.email" placeholder="bodri@gmail.com" />
-
-                        <label>Jelszó:</label>
-                        <div class="passwordAndEyeIcon">
-                            <img @click="passwordToggle" class="eyeIcon" draggable="false"
-                                :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'" />
-                            <InputText :type="typeOfInput" v-model="loginData.password" placeholder="Bodri123" />
-                        </div>
-
-                        <div class="forgotPassword">
-                            <router-link to="/elfelejtett-jelszo">Elfelejtette a jelszavát?</router-link>
-                        </div>
-
-                        <div class="relative">
-                            <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                            <Button @click="handleSubmit()" class="btnStyle" label="Bejelentkezés"
-                                :disabled="isButtonDisabled"></Button>
-                        </div>
-                    </div>
-
-                </form>
+                    </form>
+                </div>
+                <!-- Jobb oldal -->
+                <div class="formRight">
+                    <ul>
+                        <li>
+                            <img id="logo" src="../../assets/images/logo.png" draggable="false" />
+                        </li>
+                        <li>
+                            <img id="singinImage" src="../../assets/images/sign_in.png" draggable="false" />
+                        </li>
+                        <li>
+                            <p>
+                                <span>Minden</span> állat <br />
+                                megérdemli a <span>legjobbat!</span>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <!-- Jobb oldal -->
-            <div class="formRight">
-                <ul>
-                    <li>
-                        <img id="logo" src="../../assets/images/logo.png" draggable="false" />
-                    </li>
-                    <li>
-                        <img id="singinImage" src="../../assets/images/sign_in.png" draggable="false" />
-                    </li>
-                    <li>
-                        <p>
-                            <span>Minden</span> állat <br />
-                            megérdemli a <span>legjobbat!</span>
-                        </p>
-                    </li>
-                </ul>
+            <div v-else>
+                <ResendEmailVerification :loginData="loginData.email" :isEmailResendable="isEmailResendable"></ResendEmailVerification>
             </div>
+
         </div>
 
     </div>
@@ -62,10 +68,11 @@
 <script setup>
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
+import ResendEmailVerification from '@/components/login_components/ResendEmailVerification.vue';
 import { ref } from 'vue';
 import router from '@/router';
 import { useUserStore } from '@/store/userstore';
-import { useToast } from 'vue-toastification'
+import { useToast } from 'vue-toastification';
 import userservice from '@/services/userservice';
 
 const store = useUserStore();
@@ -75,7 +82,7 @@ const toast = useToast();
 const isButtonDisabled = ref(false);
 const isVisibilityOn = ref(true);
 const typeOfInput = ref("password");
-const isEmailVerified = ref(false);
+const isEmailResendable = ref(false);
 
 const isFilled = ref(false);
 const isLoginFailed = ref(true);
@@ -97,7 +104,7 @@ function passwordToggle() {
 }
 
 function handleSubmit() {
-       if (loginData.value.email == "" || loginData.value.password == "") isFilled.value = false;
+    if (loginData.value.email == "" || loginData.value.password == "") isFilled.value = false;
     else isFilled.value = true;
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
@@ -115,9 +122,11 @@ function handleSubmit() {
                 isButtonDisabled.value = false;
             })
             .catch(err => {
-                console.log(err)
-                toast.error(err, { position: "top-center" });
+                toast.error(err.data.data, { position: "top-center" });
                 isButtonDisabled.value = false;
+                if (err.status == 403) {
+                    isEmailResendable.value = true;
+                }
             })
     }
 }

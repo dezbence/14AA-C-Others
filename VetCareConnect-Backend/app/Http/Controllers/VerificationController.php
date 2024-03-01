@@ -29,10 +29,10 @@ class VerificationController extends BaseController
         return $this->sendResponse('','Sikeres megerősítés!');
     }
 
-    public function resend($user_id) {
-        $user = Vet::find($user_id);
-        if ($user === null) {
-            $user = Owner::find($user_id);
+    public function resend($email) {
+        $user = Vet::where('email', $email)->first();
+        if ($user == null) {
+            $user = Owner::where('email', $email)->first();
         }
 
         if ($user === null) {

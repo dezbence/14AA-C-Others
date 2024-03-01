@@ -66,6 +66,15 @@ export default {
         return Promise.reject(err.response);
       })
   },
+  resendVerificationEmail(data) {
+    return Axios.get(`/email/resend/${data}`)
+      .then(resp => {
+        return resp;
+      })
+      .catch(err => {
+        return Promise.reject(err.response);
+      })
+  },
   // modifyPassword(data) {
   //   return Axios.put('/modify-password', data)
   //     .then(resp => {
