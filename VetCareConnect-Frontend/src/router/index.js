@@ -1,16 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePageVue from '@/views/HomePage.vue'
-// import AppointmentBookingPageVue from '@/views/user/AppointmentBookingPage.vue'
-// import PetsPageVue from '@/views/user/PetsPage.vue'
-// import AppointmentsPageVue from '@/views/user/AppointmentsPage.vue'
-// import LoginPageVue from '@/views/login/LoginPage.vue'
-// import RegisterPageVue from '@/views/login/RegisterPage.vue'
-// import ForgotPasswordPageVue from '@/views/login/ForgotPasswordPage.vue'
 import NotFoundPageVue from '@/views/NotFoundPage.vue'
 import { useUserStore } from '../store/userstore.js'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'vue-toastification'
-import { nextTick } from 'vue'
 
 const toast = useToast();
 
