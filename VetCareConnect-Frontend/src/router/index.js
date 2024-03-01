@@ -51,8 +51,9 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const { status, user } = storeToRefs(useUserStore());
-  const publicPages = ['/', '/bejelentkezes', '/bejelentkezes/admin', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo', '/uj-jelszo/:token?', '/:catchAll(.*)'];
+  const publicPages = ['/', '/bejelentkezes', '/bejelentkezes/admin', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo', '/uj-jelszo'];
   const autRequired = !publicPages.includes(to.path);
+  console.log(autRequired)
   if (autRequired && !status.value.loggedIn) {
     toast.error("Bejelentkezés szükséges!", { position: "top-center" });
     return next('/');
@@ -66,6 +67,8 @@ router.beforeEach((to, from, next) => {
     if (status.value.loggedIn && user.value.role == 0) {
       return next();
     }
+  } else if(to.path.startsWith("/uj-jelszo/")){
+    return next();
   }
   next();
 });
