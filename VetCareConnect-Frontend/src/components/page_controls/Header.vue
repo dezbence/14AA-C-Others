@@ -53,7 +53,8 @@ const Routes = [
   { name: "Kedvenceim", link: "/kedvenceim", roleAccess: [0] },
   { name: "Naptáram", link: "/naptaram", roleAccess: [0] },
   { name: "Naptáram", link: "/orvosi-naptar", roleAccess: [1] },
-  { name: "Nyitvatartás", link: "/nyitvatartas", roleAccess: [1] }
+  { name: "Nyitvatartás", link: "/nyitvatartas", roleAccess: [1] },
+  { name: "Admin", link: "/admin", roleAccess: [2] }
 ]
 
 const isSideBarOpen = ref(false);

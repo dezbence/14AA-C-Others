@@ -4,9 +4,13 @@
             <button class="btnStyle" @click="showVet()">Állatorvosok</button>
             <button class="btnStyle" @click="showOwner()">Gazdák</button>
         </div>
-        <h1 v-if="isVet">Állatorvosok</h1>
-        <h1 v-if="isOwner">Gazdák</h1>
+        <div class="title">
+            <h1 v-if="isVet">Állatorvosok</h1>
+            <h1 v-if="isOwner">Gazdák</h1>
+        </div>
         <button class="btnStyle" @click="onLogout()">Kijelentkezés</button>
+    </div>
+    <div class="title">
     </div>
     <div v-if="isVet" class="data">
         <DataTable class="table" v-model:selection="selectedVet" v-model:editingRows="editingRowsVet" :value="vets" editMode="row" dataKey="id"
@@ -44,7 +48,6 @@
         </DataTable>
         <div class="btns">
             <button class="btnStyle btnDelete" @click="deleteVet">Törlés</button>
-            <button class="btnStyle btnSave" @click="saveData">Mentés</button>
         </div>
     </div>
     <div v-if="isOwner" class="data">
@@ -59,22 +62,8 @@
             }">
             <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
             <Column field="id" header="Azonosító" style="width: 20%"></Column>
-            <Column field="name" header="Név" style="width: 20%">
-                <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" />
-                </template>
-            </Column>
+            <Column field="name" header="Név" style="width: 20%"></Column>
             <Column field="email" header="Email" style="width: 20%">
-                <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" />
-                </template>
-            </Column>
-            <Column field="phone" header="Telefonszám" style="width: 20%">
-                <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" />
-                </template>
-            </Column>
-            <Column field="" header="Alapértelmezett jelszó" style="width: 20%">
                 <template #editor="{ data, field }">
                     <InputText v-model="data[field]" />
                 </template>
@@ -118,13 +107,8 @@ const selectedOwner = ref();
 
 const onRowEditSave = (event) => {
     let { newData, index } = event;
-
     vets.value[index] = newData;
 };
-
-function saveData(){
-    // adatok módosítása
-}
 
 function showVet(){
     isVet.value = true;
@@ -187,6 +171,12 @@ getPeople();
     position: fixed;
     z-index: 100;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    z-index: -1;
 }
 .btnStyle {
     padding: 10px 20px;

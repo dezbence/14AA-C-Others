@@ -9,8 +9,8 @@
                 <form @submit.prevent="handleSubmit">
                     <h3>Admin bejelentkezés</h3>
                     <div class="middle">
-                        <label>E-mail cím:</label>
-                        <InputText v-model="loginData.email" placeholder="bodri@gmail.com" />
+                        <label>Felhasználónév:</label>
+                        <InputText v-model="loginData.username" placeholder="kissjancsi" />
 
                         <label>Jelszó:</label>
                         <div class="passwordAndEyeIcon">
@@ -59,7 +59,7 @@ import { useUserStore } from '@/store/userstore';
 import { useToast } from 'vue-toastification'
 
 const store = useUserStore();
-const { login } = useUserStore();
+const { login, adminLogin } = useUserStore();
 const toast = useToast();
 
 const isButtonDisabled = ref(false);
@@ -70,25 +70,22 @@ const isFilled = ref(false);
 const isLoginFailed = ref(true);
 
 const loginData = ref({
-    email: "",
+    username: "",
     password: ""
 })
 
 function handleSubmit() {
-    if (loginData.value.email == "" || loginData.value.password == "") isFilled.value = false;
+    if (loginData.value.username == "" || loginData.value.password == "") isFilled.value = false;
     else isFilled.value = true;
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
-    else if (!loginData.value.email.match(store.emailPattern)) {
-        toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
-        isLoginFailed.value = true;
-    } else isLoginFailed.value = false;
+    else isLoginFailed.value = false;
 
     console.log(isLoginFailed.value)
 
     if (!isLoginFailed.value) {
         isButtonDisabled.value = true;
-        login(loginData.value)
+        adminLogin(loginData.value)
             .then(resp => {
                 router.push('/admin');
                 toast.success('Sikeres bejelentkezés!', { position: "top-center" });

@@ -46,6 +46,21 @@ export const useUserStore = defineStore('userstore', {
                     return Promise.reject(this.status.message);
                 })
         },
+        adminLogin(data){
+            return userservice.adminLogin(data)
+                .then(resp => {
+                    this.status.loggedIn = true;
+                    this.user = resp.data.data;
+                    this.status.message = ''; //resp.data.message;
+                    localStorage.setItem('user', JSON.stringify(this.user))
+                })
+                .catch(err => {
+                    this.status.loggedIn = false;
+                    this.user = { name: '', token: '', role: null }
+                    this.status.message = err.data.data;
+                    return Promise.reject(this.status.message);
+                })
+        },
         logout() {
             return userservice.logout(this.user.token)
                 .then(() => {

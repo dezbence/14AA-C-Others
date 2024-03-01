@@ -15,7 +15,7 @@ import { nextTick } from 'vue'
 const toast = useToast();
 
 const access = {
-  '/': [0, 1, null],
+  '/': [0, 1, 2, null],
   '/idopontfoglalas': [0],
   '/kedvenceim': [0],
   '/naptaram': [0],
@@ -29,7 +29,7 @@ const access = {
   '/orvosi-naptar': [1],
   '/nyitvatartas': [1],
   '/adataim': [0, 1],
-  '/admin': [0, 1, null],
+  '/admin': [2],
   '/:catchAll(.*)': [0, 1, null]
 };
 
@@ -65,6 +65,9 @@ router.beforeEach((to, from, next) => {
     return next('/');
   } else if(!to.path.startsWith("/idopontfoglalas/") && !access[to.path].includes(user.value.role)){
     toast.error("Jogosultság szükséges!", { position: "top-center" });
+    if (status.value.loggedIn && user.value.role == 2) {
+      return next('/admin');
+    }
     return next('/');
   } else if(to.path.startsWith("/idopontfoglalas/")){
     if (status.value.loggedIn && user.value.role == 0) {

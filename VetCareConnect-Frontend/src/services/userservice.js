@@ -21,6 +21,15 @@ export default {
         return Promise.reject(err.response);
       })
   },
+  adminLogin(data) {
+    return Axios.post('/admin-login', data)
+      .then(resp => {
+        return resp;
+      })
+      .catch(err => {
+        return Promise.reject(err.response);
+      })
+  },
   logout(token) {
     return Axios.post('/logout', '', { headers: { "Authorization": "Bearer " + token } })
       .then(resp => {
