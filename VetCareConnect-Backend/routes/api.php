@@ -28,6 +28,7 @@ Route::get('/bearer-test',[MainController::class,'bearerTest']);
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
+Route::post('/admin-login',[AuthController::class,'adminLogin']);
 
 Route::post('/search-vets', [MainController::class, 'searchVets']);
 

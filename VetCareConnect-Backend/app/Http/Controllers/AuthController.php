@@ -143,6 +143,38 @@ class AuthController extends BaseController
 
     }
 
+    
+    public function adminLogin(Request $request){
+
+        //https://stackoverflow.com/questions/46292391/authenticate-users-from-more-than-two-tables-in-laravel-5
+
+        $validatorFields = [
+            'username' => 'required',
+            'password'=> 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $validatorFields);
+
+        if ($validator->fails()){
+           return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+
+        if (Auth::guard('admin')->attempt([
+            'username' => $request->username,
+            'password' => $request->password
+        ])) {
+
+            $user = Auth::guard('admin')->user();
+            $success['token'] = $user->createToken('Secret')->plainTextToken;
+            $success['name'] = $user->username;
+            $success['role'] = 2;
+
+            return $this->sendResponse($success,'Sikeres bejelentkezés!');
+
+        }
+
+    }
+
     public function logout(Request $request){
         Auth::user()->currentAccessToken()->delete();
         return $this->sendResponse('' ,'Sikeres kijelentkezés!');
