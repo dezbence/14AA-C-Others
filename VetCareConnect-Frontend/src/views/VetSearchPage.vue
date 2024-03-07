@@ -53,6 +53,13 @@ import InputMask from 'primevue/inputmask';
 import vetservice from "../services/vetservice.js";
 import router from '@/router';
 import { onMounted, ref } from 'vue';
+import { useUserStore } from '@/store/userstore';
+import { storeToRefs } from "pinia";
+import { useToast } from 'vue-toastification'
+
+const toast = useToast();
+
+const { status } = storeToRefs(useUserStore());
 
 const vets = ref();
 const vetSearch = ref({
@@ -76,7 +83,11 @@ function onSearch(){
 }
 
 function book(vetId) {
-    router.push(`/idopontfoglalas/${vetId}`);
+    if (status.value.loggedIn == true) {
+        router.push(`/idopontfoglalas/${vetId}`);
+    } else {
+        toast.error("Bejelentkezés szükséges!", { position: "top-center" });
+    }
 }
 onMounted(() => {
     onSearch();

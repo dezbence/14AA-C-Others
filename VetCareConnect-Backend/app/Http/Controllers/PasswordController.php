@@ -59,4 +59,33 @@ class PasswordController extends BaseController
         return $this->sendResponse('','Az email sikeresen elküldve!', 200);
     }
 
+    public function resetPassword(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+            'confirm_password' => 'required|same:password',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Bad request', $validator->errors(), 400);
+        }
+        //delete expired tokens
+
+        $expiredTokens = Password_reset::where('created_at', '<', Carbon::now('GMT+1')->timestamp - (60 * 60))
+            ->delete();
+
+        $resetToken = Password_reset::where('token', '=', $request->bearerToken())
+            ->where('email', '=', $request->email)
+            ->get();
+
+        if (count($resetToken) == 0) {
+            return $this->sendError('Invalid Token','Hibás vagy lejárt jelszó visszaállító azonosító!', 401);
+        }
+
+        //valid token
+        
+
+        return $resetToken;
+    }
+
 }
