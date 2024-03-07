@@ -75,13 +75,13 @@ export default {
         return Promise.reject(err.response);
       })
   },
-  // modifyPassword(data) {
-  //   return Axios.put('/modify-password', data)
-  //     .then(resp => {
-  //       return resp;
-  //     })
-  //     .catch(err => {
-  //       return Promise.reject(err.response);
-  //     })
-  // }
+  modifyPassword(data, token) {
+    return Axios.patch('/reset-password', data, { headers: { "Authorization": "Bearer " + token } })
+      .then(resp => {
+        return resp;
+      })
+      .catch(err => {
+        return Promise.reject(err.response);
+      })
+  }
 }
