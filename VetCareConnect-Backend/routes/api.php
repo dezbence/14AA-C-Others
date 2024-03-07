@@ -39,7 +39,7 @@ Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name
 Route::get('email/resend/{email}', [VerificationController::class, 'resend'])->name('verification.resend');
 
 Route::post('/forgot-password', [PasswordController::class, 'forgotPassword']);
-Route::post('/reset-password', [PasswordController::class, 'resetPassword']);
+Route::patch('/reset-password', [PasswordController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->group(function(){
 
@@ -54,8 +54,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::delete('/delete-vet/{id}', [MainController::class, 'deleteVet']);
     Route::delete('/delete-owner/{id}', [MainController::class, 'deleteOwner']);
-
-    // Route::put('/modify-password', [AuthController::class,'modifyPassword']);)
 
     Route::middleware('only-owner')->group(function(){
         //Route::get('/bearer-test',[MainController::class,'bearerTest']);

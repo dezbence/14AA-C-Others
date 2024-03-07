@@ -64,6 +64,7 @@ class PasswordController extends BaseController
             'email' => 'required|email',
             'password' => 'required',
             'confirm_password' => 'required|same:password',
+            'role' => 'required'
         ]);
 
         if($validator->fails()){
@@ -83,9 +84,19 @@ class PasswordController extends BaseController
         }
 
         //valid token
-        
+        if ($request->role == 0) {
+            Owner::where('email', '=', $request->email)
+                ->update(['password' => bcrypt($request->password)]);
 
-        return $resetToken;
+            return $this->sendResponse('','A jelszó módosult!', 200);
+        } else {
+            Vet::where('email', '=', $request->email)
+                ->update(['password' => bcrypt($request->password)]);
+
+            return $this->sendResponse('','A jelszó módosult!', 200);
+        }
+
+        $resetToken->delete();
     }
 
 }

@@ -42,7 +42,9 @@ import { ref } from 'vue';
 import router from '@/router';
 import { useToast } from 'vue-toastification'
 import userservice from '@/services/userservice';
+import { useUserStore } from '@/store/userstore';
 const toast = useToast();
+const store = useUserStore();
 
 const isFilled = ref(false);
 
@@ -91,20 +93,23 @@ function handleSubmit() {
     if (!isModifyFailed.value) {
         console.log('form submitted')
 
-        modifiedData.value = {
+        resetData.value = {
             email: resetData.value.email,
-            new_password: resetData.value.new_password,
+            password: resetData.value.new_password,
             confirm_password: resetData.value.confirm_password,
+            role: 0
         }
+        
 
-        // userservice.modifyPassword(modifiedData.value).then(res => {
-        //     console.log(res)
-        //     if (res.status == 200) {
-        //         toast.success("Sikeres jelszóváltoztatás!", { position: 'top-center' })
-        //         router.push('/bejelentkezes')
-        //     }
-        //     else toast.error("Sikertelen jelszóváltoztatás!", { position: 'top-center' })
-        // })
+        userservice.modifyPassword(resetData.value, "fniOGrcSb5O7jUFMDHZY3y9nalGPC8Mev6tq34jtKuhCRXxE22wVzzSqgTz6")
+        .then(res => {
+            console.log(res)
+            if (res.status == 200) {
+                toast.success("Sikeres jelszóváltoztatás!", { position: 'top-center' })
+                router.push('/bejelentkezes')
+            }
+            else toast.error("Sikertelen jelszóváltoztatás!", { position: 'top-center' })
+        })
     }
 }
 
