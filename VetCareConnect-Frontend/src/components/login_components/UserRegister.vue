@@ -136,10 +136,10 @@ function handleSubmit() {
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
 
-        if (!store.charactersPattern.test(userData.value.firstName) && !store.charactersPattern.test(userData.value.lastName)) {
+        if (!userData.value.firstName.match(store.charactersPattern) && !userData.value.lastName.match(store.charactersPattern)) {
             toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' });
             isRegistrationFailed.value = true;
-        } else if (!store.emailPattern.test(userData.value.email)) {
+        } else if (!userData.value.email.match(store.emailPattern)) {
             toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
             isRegistrationFailed.value = true;
         } else if (userData.value.password.length < 8) {
@@ -180,7 +180,7 @@ function handleSubmit() {
 
         userservice.registerUser(registerData.value)
             .then(resp => {
-                router.push('/email-ujra');
+                router.push('/bejelentkezes');
                 toast.success('Sikeres regisztráció!', { position: 'top-center' });
                 console.log(resp);
                 isButtonDisabled.value = true;

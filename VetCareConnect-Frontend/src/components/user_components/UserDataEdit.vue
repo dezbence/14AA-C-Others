@@ -98,7 +98,7 @@ function saveChanges() {
         editedUserData.value.phone.replace(/[/-]/g, '') === userData.phone.replace(/[/-]/g, '') &&
         editedUserData.value.postal_code === userData.postal_code) {
         toast.error('Nem történt változás!', { position: "top-center" });
-    } else if (!store.charactersPattern.test(editedUserData.value.name)) {
+    } else if (!editedUserData.value.name.match(store.charactersPattern)) {
         toast.error('Nem megfelelő név formátum!', { position: "top-center" });
     } else {
         sureInEdit();

@@ -220,7 +220,7 @@ function handleSubmit() {
 
         userservice.registerUser(registerData.value)
             .then(resp => {
-                router.push('/email-ujra');
+                router.push('/bejelentkezes');
                 toast.success('Sikeres regisztráció', { position: 'top-center' });
                 isButtonDisabled.value = false;
             })
