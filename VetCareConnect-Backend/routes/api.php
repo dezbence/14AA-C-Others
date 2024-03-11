@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\VetController;
 use App\Http\Controllers\AuthController;
@@ -19,12 +20,6 @@ use App\Http\Controllers\PasswordController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-Route::get('/bearer-test',[MainController::class,'bearerTest']);
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
@@ -52,8 +47,12 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/vet-all', [MainController::class, 'getAllVet']);
     Route::get('/owner-all', [MainController::class, 'getAllOwner']);
 
-    Route::delete('/delete-vet/{id}', [MainController::class, 'deleteVet']);
-    Route::delete('/delete-owner/{id}', [MainController::class, 'deleteOwner']);
+    Route::middleware('only-admin')->group(function(){
+
+        Route::delete('/delete-vet/{id}', [AdminController::class, 'deleteVet']);
+        Route::delete('/delete-owner/{id}', [AdminController::class, 'deleteOwner']);
+        Route::post('/modify-user-email', [AdminController::class, 'modifyUserEmail']);
+    });
 
     Route::middleware('only-owner')->group(function(){
         //Route::get('/bearer-test',[MainController::class,'bearerTest']);
