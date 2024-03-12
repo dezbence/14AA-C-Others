@@ -8,29 +8,38 @@
             <div class="formLeft">
                 <form @submit.prevent="handleSubmit">
                     <h3>Új jelszó létrehozása</h3>
-                
-                        
-                        <label>E-mail cím:</label>
-                        <InputText v-model="resetData.email" placeholder="bodri@gmail.com" />
 
-                        <label>Új jelszó:</label>
-                        <InputText type="password" v-model="resetData.new_password" placeholder="Bodri123" />
 
-                        <label>Jelszó újra:</label>
-                        <InputText type="password" v-model="resetData.confirm_password" placeholder="Bodri123" />
-                        
-                        <div class="forgotPassword">
-                            <router-link to="/bejelentkezes">Vissza a bejelentkezéshez!</router-link>
-                        </div>
+                    <label>E-mail cím:</label>
+                    <InputText v-model="resetData.email" placeholder="bodri@gmail.com" />
 
-                        <div>
-                            <button class="btnStyle">Jelszó megváltoztatása</button>
-                        </div>
-                    
+                    <label>Új jelszó:</label>
+                    <InputText type="password" v-model="resetData.new_password" placeholder="Bodri123" />
+
+                    <label>Jelszó újra:</label>
+                    <InputText type="password" v-model="resetData.confirm_password" placeholder="Bodri123" />
+
+                    <div class="forgotPassword">
+                        <router-link to="/bejelentkezes">Vissza a bejelentkezéshez!</router-link>
+                    </div>
+
+                    <div class="relative">
+                        <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+                        <Button @click="handleSubmit()" class="btnStyle" label="Jelszó megváltoztatása"
+                            :disabled="isButtonDisabled"></Button>
+                    </div>
+
+                    <div v-if="isError" class="helper">
+                        <ul>
+                            <li>Ellenőrizze email fiókját, kapott-e hivatkozást a megváltoztatáshoz!</li>
+                            <li>Ha a jelszó visszaállító azonosító lejárt vagy hibás, igényeljen újat!</li>
+                        </ul>
+                    </div>
+
 
                 </form>
             </div>
-            
+
         </div>
 
     </div>
@@ -38,32 +47,38 @@
 
 <script setup>
 import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 import { ref } from 'vue';
 import router from '@/router';
 import { useToast } from 'vue-toastification'
+import { useRoute } from 'vue-router';
 import userservice from '@/services/userservice';
 import { useUserStore } from '@/store/userstore';
 const toast = useToast();
 const store = useUserStore();
+const route = useRoute();
 
 const isFilled = ref(false);
+const isButtonDisabled = ref(false);
 
 const isModifyFailed = ref(true);
+const isError = ref(false);
+const userToken = ref();
 
 const resetData = ref({
     email: "",
     new_password: "",
     confirm_password: ""
 })
-
+userToken.value = route.params.token;
 function handleSubmit() {
     if (resetData.value.email == "" || resetData.value.new_password == "" || resetData.value.confirm_password == "") isFilled.value = false;
     else isFilled.value = true;
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
     else {
-       
-        
+
+
         if (!store.emailPattern.test(resetData.value.email)) {
             toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
             isModifyFailed.value = true;
@@ -98,16 +113,27 @@ function handleSubmit() {
             confirm_password: resetData.value.confirm_password,
             role: 0
         }
-        
+        isButtonDisabled.value = true;
 
-        userservice.modifyPassword(resetData.value, "fniOGrcSb5O7jUFMDHZY3y9nalGPC8Mev6tq34jtKuhCRXxE22wVzzSqgTz6")
-        .then(res => {
-            if (res.status == 200) {
-                toast.success("Sikeres jelszóváltoztatás!", { position: 'top-center' })
-                router.push('/bejelentkezes')
-            }
-            else toast.error("Sikertelen jelszóváltoztatás!", { position: 'top-center' })
-        })
+
+        userservice.modifyPassword(resetData.value, userToken.value)
+            .then(res => {
+                if (res.status == 200) {
+                    isButtonDisabled.value = false;
+                    toast.success("Sikeres jelszóváltoztatás!", { position: 'top-center' })
+                    router.push('/bejelentkezes')
+                }
+                else {
+                    toast.error("Sikertelen jelszóváltoztatás!", { position: 'top-center' })
+                    isButtonDisabled.value = false;
+                    isError.value = true;
+                }
+            })
+            .catch(err => {
+                toast.error(err.data.data, { position: 'top-center' })
+                isButtonDisabled.value = false;
+                isError.value = true;
+            })
     }
 }
 
@@ -118,15 +144,13 @@ function back() {
 </script>
 
 <style scoped>
-
-
 .formLeft {
     background-color: #fff;
     border-radius: 7px;
-    height: 450px;
+    height: fit-content;
     width: 380px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-
+    padding-bottom: 26px;
 }
 
 form {
@@ -171,7 +195,26 @@ label {
     color: #246951;
 }
 
+.helper {
+    background-color: #f0bac0;
+    color: #af3b3b;
+    font-size: 0.8rem;
+    border-radius: 7px;
+    padding: 10px;
+    margin-top: 26px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
+}
+
+.helper ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin: 4px 0;
+}
 
 @media (max-width: 400px) {
 
@@ -189,5 +232,4 @@ label {
     }
 
 }
-
 </style>

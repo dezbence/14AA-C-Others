@@ -16,7 +16,7 @@ const access = {
   '/bejelentkezes/admin': [null],
   '/regisztracio': [null],
   '/elfelejtett-jelszo': [null],
-  '/uj-jelszo': [null],
+  '/uj-jelszo/:token': [null],
   '/allatorvosok': [0, 1, null],
   '/gyik': [0, 1, null],
   '/orvosi-naptar': [1],
@@ -51,23 +51,25 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const { status, user } = storeToRefs(useUserStore());
-  const publicPages = ['/', '/bejelentkezes', '/bejelentkezes/admin', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo', '/uj-jelszo'];
-  const autRequired = !publicPages.includes(to.path);
+  const publicPages = ['/', '/bejelentkezes', '/bejelentkezes/admin', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo'];
+  let autRequired = !publicPages.includes(to.path);
+  if (to.path.startsWith("/uj-jelszo/")) {
+    autRequired = false;
+    return next();
+  }
   if (autRequired && !status.value.loggedIn) {
     toast.error("Bejelentkezés szükséges!", { position: "top-center" });
     return next('/');
-  } else if(!to.path.startsWith("/idopontfoglalas/") && !access[to.path].includes(user.value.role)){
+  } else if (!to.path.startsWith("/idopontfoglalas/") && !access[to.path].includes(user.value.role)) {
     toast.error("Jogosultság szükséges!", { position: "top-center" });
     if (status.value.loggedIn && user.value.role == 2) {
       return next('/admin');
     }
     return next('/');
-  } else if(to.path.startsWith("/idopontfoglalas/")){
+  } else if (to.path.startsWith("/idopontfoglalas/")) {
     if (status.value.loggedIn && user.value.role == 0) {
       return next();
     }
-  } else if(to.path.startsWith("/uj-jelszo/")){
-    return next();
   }
   next();
 });
