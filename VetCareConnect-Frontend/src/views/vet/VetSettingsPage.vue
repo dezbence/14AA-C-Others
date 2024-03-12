@@ -415,7 +415,6 @@ getOpenings();
 getSpecialOpenings();
 onBeforeMount(() => {
     getOpenings();
-    console.log(specialOpening.value)
     getSpecialOpenings();
 });
 </script>

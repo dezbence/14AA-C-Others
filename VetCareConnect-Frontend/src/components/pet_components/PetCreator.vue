@@ -101,12 +101,10 @@ function petGenderFormat(gender1) {
 }
 
 function handleSubmit() {
-    console.log("szia")
     if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || pet.value.gender == -1 || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") {
         isFilled.value = false;
     }
     else isFilled.value = true;
-    // console.log(pet.value)
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {

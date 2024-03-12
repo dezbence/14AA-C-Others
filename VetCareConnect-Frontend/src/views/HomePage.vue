@@ -6,7 +6,7 @@
                 <h1>Mi az a VetCare Connect?</h1>
                 <p>A VetCare Connect összekapcsolja az állatokat, gazdáikat és állatorvosaikat, valamint segít a gyors és
                     egyszerű kapcsolattartásban.</p>
-                <a href="#services"><button class="btnMore">Tudj meg többet!</button></a>
+                <a href="#services"><button class="btnMore" @click="showOwnerTutorial()">Tudj meg többet!</button></a>
             </div>
             <div><img class="vetImage" src="../assets/images/vet_and_dog.png"></div>
         </div>
@@ -442,7 +442,7 @@ button {
 
     .greenCard p,
     button {
-        font-size: 0.8rem;
+        font-size: 1rem;
         margin: 0;
     }
 
@@ -502,13 +502,19 @@ button {
     .steps_card_left {
         padding: 40px 0px;
     }
+    .btnTutorial {
+        font-size: 14px;
+    }
+    .btns {
+        margin-top: 20px !important;
+    }
 }
 
 @media (max-width: 450px) {
 
     .greenCard p,
     button {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         margin: 0;
     }
 

@@ -72,7 +72,6 @@ const showNotFound = ref(false);
 function onSearch(){
     vetservice.getVetsByParams(vetSearch.value).then((resp) => {
         vets.value = resp.data;
-        console.log(vets.value.length)
         if (vets.value.length == 0) {
            showNotFound.value = true; 
         }

@@ -114,7 +114,6 @@ function saveChanges() {
         editedPetData.value.weight == 0 ||
         editedPetData.value.born_date == null) {
         toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
-        console.log(editedPetData.value)
     } else if (editedPetData.value.name == petData.name &&
         editedPetData.value.species == petData.species &&
         editedPetData.value.gender == petData.gender &&
@@ -138,7 +137,6 @@ function saveChanges() {
 function editDatas() {
     petservice.modifyPet(editedPetData.value, user.value.token)
         .then((resp) => {
-            console.log('siker');
             store.showSureInEdit(false);
             store.showPetEdit(false);
             props.modifyPet();

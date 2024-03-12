@@ -166,7 +166,6 @@ function handleSubmit() {
         isFilled.value = false;
     }
     else isFilled.value = true;
-    console.log(vetData.value)
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
@@ -225,7 +224,6 @@ function handleSubmit() {
                 isButtonDisabled.value = false;
             })
             .catch(error => {
-                console.log(error)
                 toast.error('Hiba!', { position: 'top-center' });
                 isButtonDisabled.value = false;
             })

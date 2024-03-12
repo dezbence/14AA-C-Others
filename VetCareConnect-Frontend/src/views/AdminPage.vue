@@ -72,7 +72,6 @@
         </DataTable>
         <div class="btns">
             <button class="btnStyle btnDelete" @click="deleteOwner">Törlés</button>
-            <button class="btnStyle btnSave" @click="saveData">Mentés</button>
         </div>
     </div>
 </template>
@@ -80,7 +79,7 @@
 <script setup>
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import mainService from '@/services/mainservices';
+import adminService from '@/services/adminservice';
 import InputText from 'primevue/inputtext';
 
 import { ref } from 'vue';
@@ -105,19 +104,40 @@ const vets = ref([]);
 const selectedVet = ref();
 const selectedOwner = ref();
 
+const emailModify = {
+    id: null,
+    role: -1,
+    email: ""
+};
+
 const onRowEditSave = (event) => {
-    let { newData, index } = event;
-    vets.value[index] = newData;
+    if (emailModify.role == 0) {
+        let { newData, index } = event;
+        owners.value[index] = newData;
+        emailModify.email = owners.value[index].email;
+        emailModify.id = owners.value[index].id;
+    } else {
+        let { newData, index } = event;
+        vets.value[index] = newData;
+        emailModify.email = vets.value[index].email;
+        emailModify.id = vets.value[index].id;
+    }
+
+    adminService.modifyEmail(emailModify, user.value.token).then(resp => {
+        toast.success('Sikeres email módosítás!', { position: "top-center" });
+    });
 };
 
 function showVet(){
     isVet.value = true;
     isOwner.value = false;
+    emailModify.role = 1;
 }
 
 function showOwner(){
     isVet.value = false;
     isOwner.value = true;
+    emailModify.role = 0;
 }
 function onLogout() {
     logout().then(() => {
@@ -128,31 +148,30 @@ function onLogout() {
 
 function deleteVet(){
     (selectedVet.value).forEach(vet => {
-        mainService.deleteVet(vet.id, user.value.token).then(resp => {
-            console.log('siker');
+        adminService.deleteVet(vet.id, user.value.token).then(resp => {
+            toast.success('Sikeres törlés!', { position: "top-center" });
         });
     });
+    selectedVet.value = [];
     getPeople();
 }
 
 function deleteOwner(){
     (selectedOwner.value).forEach(owner => {
-        mainService.deleteOwner(owner.id, user.value.token).then(resp => {
-            console.log('siker');
-            console.log(resp.data)
+        adminService.deleteOwner(owner.id, user.value.token).then(resp => {
+            toast.success('Sikeres törlés!', { position: "top-center" });
         });
     });
+    selectedOwner.value = [];
     getPeople();
 }
 
 function getPeople(){
-    mainService.getAllOwner(user.value.token).then(resp =>{
+    adminService.getAllOwner(user.value.token).then(resp =>{
         owners.value = resp.data;
-        console.log(resp.data);
     });
-    mainService.getAllVet(user.value.token).then(resp =>{
+    adminService.getAllVet(user.value.token).then(resp =>{
         vets.value = resp.data;
-        console.log(resp.data);
     });
 }
 getPeople();

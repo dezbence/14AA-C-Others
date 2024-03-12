@@ -91,7 +91,6 @@ function handleSubmit() {
 
 
     if (!isModifyFailed.value) {
-        console.log('form submitted')
 
         resetData.value = {
             email: resetData.value.email,
@@ -103,7 +102,6 @@ function handleSubmit() {
 
         userservice.modifyPassword(resetData.value, "fniOGrcSb5O7jUFMDHZY3y9nalGPC8Mev6tq34jtKuhCRXxE22wVzzSqgTz6")
         .then(res => {
-            console.log(res)
             if (res.status == 200) {
                 toast.success("Sikeres jelszóváltoztatás!", { position: 'top-center' })
                 router.push('/bejelentkezes')

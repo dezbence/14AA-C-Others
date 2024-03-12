@@ -112,9 +112,6 @@ function saveChanges() {
     }
 }
 
-console.log(editedVetData.value)
-console.log(editedVetData.value.name.match(store.charactersPattern))
-
 </script>
 
 <style scoped>

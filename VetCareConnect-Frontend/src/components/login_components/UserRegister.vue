@@ -131,7 +131,6 @@ function handleSubmit() {
         isFilled.value = false;
     }
     else isFilled.value = true;
-    console.log(userData.value)
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
@@ -182,11 +181,9 @@ function handleSubmit() {
             .then(resp => {
                 router.push('/bejelentkezes');
                 toast.success('Sikeres regisztráció!', { position: 'top-center' });
-                console.log(resp);
                 isButtonDisabled.value = true;
             })
             .catch(err => {
-                console.log(err)
                 toast.error('Hiba!', { position: 'top-center' })
                 isButtonDisabled.value = true;
             })

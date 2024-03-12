@@ -30,8 +30,6 @@ const isButtonDisabled = ref(false);
 
 function handleSubmit() {
     isButtonDisabled.value = true;
-    console.log(props.loginData);
-    console.log(props.isEmailResendable);
     userservice.resendVerificationEmail(props.loginData)
     .then(resp => {
                 toast.success('Email sikeresen elküldve!', { position: 'top-center' });
@@ -39,7 +37,6 @@ function handleSubmit() {
                 props.isEmailResendable = false;
             })
             .catch(error => {
-                console.log(error)
                 toast.error('Hiba!', { position: 'top-center' });
                 isButtonDisabled.value = false;
             })

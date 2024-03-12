@@ -54,7 +54,6 @@ function back() {
 function handleSubmit() {
     if (loginData.value.email == "") isFilled.value = false;
     else isFilled.value = true;
-    console.log(loginData.value)
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
     else if (!loginData.value.email.match(store.emailPattern)) {
@@ -64,17 +63,14 @@ function handleSubmit() {
 
     if (!isEmailFaliled.value) {
         isButtonDisabled.value = true;
-        console.log(loginData.value);
 
         userservice.sendPasswordResetEmail(loginData.value)
             .then(resp => {
-                console.log(resp.data);
                 isButtonDisabled.value = false;
                 toast.success('E-mail küldve!', { position: "top-center" });
                 router.push('/uj-jelszo')
             })
             .catch(err => {
-                console.log(err);
                 isButtonDisabled.value = false;
                 toast.error('Hiba történt az email küldésekor!', { position: 'top-center' })
             })
