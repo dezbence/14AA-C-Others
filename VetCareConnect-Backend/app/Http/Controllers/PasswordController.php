@@ -88,15 +88,19 @@ class PasswordController extends BaseController
             Owner::where('email', '=', $request->email)
                 ->update(['password' => bcrypt($request->password)]);
 
+            Password_reset::where('email', '=', $request->email)->delete();
+
             return $this->sendResponse('','A jelszó módosult!', 200);
         } else {
             Vet::where('email', '=', $request->email)
                 ->update(['password' => bcrypt($request->password)]);
 
+            Password_reset::where('email', '=', $request->email)->delete();
+
             return $this->sendResponse('','A jelszó módosult!', 200);
         }
 
-        Password_reset::where('email', '=', $request->email)->delete();
+
     }
 
 }
