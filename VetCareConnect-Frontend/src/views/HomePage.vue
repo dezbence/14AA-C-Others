@@ -235,6 +235,7 @@ function showVetTutorial(){
     background-color: #005A70;
     border-radius: 0px 7px 7px 0px;
     margin: 40px 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .staps_card_left {
@@ -486,6 +487,7 @@ button {
     .steps_card_left, .steps_card_right {
         border-radius: 7px 7px 7px 7px;
         margin: 30px 0px;
+        
     }
 
 }

@@ -59,36 +59,6 @@ class MainController extends BaseController
         return  $this->sendResponse($owners, 'Sikeres művelet!');
     }
 
-    public function deleteOwner($id) {
-
-        $owner = Owner::where('id', '=', $id)
-            ->get();
-
-        if (count($owner) == 0) return $this->sendError('Bad request', 'Nincs ilyen orvos', 404);
-
-        $cures = Cure::with([
-            'pet' => function ($query) {
-                $query->where('owner_id', '=', Auth::user()->id);
-            }
-        ])
-        ->get();
-
-        foreach ($cures as $cure) {
-            $cure->delete();
-        }
-
-        $pets = Pet::where('owner_id', '=', $id)
-        ->get();
-
-        foreach ($pets as $pet) {
-            $pet->delete();
-        }
-
-        Owner::find($id)
-            ->delete();
-
-        return  $this->sendResponse($owner, 'Sikeres művelet!');
-    }
 
     public function getAllVet() {
 
@@ -97,39 +67,7 @@ class MainController extends BaseController
         return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
 
-    public function deleteVet($id) {
 
-        $vet = Vet::where('id', '=', $id)
-            ->get();
-
-        if (count($vet) == 0) return $this->sendError('Bad request', 'Nincs ilyen orvos', 404);
-
-        $cures = Cure::where('vet_id', '=', $id)
-        ->get();
-
-        foreach ($cures as $cure) {
-            $cure->delete();
-        }
-
-        $openings = Opening::where('vet_id', '=', $id)
-        ->get();
-
-        foreach ($openings as $opening) {
-            $opening->delete();
-        }
-
-        $special_openings = Opening::where('vet_id', '=', $id)
-        ->get();
-
-        foreach ($special_openings as $opening) {
-            $opening->delete();
-        }
-
-        Vet::find($id)
-            ->delete();
-
-        return  $this->sendResponse($vet, 'Sikeres művelet!');
-    }
 
     public function getAllCureTypes() {
         return  $this->sendResponse(Cure_type::all(), 'Sikeres művelet!');
@@ -153,12 +91,5 @@ class MainController extends BaseController
 
         return $this->sendResponse($vets, 'Sikeres művelet!');
     }
-
-    public function bearerTest(Request $request) {
-
-        return $this->sendResponse(2, 'Sikeres művelet!');
-    }
-
-
 
 }

@@ -25,7 +25,7 @@ export const useUserStore = defineStore('userstore', {
         upperCaseLetters: /[A-ZÁÉIÍOÓÖŐUÚÜŰ]/,
         numbers: /[0-9]/,
         emailPattern: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-z]{2,3}$/,
-        charactersPattern: /^[dD]?r?\.?\s?[A-Za-záéiíoóöőuúüűÁÉIÍOÓÖŐUÚÜŰä]+\s?-?[A-Za-záéiíoóöőuúüűÁÉIÍOÓÖŐUÚÜŰä]*/,
+        charactersPattern: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,
         addressPattern: /[A-Za-záéiíoóöőuúüűÁÉIÍOÓÖŐUÚÜŰäß\s-]+\.?\s?[0-9]{1,3}\.?-?\/?[a-zA-Z0-9]{0,3}/,
         stampAndPostalPattern: /[0-9]{4}/
     }),

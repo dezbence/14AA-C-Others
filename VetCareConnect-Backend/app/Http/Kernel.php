@@ -76,5 +76,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'only-owner' => \App\Http\Middleware\OnlyOwner::class,
         'only-vet' => \App\Http\Middleware\OnlyVet::class,
+        'only-admin' => \App\Http\Middleware\OnlyAdmin::class,
     ];
 }

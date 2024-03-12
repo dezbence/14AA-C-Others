@@ -31,7 +31,8 @@
                         class="petDropdown" />
 
                         <label>Ivar*:</label>
-                        <Dropdown v-model="gender" :options="genders" showClear placeholder="Kérem válasszon!"
+                        
+                        <Dropdown v-model="pet.gender" :options="genders" showClear placeholder="Kérem válasszon!"
                         class="petDropdown" />
                         <button class="btnStyle" @click="active = 1">Tovább</button>
                     </TabPanel>
@@ -100,20 +101,21 @@ function petGenderFormat(gender1) {
 }
 
 function handleSubmit() {
+    console.log("szia")
     if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || pet.value.gender == -1 || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") {
         isFilled.value = false;
     }
     else isFilled.value = true;
-    console.log(pet.value)
+    // console.log(pet.value)
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else {
         pet.value.born_date = useDateFormat(pet.value.born_date, "YYYY.MM.DD");
+        pet.value.gender = petGenderFormat(pet.value.gender);
         petservice.postNewPet(pet.value, user.value.token)
             .then((resp) => {
                 props.submitPet();
             });
-        pet.value.gender = petGenderFormat(gender.value);
     }
 }
 </script>
