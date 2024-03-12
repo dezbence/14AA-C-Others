@@ -24,26 +24,13 @@
             }">
             <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
             <Column field="id" header="Azonosító" style="width: 20%"></Column>
-            <Column field="name" header="Név" style="width: 20%">
-                <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" />
-                </template>
-            </Column>
+            <Column field="name" header="Név" style="width: 20%"></Column>
             <Column field="email" header="Email" style="width: 20%">
                 <template #editor="{ data, field }">
                     <InputText v-model="data[field]" />
                 </template>
             </Column>
-            <Column field="phone" header="Telefonszám" style="width: 20%">
-                <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" />
-                </template>
-            </Column>
-            <Column field="" header="Alapértelmezett jelszó" style="width: 20%">
-                <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" />
-                </template>
-            </Column>
+            <Column field="phone" header="Telefonszám" style="width: 20%"></Column>
             <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
         </DataTable>
         <div class="btns">
@@ -213,7 +200,7 @@ h1 {
 }
 .table {
     max-width: 1000px;
-    margin: 100px 40px;
+    margin: 100px 40px 40px 40px;
 }
 .data {
     display: flex;
