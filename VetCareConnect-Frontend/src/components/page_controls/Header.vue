@@ -11,15 +11,14 @@
       </li>
       <li>
         <router-link to="/">
-          <img id="logo" src="../../assets/images/logo.png" />
+          <img id="logo" class="desktopMode" src="../../assets/images/logo.png" />
         </router-link>
       </li>
       <div class="routers" v-for="route in Routes">
         <li v-if="route.roleAccess.includes(user.role)"><router-link :to="route.link">{{ route.name }}</router-link></li>
-
       </div>
     </ul>
-
+    <img id="logo" class="phoneMode" src="../../assets/images/logo.png" />
     <div class="sign" v-if="!status.loggedIn">
       <button id="bejelentkezes"><router-link to="/bejelentkezes">Bejelentkezés</router-link></button>
       <span id="regisztracio"><router-link to="/regisztracio">Regisztráció</router-link></span>
@@ -29,13 +28,12 @@
       <img class="profileLoggedIn" @click="userMenuToggle()" src="../../assets/icons/account_circle.svg">
     </div>
 
-    <img v-if="!status.loggedIn" @click="userMenuToggle()" class="profile" src="../../assets/icons/account_circle.svg">
 
   </div>
   <SideBar v-show="isSideBarOpen"></SideBar>
-  <UserMenu v-show="isUserMenuOpen" :userMenuToggle="userMenuToggle"></UserMenu>
+  <UserMenu v-show="isUserMenuOpen" :userMenuToggle="userMenuToggle" :isUserMenuOpen="isUserMenuOpen"></UserMenu>
 </template>
-  
+
 <script setup>
 import { RouterLink } from "vue-router";
 import SideBar from "./SideBar.vue";
@@ -65,7 +63,10 @@ function menuToggle() {
 const isUserMenuOpen = ref(false);
 function userMenuToggle() {
   isUserMenuOpen.value = !isUserMenuOpen.value;
+console.log(isUserMenuOpen.value)
+
 }
+
 </script>
 
 <style scoped>
@@ -83,7 +84,7 @@ function userMenuToggle() {
 }
 
 .navigation li {
-  padding: 15px 20px 15px 0;
+  padding-right: 20px;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -93,10 +94,11 @@ function userMenuToggle() {
 .navigation {
   display: flex;
   align-items: center;
-  justify-content: center;
   list-style: none;
   margin: 0;
   padding-left: 0;
+  height: 100%;
+  width: fit-content;
 }
 
 .navigation .routers a {
@@ -105,7 +107,12 @@ function userMenuToggle() {
   justify-content: center;
 }
 
-.hamburgerMenu, .profile {
+.phoneMode {
+  display: none;
+}
+
+.hamburgerMenu,
+.profile {
   display: none;
   cursor: pointer;
   filter: invert(100%);
@@ -117,7 +124,9 @@ function userMenuToggle() {
   width: 30px;
 }
 
-.hamburgerMenu:hover, .profile:hover, .profileLoggedIn:hover {
+.hamburgerMenu:hover,
+.profile:hover,
+.profileLoggedIn:hover {
   transform: scale(1.1);
   transition: 200ms;
 }
@@ -169,6 +178,7 @@ function userMenuToggle() {
   color: #fff;
   font-family: 'Roboto', sans-serif;
   margin-right: 15px;
+  width: fit-content;
 }
 
 #bejelentkezes {
@@ -183,7 +193,8 @@ function userMenuToggle() {
 
 @media (max-width: 991px) {
 
-  .routers, .sign {
+  .routers,
+  .sign {
     font-size: 0.9rem;
   }
 
@@ -195,11 +206,25 @@ function userMenuToggle() {
 }
 
 @media (max-width: 891px) {
-  .routers {
+
+
+  ul {
+    display: flex;
+    align-items: center;
+  }
+  
+  .phoneMode {
+    display: block;
+  }
+
+  .routers, .desktopMode {
     display: none;
   }
 
-  .hamburgerMenu, #toggleIcon, .profile, .profileLoggedIn {
+  .hamburgerMenu,
+  #toggleIcon,
+  .profile,
+  .profileLoggedIn {
     display: block;
     height: 30px;
   }
@@ -210,6 +235,7 @@ function userMenuToggle() {
 
   .heading {
     padding: 5px 20px;
+    justify-content: space-between;
   }
 
   @media (max-width: 551px) {
@@ -218,5 +244,5 @@ function userMenuToggle() {
     }
   }
 
-}</style>
-  
+}
+</style>

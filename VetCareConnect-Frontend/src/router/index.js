@@ -53,7 +53,6 @@ router.beforeEach((to, from, next) => {
   const { status, user } = storeToRefs(useUserStore());
   const publicPages = ['/', '/bejelentkezes', '/bejelentkezes/admin', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo', '/uj-jelszo'];
   const autRequired = !publicPages.includes(to.path);
-  console.log(autRequired)
   if (autRequired && !status.value.loggedIn) {
     toast.error("Bejelentkezés szükséges!", { position: "top-center" });
     return next('/');
