@@ -518,6 +518,10 @@ button {
         margin: 0;
     }
 
+    .greenCard {
+        padding: 20px 40px;
+    }
+
     .greenCard p {
         margin-bottom: 16px;
     }
