@@ -96,7 +96,7 @@ class PasswordController extends BaseController
             return $this->sendResponse('','A jelszó módosult!', 200);
         }
 
-        $resetToken->delete();
+        Password_reset::where('email', '=', $request->email)->delete();
     }
 
 }
