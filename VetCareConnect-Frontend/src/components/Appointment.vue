@@ -19,7 +19,6 @@ const today = ref(new Date());
 const cancelBefore = ref(new Date());
 cancelBefore.value.setDate(today.value.getDate() + 2);
 
-
 const props = defineProps({
   pet: String,
   title: String,
@@ -30,7 +29,6 @@ const props = defineProps({
   isOld: Boolean,
   appointmentId: Number
 });
-
 
 const formattedDate = useDateFormat(props.date, "YYYY. MMMM DD. HH:mm");
 const formattedCancelDate = useDateFormat(cancelBefore, "YYYY-MM-DD HH:mm");

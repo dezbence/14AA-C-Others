@@ -31,7 +31,7 @@
 
                             <div class="relative">
                                 <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                                <Button @click="handleSubmit()" class="btnStyle" label="Bejelentkezés"
+                                <Button type="submit" @keydown.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Bejelentkezés"
                                     :disabled="isButtonDisabled"></Button>
                             </div>
                         </div>
@@ -74,7 +74,9 @@ import router from '@/router';
 import { useUserStore } from '@/store/userstore';
 import { useToast } from 'vue-toastification';
 import userservice from '@/services/userservice';
+import { useRegexStore } from "@/store/regexstore";
 
+const regStore = useRegexStore();
 const store = useUserStore();
 const { login } = useUserStore();
 const toast = useToast();
@@ -108,7 +110,7 @@ function handleSubmit() {
     else isFilled.value = true;
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
-    else if (!loginData.value.email.match(store.emailPattern)) {
+    else if (!loginData.value.email.match(regStore.emailPattern)) {
         toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
         isLoginFailed.value = true;
     } else isLoginFailed.value = false;

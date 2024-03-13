@@ -12,8 +12,7 @@
         </div>
     </div>
 </template>
-<script setup>
-</script>
+<script setup></script>
 <style scoped>
 .main {
     z-index: 99;

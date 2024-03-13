@@ -3,7 +3,9 @@
     <div class="front">
       <ul>
         <div class="routers" v-for="route in Routes">
-          <li v-if="route.roleAccess.includes(user.role)"><router-link :to="route.link">{{ route.name }}</router-link></li>
+          <li v-if="route.roleAccess.includes(user.role)">
+            <router-link :to="route.link">{{ route.name }}</router-link>
+          </li>
         </div>
       </ul>
 
@@ -18,7 +20,7 @@
 
   </div>
 </template>
-  
+
 <script setup>
 import router from '@/router';
 import { storeToRefs } from "pinia";
@@ -31,7 +33,7 @@ const { status, user } = storeToRefs(useUserStore());
 const toast = useToast();
 
 const Routes = [
-{ name: "Kezdőlap", link: "/", roleAccess: [0, 1, null] },
+  { name: "Kezdőlap", link: "/", roleAccess: [0, 1, null] },
   { name: "GYIK", link: "/gyik", roleAccess: [0, 1, null] },
   { name: "Állatorvosok", link: "/allatorvosok", roleAccess: [0, null] },
   { name: "Időpont foglalás", link: "/idopontfoglalas", roleAccess: [0] },
@@ -42,15 +44,15 @@ const Routes = [
   { name: "Admin", link: "/admin", roleAccess: [2] }
 ];
 
-function onLogout(){
+function onLogout() {
   logout().then(() => {
-        router.push('/');
-        toast.success('Sikeres kijelentkezés!', {position: "top-center"});
-    })
+    router.push('/');
+    toast.success('Sikeres kijelentkezés!', { position: "top-center" });
+  })
 }
 
 </script>
-  
+
 <style scoped>
 .sideBar {
   display: none;

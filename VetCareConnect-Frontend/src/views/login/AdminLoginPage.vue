@@ -81,8 +81,6 @@ function handleSubmit() {
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
     else isLoginFailed.value = false;
 
-    console.log(isLoginFailed.value)
-
     if (!isLoginFailed.value) {
         isButtonDisabled.value = true;
         adminLogin(loginData.value)

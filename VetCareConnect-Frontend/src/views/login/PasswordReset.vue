@@ -25,7 +25,7 @@
 
                     <div class="relative">
                         <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                        <Button @click="handleSubmit()" class="btnStyle" label="Jelszó megváltoztatása"
+                        <Button type="submit" @keydown.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Jelszó megváltoztatása"
                             :disabled="isButtonDisabled"></Button>
                     </div>
 
@@ -53,9 +53,10 @@ import router from '@/router';
 import { useToast } from 'vue-toastification'
 import { useRoute } from 'vue-router';
 import userservice from '@/services/userservice';
-import { useUserStore } from '@/store/userstore';
+import { useRegexStore } from "@/store/regexstore";
+
 const toast = useToast();
-const store = useUserStore();
+const store = useRegexStore();
 const route = useRoute();
 
 const isFilled = ref(false);

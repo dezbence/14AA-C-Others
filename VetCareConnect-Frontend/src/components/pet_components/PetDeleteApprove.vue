@@ -3,7 +3,7 @@
         <h3>Biztosan kitörli a kisállatát?</h3>
         <div class="middle">
             <button class="btnStyle btnYes" @click="ClickYes()">Igen</button>
-            <button class="btnStyle btnNo" @click="ClickNo()">Mégse</button>
+            <button type="submit" @keydown.esc="ClickNo()" class="btnStyle btnNo" @click="ClickNo()">Mégse</button>
         </div>
     </div>
 </template>
@@ -20,7 +20,6 @@ const { user } = storeToRefs(useUserStore());
 function ClickNo() {
     store.petDelete = false;
     router.push('/kedvenceim');
-
 }
 
 function ClickYes() {

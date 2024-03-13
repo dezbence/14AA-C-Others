@@ -36,7 +36,7 @@
                 <Textarea v-model="editedPetData.comment" placeholder="Allergiák, különlegességek, stb." rows="4" cols="40"
                     autoResize></Textarea>
 
-                <button @click="saveChanges()" class="btnStyle">Változások mentése</button>
+                <button type="submit" @keydown.enter="saveChanges()" @click="saveChanges()" class="btnStyle">Változások mentése</button>
             </div>
         </div>
         <div class="placeholder"></div>
@@ -54,11 +54,13 @@ import Calendar from 'primevue/calendar';
 import petservice from '@/services/petservice';
 
 import { useUserStore } from '@/store/userstore';
+import { useRegexStore } from "@/store/regexstore";
 import { useToast } from 'vue-toastification';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
 const store = useUserStore();
+const regStore = useRegexStore();
 const { user } = storeToRefs(useUserStore());
 const toast = useToast();
 const props = defineProps(['modifyPet']);
@@ -123,14 +125,10 @@ function saveChanges() {
         editedPetData.value.chip_number == petData.chip_number &&
         editedPetData.value.pedigree_number == petData.pedigree_number) {
         toast.error('Nem történt változás!', { position: "top-center" });
-    } else if (!store.charactersPattern.test(editedPetData.value.name)) {
-        toast.error('Nem megfelelő név formátum!', { position: "top-center" });
-    } else {
-        if (editedPetData.value.gender == "hím") {
-            editedPetData.value.gender = 1;
-        } else {
-            editedPetData.value.gender = '0';
-        }
+    } else if (!regStore.charactersPattern.test(editedPetData.value.name)) toast.error('Nem megfelelő név formátum!', { position: "top-center" });
+    else {
+        if (editedPetData.value.gender == "hím") editedPetData.value.gender = 1;
+        else editedPetData.value.gender = '0';
         store.showSureInEdit(true);
     }
 }
@@ -140,8 +138,8 @@ function editDatas() {
             store.showSureInEdit(false);
             store.showPetEdit(false);
             props.modifyPet();
+            toast.success('Sikeres módosítás!', { position: "top-center" });
         });
-    toast.success('Sikeres módosítás!', { position: "top-center" });
 }
 </script>
 

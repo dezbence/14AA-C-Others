@@ -1,6 +1,6 @@
 <template>
     <footer>
-        &copy; Készítette: Dezamics Bence, Joó Barnabás, Nyikos Kata
+        &copy;2024 Készítette: Dezamics Bence, Joó Barnabás, Nyikos Kata
     </footer>
 </template>
 

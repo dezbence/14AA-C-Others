@@ -6,15 +6,17 @@
                 <!-- <p>Ön egy {{ userTypes[activeIdx]?.type }}</p> -->
                 <div class="cards">
                     <div v-for="(userType, index) in userTypes">
-                    <div @click="isActiveToggle(index)" :class="{ 'selected': activeIdx == index }" class="profileCard">
-                        <h4>{{ userType.type }}</h4>
-                        <img class="cardImg" :src="userType.imgSrc">
+                        <div @click="isActiveToggle(index)" :class="{ 'selected': activeIdx == index }"
+                            class="profileCard">
+                            <h4>{{ userType.type }}</h4>
+                            <img class="cardImg" :src="userType.imgSrc">
+                        </div>
                     </div>
-                </div>
-                
+
                 </div>
                 <div v-if="activeIdx != -1" class="buttonSection">
-                    <button class="btnStyle" @click="sendType">Tovább <img src="../../assets/icons/arrow_back.svg"></button>
+                    <button class="btnStyle" @click="sendType">Tovább <img
+                            src="../../assets/icons/arrow_back.svg"></button>
                 </div>
 
             </div>
@@ -29,7 +31,6 @@ import { defineEmits } from "vue";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
-
 const emit = defineEmits(['removeVetOrUser'])
 
 const userTypes = [
@@ -43,16 +44,13 @@ function isActiveToggle(index) {
     activeIdx.value = index;
 }
 
-
-
 function sendType() {
     if (activeIdx.value == -1) {
-        toast.warning("Kérem válasszon profil típust!", {position: "top-center"});
+        toast.warning("Kérem válasszon profil típust!", { position: "top-center" });
     } else {
         emit('removeVetOrUser', activeIdx)
     }
 }
-
 </script>
 
 <style scoped>
@@ -175,6 +173,7 @@ h3 {
     background-color: #246951;
     color: #fff;
 }
+
 .selected .cardImg {
     filter: invert(100%);
 }
@@ -203,6 +202,7 @@ h3 {
         margin: 0;
         width: 40px;
     }
+
     h3 {
         margin-bottom: 32px;
     }

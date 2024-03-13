@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div class="calendarAndChoosePanel animation-scale" >
+      <div class="calendarAndChoosePanel animation-scale">
         <Calendar class="calendar" v-model="choosedDate" :min-date="new Date()" @date-select="refreshTimes()" />
         <div class="chooseDate middle">
           <h3 class="choosedDate">{{ formattedDate }}</h3>
@@ -127,19 +127,12 @@ function isActiveToggle(index, time) {
 }
 
 function BookClick() {
-  if (choosedData.value.vet == "") {
-    toast.error("Kérem válasszon orvost!", { position: "top-center" });
-  } else if (choosedData.value.type == "") {
-    toast.error("Kérem válassza ki az időpont típusát!", { position: "top-center" });
-  } else if (choosedData.value.pet == "") {
-    toast.error("Kérem válassza ki kisállatát!", { position: "top-center" });
-  } else if (isClosed.value) {
-    toast.error("A választott napra nem foglalható időpont!", { position: "top-center" });
-  } else if (choosedData.value.time == "") {
-    toast.error("Kérem válasszon időpontot!", { position: "top-center" });
-  } else {
-    showBookApprove.value = true;
-  }
+  if (choosedData.value.vet == "") toast.error("Kérem válasszon orvost!", { position: "top-center" });
+  else if (choosedData.value.type == "") toast.error("Kérem válassza ki az időpont típusát!", { position: "top-center" });
+  else if (choosedData.value.pet == "") toast.error("Kérem válassza ki kisállatát!", { position: "top-center" });
+  else if (isClosed.value) toast.error("A választott napra nem foglalható időpont!", { position: "top-center" });
+  else if (choosedData.value.time == "") toast.error("Kérem válasszon időpontot!", { position: "top-center" });
+  else showBookApprove.value = true;
 }
 
 
@@ -179,9 +172,7 @@ onMounted(() => {
         (x) => x.id == selectedDoctorId.value
       );
       refreshTimes();
-    } else {
-      choosedData.value.vet = 0;
-    }
+    } else choosedData.value.vet = 0;
   });
   vetservice.getAllCureTypes().then((resp) => {
     cureTypes.value = resp.data;
@@ -319,6 +310,7 @@ onMounted(() => {
   color: white;
   font-size: 16px;
 }
+
 .chooseDate {
   background-color: #368267;
   height: 480px;
@@ -429,7 +421,7 @@ h3 {
     width: fit-content;
     display: flex;
     justify-content: center;
-    
+
   }
 
   .header {
@@ -575,6 +567,7 @@ h3 {
   .bookData {
     flex-direction: column;
   }
+
   .chooseDate {
     width: 250px;
   }
@@ -624,4 +617,5 @@ h3 {
   .errorMessage {
     font-size: xx-small;
   }
-}</style>
+}
+</style>

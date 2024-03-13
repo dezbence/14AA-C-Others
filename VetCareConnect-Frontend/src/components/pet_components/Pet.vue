@@ -6,7 +6,7 @@
                 :editPet="editPet"></PetMenu>
         </div>
         <div>
-            <img class="profile" :src="`src/assets/images/${pet.species}.png`" draggable="false"/>
+            <img class="profile" :src="`src/assets/images/${pet.species}.png`" draggable="false" />
         </div>
 
         <h3>{{ pet.name }}</h3>
@@ -35,15 +35,9 @@ const isMenuOpen = ref(false);
 const elapsedTime = ref();
 const petAge = ref(Math.floor((Date.parse(Date()) - Date.parse(props.pet.born_date)) / (3600000 * 24)))
 
-if (petAge.value <= 30) {
-    elapsedTime.value = "napos";
-} else if (petAge.value > 30 && petAge.value <= 365) {
-    elapsedTime.value = "hónapos"
-    petAge.value = Math.floor(petAge.value / 30);
-} else if (petAge.value > 365) {
-    elapsedTime.value = "éves"
-    petAge.value = Math.floor(petAge.value / 30 / 12);
-}
+if (petAge.value <= 30) elapsedTime.value = "napos";
+else if (petAge.value > 30 && petAge.value <= 365) { elapsedTime.value = "hónapos"; petAge.value = Math.floor(petAge.value / 30); }
+else if (petAge.value > 365) { elapsedTime.value = "éves"; petAge.value = Math.floor(petAge.value / 30 / 12); }
 
 function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;

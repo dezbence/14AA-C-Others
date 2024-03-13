@@ -19,7 +19,7 @@
                 <label>Lakcím:</label>
                 <InputText placeholder="2900, Arany János u. 52." v-model="editedVetData.address" />
 
-                <button class="btnStyle" @click="saveChanges()">Változások mentése</button>
+                <button type="submit" @keydown.enter="saveChanges()" class="btnStyle" @click="saveChanges()">Változások mentése</button>
                 <div class="profileDelete">
                     <p class="showConfirmation">Kijelentkezés és profil törlése</p>
                 </div>
@@ -38,7 +38,9 @@ import { useToast } from 'vue-toastification';
 import userservice from '@/services/userservice';
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
+import { useRegexStore } from "@/store/regexstore";
 
+const regStore = useRegexStore();
 const store = useUserStore();
 const { user } = storeToRefs(useUserStore());
 const toast = useToast();
@@ -105,11 +107,8 @@ function saveChanges() {
         editedVetData.value.address === VetData.value.address &&
         editedVetData.value.stamp_number == VetData.value.stamp_number) {
         toast.error('Nem történt változás!', { position: "top-center" });
-    } else if (!editedVetData.value.name.match(store.charactersPattern)) {
-        toast.error('Nem megfelelő név formátum!', { position: "top-center" });
-    } else {
-        sureInEdit();
-    }
+    } else if (!editedVetData.value.name.match(regStore.charactersPattern)) toast.error('Nem megfelelő név formátum!', { position: "top-center" });
+    else sureInEdit();
 }
 
 </script>

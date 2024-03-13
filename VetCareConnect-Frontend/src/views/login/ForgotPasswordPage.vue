@@ -20,7 +20,7 @@
 
                 <div class="relative">
                             <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                            <Button @click="handleSubmit()" class="btnStyle" label="Email küldése"
+                            <Button type="submit" @keydown.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Email küldése"
                                 :disabled="isButtonDisabled" />
                         </div>
             </form>
@@ -35,7 +35,9 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import userservice from '@/services/userservice';
 import { useUserStore } from "@/store/userstore";
+import { useRegexStore } from "@/store/regexstore";
 
+const regStore = useRegexStore();
 const store = useUserStore();
 const toast = useToast();
 
@@ -56,7 +58,7 @@ function handleSubmit() {
     else isFilled.value = true;
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
-    else if (!loginData.value.email.match(store.emailPattern)) {
+    else if (!loginData.value.email.match(regStore.emailPattern)) {
         toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
         isEmailFaliled.value = true;
     } else isEmailFaliled.value = false;

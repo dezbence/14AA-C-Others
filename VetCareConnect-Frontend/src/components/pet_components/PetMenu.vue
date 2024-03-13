@@ -16,7 +16,6 @@
 
 <script setup>
 const props = defineProps(['petMenuToggle', 'deletePet', 'editPet']);
-
 </script>
 
 <style scoped>

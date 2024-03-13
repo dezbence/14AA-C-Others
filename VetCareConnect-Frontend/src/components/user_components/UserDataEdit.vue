@@ -16,7 +16,7 @@
                 <label>Irányítószám:</label>
                 <InputMask mask="9999" placeholder="0000" v-model="editedUserData.postal_code" />
 
-                <button @click="saveChanges()">Változások mentése</button>
+                <button type="submit" @keydown.enter="saveChanges()" @click="saveChanges()">Változások mentése</button>
                 <div class="profileDelete">
                     <p class="showConfirmation">Kijelentkezés és profil törlése</p>
                 </div>
@@ -36,7 +36,9 @@ import { useToast } from 'vue-toastification';
 import userservice from '@/services/userservice';
 import { useUserStore } from '@/store/userstore';
 import { storeToRefs } from 'pinia';
+import { useRegexStore } from "@/store/regexstore";
 
+const regStore = useRegexStore();
 const store = useUserStore();
 const { user } = storeToRefs(useUserStore());
 const toast = useToast();
@@ -64,7 +66,6 @@ function cancelEditing() {
 function editDatas() {
     store.showSureInEdit(true);
     toast.success('Sikeres módosítás!', { position: "top-center" });
-    // post datas
     userservice.modifyUserData(editedUserData.value, user.value.token)
         .then((resp) => {
             user.value.name = editedUserData.value.name;
@@ -91,19 +92,13 @@ function getUsersData() {
 }
 getUsersData();
 
-
-
 function saveChanges() {
     if (editedUserData.value.name === userData.name &&
         editedUserData.value.phone.replace(/[/-]/g, '') === userData.phone.replace(/[/-]/g, '') &&
         editedUserData.value.postal_code === userData.postal_code) {
         toast.error('Nem történt változás!', { position: "top-center" });
-    } else if (!editedUserData.value.name.match(store.charactersPattern)) {
-        toast.error('Nem megfelelő név formátum!', { position: "top-center" });
-    } else {
-        sureInEdit();
-    }
-
+    } else if (!editedUserData.value.name.match(regStore.charactersPattern)) toast.error('Nem megfelelő név formátum!', { position: "top-center" });
+    else sureInEdit();
 }
 </script>
 

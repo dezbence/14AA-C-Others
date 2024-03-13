@@ -6,7 +6,7 @@
 import { RouterView } from 'vue-router'
 import { useUserStore } from './store/userstore';
 
-let { user,status } = useUserStore();
+let { user, status } = useUserStore();
 
 if (localStorage.getItem('user') != null ){
    const u = JSON.parse(localStorage.getItem('user'));
@@ -14,9 +14,7 @@ if (localStorage.getItem('user') != null ){
    user.token = u.token;
    user.id = u.id;
    user.role = u.role;
-   if (user.token) {
-      status.loggedIn = true;
-   }
+   if (user.token) status.loggedIn = true;
 }
 </script>
 

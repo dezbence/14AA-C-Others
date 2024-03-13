@@ -1,7 +1,5 @@
 <template>
   <div class="heading">
-
-
     <ul class="navigation">
       <li>
         <div class="hamburgerMenu">
@@ -15,7 +13,8 @@
         </router-link>
       </li>
       <div class="routers" v-for="route in Routes">
-        <li v-if="route.roleAccess.includes(user.role)"><router-link :to="route.link">{{ route.name }}</router-link></li>
+        <li v-if="route.roleAccess.includes(user.role)"><router-link :to="route.link">{{ route.name }}</router-link>
+        </li>
       </div>
     </ul>
     <img id="logo" class="phoneMode" src="../../assets/images/logo.png" />
@@ -27,8 +26,6 @@
       <span class="userName">{{ user.name }}</span>
       <img class="profileLoggedIn" @click="userMenuToggle()" src="../../assets/icons/account_circle.svg">
     </div>
-
-
   </div>
   <SideBar v-show="isSideBarOpen"></SideBar>
   <UserMenu v-show="isUserMenuOpen" :userMenuToggle="userMenuToggle" :isUserMenuOpen="isUserMenuOpen"></UserMenu>
@@ -63,8 +60,6 @@ function menuToggle() {
 const isUserMenuOpen = ref(false);
 function userMenuToggle() {
   isUserMenuOpen.value = !isUserMenuOpen.value;
-console.log(isUserMenuOpen.value)
-
 }
 
 </script>
@@ -79,7 +74,8 @@ console.log(isUserMenuOpen.value)
   width: 100%;
   height: 60px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  position: relative;
+  position: fixed;
+  top: 0;
   z-index: 99;
 }
 
@@ -212,12 +208,13 @@ console.log(isUserMenuOpen.value)
     display: flex;
     align-items: center;
   }
-  
+
   .phoneMode {
     display: block;
   }
 
-  .routers, .desktopMode {
+  .routers,
+  .desktopMode {
     display: none;
   }
 

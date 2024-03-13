@@ -52,7 +52,7 @@
                     </div>
                     <div class="relative">
                         <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                        <Button @click="handleSubmit()" class="btnStyle" label="Regisztráció"
+                        <Button type="submit" @keydown.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Regisztráció"
                             :disabled="isButtonDisabled"></Button>
                     </div>
                 </form>
@@ -88,9 +88,9 @@ import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import router from '@/router';
 import userservice from "@/services/userservice";
-import { useUserStore } from "@/store/userstore";
+import { useRegexStore } from "@/store/regexstore";
 
-const store = useUserStore();
+const store = useRegexStore();
 const toast = useToast();
 
 const isButtonDisabled = ref(false);
@@ -127,42 +127,19 @@ function passwordInfoToggle() {
 function handleSubmit() {
     userData.value.stamp = parseInt(userData.value.stamp);
     userData.value.postal_code = parseInt(userData.value.postal_code);
-    if (userData.value.firstName == "" || userData.value.lastName == "" || userData.value.phone == "" || userData.value.postal_code == 0 || userData.value.email == "" || userData.value.password == "" || userData.value.confirm_password == "" || userData.value.terms == null) {
-        isFilled.value = false;
-    }
+
+    if (userData.value.firstName == "" || userData.value.lastName == "" || userData.value.phone == "" || userData.value.postal_code == 0 || userData.value.email == "" || userData.value.password == "" || userData.value.confirm_password == "" || userData.value.terms == null) isFilled.value = false;
     else isFilled.value = true;
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
-    else {
-
-        if (!userData.value.firstName.match(store.charactersPattern) && !userData.value.lastName.match(store.charactersPattern)) {
-            toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' });
-            isRegistrationFailed.value = true;
-        } else if (!userData.value.email.match(store.emailPattern)) {
-            toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
-            isRegistrationFailed.value = true;
-        } else if (userData.value.password.length < 8) {
-            toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' })
-        } else {
-            if (!userData.value.password.match(store.lowerCaseLetters)) {
-                toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' })
-            } else {
-                if (!userData.value.password.match(store.upperCaseLetters)) {
-                    toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' })
-                } else {
-                    if (!userData.value.password.match(store.numbers)) {
-                        toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' })
-                    } else {
-                        if (userData.value.password === userData.value.confirm_password) {
-                            isRegistrationFailed.value = false;
-                        }
-                        else toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }), isRegistrationFailed.value = true;
-                    }
-                }
-            }
-        }
-    }
-
+    else if (!userData.value.firstName.match(store.charactersPattern) && !userData.value.lastName.match(store.charactersPattern)) { toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' }); isRegistrationFailed.value = true; }
+    else if (!userData.value.email.match(store.emailPattern)) { toast.error("Nem megfelelő email formátum!", { position: 'top-center' }); isRegistrationFailed.value = true; }
+    else if (userData.value.password.length < 8) toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' });
+    else if (!userData.value.password.match(store.lowerCaseLetters)) toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' });
+    else if (!userData.value.password.match(store.upperCaseLetters)) toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' });
+    else if (!userData.value.password.match(store.numbers)) toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' });
+    else if (userData.value.password === userData.value.confirm_password) isRegistrationFailed.value = false;
+    else toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }); isRegistrationFailed.value = true;
 
     if (!isRegistrationFailed.value) {
         isButtonDisabled.value = true;
@@ -502,4 +479,5 @@ input[type="checkbox"]:checked {
         gap: 50px;
     }
 
-}</style>
+}
+</style>

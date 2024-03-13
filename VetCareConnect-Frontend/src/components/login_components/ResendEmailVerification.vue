@@ -1,16 +1,17 @@
 <template>
-<div class="signInBackground">
-    <div class="front">
-        <h1>Kérjük ellenőrizze a email fiókját!</h1>
-        <h3>Utolsó lépésként kérjük erősítse meg email címét!</h3>
-        <p>Amennyiben valamien probléma lépett fel, vagy lejárt a megerősítő link,<br> kérjük kattintson az alábbi gombra az email újraküldéséhez! <br>Mindig a legutolsó levelével erősítse meg az email címét!</p>
-        <div class="relative">
-                            <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                            <Button @click="handleSubmit()" class="btnStyle" label="Email újraküldése"
-                                :disabled="isButtonDisabled"></Button>
-                        </div>
+    <div class="signInBackground">
+        <div class="front">
+            <h1>Kérjük ellenőrizze a email fiókját!</h1>
+            <h3>Utolsó lépésként kérjük erősítse meg email címét!</h3>
+            <p>Amennyiben valamien probléma lépett fel, vagy lejárt a megerősítő link,<br> kérjük kattintson az alábbi
+                gombra az email újraküldéséhez! <br>Mindig a legutolsó levelével erősítse meg az email címét!</p>
+            <div class="relative">
+                <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+                <Button type="submit" @keydown.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Email újraküldése"
+                    :disabled="isButtonDisabled"></Button>
+            </div>
+        </div>
     </div>
-</div>
 </template>
 
 <script setup>
@@ -31,15 +32,15 @@ const isButtonDisabled = ref(false);
 function handleSubmit() {
     isButtonDisabled.value = true;
     userservice.resendVerificationEmail(props.loginData)
-    .then(resp => {
-                toast.success('Email sikeresen elküldve!', { position: 'top-center' });
-                isButtonDisabled.value = false;
-                props.isEmailResendable = false;
-            })
-            .catch(error => {
-                toast.error('Hiba!', { position: 'top-center' });
-                isButtonDisabled.value = false;
-            })
+        .then(resp => {
+            toast.success('Email sikeresen elküldve!', { position: 'top-center' });
+            isButtonDisabled.value = false;
+            props.isEmailResendable = false;
+        })
+        .catch(error => {
+            toast.error('Hiba!', { position: 'top-center' });
+            isButtonDisabled.value = false;
+        })
 }
 </script>
 
@@ -58,7 +59,8 @@ function handleSubmit() {
     margin: 40px;
 }
 
-h1, h3 {
+h1,
+h3 {
     margin: 5px;
 }
 

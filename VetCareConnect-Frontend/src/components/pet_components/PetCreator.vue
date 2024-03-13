@@ -48,7 +48,7 @@
                     <label>Megjegyzés:</label>
                     <Textarea class="petComment" maxlength="160" placeholder="Allergiák, különlegességek, stb." v-model.trim="pet.comment" rows="4" cols="40"
                         autoResize></Textarea>
-                    <button class="btnStyle" @click="handleSubmit()">Létrehozás</button>
+                    <button type="submit" @keydown.enter="handleSubmit()" class="btnStyle" @click="handleSubmit()">Létrehozás</button>
                 </TabPanel>
             </TabView>
 
@@ -95,18 +95,16 @@ const pet = ref({
     comment: ""
 })
 
-function petGenderFormat(gender1) {
-    if (gender1 == 'nőstény') return 0;
+function petGenderFormat(petsGender) {
+    if (petsGender == 'nőstény') return 0;
     else return 1;
 }
 
 function handleSubmit() {
-    if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || pet.value.gender == -1 || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") {
-        isFilled.value = false;
-    }
+    if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || pet.value.gender == -1 || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") isFilled.value = false;
     else isFilled.value = true;
 
-    if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
+    if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
     else {
         pet.value.born_date = useDateFormat(pet.value.born_date, "YYYY.MM.DD");
         pet.value.gender = petGenderFormat(pet.value.gender);

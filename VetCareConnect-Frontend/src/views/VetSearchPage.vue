@@ -72,21 +72,14 @@ const showNotFound = ref(false);
 function onSearch(){
     vetservice.getVetsByParams(vetSearch.value).then((resp) => {
         vets.value = resp.data;
-        if (vets.value.length == 0) {
-           showNotFound.value = true; 
-        }
-        else {
-            showNotFound.value = false;
-        }
+        if (vets.value.length == 0) showNotFound.value = true; 
+        else showNotFound.value = false;
     });
 }
 
 function book(vetId) {
-    if (status.value.loggedIn == true) {
-        router.push(`/idopontfoglalas/${vetId}`);
-    } else {
-        toast.error("Bejelentkezés szükséges!", { position: "top-center" });
-    }
+    if (status.value.loggedIn == true) router.push(`/idopontfoglalas/${vetId}`);
+    else toast.error("Bejelentkezés szükséges!", { position: "top-center" });
 }
 onMounted(() => {
     onSearch();

@@ -1,7 +1,7 @@
 <template>
     <div class="listbox" @mouseleave="userMenuToggle()">
         <div class="list" v-for="menu in MenuItems">
-            <routerLink class="menuImg" :to="menu.link"><img :src="menu.img">{{ menu.name }}</routerLink>
+            <routerLink class="menuImg" :to="menu.route"><img :src="menu.img">{{ menu.name }}</routerLink>
         </div>
         <hr v-if="status.loggedIn">
         <div class="list" @click="onLogout()" v-if="status.loggedIn">
@@ -20,25 +20,21 @@ import { useToast } from 'vue-toastification';
 
 const { status } = storeToRefs(useUserStore());
 const { logout } = useUserStore();
-
+const props = defineProps(['userMenuToggle', 'isUserMenuOpen'])
 const toast = useToast();
 
 const MenuItems = [
-    { name: "Adataim", link: "/adataim", img: "src/assets/icons/profile-line.svg" },
-    { name: "GYIK", link: "/gyik", img: "src/assets/icons/question-mark.svg" }
+    { name: "Adataim", route: "/adataim", img: "src/assets/icons/profile-line.svg" },
+    { name: "GYIK", route: "/gyik", img: "src/assets/icons/question-mark.svg" }
 ]
-
-const props = defineProps(['userMenuToggle', 'isUserMenuOpen'])
 
 function onLogout() {
     logout().then(() => {
         props.userMenuToggle();
         toast.success('Sikeres kijelentkezés!', { position: "top-center" });
-        console.log(props.isUserMenuOpen)
         router.push('/');
     })
 }
-
 </script>
 
 <style scoped>
@@ -104,4 +100,5 @@ function onLogout() {
 hr {
     color: #368267;
     border: #368267 2px solid;
-}</style>
+}
+</style>
