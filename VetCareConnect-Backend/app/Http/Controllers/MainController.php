@@ -62,6 +62,11 @@ class MainController extends BaseController
 
     public function getAllVet() {
 
+        $appointments = Cure::with('vet', 'pet.owner')
+        ->where('date', 'like', date('Y-M-D'))
+        ->get();
+
+        return date('Y-M-D');
         $vets = Vet::all();
         // unset($vets['password']);
         return  $this->sendResponse($vets, 'Sikeres művelet!');

@@ -24,14 +24,14 @@ class AppointmentReminder extends Mailable
     {
         return new Envelope(
             from: 'vetcareconnect@gmail.com',
-            subject: 'VetCareConnect - Regisztráció megerősítése',
+            subject: 'VetCareConnect - Önnek közelgő időpontaja van',
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.register_confirm',
+            markdown: 'emails.appointment_reminder',
         );
     }
 

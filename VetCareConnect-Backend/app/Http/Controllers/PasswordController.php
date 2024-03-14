@@ -53,9 +53,6 @@ class PasswordController extends BaseController
             $passwordResetExist->save();
         }
 
-        // dd($key);
-        // $passwordReset = Password_reset::create(['email' => $request->email,'token' => $token, 'created_at' => Carbon::now('GMT+1')->timestamp]);
-
         return $this->sendResponse('','Az email sikeresen elküldve!', 200);
     }
 
