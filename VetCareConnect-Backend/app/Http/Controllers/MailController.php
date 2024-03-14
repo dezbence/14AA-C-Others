@@ -11,17 +11,19 @@ class MailController extends BaseController
 {
     public function AppointmentReminder(Request $request) {
 
-        $appointments = Cure::with('vet', 'pet.owner')
-        ->where('date', 'like', date('Y-M-D'))
+        $cures = Cure::with('vet', 'pet.owner')
+        ->where('date', 'like', now()->subDay()->toDateString().'%')
         ->get();
 
-    if (count($appointments) == 0) return $this->sendResponse('Nincs időpont', 'Sikeres művelet!');
+        foreach ($cures as $cure) {
+            Mail::to($cure->pet->owner->email)->send(new AppointmentReminder());
 
-        $user = Owner::where('email', $request->email)->first();
+            if ($cure->pet->owner->email == null) {
+                return $this->sendError('User not found','Nincs fiók ezzel az email címmel!', 404);
+            }
 
-        if ($user == null) {
-            return $this->sendError('User not found','Nincs fiók ezzel az email címmel!', 404);
         }
+
 
         Mail::to($user)->send(new AppointmentReminder());
     }
