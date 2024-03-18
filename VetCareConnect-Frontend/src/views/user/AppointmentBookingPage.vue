@@ -28,13 +28,12 @@
               </option>
             </select>
           </div>
-
           <div>
             <p>
               Válassza ki kiskedvencét!
             </p>
-            <select v-model="choosedData.pet" name="pets" id="pet" class="selectClass">
-              <option value="0" disabled selected hidden>
+            <select v-model="choosedData.pet" @click="havePets()" name="pets" id="pet" class="selectClass">
+              <option value="0" disabled selected hidden >
                 Kérem válasszon!
               </option>
               <option v-for="pet in pets" :value="pet">{{ pet.name }}</option>
@@ -90,11 +89,15 @@ import { defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
 import { useToast } from 'vue-toastification'
 
+
+const store = useUserStore();
 const toast = useToast();
 
 const AppointmentApprove = defineAsyncComponent(() =>
   import("../../components/user_components/AppointmentApprove.vue")
 );
+
+
 
 const choosedData = ref({
   vet: { id: 0 },
@@ -183,9 +186,16 @@ onMounted(() => {
   vetservice.getUsersPets(user.value.token).then((resp) => {
     pets.value = resp.data;
     choosedData.value.pet = 0;
-
+    havePets();
   });
 });
+
+function havePets() {
+  if (pets.value.length ==  0) toast.warning("Önnek nincs kiskedvence!", { position: "top-center" });
+}
+
+
+
 </script>
 
 <style scoped>
