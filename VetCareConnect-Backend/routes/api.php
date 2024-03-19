@@ -7,7 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\VetController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PasswordController;
 
 /*
@@ -30,8 +30,8 @@ Route::post('/search-vets', [MainController::class, 'searchVets']);
 Route::get('/cure-types-all', [MainController::class, 'getAllCureTypes']);
 Route::get('/faq-all', [MainController::class, 'getAllQuestions']);
 
-Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::get('email/resend/{email}', [VerificationController::class, 'resend'])->name('verification.resend');
+Route::get('email/verify/{id}', [MailController::class, 'verify'])->name('verification.verify');
+Route::get('email/resend/{email}', [MailController::class, 'resend'])->name('verification.resend');
 
 Route::post('/forgot-password', [PasswordController::class, 'forgotPassword']);
 Route::patch('/reset-password', [PasswordController::class, 'resetPassword']);
