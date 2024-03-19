@@ -139,7 +139,7 @@ function handleSubmit() {
     else if (!userData.value.password.match(store.upperCaseLetters)) toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' });
     else if (!userData.value.password.match(store.numbers)) toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' });
     else if (userData.value.password === userData.value.confirm_password) isRegistrationFailed.value = false;
-    else toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }); isRegistrationFailed.value = true;
+    else {toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }); isRegistrationFailed.value = true; }
 
     if (!isRegistrationFailed.value) {
         isButtonDisabled.value = true;

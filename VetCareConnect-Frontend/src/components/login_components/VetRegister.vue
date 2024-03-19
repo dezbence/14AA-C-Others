@@ -7,7 +7,7 @@
             <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" />
             <!-- Bal oldal -->
             <div class="formCardLeft">
-                <form @submit.prevent="handleSubmit">
+                <form @submit.prevent="">
                     <h3>Regisztrálás orvosként</h3>
                     <div class="noAccount">
                         <span>Már van fiókja?</span>
@@ -55,7 +55,7 @@
                             <label>Telefon szám:</label>
                             <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.phone" />
 
-                            <label>Utca, házszám:</label>
+                            <label>Település, utca, házszám:</label>
                             <InputText v-model="vetData.address" placeholder="Kossuth Lajos u. 1-3" />
 
                             <div class="addressLabel">
@@ -75,7 +75,7 @@
 
                             <div class="relative">
                                 <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                                <Button type="submit" @keydown.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Regisztráció"
+                                <Button type="submit" @click="handleSubmit()" class="btnStyle" label="Regisztráció"
                                     :disabled="isButtonDisabled"></Button>
                             </div>
                         </TabPanel>
@@ -158,12 +158,13 @@ function passwordInfoToggle() {
 }
 
 function handleSubmit() {
+
     vetData.value.stamp_number = parseInt(vetData.value.stamp_number);
     vetData.value.postal_code = parseInt(vetData.value.postal_code);
-
+    
     if (vetData.value.firstName == "" || vetData.value.lastName == "" || vetData.value.phone == "" || vetData.value.stamp_number == 0 || vetData.value.postal_code == 0 || vetData.value.address == "" || vetData.value.email == "" || vetData.value.password == "" || vetData.value.confirm_password == "" || vetData.value.terms == null) isFilled.value = false;
     else isFilled.value = true;
-
+    
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
     else if (!vetData.value.firstName.match(store.charactersPattern) && !vetData.value.lastName.match(store.charactersPattern)) { toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' }); isRegistrationFailed.value = true; }
     else if (!vetData.value.email.match(store.emailPattern)) { toast.error("Nem megfelelő email formátum!", { position: 'top-center' }); isRegistrationFailed.value = true; }
@@ -172,7 +173,10 @@ function handleSubmit() {
     else if (!vetData.value.password.match(store.upperCaseLetters)) toast.error("A jelszó nem tartalmaz nagybetűs karaktert!", { position: 'top-center' });
     else if (!vetData.value.password.match(store.numbers)) toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' });
     else if (vetData.value.password === vetData.value.confirm_password) isRegistrationFailed.value = false;
-    else toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }); isRegistrationFailed.value = true;
+    else { toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }); isRegistrationFailed.value = true; }
+    
+    console.log(isRegistrationFailed.value)
+    console.log(vetData.value)
 
     if (!isRegistrationFailed.value) {
         isButtonDisabled.value = true;
