@@ -37,14 +37,18 @@ class AdminController extends BaseController
             $user = Vet::find($request->id);
 
         }
-        
+
         $user->update(['email' => $request->email]);
 
         return  $this->sendResponse($user, 'Sikeres művelet!');
     }
 
-    public function deleteOwner($id) {
+    public function getAllOwner() {
+        $owners = Owner::all();
+        return  $this->sendResponse($owners, 'Sikeres művelet!');
+    }
 
+    public function deleteOwner($id) {
         $owner = Owner::where('id', '=', $id)
             ->get();
 
@@ -75,9 +79,7 @@ class AdminController extends BaseController
     }
 
     public function getAllVet() {
-
         $vets = Vet::all();
-        // unset($vets['password']);
         return  $this->sendResponse($vets, 'Sikeres művelet!');
     }
 

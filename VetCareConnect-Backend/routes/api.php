@@ -44,8 +44,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user-data', [MainController::class, 'getUserData']);
     Route::put('/modify-user-data',[MainController::class,'modifyUserData']);
 
-    Route::get('/vet-all', [MainController::class, 'getAllVet']);
-    Route::get('/owner-all', [MainController::class, 'getAllOwner']);
+    Route::get('/vet-all', [AdminController::class, 'getAllVet']);
+    Route::get('/owner-all', [AdminController::class, 'getAllOwner']);
 
     Route::middleware('only-admin')->group(function(){
 
