@@ -52,26 +52,6 @@ class MainController extends BaseController
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
 
-    public function getAllOwner() {
-
-        $owners = Owner::all();
-
-        return  $this->sendResponse($owners, 'Sikeres művelet!');
-    }
-
-
-    public function getAllVet() {
-
-        
-
-
-        $vets = Vet::all();
-        // unset($vets['password']);
-        return  $this->sendResponse($vets, 'Sikeres művelet!');
-    }
-
-
-
     public function getAllCureTypes() {
         return  $this->sendResponse(Cure_type::all(), 'Sikeres művelet!');
     }
