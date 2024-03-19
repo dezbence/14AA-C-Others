@@ -39,6 +39,15 @@ export default {
         return Promise.reject(err.response);
       })
   },
+  logOutAllDevice(token) {
+    return Axios.post('/logout-all-device', '', { headers: { "Authorization": "Bearer " + token } })
+      .then(resp => {
+        return resp;
+      })
+      .catch(err => {
+        return Promise.reject(err.response);
+      })
+  },
   getUserData(token) {
     return Axios.get('/user-data', { headers: { "Authorization": "Bearer " + token } })
       .then(resp => {

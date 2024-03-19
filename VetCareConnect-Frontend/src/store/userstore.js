@@ -62,6 +62,14 @@ export const useUserStore = defineStore('userstore', {
                     localStorage.removeItem('user');
                 });
         },
+        logOutAllDevice() {
+            return userservice.logOutAllDevice(this.user.token)
+                .then(() => {
+                    this.status.loggedIn = false;
+                    this.user = { name: '', token: '', role: null }
+                    localStorage.removeItem('user');
+                });
+        },
         showAppointmentCancel(value) {
             this.show = value;
         },

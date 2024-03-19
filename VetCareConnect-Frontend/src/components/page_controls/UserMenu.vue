@@ -3,11 +3,16 @@
         <div class="list" v-for="menu in MenuItems">
             <routerLink class="menuImg" :to="menu.route"><img :src="menu.img">{{ menu.name }}</routerLink>
         </div>
-        <hr v-if="status.loggedIn">
-        <div class="list" @click="onLogout()" v-if="status.loggedIn">
-            <li class="logOut"><img src="../../assets/icons/logout.svg">
-                <p>Kijelentkezés</p>
-            </li>
+        <div v-if="status.loggedIn">
+            <hr>
+            <div class="list" @click="onLogout()">
+                <li class="logOut"><img src="../../assets/icons/logout.svg">
+                    <p>Kijelentkezés</p>
+                </li>
+            </div>
+            <div class="logOutAllDevice" @click="onlogOutAllDevice()">
+                <p>Kijelentkezés minden eszközről</p>
+            </div>
         </div>
     </div>
 </template>
@@ -19,7 +24,7 @@ import { storeToRefs } from "pinia";
 import { useToast } from 'vue-toastification';
 
 const { status } = storeToRefs(useUserStore());
-const { logout } = useUserStore();
+const { logout, logOutAllDevice } = useUserStore();
 const props = defineProps(['userMenuToggle', 'isUserMenuOpen'])
 const toast = useToast();
 
@@ -27,6 +32,14 @@ const MenuItems = [
     { name: "Adataim", route: "/adataim", img: "src/assets/icons/profile-line.svg" },
     { name: "GYIK", route: "/gyik", img: "src/assets/icons/question-mark.svg" }
 ]
+
+function onlogOutAllDevice() {
+    logOutAllDevice().then(() => {
+        props.userMenuToggle();
+        toast.success('Sikeres kijelentkezés minden eszközről!', { position: "top-center" });
+        router.push('/');
+    })
+}
 
 function onLogout() {
     logout().then(() => {
@@ -84,6 +97,17 @@ function onLogout() {
 }
 
 .logOut p {
+    margin: 0;
+}
+
+.logOutAllDevice {
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 5px 6px;
+}
+
+.logOutAllDevice p {
     margin: 0;
 }
 
