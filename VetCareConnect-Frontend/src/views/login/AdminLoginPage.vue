@@ -15,7 +15,7 @@
                         <label>Jelszó:</label>
                         <div class="passwordAndEyeIcon">
                             <img @click="passwordToggle" class="eyeIcon" draggable="false"
-                                :src="isVisibilityOn ? 'src/assets/icons/visibility_on.svg' : 'src/assets/icons/visibility_off.svg'" />
+                                :src="isVisibilityOn ? getImageUrl('visibility_off.svg') : getImageUrl('visibility_on.svg')" />
                             <InputText :type="typeOfInput" v-model="loginData.password" placeholder="Bodri123" />
                         </div>
 
@@ -105,6 +105,10 @@ function passwordToggle() {
 
     if (isVisibilityOn.value) typeOfInput.value = "password";
     else typeOfInput.value = "text";
+}
+
+function getImageUrl(name) {
+  return new URL(`../../assets/icons/${name}`, import.meta.url).href;
 }
 </script>
 

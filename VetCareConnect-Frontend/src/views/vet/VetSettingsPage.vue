@@ -176,11 +176,15 @@ function showDayOpening(day) {
 }
 
 function addOpeningData(data) {
-    vetService.addOpeningTime(user.value.token, data);
+    vetService.addOpeningTime(user.value.token, data).then(resp => {
+        getOpenings();
+    });
 }
 
 function deleteOpening(day) {
-    vetService.deleteOpening(user.value.token, day);
+    vetService.deleteOpening(user.value.token, day).then(resp => {
+        getOpenings();
+    });;
 }
 
 function getOpenings() {

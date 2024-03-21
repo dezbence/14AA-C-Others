@@ -10,8 +10,7 @@
         </div>
         <button class="btnStyle" @click="onLogout()">Kijelentkezés</button>
     </div>
-    <div class="title">
-    </div>
+
     <div v-if="isVet" class="data">
         <DataTable class="table" v-model:selection="selectedVet" v-model:editingRows="editingRowsVet" :value="vets" editMode="row" dataKey="id"
             @row-edit-save="onRowEditSave" :pt="{
@@ -165,6 +164,10 @@ getPeople();
 </script>
 
 <style lang="css" scoped>
+body {
+    padding: 0 !important;
+}
+
 .btns {
     display: flex;
     flex-direction: row;

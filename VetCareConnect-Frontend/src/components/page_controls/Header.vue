@@ -4,7 +4,7 @@
       <li>
         <div class="hamburgerMenu">
           <img @click="menuToggle()" id="toggleIcon"
-            :src="isSideBarOpen ? 'src/assets/icons/close.svg' : 'src/assets/icons/menu.svg'">
+            :src="isSideBarOpen ? getImageUrl('close.svg') : getImageUrl('menu.svg')">
         </div>
       </li>
       <li>
@@ -24,7 +24,7 @@
     </div>
     <div class="userInfo" v-else>
       <span class="userName">{{ user.name }}</span>
-      <img class="profileLoggedIn" @click="userMenuToggle()" src="../../assets/icons/account_circle.svg">
+      <img class="profileLoggedIn" @click="userMenuToggle()" :src="getImageUrl('account_circle.svg')">
     </div>
   </div>
   <SideBar v-show="isSideBarOpen"></SideBar>
@@ -61,7 +61,9 @@ const isUserMenuOpen = ref(false);
 function userMenuToggle() {
   isUserMenuOpen.value = !isUserMenuOpen.value;
 }
-
+function getImageUrl(name) {
+  return new URL(`../../assets/icons/${name}`, import.meta.url).href;
+}
 </script>
 
 <style scoped>
