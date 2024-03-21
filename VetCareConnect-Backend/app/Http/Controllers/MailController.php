@@ -45,7 +45,7 @@ class MailController extends BaseController
             $user->markEmailAsVerified();
         }
 
-        return $this->sendResponse('','Sikeres megerősítés!');
+        return view('EmailConfirmation');
     }
 
     public function resend($email) {

@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
   const { status, user } = storeToRefs(useUserStore());
   const publicPages = ['/', '/bejelentkezes', '/bejelentkezes/admin', '/regisztracio', '/allatorvosok', '/gyik', '/elfelejtett-jelszo'];
   let autRequired = !publicPages.includes(to.path);
-  if (to.path.startsWith("/uj-jelszo/")) {
+  if (to.path.startsWith("/uj-jelszo")) {
     autRequired = false;
     return next();
   }

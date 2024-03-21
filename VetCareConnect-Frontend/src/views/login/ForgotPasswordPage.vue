@@ -70,7 +70,7 @@ function handleSubmit() {
             .then(resp => {
                 isButtonDisabled.value = false;
                 toast.success('E-mail küldve!', { position: "top-center" });
-                router.push('/uj-jelszo')
+                // router.push('/uj-jelszo')
             })
             .catch(err => {
                 isButtonDisabled.value = false;
