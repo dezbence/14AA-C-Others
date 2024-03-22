@@ -4,7 +4,7 @@
     </div>
     <div class="signInBackground">
         <div class="passwordBack">
-            <form @submit.prevent="handleSubmit">
+            <form @submit.prevent="">
 
                 <h3>Elfelejtette a jelszavát?</h3>
                 <p>Kérjük írja be a regisztrációnál használt e-mail címét. Kapni fog egy levelet, amelyben tájékoztatjuk

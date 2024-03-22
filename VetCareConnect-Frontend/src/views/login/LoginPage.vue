@@ -7,7 +7,7 @@
         <div class="main animation-scale">
             <div v-if="!isEmailResendable" class="main">
                 <div class="formLeft">
-                    <form @submit.prevent="handleSubmit">
+                    <form @submit.prevent="">
                         <h3>Bejelentkezés</h3>
                         <div class="middle">
                             <div class="noAccount">
@@ -111,8 +111,9 @@ function handleSubmit() {
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
     else if (!loginData.value.email.match(regStore.emailPattern)) {
-        toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
         isLoginFailed.value = true;
+        console.log(loginData.value.email.match(regStore.emailPattern))
+        return toast.error("Nem megfelelő email formátum!", { position: 'top-center' });
     } else isLoginFailed.value = false;
 
     if (!isLoginFailed.value) {

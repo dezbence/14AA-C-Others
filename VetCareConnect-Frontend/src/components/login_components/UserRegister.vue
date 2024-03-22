@@ -9,7 +9,7 @@
             <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" />
             <!-- Bal oldal -->
             <div class="formCardLeft">
-                <form @submit.prevent="handleSubmit">
+                <form @submit.prevent="">
                     <h3>Regisztrálás gazdaként</h3>
 
                     <div class="noAccount">

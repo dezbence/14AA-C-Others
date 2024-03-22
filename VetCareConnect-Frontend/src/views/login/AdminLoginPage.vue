@@ -6,7 +6,7 @@
     <div class="signInBackground">
         <div class="main animation-scale">
             <div class="formLeft">
-                <form @submit.prevent="handleSubmit">
+                <form @submit.prevent="">
                     <h3>Admin bejelentkezés</h3>
                     <div class="middle">
                         <label>Felhasználónév:</label>

@@ -6,7 +6,7 @@
     <div class="signInBackground">
         <div class="main">
             <div class="formLeft">
-                <form @submit.prevent="handleSubmit">
+                <form @submit.prevent="">
                     <h3>Új jelszó létrehozása</h3>
 
 
