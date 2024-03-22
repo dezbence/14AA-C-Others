@@ -9,7 +9,7 @@
                         <div @click="isActiveToggle(index)" :class="{ 'selected': activeIdx == index }"
                             class="profileCard">
                             <h4>{{ userType.type }}</h4>
-                            <img class="cardImg" :src="userType.imgSrc">
+                            <img class="cardImg" :src="getImageUrl(userType.imgSrc)">
                         </div>
                     </div>
 
@@ -34,8 +34,8 @@ const toast = useToast();
 const emit = defineEmits(['removeVetOrUser'])
 
 const userTypes = [
-    { type: "gazda", imgSrc: "/src/assets/icons/pets.svg" },
-    { type: "orvos", imgSrc: "/src/assets/icons/stethoscope.svg" }
+    { type: "gazda", imgSrc: "pets.svg" },
+    { type: "orvos", imgSrc: "stethoscope.svg" }
 ];
 
 const activeIdx = ref(-1);
@@ -50,6 +50,9 @@ function sendType() {
     } else {
         emit('removeVetOrUser', activeIdx)
     }
+}
+function getImageUrl(name) {
+  return new URL(`../../assets/icons/${name}`, import.meta.url).href;
 }
 </script>
 

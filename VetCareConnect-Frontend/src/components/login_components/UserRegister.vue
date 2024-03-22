@@ -48,7 +48,7 @@
                     <InputText v-model="userData.confirm_password" type="password" placeholder="Bodri123" />
                     <div class="terms">
                         <input type="checkbox" v-model="userData.terms" />
-                        <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
+                        <label id="terms" @click="TogglePopup()">Elolvastam az adatvédelmi tájékotatót!</label>
                     </div>
                     <div class="relative">
                         <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
