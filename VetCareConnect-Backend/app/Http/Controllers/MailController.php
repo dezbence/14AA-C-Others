@@ -45,7 +45,7 @@ class MailController extends BaseController
             $user->markEmailAsVerified();
         }
 
-        return view('EmailConfirmation');
+        return view('EmailConfirmation'); 
     }
 
     public function resend($email) {

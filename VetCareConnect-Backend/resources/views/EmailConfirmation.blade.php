@@ -36,7 +36,7 @@
 <body>
     <div class="main">
         <h1>Sikeres megerősítés!</h1>
-        <a href="http://localhost:5173/bejelentkezes" id="myBtn">Tovább az oldalra!</a>
+        <a href="http://localhost:5173/bejelentkezes" id="myBtn">Tovább az oldalra! </a>
     </div>
 </body>
 </html>
