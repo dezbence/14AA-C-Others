@@ -6,7 +6,7 @@
                 :editPet="editPet"></PetMenu>
         </div>
         <div>
-            <img class="profile" :src="`src/assets/images/${pet.species}.png`" draggable="false" />
+            <img class="profile" :src="getImageUrl(`${pet.species}.png`)" draggable="false" />
         </div>
 
         <h3>{{ pet.name }}</h3>
@@ -51,6 +51,10 @@ function deletePet() {
 function editPet() {
     store.showPetEdit(true);
     store.editPet = props.pet;
+}
+
+function getImageUrl(name) {
+  return new URL(`../../assets/images/${name}`, import.meta.url).href;
 }
 </script>
 

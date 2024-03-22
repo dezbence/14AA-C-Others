@@ -1,7 +1,7 @@
 <template>
     <div class="listbox" @mouseleave="userMenuToggle()">
         <div class="list" v-for="menu in MenuItems">
-            <routerLink class="menuImg" :to="menu.route"><img :src="menu.img">{{ menu.name }}</routerLink>
+            <routerLink class="menuImg" :to="menu.route"><img :src="getImageUrl(menu.img)">{{ menu.name }}</routerLink>
         </div>
         <div v-if="status.loggedIn">
             <hr>
@@ -29,8 +29,8 @@ const props = defineProps(['userMenuToggle', 'isUserMenuOpen'])
 const toast = useToast();
 
 const MenuItems = [
-    { name: "Adataim", route: "/adataim", img: "src/assets/icons/profile-line.svg" },
-    { name: "GYIK", route: "/gyik", img: "src/assets/icons/question-mark.svg" }
+    { name: "Adataim", route: "/adataim", img: "profile-line.svg" },
+    { name: "GYIK", route: "/gyik", img: "question-mark.svg" }
 ]
 
 function onlogOutAllDevice() {
@@ -47,6 +47,10 @@ function onLogout() {
         toast.success('Sikeres kijelentkezés!', { position: "top-center" });
         router.push('/');
     })
+}
+
+function getImageUrl(name) {
+  return new URL(`../../assets/icons/${name}`, import.meta.url).href;
 }
 </script>
 

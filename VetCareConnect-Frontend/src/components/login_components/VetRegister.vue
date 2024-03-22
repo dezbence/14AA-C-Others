@@ -70,12 +70,12 @@
 
                             <div class="terms">
                                 <input type="checkbox" v-model="vetData.terms" />
-                                <label id="terms" @click="TogglePopup()">Elfogadom a felhasználási feltételeket!</label>
+                                <label id="terms" @click="TogglePopup()">Elolvastam az adatvédelmi tájékotatót!</label>
                             </div>
 
                             <div class="relative">
                                 <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                                <Button type="submit" @click="handleSubmit()" class="btnStyle" label="Regisztráció"
+                                <Button type="submit" @key.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Regisztráció"
                                     :disabled="isButtonDisabled"></Button>
                             </div>
                         </TabPanel>

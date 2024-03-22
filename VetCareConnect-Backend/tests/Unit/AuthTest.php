@@ -13,22 +13,34 @@ class AuthTest extends TestCase
      */
     public function testRegister(): void
     {
-        $payload = [
-            "name" => fake()->name(),
-            "email" => fake()->unique()->safeEmail(),
-            "password" => fake()->password(12),
-            "confirm_password" => fake()->password(12),
-            "address" => "orvos",
-            "postal_code" => "1123",
-            "phone" => "a",
-            "role" => 1,
-            "stamp_number"=> "123",
-        ];
+        $password = fake()->password();
 
-        $response = $this->postJson('/api/register', $payload);
+            $owner = [
+                "name" => fake()->name(),
+                "email" => fake()->unique()->safeEmail(),
+                "password" => $password,
+                "confirm_password" => $password,
+                "postal_code" => fake()->numberBetween(1000, 9999),
+                "phone" => fake()->randomNumber(9, true),
+                "role" => 0,
+            ];
+
+            $vet = $owner;
+            $vet['role'] = 1;
+            $vet['email'] = fake()->unique()->safeEmail();
+            $vet += [
+                "address" => substr(fake()->address, 4),
+                "stamp_number"=> fake()->randomNumber(4, true),
+            ];
+
+
+        $response = $this->postJson('/api/register', $owner);
         $response
             ->assertStatus(200);
-        $this->assertEquals(1, 1);
+
+        $response = $this->postJson('/api/register', $vet);
+           $response
+            ->assertStatus(200);
 
         //$this->assertDatabaseHas('vet',$payload);
 
