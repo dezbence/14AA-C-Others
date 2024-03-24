@@ -24,7 +24,7 @@ const props = defineProps(['TogglePopup']);
     min-width: 300px;
     border-radius: 7px;
     width: 60%;
-    height: fit-content;
+    height: 80vh;
     padding: 6vh;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     overflow-y: scroll;
@@ -54,5 +54,11 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (min-width: 1000px) {
+    .front {
+        height: fit-content;
+    }
 }
 </style>

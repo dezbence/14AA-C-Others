@@ -5,33 +5,31 @@
         <div class="searchBar animation-scale">
             <div class="nameSearch">
                 <label>Név:</label>
-                <InputText  placeholder="Dr. Állat Orvos" v-model="vetSearch.name"/>
+                <InputText  placeholder="Dr. Állat Orvos" v-model="vetSearch.name"  @keydown.enter="onSearch()" />
             </div>
             <div class="postalCodeSearch">
                 <label>Irányítószám:</label>
-                <InputMask mask="9999" placeholder="9022" v-model="vetSearch.postal_code"/>
+                <InputMask mask="9999" placeholder="9022" v-model="vetSearch.postal_code"  @keydown.enter="onSearch()" />
             </div>
             <div class="addressSearch">
                 <label>Cím:</label>
-                <InputText  placeholder="Komárom" v-model="vetSearch.address"/>
+                <InputText  placeholder="Komárom" v-model="vetSearch.address" @keydown.enter="onSearch()" />
             </div>
             <div class="btnBox">
-                <button class="btnStyle" @click="onSearch()">Keresés</button>
+                <button class="btnStyle" @keydown.enter="onSearch()" @click="onSearch()">Keresés</button>
             </div>
         </div>
         <div class="searchResults animation-scale">
             <div v-for="vet in vets">
                 <div class="vetsBox">
-                    <div>
+                    <div class="vets">
                         <h2 class="vetName">{{ vet.name }} </h2>
                         <label><strong>Email:</strong> {{ vet.email  }}</label> <br>
                         <label><strong>Telefonszám: </strong>{{ vet.phone }} </label> <br>
                         <label><strong>Cím: </strong>{{ vet.postal_code  }} {{ vet.address  }} </label>
                     </div>
-                    <div>
+                    <div class="btns">
                         <button class="btnStyle" @click="book(vet.id)">Időpontot foglalok!</button>
-                        
-                    
                     </div>
                 </div>
                 <div>
@@ -114,6 +112,7 @@ input{
 .btnStyle{
     background-color: #368267;
     padding: 10px 20px;
+    width: 180px;
 }
 
 .btnBox{
@@ -129,6 +128,7 @@ input{
     padding-right: 30px;
 
 }
+
 .searchResults::-webkit-scrollbar {
   width: 7px;
 }
@@ -194,6 +194,9 @@ input{
     .vetsBox {
         flex-direction: column;
         align-items: start;
+    }
+    .btnStyle{
+        margin-top: 10px;
     }
 }
 </style>

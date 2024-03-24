@@ -29,8 +29,9 @@
                     :min="0.1" :max="999" suffix=" kg" :useGrouping="false" />
 
                 <label>Születési dátuma:</label>
-                <Calendar v-model="editedPetData.born_date" class="bornDate" :max-date="new Date()" dateFormat="yy.mm.dd"
+                <Calendar v-model="editedPetData.born_date" class="bornDate" :max-date="new Date()" dateFormat="yy-mm-dd"
                     placeholder="éééé.hh.nn" />
+                    {{ editedPetData.born_date }}
 
                 <label>Megjegyzés:</label>
                 <Textarea v-model="editedPetData.comment" placeholder="Allergiák, különlegességek, stb." rows="4" cols="40"
@@ -58,6 +59,7 @@ import { useRegexStore } from "@/store/regexstore";
 import { useToast } from 'vue-toastification';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import { useDateFormat } from "@vueuse/core";
 
 const store = useUserStore();
 const regStore = useRegexStore();
@@ -67,6 +69,7 @@ const props = defineProps(['modifyPet']);
 
 const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó'];
 const genders = ['hím', 'nőstény'];
+
 
 const petGender = store.editPet.gender == 0 ? 'nőstény' : 'hím';
 
@@ -109,21 +112,21 @@ function cancelEditing() {
 
 function saveChanges() {
     if (editedPetData.value.name == "" ||
-        editedPetData.value.chip_number == 0 ||
-        editedPetData.value.pedigree_number == 0 ||
-        editedPetData.value.species == null ||
-        editedPetData.value.gender == null ||
-        editedPetData.value.weight == 0 ||
-        editedPetData.value.born_date == null) {
+    editedPetData.value.chip_number == 0 ||
+    editedPetData.value.pedigree_number == 0 ||
+    editedPetData.value.species == null ||
+    editedPetData.value.gender == null ||
+    editedPetData.value.weight == 0 ||
+    editedPetData.value.born_date == null) {
         toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
     } else if (editedPetData.value.name == petData.name &&
-        editedPetData.value.species == petData.species &&
-        editedPetData.value.gender == petData.gender &&
-        editedPetData.value.weight == petData.weight &&
-        editedPetData.value.born_date == petData.born_date &&
-        editedPetData.value.comment == petData.comment &&
-        editedPetData.value.chip_number == petData.chip_number &&
-        editedPetData.value.pedigree_number == petData.pedigree_number) {
+    editedPetData.value.species == petData.species &&
+    editedPetData.value.gender == petData.gender &&
+    editedPetData.value.weight == petData.weight &&
+    editedPetData.value.born_date == petData.born_date &&
+    editedPetData.value.comment == petData.comment &&
+    editedPetData.value.chip_number == petData.chip_number &&
+    editedPetData.value.pedigree_number == petData.pedigree_number) {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else if (!regStore.charactersPattern.test(editedPetData.value.name)) toast.error('Nem megfelelő név formátum!', { position: "top-center" });
     else {
@@ -133,11 +136,14 @@ function saveChanges() {
     }
 }
 function editDatas() {
+    const formattedBornDate = useDateFormat(editedPetData.value.born_date, "YYYY-MM-DD");
+    editedPetData.value.born_date = formattedBornDate.value;
     petservice.modifyPet(editedPetData.value, user.value.token)
         .then((resp) => {
             store.showSureInEdit(false);
             store.showPetEdit(false);
             props.modifyPet();
+            store.getPets();
             toast.success('Sikeres módosítás!', { position: "top-center" });
         });
 }
@@ -191,5 +197,43 @@ input, textarea, .p-dropdown, .p-inputtext, .p-inputnumber, .bornDate, .saveChan
 button:hover {
     background-color: #368267;
     transition: 200ms;
+}
+
+@media (max-width: 850px){
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+    }
+    .btnBack {
+        margin-left: -350px;
+    }
+}
+@media (max-width: 550px){
+
+    .btnBack {
+        margin-left: -200px;
+    }
+    .dataSheet, .dataHeader {
+        width: 350px;
+    }
+
+    .dataSheet {
+        padding: 30px;
+    }
+}
+@media (max-width: 450px){
+
+    .btnBack {
+        margin-left: -150px;
+    }
+    .dataSheet, .dataHeader {
+        width: 300px;
+    }
+
+    .dataSheet {
+        padding: 20px;
+    }
 }
 </style>

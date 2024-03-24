@@ -23,15 +23,15 @@
                     </div>
 
                     <div class="nameInput">
-                        <InputText v-model="userData.firstName" />
-                        <InputText v-model="userData.lastName" />
+                        <InputText v-model="userData.firstName" placeholder="Kiss" />
+                        <InputText v-model="userData.lastName" placeholder="János" />
                     </div>
 
                     <label>Tel. szám:</label>
-                    <InputMask mask="99/999-9999" placeholder="00/000-0000" v-model="userData.phone" />
+                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="userData.phone" />
 
                     <label>Irányítószám:</label>
-                    <InputMask mask="9999" placeholder="0000" v-model="userData.postal_code" />
+                    <InputMask mask="9999" placeholder="1234" v-model="userData.postal_code" />
 
                     <label>E-mail cím:</label>
                     <InputText v-model="userData.email" placeholder="bodri@gmail.com" />
@@ -478,6 +478,10 @@ input[type="checkbox"]:checked {
     .nameLabel {
         gap: 50px;
     }
-
+    .terms {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 }
 </style>

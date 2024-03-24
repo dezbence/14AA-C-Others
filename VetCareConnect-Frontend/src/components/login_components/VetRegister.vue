@@ -29,8 +29,8 @@
                             </div>
 
                             <div class="nameInput">
-                                <InputText v-model="vetData.firstName" />
-                                <InputText v-model="vetData.lastName" />
+                                <InputText v-model="vetData.firstName"  placeholder="Dr. Nagy" />
+                                <InputText v-model="vetData.lastName"  placeholder="István"/>
                             </div>
 
                             <label>E-mail cím:</label>
@@ -56,7 +56,7 @@
                             <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.phone" />
 
                             <label>Település, utca, házszám:</label>
-                            <InputText v-model="vetData.address" placeholder="Kossuth Lajos u. 1-3" />
+                            <InputText v-model="vetData.address" placeholder="Győr, Kossuth Lajos u. 1-3" />
 
                             <div class="addressLabel">
                                 <label>Irányítószám:</label>
@@ -64,8 +64,8 @@
                             </div>
 
                             <div class="nameInput">
-                                <InputMask mask="9999" v-model="vetData.postal_code" />
-                                <InputMask mask="9999" v-model="vetData.stamp_number" />
+                                <InputMask mask="9999" placeholder="1234" v-model="vetData.postal_code" />
+                                <InputMask mask="9999" placeholder="4321" v-model="vetData.stamp_number" />
                             </div>
 
                             <div class="terms">
@@ -228,12 +228,12 @@ function handleSubmit() {
 
 .addressLabel {
     display: flex;
-    gap: 60px;
+    gap: 75px;
 }
 
 .nameLabel {
     display: flex;
-    gap: 79px;
+    gap: 85px;
 }
 
 .nameLabel label {

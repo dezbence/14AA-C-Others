@@ -17,7 +17,7 @@ class PasswordReset extends Mailable
 
         public function __construct(string $url)
     {
-        $this->url = 'http://localhost:5173/uj-jelszo/'.$url;
+        $this->url = 'http://bgs.jedlik.eu/vetcareconnect/uj-jelszo/'.$url;
     }
 
     public function envelope(): Envelope
