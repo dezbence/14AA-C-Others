@@ -35,7 +35,9 @@ class VetController extends BaseController
                     $return[] = [
                         'pet_species' => $appointment->pet->species,
                         'cure_type' => $appointment->cure_type->type,
-                        'cure_date' => $appointment->date
+                        'cure_date' => $appointment->date,
+                        'owner_name' => $appointment->pet->owner->name,
+                        'owner_phone' => $appointment->pet->owner->phone
                     ];
                 }
             }

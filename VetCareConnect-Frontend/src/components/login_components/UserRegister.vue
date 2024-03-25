@@ -28,7 +28,7 @@
                     </div>
 
                     <label>Tel. szám:</label>
-                    <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="userData.phone" />
+                    <InputMask mask="+36999999999" placeholder="+36201234567" prefix="+36" v-model="userData.phone" />
 
                     <label>Irányítószám:</label>
                     <InputMask mask="9999" placeholder="1234" v-model="userData.postal_code" />
@@ -132,7 +132,7 @@ function handleSubmit() {
     else isFilled.value = true;
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
-    else if (!userData.value.firstName.match(store.charactersPattern) && !userData.value.lastName.match(store.charactersPattern)) { toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' }); isRegistrationFailed.value = true; }
+    else if (!userData.value.firstName.match(store.charactersPattern) || !userData.value.lastName.match(store.charactersPattern)) { toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' }); isRegistrationFailed.value = true; }
     else if (!userData.value.email.match(store.emailPattern)) { toast.error("Nem megfelelő email formátum!", { position: 'top-center' }); isRegistrationFailed.value = true; }
     else if (userData.value.password.length < 8) toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' });
     else if (!userData.value.password.match(store.lowerCaseLetters)) toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' });

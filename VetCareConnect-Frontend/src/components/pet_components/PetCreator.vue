@@ -39,7 +39,7 @@
                     
 
                 <TabPanel>
-                    <label>Súlya (kg)*:</label>
+                    <label>Testtömeg (kg)*:</label>
                     <InputNumber v-model="pet.weight" placeholder="0" :useGrouping="false" :minFractionDigits="0"
                         :maxFractionDigits="2" :min="0.1" :max="999" suffix=" kg" />
                     <label>Születési dátuma*:</label>

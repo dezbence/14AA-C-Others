@@ -11,10 +11,10 @@
                 <InputText v-model="editedUserData.name" />
 
                 <label>Telefon szám:</label>
-                <InputMask mask="99/999-9999" placeholder="00/000-0000" v-model="editedUserData.phone" />
+                <InputMask mask="+36999999999" placeholder="+36201234567" prefix="+36" v-model="editedUserData.phone" />
 
                 <label>Irányítószám:</label>
-                <InputMask mask="9999" placeholder="0000" v-model="editedUserData.postal_code" />
+                <InputMask mask="9999" placeholder="1234" v-model="editedUserData.postal_code" />
 
                 <button type="submit" @keydown.enter="saveChanges()" @click="saveChanges()">Változások mentése</button>
                 <div class="profileDelete">
@@ -94,7 +94,7 @@ getUsersData();
 
 function saveChanges() {
     if (editedUserData.value.name === userData.name &&
-        editedUserData.value.phone.replace(/[/-]/g, '') === userData.phone.replace(/[/-]/g, '') &&
+        editedUserData.value.phone === userData.phone &&
         editedUserData.value.postal_code === userData.postal_code) {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else if (!editedUserData.value.name.match(regStore.charactersPattern)) toast.error('Nem megfelelő név formátum!', { position: "top-center" });
