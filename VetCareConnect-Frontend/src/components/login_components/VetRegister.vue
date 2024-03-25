@@ -53,7 +53,7 @@
 
                         <TabPanel>
                             <label>Telefon szám:</label>
-                            <InputMask mask="99/999-9999" placeholder="99/999-9999" v-model="vetData.phone" />
+                            <InputMask mask="+36999999999" placeholder="+36201234567" prefix="+36" v-model="vetData.phone" />
 
                             <label>Település, utca, házszám:</label>
                             <InputText v-model="vetData.address" placeholder="Győr, Kossuth Lajos u. 1-3" />
@@ -166,7 +166,7 @@ function handleSubmit() {
     else isFilled.value = true;
     
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
-    else if (!vetData.value.firstName.match(store.charactersPattern) && !vetData.value.lastName.match(store.charactersPattern)) { toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' }); isRegistrationFailed.value = true; }
+    else if (!vetData.value.firstName.match(store.charactersPattern) || !vetData.value.lastName.match(store.charactersPattern)) { toast.error("A név mezők csak betűket tartalmazhatnak!", { position: 'top-center' }); isRegistrationFailed.value = true; }
     else if (!vetData.value.email.match(store.emailPattern)) { toast.error("Nem megfelelő email formátum!", { position: 'top-center' }); isRegistrationFailed.value = true; }
     else if (vetData.value.password.length < 8) toast.error("A jelszónak minimum 8 karakter hosszúnak kell lenni!", { position: 'top-center' });
     else if (!vetData.value.password.match(store.lowerCaseLetters)) toast.error("A jelszó nem tartalmaz kisbetűs karaktert!", { position: 'top-center' });

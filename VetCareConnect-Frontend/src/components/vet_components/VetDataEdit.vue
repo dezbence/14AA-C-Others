@@ -16,8 +16,11 @@
                 <label>Telefon szám:</label>
                 <InputMask mask="99/999-9999" placeholder="00/000-0000" v-model="editedVetData.phone" />
 
+                <label>Irányítószám:</label>
+                <InputText placeholder="9022" v-model="editedVetData.postal_code" />
+                
                 <label>Lakcím:</label>
-                <InputText placeholder="2900, Arany János u. 52." v-model="editedVetData.address" />
+                <InputText placeholder="Győr, Arany János u. 52." v-model="editedVetData.address" />
 
                 <button type="submit" @keydown.enter="saveChanges()" class="btnStyle" @click="saveChanges()">Változások mentése</button>
                 <div class="profileDelete">
@@ -50,6 +53,7 @@ const editedVetData = ref({
     phone: "",
     stamp_number: 0,
     address: "",
+    postal_code: 0,
 })
 
 const VetData = ref({
@@ -57,6 +61,7 @@ const VetData = ref({
     phone: "",
     stamp_number: 0,
     address: "",
+    postal_code: 0,
 });
 
 function cancelEditing() {
@@ -64,6 +69,7 @@ function cancelEditing() {
     editedVetData.value.phone = VetData.value.phone;
     editedVetData.value.stamp_number = VetData.value.stamp_number;
     editedVetData.value.address = VetData.value.address;
+    editedVetData.value.postal_code = VetData.value.postal_code;
     store.showSureInEdit(true);
     toast.warning('Módosítások elvetve!', { position: "top-center" });
 }
@@ -79,6 +85,7 @@ function editDatas() {
             VetData.value.phone = editedVetData.value.phone;
             VetData.value.address = editedVetData.value.address;
             VetData.value.stamp_number = editedVetData.value.stamp_number;
+            VetData.value.postal_code = editedVetData.value.postal_code;
         });
 
 }
@@ -97,6 +104,7 @@ function getUsersData() {
             VetData.value.phone = resp.data.data.phone;
             VetData.value.address = resp.data.data.address;
             VetData.value.stamp_number = resp.data.data.stamp_number;
+            VetData.value.postal_code = resp.data.data.postal_code;
         });
 }
 getUsersData();
@@ -105,7 +113,8 @@ function saveChanges() {
     if (editedVetData.value.name === VetData.value.name &&
         editedVetData.value.phone.replace(/[/-]/g, '') === VetData.value.phone.replace(/[/-]/g, '') &&
         editedVetData.value.address === VetData.value.address &&
-        editedVetData.value.stamp_number == VetData.value.stamp_number) {
+        editedVetData.value.stamp_number == VetData.value.stamp_number &&
+        editedVetData.value.postal_code == VetData.value.postal_code) {
         toast.error('Nem történt változás!', { position: "top-center" });
     } else if (!editedVetData.value.name.match(regStore.charactersPattern)) toast.error('Nem megfelelő név formátum!', { position: "top-center" });
     else sureInEdit();
