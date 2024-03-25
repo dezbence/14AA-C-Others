@@ -23,6 +23,14 @@ class LoginTest extends TestCase
             'password' => "Teszt123"
         ];
 
+        $response = $this->postJson('/api/login', $loginDataOwner);
+        $response
+            ->assertStatus(200);
+
+        $response = $this->postJson('/api/login', $loginDataVet);
+        $response
+            ->assertStatus(200);
+
         $isFake = false;
         $wrongPassword;
         do {
@@ -31,14 +39,6 @@ class LoginTest extends TestCase
                 $isFake = true;
             }
         } while (!$isFake);
-
-        $response = $this->postJson('/api/login', $loginDataOwner);
-        $response
-            ->assertStatus(200);
-
-        $response = $this->postJson('/api/login', $loginDataVet);
-        $response
-            ->assertStatus(200);
 
         $loginDataOwner['password'] = $wrongPassword;
         $loginDataVet['password'] = $wrongPassword;
