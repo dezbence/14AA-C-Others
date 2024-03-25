@@ -3,6 +3,7 @@
         <h3>{{ useDateFormat(props.appointmentData.cure_date, "YYYY. MMMM DD. HH:mm").value }}</h3>
         <h4>{{ appointmentData.pet_species }}</h4>
         <p> {{ appointmentData.cure_type }}</p>
+        <p>Gazda: {{ appointmentData.owner_name }} ({{ appointmentData.owner_phone }})</p>
     </div>
 
 </template>
@@ -23,5 +24,8 @@ const props = defineProps(["appointmentData"]);
 }
 h3, h4 {
     margin: 5px 0px ;
+}
+p {
+    margin: 5px 0px;
 }
 </style>
