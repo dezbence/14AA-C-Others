@@ -11,7 +11,9 @@ use App\Models\Special_opening;
 use App\Models\Owner;
 use App\Models\Pet;
 use App\Models\Vet;
+use App\Mail\AppointmentBooked;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -192,6 +194,8 @@ class OwnerController extends BaseController
             return $this->sendError('Bad request', ['error'=>'nincs ilyen állata'], 400);
         }
 
+        // dd('heloo');
+        Mail::to(Auth::user()->email)->send(new AppointmentBooked($request->all()));
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
 
