@@ -1,5 +1,5 @@
 @component('mail::message')
-# Sikeres időpontfoglalás
+# Ön sikeresen lemondta az időpontját!
 
 Időpont részletei:
 

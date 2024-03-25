@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AppointmentBooked extends Mailable
+class AppointmentDeleted extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -33,7 +33,7 @@ class AppointmentBooked extends Mailable
      */
     public function build()
 {
-    return $this->markdown('emails.appointment_booked')
+    return $this->markdown('emails.appointment_deleted')
                 ->with(['appointmentData' => $this->appointmentData]);
 }
 }

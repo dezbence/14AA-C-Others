@@ -12,6 +12,7 @@ use App\Models\Owner;
 use App\Models\Pet;
 use App\Models\Vet;
 use App\Mail\AppointmentBooked;
+use App\Mail\AppointmentDeleted;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -194,8 +195,9 @@ class OwnerController extends BaseController
             return $this->sendError('Bad request', ['error'=>'nincs ilyen állata'], 400);
         }
 
-        // dd('heloo');
-        Mail::to(Auth::user()->email)->send(new AppointmentBooked($request->all()));
+        $appointmentData = ['owner_name' => Auth::user()->name,'pet_name' =>  Pet::find($request->pet_id)->name,'cure_type_name' => Cure_type::find($request->cure_type_id)->type,'vet_name' => Vet::find($request->vet_id)->name, 'vet_address' => Vet::find($request->vet_id)->address, 'date' => $request->date];
+
+        Mail::to(Auth::user()->email)->send(new AppointmentBooked($appointmentData));
         return  $this->sendResponse('', 'Sikeres művelet!');
     }
 
@@ -247,6 +249,7 @@ class OwnerController extends BaseController
         foreach ($cures as $cure) {
             if ($cure['pet']['owner'] != null) {
                 $validCure = $cure;
+                $vet = Vet::Find($cure->vet_id);
                 break;
             }
         }
@@ -256,6 +259,11 @@ class OwnerController extends BaseController
         } else {
             Cure::find($validCure->id)->delete();
         }
+
+        $appointmentData = ['owner_name' => Auth::user()->name,'pet_name' =>  Pet::find($request->pet_id)->name,'cure_type_name' => Cure_type::find($request->cure_type_id)->type,'vet_name' => Vet::find($request->vet_id)->name, 'vet_address' => Vet::find($request->vet_id)->address, 'date' => $request->date];
+        
+        Mail::to($vet->email)->send(new AppointmentDeleted($appointmentData));
+        Mail::to(Auth::user()->email)->send(new AppointmentDeleted($appointmentData));
 
         return $this->sendResponse("", 'Sikeres művelet!');
 
