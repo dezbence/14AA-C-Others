@@ -7,7 +7,9 @@
                 gombra az email újraküldéséhez! <br>Mindig a legutolsó levelével erősítse meg az email címét!</p>
             <div class="relative">
                 <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                <Button type="submit" @keydown.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Email újraküldése"
+                <Button type="submit" @click="handleSubmit()" class="btnStyle" label="Email újraküldése"
+                    :disabled="isButtonDisabled"></Button>
+                <Button type="submit" @click="goToLogin()" class="btnStyle" label="Bejelentkezés"
                     :disabled="isButtonDisabled"></Button>
             </div>
         </div>
@@ -20,14 +22,22 @@ import { ref } from 'vue';
 import router from '@/router';
 import { useToast } from "vue-toastification";
 import userservice from "@/services/userservice";
+import { RouterLink } from 'vue-router';
+import { useUserStore } from "@/store/userstore";
+
+const storeUser = useUserStore();
 const toast = useToast();
 
 const props = defineProps({
-    isEmailResendable: Boolean,
     loginData: String
 });
 
 const isButtonDisabled = ref(false);
+
+function goToLogin() {
+    router.push('/bejelentkezes');
+    storeUser.showEmailVerification = false;
+}
 
 function handleSubmit() {
     isButtonDisabled.value = true;
@@ -35,7 +45,6 @@ function handleSubmit() {
         .then(resp => {
             toast.success('Email sikeresen elküldve!', { position: 'top-center' });
             isButtonDisabled.value = false;
-            props.isEmailResendable = false;
         })
         .catch(error => {
             toast.error('Hiba!', { position: 'top-center' });
@@ -76,6 +85,7 @@ h3 {
     width: 100%;
     display: flex;
     justify-content: center;
+    gap: 30px;
 }
 
 .btnStyle {
