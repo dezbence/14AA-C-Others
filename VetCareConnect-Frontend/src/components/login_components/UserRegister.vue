@@ -5,77 +5,83 @@
 
     <div class="signInBackground">
 
-        <div class="main animation-scale">
-            <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" />
-            <!-- Bal oldal -->
-            <div class="formCardLeft">
-                <form @submit.prevent="">
-                    <h3>Regisztrálás gazdaként</h3>
-
-                    <div class="noAccount">
-                        <span>Már van fiókja?</span>
-                        <router-link to="/bejelentkezes">Bejelentkezés</router-link>
-                    </div>
-
-                    <div class="nameLabel">
-                        <label>Vezetéknév:</label>
-                        <label>Keresztnév:</label>
-                    </div>
-
-                    <div class="nameInput">
-                        <InputText v-model="userData.firstName" placeholder="Kiss" />
-                        <InputText v-model="userData.lastName" placeholder="János" />
-                    </div>
-
-                    <label>Tel. szám:</label>
-                    <InputMask mask="+36999999999" placeholder="+36201234567" prefix="+36" v-model="userData.phone" />
-
-                    <label>Irányítószám:</label>
-                    <InputMask mask="9999" placeholder="1234" v-model="userData.postal_code" />
-
-                    <label>E-mail cím:</label>
-                    <InputText v-model="userData.email" placeholder="bodri@gmail.com" />
-
-                    <label>Jelszó:</label>
-                    <div class="passInfo">
-                        <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
-                            @mouseleave="passwordInfoToggle()" class="passwordInfo">
-                        <InputText v-model="userData.password" type="password" placeholder="Bodri123" />
-                    </div>
-
-                    <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
-                    <label>Jelszó újra:</label>
-                    <InputText v-model="userData.confirm_password" type="password" placeholder="Bodri123" />
-                    <div class="terms">
-                        <input type="checkbox" v-model="userData.terms" />
-                        <label id="terms" @click="TogglePopup()">Elolvastam az adatvédelmi tájékotatót!</label>
-                    </div>
-                    <div class="relative">
-                        <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                        <Button type="submit" @keydown.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Regisztráció"
-                            :disabled="isButtonDisabled"></Button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Jobb oldal -->
-            <div class="formCardRight">
-                <ul>
-                    <li>
-                        <img id="logo" src="../../assets/images/logo.png" />
-                    </li>
-                    <li>
-                        <img id="singInDog" src="../../assets/images/sign_in.png" />
-                    </li>
-                    <li>
-                        <p>
-                            <span>Minden</span> állat <br />
-                            megérdemli a <span>legjobbat!</span>
-                        </p>
-                    </li>
-                </ul>
+        <div v-if="!storeUser.showEmailVerification">
+            <div class="main animation-scale">
+                <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" />
+                <!-- Bal oldal -->
+                <div class="formCardLeft">
+                    <form @submit.prevent="">
+                        <h3>Regisztrálás gazdaként</h3>
+    
+                        <div class="noAccount">
+                            <span>Már van fiókja?</span>
+                            <router-link to="/bejelentkezes">Bejelentkezés</router-link>
+                        </div>
+    
+                        <div class="nameLabel">
+                            <label>Vezetéknév:</label>
+                            <label>Keresztnév:</label>
+                        </div>
+    
+                        <div class="nameInput">
+                            <InputText v-model="userData.firstName" placeholder="Kiss" />
+                            <InputText v-model="userData.lastName" placeholder="János" />
+                        </div>
+    
+                        <label>Tel. szám:</label>
+                        <InputMask mask="+36999999999" placeholder="+36201234567" prefix="+36" v-model="userData.phone" />
+    
+                        <label>Irányítószám:</label>
+                        <InputMask mask="9999" placeholder="1234" v-model="userData.postal_code" />
+    
+                        <label>E-mail cím:</label>
+                        <InputText v-model="userData.email" placeholder="bodri@gmail.com" />
+    
+                        <label>Jelszó:</label>
+                        <div class="passInfo">
+                            <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
+                                @mouseleave="passwordInfoToggle()" class="passwordInfo">
+                            <InputText v-model="userData.password" type="password" placeholder="Bodri123" />
+                        </div>
+    
+                        <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
+                        <label>Jelszó újra:</label>
+                        <InputText v-model="userData.confirm_password" type="password" placeholder="Bodri123" />
+                        <div class="terms">
+                            <input type="checkbox" v-model="userData.terms" />
+                            <label id="terms" @click="TogglePopup()">Elolvastam az adatvédelmi tájékotatót!</label>
+                        </div>
+                        <div class="relative">
+                            <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+                            <Button type="submit" @keydown.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Regisztráció"
+                                :disabled="isButtonDisabled"></Button>
+                        </div>
+                    </form>
+                </div>
+    
+                <!-- Jobb oldal -->
+                <div class="formCardRight">
+                    <ul>
+                        <li>
+                            <img id="logo" src="../../assets/images/logo.png" />
+                        </li>
+                        <li>
+                            <img id="singInDog" src="../../assets/images/sign_in.png" />
+                        </li>
+                        <li>
+                            <p>
+                                <span>Minden</span> állat <br />
+                                megérdemli a <span>legjobbat!</span>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+        <div v-else>
+            <ResendEmailVerification :loginData="userData.email"></ResendEmailVerification>
+        </div>
+    
     </div>
 </template>
 <script setup>
@@ -89,8 +95,11 @@ import Button from "primevue/button";
 import router from '@/router';
 import userservice from "@/services/userservice";
 import { useRegexStore } from "@/store/regexstore";
+import { useUserStore } from "@/store/userstore";
+import ResendEmailVerification from "./ResendEmailVerification.vue";
 
 const store = useRegexStore();
+const storeUser = useUserStore();
 const toast = useToast();
 
 const isButtonDisabled = ref(false);
@@ -102,7 +111,7 @@ const userData = ref({
     firstName: "",
     lastName: "",
     phone: "",
-    postal_code: "",
+    postal_code: 0,
     email: "",
     password: "",
     confirm_password: "",
@@ -127,7 +136,7 @@ function passwordInfoToggle() {
 function handleSubmit() {
     userData.value.stamp = parseInt(userData.value.stamp);
     userData.value.postal_code = parseInt(userData.value.postal_code);
-
+    console.log(userData.value);
     if (userData.value.firstName == "" || userData.value.lastName == "" || userData.value.phone == "" || userData.value.postal_code == 0 || userData.value.email == "" || userData.value.password == "" || userData.value.confirm_password == "" || userData.value.terms == null) isFilled.value = false;
     else isFilled.value = true;
 
@@ -156,13 +165,14 @@ function handleSubmit() {
 
         userservice.registerUser(registerData.value)
             .then(resp => {
-                router.push('/bejelentkezes');
+                storeUser.showEmailVerification = true;
+                console.log(storeUser.showEmailVerification)
                 toast.success('Sikeres regisztráció!', { position: 'top-center' });
-                isButtonDisabled.value = true;
+                isButtonDisabled.value = false;
             })
             .catch(err => {
                 toast.error('Hiba!', { position: 'top-center' })
-                isButtonDisabled.value = true;
+                isButtonDisabled.value = false;
             })
 
     }

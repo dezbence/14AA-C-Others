@@ -26,6 +26,14 @@ class AppointmentDeleted extends Mailable
         $this->appointmentData = $appointmentData;
     }
 
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            from: 'vetcareconnect@gmail.com',
+            subject: 'VetCareConnect - Sikeres időpont lemondás!',
+        );
+    }
+
     /**
      * Build the message.
      *

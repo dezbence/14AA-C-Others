@@ -201,6 +201,7 @@ class OwnerController extends BaseController
             'cure_type_name' => Cure_type::find($request->cure_type_id)->type,
             'vet_name' => Vet::find($request->vet_id)->name,
             'vet_address' => Vet::find($request->vet_id)->address,
+            'vet_postal' => Vet::find($request->vet_id)->postal_code,
             'date' => $request->date
         ];
 
