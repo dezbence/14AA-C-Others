@@ -13,30 +13,35 @@ class AppointmentReminder extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $username;
+    public $appointmentData;
 
-    public function __construct($username)
+    /**
+     * Create a new message instance.
+     *
+     * @param array $appointmentData
+     * @return void
+     */
+    public function __construct($appointmentData)
     {
-        $this->username = $username;
+        $this->appointmentData = $appointmentData;
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
             from: 'vetcareconnect@gmail.com',
-            subject: 'VetCareConnect - Önnek közelgő időpontaja van',
+            subject: 'VetCareConnect - Közelgő időpont!',
         );
     }
 
-    public function content(): Content
-    {
-        return new Content(
-            markdown: 'emails.appointment_reminder',
-        );
-    }
-
-    public function attachments(): array
-    {
-        return [];
-    }
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+{
+    return $this->markdown('emails.appointment_reminder')
+                ->with(['appointmentData' => $this->appointmentData]);
+}
 }
