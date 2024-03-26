@@ -5,7 +5,7 @@
 
     <div class="signInBackground">
         <div class="main animation-scale">
-            <div v-if="!isEmailResendable" class="main">
+            <div v-if="!store.showEmailVerification" class="main">
                 <div class="formLeft">
                     <form @submit.prevent="">
                         <h3>Bejelentkezés</h3>
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div v-else>
-                <ResendEmailVerification :loginData="loginData.email" :isEmailResendable="isEmailResendable"></ResendEmailVerification>
+                <ResendEmailVerification :loginData="loginData.email"></ResendEmailVerification>
             </div>
 
         </div>
@@ -84,7 +84,6 @@ const toast = useToast();
 const isButtonDisabled = ref(false);
 const isVisibilityOn = ref(true);
 const typeOfInput = ref("password");
-const isEmailResendable = ref(false);
 
 const isFilled = ref(false);
 const isLoginFailed = ref(true);
@@ -123,12 +122,13 @@ function handleSubmit() {
                 router.push('/');
                 toast.success('Sikeres bejelentkezés!', { position: "top-center" });
                 isButtonDisabled.value = false;
+                store.showEmailVerification = false;
             })
             .catch(err => {
                 toast.error(err.data.data, { position: "top-center" });
                 isButtonDisabled.value = false;
                 if (err.status == 403) {
-                    isEmailResendable.value = true;
+                   store.showEmailVerification = true;
                 }
             })
     }

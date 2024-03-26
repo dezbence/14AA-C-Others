@@ -2,107 +2,113 @@
     <div class="backToHome">
         <img @click="back()" src="../../assets/icons/arrow_back.svg">
     </div>
+    {{ store.showEmailVerification }}
     <div class="signInBackground">
-        <div class="main animation-scale">
-            <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" />
-            <!-- Bal oldal -->
-            <div class="formCardLeft">
-                <form @submit.prevent="">
-                    <h3>Regisztrálás orvosként</h3>
-                    <div class="noAccount">
-                        <span>Már van fiókja?</span>
-                        <router-link to="/bejelentkezes">Bejelentkezés</router-link>
-                    </div>
-
-                    <div class="pages">
-                        <button type="button" class="page btnStyle" @click="active = 0"
-                            :class="{ 'activePage': active == 0 }">1</button>
-                        <button type="button" class="page btnStyle" @click="active = 1"
-                            :class="{ 'activePage': active == 1 }">2</button>
-                    </div>
-
-                    <TabView v-model:activeIndex="active">
-                        <TabPanel>
-                            <div class="nameLabel">
-                                <label>Vezetéknév:</label>
-                                <label>Keresztnév:</label>
-                            </div>
-
-                            <div class="nameInput">
-                                <InputText v-model="vetData.firstName"  placeholder="Dr. Nagy" />
-                                <InputText v-model="vetData.lastName"  placeholder="István"/>
-                            </div>
-
-                            <label>E-mail cím:</label>
-                            <InputText type="email" v-model="vetData.email" placeholder="bodri@gmail.com" />
-
-                            <label>Jelszó:</label>
-                            <div class="passInfo">
-                                <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
-                                    @mouseleave="passwordInfoToggle()" class="passwordInfo">
-                                <InputText v-model="vetData.password" type="password" placeholder="Bodri123" />
-                            </div>
-
-                            <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
-
-                            <label>Jelszó újra:</label>
-                            <InputText v-model="vetData.confirm_password" type="password" placeholder="Bodri123" />
-
-                            <button type="button" class="btnStyle" @click="active = 1">Tovább</button>
-                        </TabPanel>
-
-                        <TabPanel>
-                            <label>Telefon szám:</label>
-                            <InputMask mask="+36999999999" placeholder="+36201234567" prefix="+36" v-model="vetData.phone" />
-
-                            <label>Település, utca, házszám:</label>
-                            <InputText v-model="vetData.address" placeholder="Győr, Kossuth Lajos u. 1-3" />
-
-                            <div class="addressLabel">
-                                <label>Irányítószám:</label>
-                                <label>Kamarai szám:</label>
-                            </div>
-
-                            <div class="nameInput">
-                                <InputMask mask="9999" placeholder="1234" v-model="vetData.postal_code" />
-                                <InputMask mask="9999" placeholder="4321" v-model="vetData.stamp_number" />
-                            </div>
-
-                            <div class="terms">
-                                <input type="checkbox" v-model="vetData.terms" />
-                                <label id="terms" @click="TogglePopup()">Elolvastam az adatvédelmi tájékotatót!</label>
-                            </div>
-
-                            <div class="relative">
-                                <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
-                                <Button type="submit" @key.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Regisztráció"
-                                    :disabled="isButtonDisabled"></Button>
-                            </div>
-                        </TabPanel>
-                    </TabView>
-
-
-
-                </form>
+        <div v-if="!storeUser.showEmailVerification">
+            <div class="main animation-scale">
+                <TermsOfUse v-if="buttonTrigger" :TogglePopup="() => TogglePopup()" />
+                <!-- Bal oldal -->
+                <div class="formCardLeft">
+                    <form @submit.prevent="">
+                        <h3>Regisztrálás orvosként</h3>
+                        <div class="noAccount">
+                            <span>Már van fiókja?</span>
+                            <router-link to="/bejelentkezes">Bejelentkezés</router-link>
+                        </div>
+    
+                        <div class="pages">
+                            <button type="button" class="page btnStyle" @click="active = 0"
+                                :class="{ 'activePage': active == 0 }">1</button>
+                            <button type="button" class="page btnStyle" @click="active = 1"
+                                :class="{ 'activePage': active == 1 }">2</button>
+                        </div>
+    
+                        <TabView v-model:activeIndex="active">
+                            <TabPanel>
+                                <div class="nameLabel">
+                                    <label>Vezetéknév:</label>
+                                    <label>Keresztnév:</label>
+                                </div>
+    
+                                <div class="nameInput">
+                                    <InputText v-model="vetData.firstName"  placeholder="Dr. Nagy" />
+                                    <InputText v-model="vetData.lastName"  placeholder="István"/>
+                                </div>
+    
+                                <label>E-mail cím:</label>
+                                <InputText type="email" v-model="vetData.email" placeholder="bodri@gmail.com" />
+    
+                                <label>Jelszó:</label>
+                                <div class="passInfo">
+                                    <img src="../../assets/icons/help.svg" @mouseenter="passwordInfoToggle()"
+                                        @mouseleave="passwordInfoToggle()" class="passwordInfo">
+                                    <InputText v-model="vetData.password" type="password" placeholder="Bodri123" />
+                                </div>
+    
+                                <PasswordRequirements v-if="passwordInfo"></PasswordRequirements>
+    
+                                <label>Jelszó újra:</label>
+                                <InputText v-model="vetData.confirm_password" type="password" placeholder="Bodri123" />
+    
+                                <button type="button" class="btnStyle" @click="active = 1">Tovább</button>
+                            </TabPanel>
+    
+                            <TabPanel>
+                                <label>Telefon szám:</label>
+                                <InputMask mask="+36999999999" placeholder="+36201234567" prefix="+36" v-model="vetData.phone" />
+    
+                                <label>Település, utca, házszám:</label>
+                                <InputText v-model="vetData.address" placeholder="Győr, Kossuth Lajos u. 1-3" />
+    
+                                <div class="addressLabel">
+                                    <label>Irányítószám:</label>
+                                    <label>Kamarai szám:</label>
+                                </div>
+    
+                                <div class="nameInput">
+                                    <InputMask mask="9999" placeholder="1234" v-model="vetData.postal_code" />
+                                    <InputMask mask="9999" placeholder="4321" v-model="vetData.stamp_number" />
+                                </div>
+    
+                                <div class="terms">
+                                    <input type="checkbox" v-model="vetData.terms" />
+                                    <label id="terms" @click="TogglePopup()">Elolvastam az adatvédelmi tájékotatót!</label>
+                                </div>
+    
+                                <div class="relative">
+                                    <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+                                    <Button type="submit" @key.enter="handleSubmit()" @click="handleSubmit()" class="btnStyle" label="Regisztráció"
+                                        :disabled="isButtonDisabled"></Button>
+                                </div>
+                            </TabPanel>
+                        </TabView>
+    
+    
+    
+                    </form>
+                </div>
+    
+                <!-- Jobb oldal -->
+                <div class="formCardRight">
+                    <ul>
+                        <li>
+                            <img id="logo" src="../../assets/images/logo.png" />
+                        </li>
+                        <li>
+                            <img id="singInDog" src="../../assets/images/sign_in.png" />
+                        </li>
+                        <li>
+                            <p>
+                                <span>Minden</span> állat <br />
+                                megérdemli a <span>legjobbat!</span>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </div>
-
-            <!-- Jobb oldal -->
-            <div class="formCardRight">
-                <ul>
-                    <li>
-                        <img id="logo" src="../../assets/images/logo.png" />
-                    </li>
-                    <li>
-                        <img id="singInDog" src="../../assets/images/sign_in.png" />
-                    </li>
-                    <li>
-                        <p>
-                            <span>Minden</span> állat <br />
-                            megérdemli a <span>legjobbat!</span>
-                        </p>
-                    </li>
-                </ul>
-            </div>
+        </div>
+        <div v-else>
+            <ResendEmailVerification :loginData="vetData.email"></ResendEmailVerification>
         </div>
     </div>
 </template>
@@ -119,8 +125,11 @@ import router from '@/router';
 import { useToast } from "vue-toastification";
 import userservice from "@/services/userservice";
 import { useRegexStore } from "@/store/regexstore";
+import { useUserStore } from "@/store/userstore";
+import ResendEmailVerification from "./ResendEmailVerification.vue";
 
 const store = useRegexStore();
+const storeUser = useUserStore();
 
 const isButtonDisabled = ref(false);
 const toast = useToast();
@@ -174,9 +183,6 @@ function handleSubmit() {
     else if (!vetData.value.password.match(store.numbers)) toast.error("A jelszó nem tartalmaz számot!", { position: 'top-center' });
     else if (vetData.value.password === vetData.value.confirm_password) isRegistrationFailed.value = false;
     else { toast.error("Nem egyezik a két jelszó!", { position: 'top-center' }); isRegistrationFailed.value = true; }
-    
-    console.log(isRegistrationFailed.value)
-    console.log(vetData.value)
 
     if (!isRegistrationFailed.value) {
         isButtonDisabled.value = true;
@@ -194,12 +200,11 @@ function handleSubmit() {
 
         userservice.registerUser(registerData.value)
             .then(resp => {
-                router.push('/bejelentkezes');
+                storeUser.showEmailVerification = true;
                 toast.success('Sikeres regisztráció', { position: 'top-center' });
                 isButtonDisabled.value = false;
             })
             .catch(error => {
-                console.log(error)
                 toast.error('Hiba!', { position: 'top-center' });
                 isButtonDisabled.value = false;
             })

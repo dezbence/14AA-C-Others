@@ -21,6 +21,7 @@ export const useUserStore = defineStore('userstore', {
         deletePetId: null,
         petEdit: false,
         editPet: {},
+        showEmailVerification: false,
     }),
     getters: {},
     actions: {
