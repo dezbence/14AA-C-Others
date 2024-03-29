@@ -45,8 +45,12 @@
     </div>
 
     <div class="btns" id="services">
-        <button class="btnStyle btnTutorial" @click="showOwnerTutorial()">Gazda útmutató</button>
-        <button class="btnStyle btnTutorial" @click="showVetTutorial()">Orvos útmutató</button>
+        <a href="#services">
+            <button class="btnStyle btnTutorial" @click="showOwnerTutorial()">Gazda útmutató</button>
+        </a>
+        <a href="#services">
+            <button class="btnStyle btnTutorial" @click="showVetTutorial()">Orvos útmutató</button>
+        </a>
     </div>
 
     <div v-if="owner">
@@ -216,6 +220,9 @@ function showVetTutorial(){
 .pageTitle {
     font-size: 40px !important;
     text-align: center;
+}
+a {
+    text-decoration: none;
 }
 
 .steps {
