@@ -31,7 +31,6 @@
                 <label>Születési dátuma:</label>
                 <Calendar v-model="editedPetData.born_date" class="bornDate" :max-date="new Date()" dateFormat="yy-mm-dd"
                     placeholder="éééé.hh.nn" />
-                    {{ editedPetData.born_date }}
 
                 <label>Megjegyzés:</label>
                 <Textarea v-model="editedPetData.comment" placeholder="Allergiák, különlegességek, stb." rows="4" cols="40"
