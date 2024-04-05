@@ -204,8 +204,8 @@ function handleSubmit() {
                 toast.success('Sikeres regisztráció', { position: 'top-center' });
                 isButtonDisabled.value = false;
             })
-            .catch(error => {
-                toast.error('Hiba!', { position: 'top-center' });
+            .catch(err => {
+                toast.error( err.data.data.email[0] , { position: 'top-center' })
                 isButtonDisabled.value = false;
             })
     }

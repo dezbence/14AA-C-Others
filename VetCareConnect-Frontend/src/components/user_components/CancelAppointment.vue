@@ -3,7 +3,11 @@
         <p>Biztosan le szeretné mondani az időpontot?</p>
         <div>
             <button type="submit" @keydown.esc="ClickNo()" class="btnStyle btnNo" @click="ClickNo()">Nem</button>
-            <button class="btnStyle btnYes" @click="ClickYes()">Igen</button>
+            <div class="relative">
+                <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+                <Button type="submit" @key.enter="ClickYes()" @click="ClickYes()" class="btnStyle btnYes" label="Igen"
+                    :disabled="isButtonDisabled"></Button>
+            </div>
         </div>
     </div>
 </template>
@@ -13,6 +17,11 @@ import router from '@/router';
 import { useUserStore } from "../../store/userstore";
 import ownerservice from '@/services/ownerservice';
 import { storeToRefs } from "pinia";
+import { ref } from 'vue';
+import Button from 'primevue/button';
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 const { user } = storeToRefs(useUserStore());
 const store = useUserStore();
@@ -22,6 +31,7 @@ const appointment = {
     id: store.cancelAppointmentId
 };
 
+const isButtonDisabled = ref(false)
 
 function ClickNo() {
     store.show = false;
@@ -29,11 +39,20 @@ function ClickNo() {
 }
 
 function ClickYes() {
-    ownerservice.deleteAppointment(appointment.id, user.value.token).then((resp) => {
-        props.getOwnerAppointments();
-    });
-    store.show = false;
-    router.push('/naptaram');
+    isButtonDisabled.value = true;
+    ownerservice.deleteAppointment(appointment.id, user.value.token)
+        .then((resp) => {
+            props.getOwnerAppointments();
+            isButtonDisabled.value = false;
+            store.show = false;
+            router.push('/naptaram');
+            toast.success('Sikeres időpont lemondás!', { position: 'top-center' });
+        })
+        .catch((err) => {
+            isButtonDisabled.value = false;
+            router.push('/naptaram');
+            toast.error('Valami hiba történt!', { position: 'top-center' });
+        });
 }
 
 </script>
@@ -66,6 +85,15 @@ function ClickYes() {
     margin-top: 5px;
     background-color: #246951;
     padding: 10px 20px;
+}
+
+.btnYes {
+    padding-left: 30px;
+}
+
+.loadingSvg {
+    top: 10px;
+    left: 15px;
 }
 
 @media (max-width: 500px) {

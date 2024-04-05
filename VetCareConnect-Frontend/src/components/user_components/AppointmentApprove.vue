@@ -9,7 +9,12 @@
       <p>Kisállat: {{ choosedPet.name }}</p>
       <div class="buttons">
         <button class="btnStyle btnBook" @click="Back()">Vissza</button>
-        <button class="btnStyle btnBook" @click="Book()" >Lefoglalom</button>
+        <!-- <button class="btnStyle btnBook" @click="Book()" >Lefoglalom</button> -->
+        <div class="relative">
+          <img src="../../assets/icons/loading.svg" v-if="isButtonDisabled" class="loadingSvg">
+          <Button type="submit" @key.enter="Book()" @click="Book()" class="btnStyle btnBook btn" label="Lefoglalom"
+            :disabled="isButtonDisabled"></Button>
+        </div>
       </div>
     </div>
   </div>
@@ -20,6 +25,11 @@ import router from "@/router";
 import ownerservice from "@/services/ownerservice";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store/userstore";
+import { ref } from "vue";
+import Button from "primevue/button";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 const props = defineProps({
   choosedVet: Object,
@@ -40,14 +50,25 @@ const appointmentData = {
   vet_id: props.choosedVet.id
 }
 
+const isButtonDisabled = ref(false);
+
 function Back() {
   emit("remove");
 }
 
 function Book() {
-  ownerservice.bookAppointment(appointmentData, user.value.token).then((resp) => {
-    router.push("/naptaram");
-  });
+  isButtonDisabled.value = true;
+  ownerservice.bookAppointment(appointmentData, user.value.token)
+    .then((resp) => {
+      router.push("/naptaram");
+      isButtonDisabled.value = false;
+      toast.success('Sikeres időpontfoglalás!', { position: 'top-center' });
+    })
+    .catch((err) => {
+      isButtonDisabled.value = false;
+      toast.error('Valami hiba történt!', { position: 'top-center' });
+      router.push('/naptaram');
+    });
 
 }
 </script>
@@ -58,6 +79,7 @@ function Book() {
   align-items: center;
   justify-content: center;
 }
+
 .show {
   background-color: #50b692;
   color: white;
@@ -68,23 +90,35 @@ function Book() {
   padding-right: 50px;
   border-radius: 7px;
 }
+
 .btnStyle {
   background-color: #246951;
   margin: 5px;
   padding: 10px 20px;
 }
+
 .header {
   text-align: center;
   margin-bottom: 25px;
 }
-.buttons{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media (max-width: 576px){
-  .show{
+.btn {
+  padding-left: 40px;
+}
+
+.loadingSvg {
+    left: 10px;
+    top: 10px;
+}
+
+@media (max-width: 576px) {
+  .show {
     width: 300px;
     height: 450px;
   }
