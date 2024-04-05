@@ -171,7 +171,7 @@ function handleSubmit() {
                 isButtonDisabled.value = false;
             })
             .catch(err => {
-                toast.error('Hiba!', { position: 'top-center' })
+                toast.error( err.data.data.email[0] , { position: 'top-center' })
                 isButtonDisabled.value = false;
             })
 

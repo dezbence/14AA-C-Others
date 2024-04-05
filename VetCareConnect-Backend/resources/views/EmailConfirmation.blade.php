@@ -8,11 +8,24 @@
     <title>Sikeres email megerősítés!</title>
 
     <style>
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;700&family=Roboto:wght@100;300;400;500;700&display=swap");
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
         .main {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            font-family: 'Roboto';
+            font-weight: 500;
+            height: 100vh;
+            width: 100vh
         }
         a {
             padding: 16px 32px;
@@ -29,14 +42,29 @@
             width: fit-content;
             text-decoration: none;
         }
+
+        .box {
+            border: 1px solid #246951;
+            border-radius: 7px;
+            padding: 24px;
+            width: fit-content;
+            height: fit-content;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-bottom: 100px;
+        }
     </style>
 
 </head>
 
 <body>
     <div class="main">
-        <h1>Sikeres megerősítés!</h1>
-        <a href="http://bgs.jedlik.eu/vetcareconnect/bejelentkezes" id="myBtn">Tovább az oldalra! </a>
+        <div class="box">
+            <h1>Sikeres megerősítés!</h1>
+            <a href="http://bgs.jedlik.eu/vetcareconnect/bejelentkezes" id="myBtn">Tovább az oldalra! </a>
+        </div>
     </div>
 </body>
 </html>

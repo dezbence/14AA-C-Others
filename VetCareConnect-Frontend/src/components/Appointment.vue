@@ -24,7 +24,7 @@ const props = defineProps({
   title: String,
   vet: String,
   vetAddress: String,
-  postalCode: String,
+  postalCode: Number,
   date: String,
   isOld: Boolean,
   appointmentId: Number
