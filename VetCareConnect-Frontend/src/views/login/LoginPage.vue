@@ -105,6 +105,9 @@ function passwordToggle() {
 }
 
 function handleSubmit() {
+    if (store.status.loggedIn == true) {
+        router.push('/');   
+    }
     if (loginData.value.email == "" || loginData.value.password == "") isFilled.value = false;
     else isFilled.value = true;
 
