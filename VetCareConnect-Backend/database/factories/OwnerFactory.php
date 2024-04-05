@@ -16,13 +16,13 @@ class OwnerFactory extends Factory
      */
     public function definition(): array
     {
-        $password = fake()->password;
         return [
                 "name" => fake()->name(),
                 "email" => fake()->unique()->safeEmail(),
-                "password" => $password,
+                "password" => fake()->password,
                 "postal_code" => fake()->numberBetween(1000, 9999),
                 "phone" => fake()->randomNumber(9, true),
+                "email_verified_at" => fake()->date(),
         ];
     }
 }
