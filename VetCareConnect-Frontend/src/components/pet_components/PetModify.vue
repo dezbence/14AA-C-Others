@@ -134,6 +134,7 @@ function saveChanges() {
         store.showSureInEdit(true);
     }
 }
+
 function editDatas() {
     const formattedBornDate = useDateFormat(editedPetData.value.born_date, "YYYY-MM-DD");
     editedPetData.value.born_date = formattedBornDate.value;

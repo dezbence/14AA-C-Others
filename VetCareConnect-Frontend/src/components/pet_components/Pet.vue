@@ -20,24 +20,30 @@
     </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onUpdated } from "vue";
 import { defineAsyncComponent } from "vue";
 import { useUserStore } from '@/store/userstore';
 
 const store = useUserStore();
-
 const PetMenu = defineAsyncComponent(() => import("./PetMenu.vue"));
 
 const props = defineProps(['pet']);
-
 const isMenuOpen = ref(false);
-
 const elapsedTime = ref();
-const petAge = ref(Math.floor((Date.parse(Date()) - Date.parse(props.pet.born_date)) / (3600000 * 24)))
+const petAge = ref()
 
-if (petAge.value <= 30) elapsedTime.value = "napos";
-else if (petAge.value > 30 && petAge.value <= 365) { elapsedTime.value = "hónapos"; petAge.value = Math.floor(petAge.value / 30); }
-else if (petAge.value > 365) { elapsedTime.value = "éves"; petAge.value = Math.floor(petAge.value / 30 / 12); }
+function elapsedTimeCalc() {
+    petAge.value = Math.floor((Date.parse(Date()) - Date.parse(props.pet.born_date)) / (3600000 * 24));
+    if (petAge.value <= 30) elapsedTime.value = "napos";
+    else if (petAge.value > 30 && petAge.value <= 365) { elapsedTime.value = "hónapos"; petAge.value = Math.floor(petAge.value / 30); }
+    else if (petAge.value > 365) { elapsedTime.value = "éves"; petAge.value = Math.floor(petAge.value / 30 / 12); }
+}
+
+onUpdated(() => {
+    elapsedTimeCalc();
+})
+
+elapsedTimeCalc();
 
 function petMenuToggle() {
     isMenuOpen.value = !isMenuOpen.value;
