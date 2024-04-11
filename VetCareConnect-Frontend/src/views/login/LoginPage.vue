@@ -122,10 +122,10 @@ function handleSubmit() {
         isButtonDisabled.value = true;
         login(loginData.value)
             .then(resp => {
-                router.push('/');
                 toast.success('Sikeres bejelentkezés!', { position: "top-center" });
                 isButtonDisabled.value = false;
                 store.showEmailVerification = false;
+                router.push('/');
             })
             .catch(err => {
                 toast.error(err.data.data, { position: "top-center" });

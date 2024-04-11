@@ -41,7 +41,7 @@
                 <TabPanel>
                     <label>Testtömeg (kg)*:</label>
                     <InputNumber v-model="pet.weight" placeholder="0" :useGrouping="false" :minFractionDigits="0"
-                        :maxFractionDigits="2" :min="0.1" :max="999" suffix=" kg" />
+                        :maxFractionDigits="2" :max="999" suffix=" kg" />
                     <label>Születési dátuma*:</label>
                     <Calendar class="bornDate" v-model="pet.born_date" :max-date="new Date()" dateFormat="yy.mm.dd"
                         placeholder="éééé.hh.nn" />
@@ -80,7 +80,7 @@ const props = defineProps(['showCreator', 'submitPet']);
 
 const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
 const genders = ['hím', 'nőstény']
-const gender = ref();
+const genderForReset = ref();
 
 const isFilled = ref(false);
 
@@ -103,6 +103,7 @@ function petGenderFormat(petsGender) {
 function handleSubmit() {
     if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || pet.value.gender == -1 || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") isFilled.value = false;
     else isFilled.value = true;
+    genderForReset.value = pet.value.gender;
 
     if (!isFilled.value) toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' });
     else {
@@ -111,6 +112,10 @@ function handleSubmit() {
         petservice.postNewPet(pet.value, user.value.token)
             .then((resp) => {
                 props.submitPet();
+            })
+            .catch((err) => {
+                toast.error('Kérem töltsön ki minden mezőt helyesen!', { position: "top-center" });
+                pet.value.gender = genderForReset.value;
             });
     }
 }

@@ -66,7 +66,7 @@ const { user } = storeToRefs(useUserStore());
 const toast = useToast();
 const props = defineProps(['modifyPet']);
 
-const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó'];
+const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'papagáj', 'ló'];
 const genders = ['hím', 'nőstény'];
 
 
@@ -134,6 +134,7 @@ function saveChanges() {
         store.showSureInEdit(true);
     }
 }
+
 function editDatas() {
     const formattedBornDate = useDateFormat(editedPetData.value.born_date, "YYYY-MM-DD");
     editedPetData.value.born_date = formattedBornDate.value;

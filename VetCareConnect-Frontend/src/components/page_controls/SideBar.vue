@@ -128,6 +128,7 @@ button {
 @media (max-width: 891px) {
   .sideBar {
     display: block;
+    position: fixed;
   }
 }
 

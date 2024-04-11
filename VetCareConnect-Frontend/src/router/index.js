@@ -23,7 +23,7 @@ const access = {
   '/nyitvatartas': [1],
   '/adataim': [0, 1],
   '/admin': [2],
-  '/:catchAll(.*)': [0, 1, null]
+  '/:catchAll(.*)': [0, 1, 2, null]
 };
 
 const router = createRouter({
@@ -45,7 +45,7 @@ const router = createRouter({
     { path: '/adataim', name: 'myData', component: () => import('@/views/MyDataPage.vue') },
     { path: '/admin', name: 'admin', component: () => import('@/views/AdminPage.vue') },
     // catch all 404
-    { path: '/:catchAll(.*)', name: 'notfound', component: NotFoundPageVue }
+    { path: '/:catchAll(.*)*', name: 'notfound', component: NotFoundPageVue }
   ]
 })
 
@@ -57,20 +57,28 @@ router.beforeEach((to, from, next) => {
     autRequired = false;
     return next();
   }
+  if (!access[to.path]) {
+    return next();
+  }
   if (autRequired && !status.value.loggedIn) {
     toast.error("Bejelentkezés szükséges!", { position: "top-center" });
     return next('/');
-  } else if (!to.path.startsWith("/idopontfoglalas/") && !access[to.path].includes(user.value.role)) {
+  }
+   else if (!to.path.startsWith("/idopontfoglalas/") && !access[to.path].includes(user.value.role)) {
     toast.error("Jogosultság szükséges!", { position: "top-center" });
     if (status.value.loggedIn && user.value.role == 2) {
       return next('/admin');
     }
     return next('/');
-  } else if (to.path.startsWith("/idopontfoglalas/")) {
+  }
+  else if (to.path.startsWith("/idopontfoglalas/")) {
     if (status.value.loggedIn && user.value.role == 0) {
       return next();
+    } else {
+      toast.error("Jogosultság szükséges!", { position: "top-center" });
+      return next('/');
     }
-  }
+  } 
   next();
 });
 
