@@ -13,11 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        //$schedule->command('sendEmails')->everyFifteenSeconds();
-
-        // $schedule->call(function () {
-        //     error_log("15s");
-        // })->everySecond();
+        //$schedule->command('sendEmails')->everyDay();
     }
 
     /**
