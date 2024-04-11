@@ -14,21 +14,29 @@ class RegisterTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testRegisterWithRightData(): void
-    {
+    private function RegisterData(&$ownerData, &$vetData)  {
+
         $password = fake()->password();
 
         $owner = Owner::factory()->make();
         $vet = Vet::factory()->make();
-        
-        $registerOwnerData = $owner->toArray();
-        $registerVetData = $vet->toArray();        
 
-        unset($registerOwnerData['email_verified_at']);
-        unset($registerVetData['email_verified_at']);
+        $vetData = $vet->toArray();
+        $ownerData = $owner->toArray();
 
-        $registerOwnerData = array_merge($registerOwnerData, ['role' => 0, 'password' => $password, 'confirm_password' => $password]);
-        $registerVetData = array_merge($registerVetData, ['role' => 1, 'password' => $password, 'confirm_password' => $password]);
+        unset($ownerData['email_verified_at']);
+        unset($vetData['email_verified_at']);
+
+        $ownerData = array_merge($ownerData, ['role' => 0, 'password' => $password, 'confirm_password' => $password]);
+        $vetData = array_merge($vetData, ['role' => 1, 'password' => $password, 'confirm_password' => $password]);
+
+    }
+
+    public function testRegisterWithRightData(): void
+    {
+        $registerOwnerData;
+        $registerVetData;
+        $this->RegisterData($registerOwnerData, $registerVetData);
 
         $response = $this->postJson('/api/register', $registerOwnerData);
         $response
@@ -41,7 +49,7 @@ class RegisterTest extends TestCase
         $remove = ['role', 'password', 'confirm_password'];
         $ownerDB = array_diff_key($registerOwnerData, array_flip($remove));
         $vetDB = array_diff_key($registerVetData, array_flip($remove));
-        
+
         $this->assertDatabaseHas('vet', $vetDB);
         $this->assertDatabaseHas('owner', $ownerDB);
 
@@ -49,19 +57,9 @@ class RegisterTest extends TestCase
 
     public function testRegisterMissingData(): void {
 
-        $password = fake()->password();
-
-        $owner = Owner::factory()->make();
-        $vet = Vet::factory()->make();
-        
-        $registerOwnerData = $owner->toArray();
-        $registerVetData = $vet->toArray();        
-
-        unset($registerOwnerData['email_verified_at']);
-        unset($registerVetData['email_verified_at']);
-
-        $registerOwnerData = array_merge($registerOwnerData, ['role' => 0, 'password' => $password, 'confirm_password' => $password]);
-        $registerVetData = array_merge($registerVetData, ['role' => 1, 'password' => $password, 'confirm_password' => $password]);
+        $registerOwnerData;
+        $registerVetData;
+        $this->RegisterData($registerOwnerData, $registerVetData);
 
         unset($registerOwnerData[array_rand($registerOwnerData, 1)]);
         unset($registerVetData[array_rand($registerOwnerData, 1)]);
@@ -75,33 +73,29 @@ class RegisterTest extends TestCase
             ->assertStatus(400);
     }
 
-    // public function testRegisterUsedEmail(): void {
-    //     $password = fake()->password();
+    public function testRegisterUsedEmail(): void {
 
-    //     $owner = [
-    //         "name" => fake()->name(),
-    //         "email" => "test.email.used.owner@example.com",
-    //         "password" => $password,
-    //         "confirm_password" => $password,
-    //         "postal_code" => fake()->numberBetween(1000, 9999),
-    //         "phone" => fake()->randomNumber(9, true),
-    //         "role" => 0,
-    //     ];
+        $usedEmail = fake()->safeEmail();
 
-    //     $vet = $owner;
-    //     $vet['role'] = 1;
-    //     $vet['email'] = "test.email.used.vet@example.com";
-    //     $vet += [
-    //         "address" => substr(fake()->address, 5),
-    //         "stamp_number"=> fake()->randomNumber(4, true),
-    //     ];
+        Vet::factory()->create([
+            'email' => $usedEmail,
+        ]);
 
-    //     $response = $this->postJson('/api/register', $owner);
-    //     $response
-    //         ->assertStatus(400);
+        $registerOwnerData;
+        $registerVetData;
+        $this->RegisterData($registerOwnerData, $registerVetData);
 
-    //     $response = $this->postJson('/api/register', $vet);
-    //        $response
-    //         ->assertStatus(400);
-    // }
+        $registerOwnerData['email'] = $usedEmail;
+        $registerVetData['email'] = $usedEmail;
+
+        $response = $this->postJson('/api/register', $registerOwnerData);
+        $response
+            ->assertStatus(400);
+
+        $response = $this->postJson('/api/register', $registerVetData);
+           $response
+            ->assertStatus(400);
+    }
+
+    
 }
