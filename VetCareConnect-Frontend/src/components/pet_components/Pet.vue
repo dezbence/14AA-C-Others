@@ -20,7 +20,7 @@
     </div>
 </template>
 <script setup>
-import { ref, onUpdated } from "vue";
+import { ref } from "vue";
 import { defineAsyncComponent } from "vue";
 import { useUserStore } from '@/store/userstore';
 
@@ -39,9 +39,6 @@ function elapsedTimeCalc() {
     else if (petAge.value > 365) { elapsedTime.value = "éves"; petAge.value = Math.floor(petAge.value / 30 / 12); }
 }
 
-onUpdated(() => {
-    elapsedTimeCalc();
-})
 
 elapsedTimeCalc();
 

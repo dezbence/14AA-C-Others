@@ -78,7 +78,7 @@ const { user } = storeToRefs(useUserStore());
 const toast = useToast();
 const props = defineProps(['showCreator', 'submitPet']);
 
-const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'tengeri malac', 'görény', 'papagáj', 'teknős', 'ló', 'patkány', 'egér', 'sündisznó']
+const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'papagáj', 'ló'];
 const genders = ['hím', 'nőstény']
 const genderForReset = ref();
 
