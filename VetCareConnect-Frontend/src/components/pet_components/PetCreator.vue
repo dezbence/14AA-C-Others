@@ -40,8 +40,8 @@
 
                 <TabPanel>
                     <label>Testtömeg (kg)*:</label>
-                    <InputNumber v-model="pet.weight" placeholder="0" :useGrouping="false" :minFractionDigits="0"
-                        :maxFractionDigits="2" :max="999" suffix=" kg" />
+                    <InputNumber v-model="pet.weight" placeholder="0" :minFractionDigits="0" :maxFractionDigits="2"
+                    :min="0.1" :max="999" suffix=" kg" :useGrouping="false" />
                     <label>Születési dátuma*:</label>
                     <Calendar class="bornDate" v-model="pet.born_date" :max-date="new Date()" dateFormat="yy.mm.dd"
                         placeholder="éééé.hh.nn" />
@@ -78,7 +78,7 @@ const { user } = storeToRefs(useUserStore());
 const toast = useToast();
 const props = defineProps(['showCreator', 'submitPet']);
 
-const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'papagáj', 'ló'];
+const species = ['kutya', 'macska', 'hörcsög', 'nyúl', 'papagáj', 'ló', 'malac'];
 const genders = ['hím', 'nőstény']
 const genderForReset = ref();
 
@@ -101,7 +101,7 @@ function petGenderFormat(petsGender) {
 }
 
 function handleSubmit() {
-    if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || pet.value.gender == -1 || parseInt(pet.value.weight) == 0 || pet.value.born_date == "") isFilled.value = false;
+    if (pet.value.name == "" || parseInt(pet.value.chip_number) == 0 || parseInt(pet.value.pedigree_number) == 0 || pet.value.species == "" || pet.value.gender == -1 || pet.value.weight == 0 || pet.value.born_date == "") isFilled.value = false;
     else isFilled.value = true;
     genderForReset.value = pet.value.gender;
 
