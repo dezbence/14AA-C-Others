@@ -49,31 +49,10 @@ class AdminController extends BaseController
     }
 
     public function deleteOwner($id) {
-        $owner = Owner::where('id', '=', $id)
-            ->get();
+        $owner = Owner::find($id);
 
-        if (count($owner) == 0) return $this->sendError('Bad request', 'Nincs ilyen orvos', 404);
-
-        $cures = Cure::with([
-            'pet' => function ($query) {
-                $query->where('owner_id', '=', Auth::user()->id);
-            }
-        ])
-        ->get();
-
-        foreach ($cures as $cure) {
-            $cure->delete();
-        }
-
-        $pets = Pet::where('owner_id', '=', $id)
-        ->get();
-
-        foreach ($pets as $pet) {
-            $pet->delete();
-        }
-
-        Owner::find($id)
-            ->delete();
+        if ($owner == null) return $this->sendError('Not found','Nincs ilyen felhasználó!', 404);
+        $owner->delete();
 
         return  $this->sendResponse($owner, 'Sikeres művelet!');
     }
@@ -85,34 +64,10 @@ class AdminController extends BaseController
 
     public function deleteVet($id) {
 
-        $vet = Vet::where('id', '=', $id)
-            ->get();
+        $vet = Vet::find($id);
 
-        if (count($vet) == 0) return $this->sendError('Bad request', 'Nincs ilyen orvos', 404);
-
-        $cures = Cure::where('vet_id', '=', $id)
-        ->get();
-
-        foreach ($cures as $cure) {
-            $cure->delete();
-        }
-
-        $openings = Opening::where('vet_id', '=', $id)
-        ->get();
-
-        foreach ($openings as $opening) {
-            $opening->delete();
-        }
-
-        $special_openings = Opening::where('vet_id', '=', $id)
-        ->get();
-
-        foreach ($special_openings as $opening) {
-            $opening->delete();
-        }
-
-        Vet::find($id)
-            ->delete();
+        if ($vet == null) return $this->sendError('Not found','Nincs ilyen felhasználó!', 404);
+        $vet->delete();
 
         return  $this->sendResponse($vet, 'Sikeres művelet!');
     }
