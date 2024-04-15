@@ -61,7 +61,7 @@ function getImageUrl(name) {
     background-color: #50B692;
     border-radius: 7px;
     padding: 15px 20px 15px;
-    position: absolute;
+    position: fixed;
     top: 65px;
     right: 5px;
     z-index: 99;
