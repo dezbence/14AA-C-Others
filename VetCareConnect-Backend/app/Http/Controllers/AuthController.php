@@ -165,6 +165,8 @@ class AuthController extends BaseController
 
         }
 
+        return $this->sendError('Unauthorized','Sikertelen bejelentkezés!',401);
+
     }
 
     public function logout(){
