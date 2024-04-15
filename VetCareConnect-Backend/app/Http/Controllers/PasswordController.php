@@ -67,7 +67,6 @@ class PasswordController extends BaseController
         if($validator->fails()){
             return $this->sendError('Bad request', $validator->errors(), 400);
         }
-        //delete expired tokens
 
         $expiredTokens = Password_reset::where('created_at', '<', Carbon::now('GMT+1')->timestamp - (60 * 60))
             ->delete();
@@ -80,7 +79,6 @@ class PasswordController extends BaseController
             return $this->sendError('Invalid Token','Hibás vagy lejárt jelszó visszaállító azonosító!', 401);
         }
 
-        //valid token
         if ($request->role == 0) {
             Owner::where('email', '=', $request->email)
                 ->update(['password' => bcrypt($request->password)]);

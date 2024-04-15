@@ -73,20 +73,13 @@ class AuthController extends BaseController
             unset($input['role']);
             unset($input['confirm_password']);
 
-
             $owner = Owner::create($input)->sendEmailVerificationNotification();
-
-            // $success['token'] = $owner->createToken('Secret')->plainTextToken;
-            // $success['name'] = $owner->name;
         } else {
             unset($input['role']);
             unset($input['confirm_password']);
 
-
             $vet = Vet::create($input)->sendEmailVerificationNotification();
 
-            // $success['token'] = $vet->createToken('Secret')->plainTextToken;
-            // $success['name'] = $vet->name;
         }
 
         return $this->sendResponse('','Sikeres regisztráció!');
@@ -94,8 +87,6 @@ class AuthController extends BaseController
 
 
     public function login(Request $request){
-
-        //https://stackoverflow.com/questions/46292391/authenticate-users-from-more-than-two-tables-in-laravel-5
 
         $validatorFields = [
             'email' => 'required',
@@ -148,8 +139,6 @@ class AuthController extends BaseController
 
 
     public function adminLogin(Request $request){
-
-        //https://stackoverflow.com/questions/46292391/authenticate-users-from-more-than-two-tables-in-laravel-5
 
         $validatorFields = [
             'username' => 'required',

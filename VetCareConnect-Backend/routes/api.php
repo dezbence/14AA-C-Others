@@ -55,8 +55,6 @@ Route::middleware('auth:sanctum')->group(function(){
     });
 
     Route::middleware('only-owner')->group(function(){
-        //Route::get('/bearer-test',[MainController::class,'bearerTest']);
-
 
         Route::get('/pets', [OwnerController::class, 'getPets']);
         Route::post('/new-pet',[OwnerController::class,'addNewPet']);
