@@ -136,20 +136,20 @@ function deleteVet(){
     (selectedVet.value).forEach(vet => {
         adminService.deleteVet(vet.id, user.value.token).then(resp => {
             toast.success('Sikeres törlés!', { position: "top-center" });
+            getPeople();
         });
     });
     selectedVet.value = [];
-    getPeople();
 }
 
 function deleteOwner(){
     (selectedOwner.value).forEach(owner => {
         adminService.deleteOwner(owner.id, user.value.token).then(resp => {
             toast.success('Sikeres törlés!', { position: "top-center" });
+            getPeople();
         });
     });
     selectedOwner.value = [];
-    getPeople();
 }
 
 function getPeople(){
@@ -179,6 +179,7 @@ body {
     background-color: #e9ecef;
     position: fixed;
     z-index: 100;
+    margin-top: -60px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 .title {

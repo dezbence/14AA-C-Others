@@ -59,7 +59,7 @@ import { useUserStore } from '@/store/userstore';
 import { useToast } from 'vue-toastification'
 
 const store = useUserStore();
-const { login, adminLogin } = useUserStore();
+const { adminLogin } = useUserStore();
 const toast = useToast();
 
 const isButtonDisabled = ref(false);
