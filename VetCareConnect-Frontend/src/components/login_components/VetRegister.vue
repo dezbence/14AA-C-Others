@@ -171,7 +171,7 @@ function handleSubmit() {
     vetData.value.stamp_number = parseInt(vetData.value.stamp_number);
     vetData.value.postal_code = parseInt(vetData.value.postal_code);
     
-    if (vetData.value.firstName == "" || vetData.value.lastName == "" || vetData.value.phone == "" || vetData.value.stamp_number == 0 || vetData.value.postal_code == 0 || vetData.value.address == "" || vetData.value.email == "" || vetData.value.password == "" || vetData.value.confirm_password == "" || vetData.value.terms == null) isFilled.value = false;
+    if (vetData.value.firstName == "" || vetData.value.lastName == "" || vetData.value.phone == "" || vetData.value.stamp_number == 0 || vetData.value.postal_code == 0 || vetData.value.address == "" || vetData.value.email == "" || vetData.value.password == "" || vetData.value.confirm_password == "" || vetData.value.terms == 0 || vetData.value.terms == null) isFilled.value = false;
     else isFilled.value = true;
     
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }

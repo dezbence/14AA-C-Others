@@ -137,7 +137,7 @@ function handleSubmit() {
     userData.value.stamp = parseInt(userData.value.stamp);
     userData.value.postal_code = parseInt(userData.value.postal_code);
     console.log(userData.value);
-    if (userData.value.firstName == "" || userData.value.lastName == "" || userData.value.phone == "" || userData.value.postal_code == 0 || userData.value.email == "" || userData.value.password == "" || userData.value.confirm_password == "" || userData.value.terms == null) isFilled.value = false;
+    if (userData.value.firstName == "" || userData.value.lastName == "" || userData.value.phone == "" || userData.value.postal_code == 0 || userData.value.email == "" || userData.value.password == "" || userData.value.confirm_password == "" || userData.value.terms == 0 || userData.value.terms == null) isFilled.value = false;
     else isFilled.value = true;
 
     if (!isFilled.value) { toast.error("Kérem töltsön ki minden mezőt!", { position: 'top-center' }); }
