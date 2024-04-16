@@ -13,7 +13,7 @@ async function runTests(){
         let password = await driver.findElement(By.className('middle')).findElement(By.className('passwordAndEyeIcon')).findElement(By.tagName('input'))
         let submit = await driver.findElement(By.className('p-button p-component btnStyle'))
 
-        await email.sendKeys('maria@gmail.com')
+        await email.sendKeys('maria@example.net')
         await password.sendKeys('Teszt123')
         await driver.executeScript("arguments[0].click()", submit)
 
